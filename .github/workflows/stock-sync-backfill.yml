@@ -1,0 +1,46 @@
+name: Stock sync backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry (plan only) or live (execute plan.json from the last dry run)"
+        required: true
+        default: dry
+        type: choice
+        options: [dry, live]
+      so_numbers:
+        description: "Optional: comma separated SO numbers to restrict to (testing)"
+        required: false
+        default: ""
+      max_calls:
+        description: "API call cap for this run"
+        required: false
+        default: "8000"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests openpyxl
+      - name: Restore previous plan (needed for live)
+        if: inputs.mode == 'live'
+        uses: actions/download-artifact@v4
+        with: { name: backfill-out, path: out }
+        continue-on-error: true
+      - name: Run
+        env:
+          ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
+          ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
+          ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
+          ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
+          SO_NUMBERS: ${{ inputs.so_numbers }}
+          MAX_CALLS: ${{ inputs.max_calls }}
+        run: python scripts/backfill_shipments.py ${{ inputs.mode }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: backfill-out, path: out, retention-days: 90 }
