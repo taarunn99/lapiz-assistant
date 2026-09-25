@@ -1,0 +1,354 @@
+// lb_sync_so_shipment | Zoho Books | Dubai org 719219457 | Module: Invoice
+// Rule: "Invoice is created or edited" (any field). One function handles create, edit and void.
+//
+// What it does, in one sentence: for every sales order behind this invoice, keep exactly one
+// package + one shipment that mirrors the invoice's current lines, dated to the invoice date.
+//
+//  - Invoice saved with SO lines        -> package + shipment for those quantities
+//  - Invoice edited (qty up or down)    -> old mirror removed, new mirror built from current lines
+//  - Invoice voided                     -> mirror removed, physical stock comes back
+//  - Run again with nothing changed     -> compares and does nothing (safe to re-fire)
+//  - Anything odd (drop ship, batch or serial item, manual package in the way, API error)
+//                                       -> nothing destructive, an ALERT comment is posted on the SO
+//
+// Only packages whose notes carry the marker LB-STOCKSYNC and this invoice's id are ever deleted.
+// Hand made packages are never touched.
+
+TEST_ONLY = true;                         // go live: set to false (and widen the rule criteria)
+// connection "lb_inventory": Books connection, Zoho Inventory service, authorised by Adil (Deluge needs it as a literal)
+API = "https://www.zohoapis.com/inventory/v1";
+MARK = "LB-STOCKSYNC";
+DELIVERY_METHOD = "Al Quoz";
+
+orgId = organization.get("organization_id");
+invId = invoice.get("invoice_id").toString();
+invNum = ifnull(invoice.get("invoice_number"),"");
+invStatus = ifnull(invoice.get("status"),"").toLowerCase();
+custName = ifnull(invoice.get("customer_name"),"");
+
+if(TEST_ONLY == true && custName.startsWith("ZZ TEST") == false)
+{
+	info "skip (test mode): " + invNum + " customer " + custName;
+	return;
+}
+if(invStatus == "draft" || invStatus == "pending_approval")
+{
+	info "skip: " + invNum + " is " + invStatus;
+	return;
+}
+// ---------- 1. full invoice: SO links are not in the trigger map ----------
+r = invokeurl
+[
+	url :API + "/invoices/" + invId + "?organization_id=" + orgId
+	type :GET
+	connection:"lb_inventory"
+];
+if(ifnull(r.get("code"),-1) != 0)
+{
+	info "ERROR fetch invoice " + invNum + ": " + r.get("message");
+	return;
+}
+inv = r.get("invoice");
+invDate = ifnull(inv.get("date"),zoho.currentdate.toString("yyyy-MM-dd"));
+invMod = ifnull(inv.get("last_modified_time"),"");
+soIds = List();
+for each  s in ifnull(inv.get("salesorders"),List())
+{
+	sid = ifnull(s.get("salesorder_id"),"").toString();
+	if(sid != "" && soIds.contains(sid) == false)
+	{
+		soIds.add(sid);
+	}
+}
+hdrSo = ifnull(inv.get("salesorder_id"),"").toString();
+if(hdrSo != "" && soIds.contains(hdrSo) == false)
+{
+	soIds.add(hdrSo);
+}
+if(soIds.size() == 0)
+{
+	info "skip: " + invNum + " has no sales order (standalone invoice, stock handled by Books preference)";
+	return;
+}
+// ---------- 2. what this invoice wants shipped: so_line_item_id -> qty (void wants nothing) ----------
+want = Map();
+if(invStatus != "void")
+{
+	for each  il in ifnull(inv.get("line_items"),List())
+	{
+		lid = ifnull(il.get("salesorder_item_id"),"").toString();
+		if(lid != "" && ifnull(il.get("item_type"),"") == "inventory")
+		{
+			q = ifnull(il.get("quantity"),0).toDecimal();
+			if(want.containKey(lid))
+			{
+				q = q + want.get(lid);
+			}
+			want.put(lid,q);
+		}
+	}
+}
+noteText = MARK + " inv:" + invId + " " + invNum + " mod:" + invMod;
+// ---------- 3. per sales order ----------
+for each  soId in soIds
+{
+	alert = "";
+	r = invokeurl
+	[
+		url :API + "/salesorders/" + soId + "?organization_id=" + orgId
+		type :GET
+		connection:"lb_inventory"
+	];
+	if(ifnull(r.get("code"),-1) != 0)
+	{
+		info "ERROR fetch SO " + soId + ": " + r.get("message");
+		continue;
+	}
+	so = r.get("salesorder");
+	soNum = ifnull(so.get("salesorder_number"),"");
+	soStatus = ifnull(so.get("status"),"");
+	if(ifnull(so.get("is_dropshipped"),false) == true)
+	{
+		alert = "drop ship sales order, no shipment created";
+	}
+	if(soStatus == "void" || soStatus == "draft")
+	{
+		alert = "sales order is " + soStatus;
+	}
+	lines = Map();
+	for each  sl in ifnull(so.get("line_items"),List())
+	{
+		lid = ifnull(sl.get("line_item_id"),"").toString();
+		lines.put(lid,sl);
+		if(ifnull(sl.get("batches"),List()).size() > 0 || ifnull(sl.get("serial_numbers"),List()).size() > 0)
+		{
+			alert = "batch or serial tracked item " + ifnull(sl.get("name"),"") + ", pack manually";
+		}
+	}
+	// lines of this invoice that belong to this SO
+	soWant = Map();
+	for each  lid in want.keys()
+	{
+		if(lines.containKey(lid))
+		{
+			soWant.put(lid,want.get(lid));
+		}
+	}
+	// ---------- 3a. find the mirror package(s) this function made earlier for this invoice ----------
+	mine = List();
+	for each  pk in ifnull(so.get("packages"),List())
+	{
+		pid = ifnull(pk.get("package_id"),"").toString();
+		pr = invokeurl
+		[
+			url :API + "/packages/" + pid + "?organization_id=" + orgId
+			type :GET
+			connection:"lb_inventory"
+		];
+		if(ifnull(pr.get("code"),-1) != 0)
+		{
+			continue;
+		}
+		p = pr.get("package");
+		notes = ifnull(p.get("notes"),"");
+		if(notes.contains(MARK) && notes.contains("inv:" + invId))
+		{
+			have = Map();
+			for each  pl in ifnull(p.get("line_items"),List())
+			{
+				plid = ifnull(pl.get("so_line_item_id"),"").toString();
+				hq = ifnull(pl.get("quantity"),0).toDecimal();
+				if(have.containKey(plid))
+				{
+					hq = hq + have.get(plid);
+				}
+				have.put(plid,hq);
+			}
+			m = Map();
+			m.put("package_id",pid);
+			m.put("package_number",ifnull(p.get("package_number"),""));
+			m.put("shipment_id",ifnull(p.get("shipment_id"),"").toString());
+			m.put("have",have);
+			mine.add(m);
+		}
+	}
+	// ---------- 3b. already in sync? ----------
+	same = false;
+	if(mine.size() == 0 && soWant.size() == 0)
+	{
+		same = true;
+	}
+	if(mine.size() == 1)
+	{
+		have = mine.get(0).get("have");
+		same = false;
+		if(have.size() == soWant.size())
+		{
+			same = true;
+		}
+		if(same)
+		{
+			for each  lid in soWant.keys()
+			{
+				if(have.containKey(lid) == false)
+				{
+					same = false;
+				}
+				else if(have.get(lid) != soWant.get(lid))
+				{
+					same = false;
+				}
+			}
+		}
+	}
+	if(same)
+	{
+		info soNum + ": already in sync with " + invNum;
+		continue;
+	}
+	if(alert != "")
+	{
+		// do nothing destructive, just tell a human
+		c = Map();
+		c.put("description",MARK + " ALERT (" + invNum + "): " + alert);
+		cr2 = invokeurl
+		[
+			url :API + "/salesorders/" + soId + "/comments?organization_id=" + orgId
+			type :POST
+			parameters:c.toString()
+			connection:"lb_inventory"
+		];
+		info soNum + " ALERT: " + alert;
+		continue;
+	}
+	// ---------- 3c. remove old mirror (shipment first, then package) ----------
+	for each  m in mine
+	{
+		shId = m.get("shipment_id");
+		if(shId != "" && alert == "")
+		{
+			d = invokeurl
+			[
+				url :API + "/shipmentorders/" + shId + "?organization_id=" + orgId
+				type :DELETE
+				connection:"lb_inventory"
+			];
+			if(ifnull(d.get("code"),-1) != 0)
+			{
+				alert = "could not delete shipment of package " + m.get("package_number") + ": " + d.get("message");
+			}
+		}
+		if(alert == "")
+		{
+			d = invokeurl
+			[
+				url :API + "/packages/" + m.get("package_id") + "?organization_id=" + orgId
+				type :DELETE
+				connection:"lb_inventory"
+			];
+			if(ifnull(d.get("code"),-1) != 0)
+			{
+				alert = "could not delete package " + m.get("package_number") + ": " + d.get("message");
+			}
+			else
+			{
+				info soNum + ": removed old mirror package " + m.get("package_number") + " for " + invNum;
+			}
+		}
+	}
+	// ---------- 3d. build new mirror ----------
+	if(alert == "" && soWant.size() > 0)
+	{
+		// fresh numbers after the deletions, so we never pack more than the SO has room for
+		r2 = invokeurl
+		[
+			url :API + "/salesorders/" + soId + "?organization_id=" + orgId
+			type :GET
+			connection:"lb_inventory"
+		];
+		fresh = Map();
+		for each  sl in ifnull(ifnull(r2.get("salesorder"),Map()).get("line_items"),List())
+		{
+			fresh.put(ifnull(sl.get("line_item_id"),"").toString(),sl);
+		}
+		pkgLines = List();
+		short = "";
+		for each  lid in soWant.keys()
+		{
+			sl = ifnull(fresh.get(lid),Map());
+			room = ifnull(sl.get("quantity_invoiced"),0).toDecimal() - ifnull(sl.get("quantity_packed"),0).toDecimal();
+			q = soWant.get(lid);
+			if(q > room)
+			{
+				short = short + ifnull(sl.get("name"),lid) + " invoice qty " + q + " but only " + room + " left to pack; ";
+				q = room;
+			}
+			if(q > 0)
+			{
+				li = Map();
+				li.put("so_line_item_id",lid);
+				li.put("quantity",q);
+				pkgLines.add(li);
+			}
+		}
+		if(short != "")
+		{
+			alert = "partly covered by another package already: " + short;
+		}
+		if(pkgLines.size() > 0)
+		{
+			body = Map();
+			body.put("date",invDate);
+			body.put("notes",noteText);
+			body.put("line_items",pkgLines);
+			cr = invokeurl
+			[
+				url :API + "/packages?organization_id=" + orgId + "&salesorder_id=" + soId
+				type :POST
+				parameters:body.toString()
+				connection:"lb_inventory"
+			];
+			if(ifnull(cr.get("code"),-1) != 0)
+			{
+				alert = "package create failed: " + cr.get("message");
+			}
+			else
+			{
+				pkg = cr.get("package");
+				pid = pkg.get("package_id").toString();
+				sb = Map();
+				sb.put("date",invDate);
+				sb.put("delivery_method",DELIVERY_METHOD);
+				sb.put("notes",noteText);
+				sr = invokeurl
+				[
+					url :API + "/shipmentorders?organization_id=" + orgId + "&package_ids=" + pid + "&salesorder_id=" + soId + "&send_notification=false"
+					type :POST
+					parameters:sb.toString()
+					connection:"lb_inventory"
+				];
+				if(ifnull(sr.get("code"),-1) != 0)
+				{
+					alert = "package " + pkg.get("package_number") + " created but shipment failed: " + sr.get("message");
+				}
+				else
+				{
+					info soNum + ": " + invNum + " -> package " + pkg.get("package_number") + ", shipment " + ifnull(sr.get("shipmentorder"),Map()).get("shipment_number");
+				}
+			}
+		}
+	}
+	if(alert != "")
+	{
+		c = Map();
+		c.put("description",MARK + " ALERT (" + invNum + "): " + alert);
+		cr2 = invokeurl
+		[
+			url :API + "/salesorders/" + soId + "/comments?organization_id=" + orgId
+			type :POST
+			parameters:c.toString()
+			connection:"lb_inventory"
+		];
+		info soNum + " ALERT: " + alert;
+	}
+}
