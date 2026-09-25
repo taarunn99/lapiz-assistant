@@ -1,6 +1,10 @@
 name: Stock sync backfill
 
 on:
+  schedule:
+    # every day at 13:00 Dubai (09:00 UTC): resumes the dry scan where it stopped,
+    # capped at 4000 Zoho API calls so the rest of the company keeps its daily allowance
+    - cron: "0 9 * * *"
   workflow_dispatch:
     inputs:
       mode:
@@ -16,7 +20,11 @@ on:
       max_calls:
         description: "API call cap for this run"
         required: false
-        default: "8000"
+        default: "4000"
+
+concurrency:
+  group: stock-sync-backfill
+  cancel-in-progress: false
 
 jobs:
   run:
@@ -43,9 +51,10 @@ jobs:
           ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
           ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
           ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
-          SO_NUMBERS: ${{ inputs.so_numbers }}
-          MAX_CALLS: ${{ inputs.max_calls }}
-        run: python scripts/backfill_shipments.py ${{ inputs.mode }}
+          SO_NUMBERS: ${{ inputs.so_numbers || '' }}
+          MAX_CALLS: ${{ inputs.max_calls || '4000' }}
+        # a scheduled run has no inputs, so it is always a capped dry run
+        run: python scripts/backfill_shipments.py ${{ inputs.mode || 'dry' }}
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: backfill-out, path: out, retention-days: 90 }
