@@ -70,15 +70,17 @@ class Zoho:
             self.calls += 1; self.window.append(time.time())
             if r.status_code == 429:
                 txt = r.text.lower()
-                if "day" in txt or "daily" in txt or "limit exceeded" in txt:
-                    raise SystemExit(f"Zoho daily API limit reached after {self.calls} calls this run: {r.text[:120]}")
+                if "day" in txt or "daily" in txt or "limit exceeded" in txt or attempt >= 2:
+                    # a 429 that survives two 65s waits is the daily cap, whatever the message says. Stop and save.
+                    raise SystemExit(f"Zoho API limit (429) after {self.calls} calls this run: {r.text[:120]}")
                 log("rate limited, sleeping 65s"); time.sleep(65); continue
             if r.status_code >= 500:
                 time.sleep(5 * (attempt + 1)); continue
             try: j = r.json()
             except Exception: j = {"code": -1, "message": r.text[:200]}
             return j
-        return {"code": -1, "message": "retries exhausted"}
+        # never hand a half-answer back to the planner: a missing package or invoice would turn into a duplicate shipment
+        raise SystemExit(f"Zoho API kept failing on {method} {path} (last status {r.status_code}); stopping and saving progress")
     def get(self, path, **params): return self.req("GET", path, params=params)
     def post(self, path, body, **params): return self.req("POST", path, params=params, json=body)
 
@@ -131,7 +133,9 @@ def plan_so(so_id):
     existing_mirror_inv = set(); other_packed = {lid: 0.0 for lid in lines}
     for pk in so.get("packages", []):
         pj = Z.get(f"/packages/{pk['package_id']}")
-        if pj.get("code") != 0: continue
+        if pj.get("code") != 0:
+            # cannot see what this package covers, so do not plan anything for this SO
+            return None, flags + [f"package {pk.get('package_number', pk['package_id'])} could not be read ({pj.get('message')}), needs human"]
         p = pj["package"]; notes = p.get("notes", "") or ""
         if MARK in notes and "inv:" in notes:
             existing_mirror_inv.add(notes.split("inv:")[1].split()[0])
@@ -149,7 +153,7 @@ def plan_so(so_id):
     for inv in invoices:
         if inv["invoice_id"] in existing_mirror_inv: continue   # already mirrored by an earlier run or the live function
         iv = get_invoice(inv["invoice_id"])
-        if iv is None: flags.append(f"invoice {inv['invoice_number']} fetch failed"); continue
+        if iv is None: return None, flags + [f"invoice {inv['invoice_number']} could not be read, needs human"]
         pkg_lines = []
         for il in iv["line_items"]:
             lid = il.get("salesorder_item_id")
@@ -302,11 +306,21 @@ def main():
         sos = [s for s in sos if s["salesorder_id"] not in examined]
         log(f"{len(sos)} sales orders to examine this run")
         partial = ""
+
+        def checkpoint(msg):
+            # save what we have so far, so a cancelled or killed run loses at most 100 sales orders of work
+            state.update({"examined": sorted(examined), "skipped": skipped, "cn_skipped": state.get("cn_skipped", [])})
+            json.dump(state, open(f"{OUT}/state.json", "w"))
+            json.dump([p for p in plans_by_so.values() if p["packages"] or p["returns"]], open(f"{OUT}/plan.json", "w"), indent=1)
+            ck_rows = [[p["salesorder_number"], p["customer"], pk["invoice_number"], pk["invoice_date"], l["item"], l["quantity"], ""]
+                       for p in plans_by_so.values() for pk in p["packages"] for l in pk["lines"]]
+            write_xlsx(ck_rows, [], skipped, state.get("cn_skipped", []), list(plans_by_so.values()), msg)
+
         for i, s in enumerate(sos, 1):
             try:
                 p, flags = plan_so(s["salesorder_id"])
                 examined.add(s["salesorder_id"])
-            except SystemExit as e:
+            except (SystemExit, KeyboardInterrupt) as e:
                 partial = f"PARTIAL: {e}. Planned {i-1} of {len(sos)} sales orders. Run again tomorrow to continue (already mirrored ones are skipped automatically)."
                 log(partial); break
             if p and p["packages"]:
@@ -319,12 +333,14 @@ def main():
                 pass   # nothing left to ship on this SO
             else:
                 skipped.append([s["salesorder_number"], s["customer_name"], "; ".join(flags) or "no packable lines"])
-            if i % 100 == 0: log(f"  {i}/{len(sos)} planned, {Z.calls} calls used")
+            if i % 100 == 0:
+                log(f"  {i}/{len(sos)} planned, {Z.calls} calls used")
+                checkpoint(f"PARTIAL (checkpoint at {i}/{len(sos)}): the run did not finish. Run again to continue.")
         cn_skipped = state.get("cn_skipped", [])
         if not SKIP_CN and not partial and not state.get("cn_done"):
             try:
                 cn_skipped = scan_credit_notes(plans_by_so); state["cn_done"] = True
-            except SystemExit as e:
+            except (SystemExit, KeyboardInterrupt) as e:
                 partial = f"PARTIAL: {e} during credit note scan. Shipments plan is complete, returns plan is incomplete, run again."
                 log(partial)
         # rebuild rows from the full plan (previous runs included)
@@ -400,5 +416,10 @@ def write_xlsx(rows, ret_rows, skipped, cn_skipped, plans, partial=""):
     for r in cn_skipped: ws5.append(r)
     wb.save(f"{OUT}/Backfill_Plan.xlsx")
 
+def _on_term(signum, frame):
+    raise SystemExit("run was cancelled (SIGTERM)")
+
 if __name__ == "__main__":
+    import signal
+    signal.signal(signal.SIGTERM, _on_term)
     main()
