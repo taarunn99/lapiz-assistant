@@ -1,0 +1,449 @@
+// lb_sync_creditnote_return | Zoho Books | Dubai org 719219457 | Module: Credit Note
+// Rule: "Credit Note is created or edited" (any field, edited each time).
+//
+// Business rule (confirmed by management 25 Sep 2026):
+//   credit note WITHOUT item lines  -> store credit / discount, goods did not move, do nothing
+//   credit note WITH item lines     -> those goods physically came back, in that quantity
+//
+// For each sales order behind the credit note's source invoice, keep exactly one
+// Sales Return + Receive that mirrors the credit note's item lines, dated to the credit note date.
+// Void or edit -> old mirror removed and rebuilt. Re-run with no change -> nothing happens.
+// Only sales returns whose notes carry LB-STOCKSYNC and this credit note's id are ever deleted.
+
+TEST_ONLY = true;                         // go live: set to false (and widen the rule criteria)
+// connection "lb_inventory": Books connection, Zoho Inventory service, authorised by Adil
+API = "https://www.zohoapis.com/inventory/v1";
+MARK = "LB-STOCKSYNC";
+
+orgId = organization.get("organization_id");
+cnId = creditnote.get("creditnote_id").toString();
+cnNum = ifnull(creditnote.get("creditnote_number"),"");
+cnStatus = ifnull(creditnote.get("status"),"").toLowerCase();
+custName = ifnull(creditnote.get("customer_name"),"");
+
+if(TEST_ONLY == true && custName.startsWith("ZZ TEST") == false)
+{
+	info "skip (test mode): " + cnNum + " customer " + custName;
+	return;
+}
+if(cnStatus == "draft" || cnStatus == "pending_approval")
+{
+	info "skip: " + cnNum + " is " + cnStatus;
+	return;
+}
+// ---------- 1. full credit note ----------
+r = invokeurl
+[
+	url :API + "/creditnotes/" + cnId + "?organization_id=" + orgId
+	type :GET
+	connection:"lb_inventory"
+];
+if(ifnull(r.get("code"),-1) != 0)
+{
+	info "ERROR fetch credit note " + cnNum + ": " + r.get("message");
+	return;
+}
+cn = r.get("creditnote");
+if(ifnull(cn.get("salesreturn_id"),"").toString() != "")
+{
+	info "skip: " + cnNum + " was created from sales return " + ifnull(cn.get("salesreturn_number"),"") + ", Zoho already moved the stock";
+	return;
+}
+cnDate = ifnull(cn.get("date"),zoho.currentdate.toString("yyyy-MM-dd"));
+cnMod = ifnull(cn.get("last_modified_time"),"");
+// item lines -> invoice line id -> qty
+wantByInvLine = Map();
+invIds = List();
+if(cnStatus != "void")
+{
+	for each  cl in ifnull(cn.get("line_items"),List())
+	{
+		if(ifnull(cl.get("item_type"),"") != "inventory")
+		{
+			continue;
+		}
+		iil = ifnull(cl.get("invoice_item_id"),"").toString();
+		iid = ifnull(cl.get("invoice_id"),"").toString();
+		if(iid == "")
+		{
+			iid = ifnull(cn.get("invoice_id"),"").toString();
+		}
+		if(iil == "" || iid == "")
+		{
+			info "item line " + ifnull(cl.get("name"),"") + " on " + cnNum + " is not tied to an invoice line, skipped";
+			continue;
+		}
+		q = ifnull(cl.get("quantity"),0).toDecimal();
+		if(wantByInvLine.containKey(iil))
+		{
+			q = q + wantByInvLine.get(iil);
+		}
+		wantByInvLine.put(iil,q);
+		if(invIds.contains(iid) == false)
+		{
+			invIds.add(iid);
+		}
+	}
+}
+else
+{
+	// void: still need the invoice to find the SO(s) so the mirror can be removed
+	hdrInv = ifnull(cn.get("invoice_id"),"").toString();
+	if(hdrInv != "")
+	{
+		invIds.add(hdrInv);
+	}
+	for each  cl in ifnull(cn.get("line_items"),List())
+	{
+		iid = ifnull(cl.get("invoice_id"),"").toString();
+		if(iid != "" && invIds.contains(iid) == false)
+		{
+			invIds.add(iid);
+		}
+	}
+}
+if(invIds.size() == 0)
+{
+	info "skip: " + cnNum + " has no item lines tied to an invoice (store credit only)";
+	return;
+}
+// ---------- 2. invoice lines -> SO line ids, and the SO ids ----------
+wantBySo = Map();      // soId -> Map(so_line_item_id -> qty)
+soIds = List();
+for each  iid in invIds
+{
+	ir = invokeurl
+	[
+		url :API + "/invoices/" + iid + "?organization_id=" + orgId
+		type :GET
+		connection:"lb_inventory"
+	];
+	if(ifnull(ir.get("code"),-1) != 0)
+	{
+		info "ERROR fetch invoice " + iid + ": " + ir.get("message");
+		continue;
+	}
+	inv = ir.get("invoice");
+	invSoIds = List();
+	for each  s in ifnull(inv.get("salesorders"),List())
+	{
+		sid = ifnull(s.get("salesorder_id"),"").toString();
+		if(sid != "" && invSoIds.contains(sid) == false)
+		{
+			invSoIds.add(sid);
+		}
+	}
+	hdrSo = ifnull(inv.get("salesorder_id"),"").toString();
+	if(hdrSo != "" && invSoIds.contains(hdrSo) == false)
+	{
+		invSoIds.add(hdrSo);
+	}
+	if(invSoIds.size() == 0)
+	{
+		info cnNum + ": source invoice " + ifnull(inv.get("invoice_number"),iid) + " has no sales order, nothing to return on an SO";
+		continue;
+	}
+	for each  sid in invSoIds
+	{
+		if(soIds.contains(sid) == false)
+		{
+			soIds.add(sid);
+		}
+	}
+	// invoice line -> so line
+	for each  il in ifnull(inv.get("line_items"),List())
+	{
+		ilid = ifnull(il.get("line_item_id"),"").toString();
+		solid = ifnull(il.get("salesorder_item_id"),"").toString();
+		if(solid == "" || wantByInvLine.containKey(ilid) == false)
+		{
+			continue;
+		}
+		// which SO owns this so line is resolved in step 3 (lines map)
+		if(wantBySo.containKey("ALL") == false)
+		{
+			wantBySo.put("ALL",Map());
+		}
+		allMap = wantBySo.get("ALL");
+		q = wantByInvLine.get(ilid);
+		if(allMap.containKey(solid))
+		{
+			q = q + allMap.get(solid);
+		}
+		allMap.put(solid,q);
+		wantBySo.put("ALL",allMap);
+	}
+}
+want = ifnull(wantBySo.get("ALL"),Map());
+noteText = MARK + " cn:" + cnId + " " + cnNum + " mod:" + cnMod;
+// ---------- 3. per sales order ----------
+for each  soId in soIds
+{
+	alert = "";
+	r = invokeurl
+	[
+		url :API + "/salesorders/" + soId + "?organization_id=" + orgId
+		type :GET
+		connection:"lb_inventory"
+	];
+	if(ifnull(r.get("code"),-1) != 0)
+	{
+		info "ERROR fetch SO " + soId + ": " + r.get("message");
+		continue;
+	}
+	so = r.get("salesorder");
+	soNum = ifnull(so.get("salesorder_number"),"");
+	lines = Map();
+	for each  sl in ifnull(so.get("line_items"),List())
+	{
+		lines.put(ifnull(sl.get("line_item_id"),"").toString(),sl);
+	}
+	soWant = Map();
+	for each  lid in want.keys()
+	{
+		if(lines.containKey(lid))
+		{
+			soWant.put(lid,want.get(lid));
+		}
+	}
+	// 3a. existing mirror sales return(s) for this credit note
+	mine = List();
+	for each  sr in ifnull(so.get("salesreturns"),List())
+	{
+		srid = ifnull(sr.get("salesreturn_id"),"").toString();
+		srr = invokeurl
+		[
+			url :API + "/salesreturns/" + srid + "?organization_id=" + orgId
+			type :GET
+			connection:"lb_inventory"
+		];
+		if(ifnull(srr.get("code"),-1) != 0)
+		{
+			continue;
+		}
+		s = srr.get("salesreturn");
+		notes = ifnull(s.get("notes"),"");
+		if(notes.contains(MARK) && notes.contains("cn:" + cnId))
+		{
+			have = Map();
+			for each  pl in ifnull(s.get("line_items"),List())
+			{
+				plid = ifnull(pl.get("salesorder_item_id"),"").toString();
+				hq = ifnull(pl.get("quantity"),0).toDecimal();
+				if(have.containKey(plid))
+				{
+					hq = hq + have.get(plid);
+				}
+				have.put(plid,hq);
+			}
+			recIds = List();
+			for each  rc in ifnull(s.get("salesreturnreceives"),List())
+			{
+				recIds.add(ifnull(rc.get("receive_id"),"").toString());
+			}
+			m = Map();
+			m.put("salesreturn_id",srid);
+			m.put("salesreturn_number",ifnull(s.get("salesreturn_number"),""));
+			m.put("receives",recIds);
+			m.put("have",have);
+			mine.add(m);
+		}
+	}
+	// 3b. already in sync?
+	same = false;
+	if(mine.size() == 0 && soWant.size() == 0)
+	{
+		same = true;
+	}
+	if(mine.size() == 1)
+	{
+		have = mine.get(0).get("have");
+		same = false;
+		if(have.size() == soWant.size())
+		{
+			same = true;
+		}
+		if(same)
+		{
+			for each  lid in soWant.keys()
+			{
+				if(have.containKey(lid) == false)
+				{
+					same = false;
+				}
+				else if(have.get(lid) != soWant.get(lid))
+				{
+					same = false;
+				}
+			}
+		}
+	}
+	if(same == false && mine.size() == 0 && soWant.size() > 0)
+	{
+		// nothing of ours exists; if the SO already shows enough returned (manual return), do nothing
+		covered = true;
+		for each  lid in soWant.keys()
+		{
+			sl = ifnull(lines.get(lid),Map());
+			if(ifnull(sl.get("quantity_returned"),0).toDecimal() < soWant.get(lid))
+			{
+				covered = false;
+			}
+		}
+		if(covered)
+		{
+			same = true;
+		}
+	}
+	if(same)
+	{
+		info soNum + ": returns already in sync with " + cnNum;
+		continue;
+	}
+	// 3c. remove old mirror (receives first, then the return)
+	for each  m in mine
+	{
+		for each  rid in m.get("receives")
+		{
+			if(rid != "" && alert == "")
+			{
+				d = invokeurl
+				[
+					url :API + "/salesreturnreceives/" + rid + "?organization_id=" + orgId
+					type :DELETE
+					connection:"lb_inventory"
+				];
+				if(ifnull(d.get("code"),-1) != 0)
+				{
+					alert = "could not delete receive of return " + m.get("salesreturn_number") + ": " + d.get("message");
+				}
+			}
+		}
+		if(alert == "")
+		{
+			d = invokeurl
+			[
+				url :API + "/salesreturns/" + m.get("salesreturn_id") + "?organization_id=" + orgId
+				type :DELETE
+				connection:"lb_inventory"
+			];
+			if(ifnull(d.get("code"),-1) != 0)
+			{
+				alert = "could not delete return " + m.get("salesreturn_number") + ": " + d.get("message");
+			}
+			else
+			{
+				info soNum + ": removed old return " + m.get("salesreturn_number") + " for " + cnNum;
+			}
+		}
+	}
+	// 3d. build new mirror
+	if(alert == "" && soWant.size() > 0)
+	{
+		r2 = invokeurl
+		[
+			url :API + "/salesorders/" + soId + "?organization_id=" + orgId
+			type :GET
+			connection:"lb_inventory"
+		];
+		fresh = Map();
+		for each  sl in ifnull(ifnull(r2.get("salesorder"),Map()).get("line_items"),List())
+		{
+			fresh.put(ifnull(sl.get("line_item_id"),"").toString(),sl);
+		}
+		retLines = List();
+		short = "";
+		for each  lid in soWant.keys()
+		{
+			sl = ifnull(fresh.get(lid),Map());
+			shipped = ifnull(sl.get("quantity_shipped"),0).toDecimal();
+			returned = ifnull(sl.get("quantity_returned"),0).toDecimal();
+			// only the part not yet returned by anyone (manual returns count too)
+			q = soWant.get(lid) - returned;
+			room = shipped - returned;
+			if(q > room)
+			{
+				short = short + ifnull(sl.get("name"),lid) + " credit note qty " + soWant.get(lid) + " but only " + room + " shipped and not yet returned; ";
+				q = room;
+			}
+			if(q > 0)
+			{
+				li = Map();
+				li.put("salesorder_item_id",lid);
+				li.put("item_id",ifnull(sl.get("item_id"),"").toString());
+				li.put("quantity",q);
+				retLines.add(li);
+			}
+		}
+		if(short != "")
+		{
+			alert = "return capped: " + short;
+		}
+		if(retLines.size() > 0)
+		{
+			body = Map();
+			body.put("salesorder_id",soId);
+			body.put("date",cnDate);
+			body.put("reason","Credit note " + cnNum);
+			body.put("notes",noteText);
+			body.put("line_items",retLines);
+			cr = invokeurl
+			[
+				url :API + "/salesreturns?organization_id=" + orgId
+				type :POST
+				parameters:body.toString()
+				connection:"lb_inventory"
+			];
+			if(ifnull(cr.get("code"),-1) != 0)
+			{
+				alert = "sales return create failed: " + cr.get("message");
+			}
+			else
+			{
+				sret = cr.get("salesreturn");
+				srid = sret.get("salesreturn_id").toString();
+				rcvLines = List();
+				for each  rl in ifnull(sret.get("line_items"),List())
+				{
+					x = Map();
+					x.put("line_item_id",ifnull(rl.get("line_item_id"),"").toString());
+					x.put("quantity",ifnull(rl.get("quantity"),0).toDecimal());
+					rcvLines.add(x);
+				}
+				rb = Map();
+				rb.put("salesreturn_id",srid);
+				rb.put("date",cnDate);
+				rb.put("notes",noteText);
+				rb.put("line_items",rcvLines);
+				rr = invokeurl
+				[
+					url :API + "/salesreturnreceives?organization_id=" + orgId + "&salesreturn_id=" + srid
+					type :POST
+					parameters:rb.toString()
+					connection:"lb_inventory"
+				];
+				if(ifnull(rr.get("code"),-1) != 0)
+				{
+					alert = "return " + sret.get("salesreturn_number") + " created but receive failed: " + rr.get("message");
+				}
+				else
+				{
+					info soNum + ": " + cnNum + " -> sales return " + sret.get("salesreturn_number") + " received into stock";
+				}
+			}
+		}
+	}
+	if(alert != "")
+	{
+		c = Map();
+		c.put("description",MARK + " ALERT (" + cnNum + "): " + alert);
+		cr2 = invokeurl
+		[
+			url :API + "/salesorders/" + soId + "/comments?organization_id=" + orgId
+			type :POST
+			parameters:c.toString()
+			connection:"lb_inventory"
+		];
+		info soNum + " ALERT: " + alert;
+	}
+}
