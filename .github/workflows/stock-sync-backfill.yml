@@ -27,11 +27,16 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - run: pip install requests openpyxl
-      - name: Restore previous plan (needed for live)
-        if: inputs.mode == 'live'
-        uses: actions/download-artifact@v4
-        with: { name: backfill-out, path: out }
+      - name: Restore previous run output (resume dry, or plan for live)
+        env:
+          GH_TOKEN: ${{ github.token }}
         continue-on-error: true
+        run: |
+          mkdir -p out
+          for id in $(gh run list --workflow stock-sync-backfill.yml --status completed --limit 15 --json databaseId -q '.[].databaseId'); do
+            if gh run download "$id" -n backfill-out -D out 2>/dev/null; then echo "restored artifact from run $id"; break; fi
+          done
+          ls -la out || true
       - name: Run
         env:
           ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
