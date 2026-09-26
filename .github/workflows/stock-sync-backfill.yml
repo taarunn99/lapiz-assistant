@@ -26,6 +26,10 @@ concurrency:
   group: stock-sync-backfill
   cancel-in-progress: false
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -34,7 +38,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install requests openpyxl
+      - run: pip install requests openpyxl reportlab
       - name: Restore previous run output (resume dry, or plan for live)
         env:
           GH_TOKEN: ${{ github.token }}
@@ -46,6 +50,7 @@ jobs:
           done
           ls -la out || true
       - name: Run
+        id: run
         env:
           ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
           ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
@@ -53,8 +58,26 @@ jobs:
           ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
           SO_NUMBERS: ${{ inputs.so_numbers || '' }}
           MAX_CALLS: ${{ inputs.max_calls || '4000' }}
-        # a scheduled run has no inputs, so it is always a capped dry run
-        run: python scripts/backfill_shipments.py ${{ inputs.mode || 'dry' }}
+        # a scheduled run has no inputs, so it is always a capped dry run. Output is kept for the daily report.
+        run: |
+          set -o pipefail
+          python scripts/backfill_shipments.py ${{ inputs.mode || 'dry' }} 2>&1 | tee out/run_log.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: backfill-out, path: out, retention-days: 90 }
+      - name: Daily progress report (PDF into reports/, counts only)
+        if: always()
+        env:
+          RUN_OUTCOME: ${{ steps.run.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RUN_MODE: ${{ inputs.mode || 'dry' }}
+          MAX_CALLS: ${{ inputs.max_calls || '4000' }}
+        run: |
+          python scripts/daily_report.py || echo "report step had a problem, see above"
+          git config user.name "stock-sync-bot"
+          git config user.email "stock-sync-bot@users.noreply.github.com"
+          git add reports || true
+          if git diff --cached --quiet; then echo "no report changes"; exit 0; fi
+          git commit -m "Daily progress report $(date -u +%Y-%m-%d)" || exit 0
+          git pull --rebase origin main || true
+          git push origin HEAD:main || echo "push failed, report is still in the run artifact"
