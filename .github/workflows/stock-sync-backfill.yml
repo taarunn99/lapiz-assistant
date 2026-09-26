@@ -2,9 +2,9 @@ name: Stock sync backfill
 
 on:
   schedule:
-    # every day at 13:00 Dubai (09:00 UTC): resumes the dry scan where it stopped,
-    # capped at 4000 Zoho API calls so the rest of the company keeps its daily allowance
-    - cron: "0 9 * * *"
+    # every day at 13:10 Dubai (09:10 UTC, off the busy top of the hour): resumes the dry scan where it stopped.
+    # Paced at 45 calls/min (org limit 100/min shared with Adil's 9:30 pull) and capped per run.
+    - cron: "10 9 * * *"
   workflow_dispatch:
     inputs:
       mode:
@@ -20,7 +20,7 @@ on:
       max_calls:
         description: "API call cap for this run"
         required: false
-        default: "4000"
+        default: "9000"
 
 concurrency:
   group: stock-sync-backfill
@@ -33,7 +33,7 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 300
+    timeout-minutes: 345
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -57,7 +57,8 @@ jobs:
           ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
           ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
           SO_NUMBERS: ${{ inputs.so_numbers || '' }}
-          MAX_CALLS: ${{ inputs.max_calls || '4000' }}
+          MAX_CALLS: ${{ inputs.max_calls || '9000' }}
+          RATE_PER_MIN: "45"
         # a scheduled run has no inputs, so it is always a capped dry run. Output is kept for the daily report.
         run: |
           set -o pipefail
@@ -71,7 +72,7 @@ jobs:
           RUN_OUTCOME: ${{ steps.run.outcome }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           RUN_MODE: ${{ inputs.mode || 'dry' }}
-          MAX_CALLS: ${{ inputs.max_calls || '4000' }}
+          MAX_CALLS: ${{ inputs.max_calls || '9000' }}
         run: |
           python scripts/daily_report.py || echo "report step had a problem, see above"
           git config user.name "stock-sync-bot"
