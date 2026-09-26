@@ -42,6 +42,7 @@ MODE = sys.argv[1] if len(sys.argv) > 1 else "dry"
 OUT = os.environ.get("OUT_DIR", "out"); os.makedirs(OUT, exist_ok=True)
 MARK = "LB-STOCKSYNC"
 DELIVERY_METHOD = "Al Quoz"
+FAST_PATH = os.environ.get("NO_FAST_PATH", "0") != "1"   # testing switch only
 
 def log(*a):
     print(*a, flush=True)
@@ -128,6 +129,24 @@ def plan_so(so_id):
     for lid, l in lines.items():
         if l.get("batches") or l.get("serial_numbers"): flags.append(f"tracked item {l['name']}, needs human")
     if any("skip" in f or "human" in f for f in flags): return None, flags
+
+    # Fast path (1 API call instead of 2 or more): exactly one invoice on the SO, it is live, and no packages exist.
+    # Then the SO line's quantity_invoiced IS that invoice's quantity for the line (void invoices would pollute it,
+    # which is why the "all invoices live" condition matters), so the invoice itself does not need fetching.
+    so_invs = so.get("invoices", [])
+    live_invs = [i for i in so_invs if i.get("status") not in ("void", "draft")]
+    if FAST_PATH and len(so_invs) == 1 and len(live_invs) == 1 and not so.get("packages"):
+        inv = live_invs[0]; pkg_lines = []
+        for lid, l in lines.items():
+            q = float(l.get("quantity_invoiced", 0) or 0)
+            room_l = max(float(l["quantity"]) - float(l.get("quantity_packed", 0) or 0), 0.0)
+            take = min(q, room_l)
+            if take > 0: pkg_lines.append({"so_line_item_id": lid, "item": l["name"], "quantity": take})
+            if q - take > 0.0001: flags.append(f"{inv['invoice_number']} {l['name']}: {q - take:g} could not be packed (no room on SO)")
+        plan = [{"invoice_id": inv["invoice_id"], "invoice_number": inv["invoice_number"], "invoice_date": inv["date"],
+                 "invoice_mod": inv.get("last_modified_time", ""), "lines": pkg_lines}] if pkg_lines else []
+        return {"salesorder_id": so_id, "salesorder_number": so["salesorder_number"],
+                "customer": so["customer_name"], "packages": plan, "returns": []}, flags
 
     # packages that already exist on this SO: which invoices do they already mirror?
     existing_mirror_inv = set(); other_packed = {lid: 0.0 for lid in lines}
