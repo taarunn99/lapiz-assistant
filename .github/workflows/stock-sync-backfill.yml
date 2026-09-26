@@ -81,3 +81,12 @@ jobs:
           git commit -m "Daily progress report $(date -u +%Y-%m-%d)" || exit 0
           git pull --rebase origin main || true
           git push origin HEAD:main || echo "push failed, report is still in the run artifact"
+      - name: Email the report (skips until SMTP secrets exist)
+        if: always()
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          REPORT_TO: ${{ secrets.REPORT_TO }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        run: python scripts/send_report.py || echo "email step had a problem, see above"
