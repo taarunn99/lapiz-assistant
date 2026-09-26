@@ -1,0 +1,21 @@
+[
+ {
+  "date": "2026-09-26",
+  "run_outcome": "success",
+  "status": "PARTIAL (expected): stopped at today's call cap and saved progress.",
+  "mode": "dry",
+  "cap": "9000",
+  "calls_used": 9000,
+  "examined_today": 7230,
+  "examined_cumulative": 7230,
+  "total_candidates": 7264,
+  "remaining": 34,
+  "planned_sos": 7179,
+  "packages": 8187,
+  "returns": 0,
+  "skipped_human": 0,
+  "cn_lines_skipped": 0,
+  "cn_done": false,
+  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/36237103227"
+ }
+]
