@@ -24,6 +24,7 @@ Environment
   ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET, ZOHO_REFRESH_TOKEN, ZOHO_ORG_ID_DXB
 Optional
   MAX_CALLS   hard cap on API calls per run (default 8000)
+  RATE_PER_MIN calls per minute (default 45; Zoho allows 100 per org, Adil's daily pull uses up to 70)
   SO_LIMIT    only process the first N sales orders (testing)
   SO_NUMBERS  comma separated SO numbers to restrict to (testing on ZZ TEST)
   SKIP_CN     set to 1 to skip the credit note scan (faster dry run)
@@ -43,6 +44,7 @@ OUT = os.environ.get("OUT_DIR", "out"); os.makedirs(OUT, exist_ok=True)
 MARK = "LB-STOCKSYNC"
 DELIVERY_METHOD = "Al Quoz"
 FAST_PATH = os.environ.get("NO_FAST_PATH", "0") != "1"   # testing switch only
+RATE_PER_MIN = int(os.environ.get("RATE_PER_MIN", "45") or 45)   # org limit is 100/min shared with Adil's jobs
 
 def log(*a):
     print(*a, flush=True)
@@ -62,7 +64,7 @@ class Zoho:
     def req(self, method, path, **kw):
         if self.calls >= MAX_CALLS: raise SystemExit(f"MAX_CALLS {MAX_CALLS} reached, stopping cleanly")
         now = time.time(); self.window = [t for t in self.window if now - t < 60]
-        if len(self.window) >= 80: time.sleep(60 - (now - self.window[0]) + 0.5)
+        if len(self.window) >= RATE_PER_MIN: time.sleep(60 - (now - self.window[0]) + 0.5)
         self._auth()
         params = kw.pop("params", {}); params["organization_id"] = ORG
         for attempt in range(4):
@@ -70,11 +72,16 @@ class Zoho:
                                  headers={"Authorization": f"Zoho-oauthtoken {self.token}"}, timeout=60, **kw)
             self.calls += 1; self.window.append(time.time())
             if r.status_code == 429:
-                txt = r.text.lower()
-                if "day" in txt or "daily" in txt or "limit exceeded" in txt or attempt >= 2:
-                    # a 429 that survives two 65s waits is the daily cap, whatever the message says. Stop and save.
-                    raise SystemExit(f"Zoho API limit (429) after {self.calls} calls this run: {r.text[:120]}")
-                log("rate limited, sleeping 65s"); time.sleep(65); continue
+                # Zoho has two limits: a daily cap per org (Books dashboard 50,000, Inventory dashboard 10,000) and
+                # 100 calls per minute per org shared by every script. Breaking the per-minute one returns 429 with
+                # Retry-After 3600 and blocks the org for an hour; hammering it extends the block.
+                txt = r.text.lower(); ra = r.headers.get("Retry-After", "")
+                if "day" in txt or "daily" in txt:
+                    raise SystemExit(f"Zoho daily API cap reached after {self.calls} calls this run: {r.text[:120]}")
+                wait = int(ra) if ra.strip().isdigit() else 65
+                if attempt >= 1 or wait > 3700:
+                    raise SystemExit(f"Zoho rate limit (429) persisted after waiting; {self.calls} calls this run: {r.text[:120]}")
+                log(f"rate limited (429, Retry-After {ra or 'n/a'}): waiting {wait + 5}s once, then continuing"); time.sleep(wait + 5); continue
             if r.status_code >= 500:
                 time.sleep(5 * (attempt + 1)); continue
             try: j = r.json()
