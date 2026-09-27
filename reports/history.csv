@@ -1,2 +1,3 @@
 date,run_outcome,status,mode,cap,calls_used,examined_today,examined_cumulative,total_candidates,remaining,planned_sos,packages,returns,skipped_human,cn_lines_skipped,cn_done,run_url
 2026-09-26,success,PARTIAL (expected): stopped at today's call cap and saved progress.,dry,9000,9000,7230,7230,7264,34,7179,8187,0,0,0,False,https://github.com/taarunn99/lapiz-assistant/actions/runs/36237103227
+2026-09-27,success,COMPLETE: all sales orders examined and credit notes scanned. Plan is ready for review.,dry,9000,4406,39,7269,7269,0,7251,8231,101,0,1692,True,https://github.com/taarunn99/lapiz-assistant/actions/runs/36316043494
