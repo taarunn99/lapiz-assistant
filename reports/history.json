@@ -24,8 +24,8 @@
   "status": "COMPLETE: all sales orders examined and credit notes scanned. Plan is ready for review.",
   "mode": "dry",
   "cap": "9000",
-  "calls_used": 4406,
-  "examined_today": 39,
+  "calls_used": 41,
+  "examined_today": 0,
   "examined_cumulative": 7269,
   "total_candidates": 7269,
   "remaining": 0,
@@ -35,6 +35,6 @@
   "skipped_human": 0,
   "cn_lines_skipped": 1692,
   "cn_done": true,
-  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/36316043494"
+  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/36326725429"
  }
 ]
