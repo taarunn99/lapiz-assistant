@@ -158,7 +158,7 @@ def mk_return(case, so, lines, note="ZZMATRIX", date=TODAY):
     for it, q in lines:
         d = {"salesorder_item_id": byitem[it]["line_item_id"], "item_id": it, "quantity": q}
         loc = loc_by_so_line.get(byitem[it]["line_item_id"])
-        if loc: d["location_id"] = loc; d["warehouse_id"] = loc      # ask for the SO line's warehouse on the return itself
+        if loc: d["location_id"] = loc      # ask for the SO line's warehouse on the return itself (warehouse_id is rejected: "Invalid Element")
         li.append(d)
     body = {"salesorder_id": so["salesorder_id"], "date": date, "reason": "ZZMATRIX test", "notes": note, "line_items": li}
     hdr_loc = so.get("location_id")
@@ -173,7 +173,7 @@ def mk_return(case, so, lines, note="ZZMATRIX", date=TODAY):
     for x in sr.get("line_items", []):
         d = {"line_item_id": x["line_item_id"], "quantity": x["quantity"]}
         loc = loc_by_so_line.get(x.get("salesorder_item_id") or x.get("so_line_item_id"))
-        if loc: d["location_id"] = loc; d["warehouse_id"] = loc
+        if loc: d["location_id"] = loc
         rl.append(d)
     rcv = {"salesreturn_id": sr["salesreturn_id"], "date": date, "notes": note, "line_items": rl}
     rr = Z.post("/salesreturnreceives", rcv, salesreturn_id=sr["salesreturn_id"])
