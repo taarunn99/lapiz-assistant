@@ -78,9 +78,13 @@ def customer2():
     return j["contact"]["contact_id"]
 
 CUST = None
-def mk_so(case, lines, location=None):
+BR_HEAD = "2305879000008690419"     # Head Office - Dubai Al Quoz (branch)
+BR_SHARJAH = "2305879000090771523"  # Sharjah - Lapiz Blue (branch)
+WH_BULK = "2305879000085186098"     # Bulk Stock Warehouse
+def mk_so(case, lines, location=None, branch=None):
     li = [{"item_id": it, "quantity": q, "rate": 10} | ({"location_id": location} if location else {}) for it, q in lines]
     body = {"customer_id": CUST, "date": TODAY, "salesperson_id": SALESPERSON, "reference_number": f"ZZMATRIX {case}", "line_items": li}
+    if branch: body["location_id"] = branch
     j = Z.post("/salesorders", body)
     if j.get("code") != 0: raise RuntimeError(f"SO create failed: {j.get('message')}")
     so = j["salesorder"]; sid = so["salesorder_id"]
@@ -148,7 +152,8 @@ def undeliver(case, ship_id):
 def mk_return(case, so, lines, note="ZZMATRIX", date=TODAY):
     byitem = {l["item_id"]: l for l in so["line_items"]}
     li = [{"salesorder_item_id": byitem[it]["line_item_id"], "item_id": it, "quantity": q} for it, q in lines]
-    r = Z.post("/salesreturns", {"salesorder_id": so["salesorder_id"], "date": date, "reason": "ZZMATRIX test", "notes": note, "line_items": li})
+    r = Z.post("/salesreturns", {"salesorder_id": so["salesorder_id"], "date": date, "reason": "ZZMATRIX test", "notes": note, "line_items": li},
+               salesorder_id=so["salesorder_id"])
     if r.get("code") != 0: return r
     sr = r["salesreturn"]
     rcv = {"salesreturn_id": sr["salesreturn_id"], "date": date, "notes": note,
@@ -245,7 +250,7 @@ def T07():
 
 def T08():
     """Sharjah warehouse line: where does the package go, where does the return come back."""
-    so = mk_so("T08", [(ITEM_B, 3)], location=WH_SHARJAH)
+    so = mk_so("T08", [(ITEM_B, 3)], location=WH_SHARJAH, branch=BR_SHARJAH)
     so, L = so_lines(so["salesorder_id"]); rec("T08", "SO line location", "Sharjah", {"code": 0}, L[ITEM_B].get("location_name", "?"))
     inv = mk_inv("T08", so, [(ITEM_B, 3)]); pid, sid = ship_full("T08", so, [(ITEM_B, 3)])
     if pid:
@@ -301,7 +306,7 @@ def T14():
     so = mk_so("T14", [(ITEM_A, 4)])
     inv = mk_inv("T14", so, [(ITEM_A, 4)]); pid, sid = ship_full("T14", so, [(ITEM_A, 4)])
     iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
-    cn = Z.post("/creditnotes", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX T14",
+    cn = Z.post("/creditnotes", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX T14", "salesperson_id": SALESPERSON,
                                  "line_items": [{"item_id": ITEM_A, "quantity": 2, "rate": 10}]}, invoice_id=iv["invoice_id"])
     rec("T14", "credit note 2 units against shipped invoice", "OK", cn)
     so2, L = so_lines(so["salesorder_id"]); rec("T14", "SO line after credit note (no return yet)", "ret 0, Zoho does not auto-return", {"code": 0}, qty_str(L[ITEM_A]))
@@ -331,6 +336,81 @@ def T16():
     rec("T16", "void invoice 1", "OK", v1); rec("T16", "void invoice 2 immediately after", "OK", v2)
     r1 = mk_return("T16", so, [(ITEM_A, 2)]); r2 = mk_return("T16", so, [(ITEM_B, 2)])
     rec("T16", "return A (right after void)", "OK", r1); rec("T16", "return B (back to back)", "OK", r2)
+
+def item_stock(item_id):
+    it = Z.get(f"/items/{item_id}").get("item", {})
+    return f"acct {it.get('stock_on_hand')} phys {it.get('actual_available_stock')}"
+
+def T17():
+    """Bulk Stock warehouse line under Head Office branch: package and return locations."""
+    so = mk_so("T17", [(ITEM_A, 2)], location=WH_BULK, branch=BR_HEAD)
+    so, L = so_lines(so["salesorder_id"]); rec("T17", "SO line location", "Bulk Stock", {"code": 0}, L[ITEM_A].get("location_name", "?"))
+    inv = mk_inv("T17", so, [(ITEM_A, 2)]); pid, sid = ship_full("T17", so, [(ITEM_A, 2)])
+    pk = Z.get(f"/packages/{pid}").get("package", {})
+    rec("T17", "package line location", "Bulk Stock", {"code": 0}, str({(l.get("location_name") or "?") for l in pk.get("line_items", [])}))
+    r = mk_return("T17", so, [(ITEM_A, 2)]); rec("T17", "return 2 + receive", "OK, into Bulk Stock", r, f"receive: {r.get('receive', {}).get('message')}")
+    sr = Z.get(f"/salesreturns/{r['salesreturn']['salesreturn_id']}").get("salesreturn", {}) if r.get("code") == 0 else {}
+    rec("T17", "return location", "Bulk Stock", {"code": 0}, str({(l.get("location_name") or "?") for l in sr.get("line_items", [])}))
+
+def T18():
+    """Void with 10 shipped, then sales return 10: does physical stock come back, what does the line say."""
+    before = item_stock(ITEM_B)
+    so = mk_so("T18", [(ITEM_B, 10)])
+    inv = mk_inv("T18", so, [(ITEM_B, 10)]); pid, sid = ship_full("T18", so, [(ITEM_B, 10)]); deliver("T18", sid)
+    shipped = item_stock(ITEM_B)
+    rec("T18", "void invoice", "OK", void_inv(need(inv, "invoice")["invoice"]["invoice_id"]))
+    r = mk_return("T18", so, [(ITEM_B, 10)]); rec("T18", "sales return 10 + receive", "OK", r, f"receive: {r.get('receive', {}).get('message')}")
+    so2, L = so_lines(so["salesorder_id"]); rec("T18", "line after void+return", "inv 10 pk 10 sh 10 ret 10", {"code": 0}, qty_str(L[ITEM_B]) + f" so {so2['status']}")
+    rec("T18", "item B stock: before / shipped / after return", "phys back to before", {"code": 0}, f"{before} / {shipped} / {item_stock(ITEM_B)}")
+    r2 = mk_return("T18", so, [(ITEM_B, 1)]); rec("T18", "one more return after full return", "refused", r2)
+
+def T19():
+    """Edit invoice UP (8 -> 10) with room on the SO, and a mixed edit (A down, B up) on a two-line invoice."""
+    so = mk_so("T19", [(ITEM_A, 10), (ITEM_B, 10)])
+    inv = mk_inv("T19", so, [(ITEM_A, 8), (ITEM_B, 5)]); pid, sid = ship_full("T19", so, [(ITEM_A, 8), (ITEM_B, 5)])
+    iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
+    byitem = {l["item_id"]: l for l in iv["line_items"]}
+    li = [{"line_item_id": byitem[ITEM_A]["line_item_id"], "item_id": ITEM_A, "quantity": 10, "rate": 10, "salesorder_item_id": so["line_items"][0]["line_item_id"]},
+          {"line_item_id": byitem[ITEM_B]["line_item_id"], "item_id": ITEM_B, "quantity": 3, "rate": 10, "salesorder_item_id": so["line_items"][1]["line_item_id"]}]
+    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li}); rec("T19", "edit invoice A 8->10, B 5->3 while shipped 8/5", "OK", e)
+    so2, L = so_lines(so["salesorder_id"]); rec("T19", "lines after edit (packages untouched)", "A inv 10 pk 8, B inv 3 pk 5", {"code": 0}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]))
+    # rebuild like the automation would: delete shipment+package, recreate at 10/3
+    rec("T19", "delete shipment", "OK", Z.delete(f"/shipmentorders/{sid}")); rec("T19", "delete package", "OK", Z.delete(f"/packages/{pid}"))
+    pid2, sid2 = ship_full("T19", so2, [(ITEM_A, 10), (ITEM_B, 3)])
+    so3, L = so_lines(so["salesorder_id"]); rec("T19", "lines after rebuild", "A 10/10/10, B 3/3/3", {"code": 0}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]))
+
+def T20():
+    """Three invoices on one SO (A, B, C lines), each shipped; void two; return each voided one."""
+    so = mk_so("T20", [(ITEM_A, 4), (ITEM_B, 4), (ITEM_C, 4)])
+    invs = []
+    for it in (ITEM_A, ITEM_B, ITEM_C):
+        so, L = so_lines(so["salesorder_id"]); i = mk_inv("T20", so, [(it, 4)]); rec("T20", f"invoice for {it[-4:]}", "OK", i); invs.append(i)
+        ship_full("T20", so, [(it, 4)])
+    for i in invs[:2]: rec("T20", "void", "OK", void_inv(need(i, "invoice")["invoice"]["invoice_id"]))
+    ra = mk_return("T20", so, [(ITEM_A, 4)]); rec("T20", "return A", "OK", ra)
+    rb = mk_return("T20", so, [(ITEM_B, 4)]); rec("T20", "return B", "OK", rb)
+    so2, L = so_lines(so["salesorder_id"]); rec("T20", "lines", "A ret 4, B ret 4, C ret 0", {"code": 0}, " | ".join(f"{k[-4:]}: {qty_str(L[k])}" for k in (ITEM_A, ITEM_B, ITEM_C)))
+
+def T21():
+    """Credit note WITH items on a shipped SO-linked invoice, then the sales return: stock and line."""
+    before = item_stock(ITEM_A)
+    so = mk_so("T21", [(ITEM_A, 6)])
+    inv = mk_inv("T21", so, [(ITEM_A, 6)]); pid, sid = ship_full("T21", so, [(ITEM_A, 6)])
+    iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
+    cn = Z.post("/creditnotes", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX T21", "salesperson_id": SALESPERSON,
+                                 "line_items": [{"item_id": ITEM_A, "quantity": 2, "rate": 10}]}, invoice_id=iv["invoice_id"])
+    rec("T21", "credit note 2 (with item line) on shipped invoice", "OK", cn)
+    mid = item_stock(ITEM_A)
+    r = mk_return("T21", so, [(ITEM_A, 2)]); rec("T21", "sales return 2 + receive", "OK", r, f"receive: {r.get('receive', {}).get('message')}")
+    so2, L = so_lines(so["salesorder_id"]); rec("T21", "line", "inv 6 sh 6 ret 2", {"code": 0}, qty_str(L[ITEM_A]))
+    rec("T21", "item A stock before / after CN / after return", "acct -4 after CN, phys -4 after return", {"code": 0}, f"{before} / {mid} / {item_stock(ITEM_A)}")
+
+def T22():
+    """Non-returnable item C: sales return after void (needed for the void-to-return rule)."""
+    so = mk_so("T22", [(ITEM_C, 3)])
+    inv = mk_inv("T22", so, [(ITEM_C, 3)]); pid, sid = ship_full("T22", so, [(ITEM_C, 3)])
+    rec("T22", "void", "OK", void_inv(need(inv, "invoice")["invoice"]["invoice_id"]))
+    r = mk_return("T22", so, [(ITEM_C, 3)]); rec("T22", "return on non-returnable item after void", "refused?", r, f"receive: {r.get('receive', {}).get('message') if r.get('code') == 0 else ''}")
 
 CASES = {n: f for n, f in globals().items() if n.startswith("T") and n[1:].isdigit()}
 
