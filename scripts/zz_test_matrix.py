@@ -153,12 +153,22 @@ def undeliver(case, ship_id):
 
 def mk_return(case, so, lines, note="ZZMATRIX", date=TODAY):
     byitem = {l["item_id"]: l for l in so["line_items"]}
-    li = [{"salesorder_item_id": byitem[it]["line_item_id"], "item_id": it, "quantity": q} for it, q in lines]
-    r = Z.post("/salesreturns", {"salesorder_id": so["salesorder_id"], "date": date, "reason": "ZZMATRIX test", "notes": note, "line_items": li},
-               salesorder_id=so["salesorder_id"])
+    loc_by_so_line = {l["line_item_id"]: l.get("location_id") for l in so["line_items"]}
+    li = []
+    for it, q in lines:
+        d = {"salesorder_item_id": byitem[it]["line_item_id"], "item_id": it, "quantity": q}
+        loc = loc_by_so_line.get(byitem[it]["line_item_id"])
+        if loc: d["location_id"] = loc; d["warehouse_id"] = loc      # ask for the SO line's warehouse on the return itself
+        li.append(d)
+    body = {"salesorder_id": so["salesorder_id"], "date": date, "reason": "ZZMATRIX test", "notes": note, "line_items": li}
+    hdr_loc = so.get("location_id")
+    if hdr_loc: body["location_id"] = hdr_loc
+    r = Z.post("/salesreturns", body, salesorder_id=so["salesorder_id"])
     if r.get("code") != 0: return r
     sr = r["salesreturn"]
-    loc_by_so_line = {l["line_item_id"]: l.get("location_id") for l in so["line_items"]}
+    if not getattr(mk_return, "dumped", False):
+        mk_return.dumped = True
+        log("RETURN KEYS", sorted(sr.keys())); log("RETURN LINE KEYS", sorted((sr.get("line_items") or [{}])[0].keys()))
     rl = []
     for x in sr.get("line_items", []):
         d = {"line_item_id": x["line_item_id"], "quantity": x["quantity"]}
@@ -170,8 +180,13 @@ def mk_return(case, so, lines, note="ZZMATRIX", date=TODAY):
     r["receive"] = rr
     try:
         rec_full = Z.get(f"/salesreturnreceives/{rr['salesreturnreceive']['receive_id']}").get("salesreturnreceive", {})
-        r["receive_locs"] = sorted({(l.get("location_name") or l.get("warehouse_name") or "?") for l in rec_full.get("line_items", [])})
-    except Exception: r["receive_locs"] = "n/a"
+        if not getattr(mk_return, "dumped2", False):
+            mk_return.dumped2 = True
+            log("RECEIVE KEYS", sorted(rec_full.keys())); log("RECEIVE LINE KEYS", sorted((rec_full.get("line_items") or [{}])[0].keys()))
+        sr_full = Z.get(f"/salesreturns/{sr['salesreturn_id']}").get("salesreturn", {})
+        r["receive_locs"] = sorted({(l.get("location_name") or l.get("warehouse_name") or rec_full.get("location_name") or "?") for l in rec_full.get("line_items", [])}) + \
+                            ["return:" + (l.get("location_name") or "?") for l in sr_full.get("line_items", [])]
+    except Exception as e: r["receive_locs"] = f"n/a {e}"
     return r
 
 def void_inv(inv_id): return Z.post(f"/invoices/{inv_id}/status/void")
@@ -200,7 +215,7 @@ def T02():
     # edit invoice to 8
     iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
     li = [{"line_item_id": iv["line_items"][0]["line_item_id"], "item_id": ITEM_A, "quantity": 8, "rate": 10, "salesorder_item_id": so["line_items"][0]["line_item_id"]}]
-    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li}); rec("T02", "edit invoice 10 -> 8 while 10 shipped+delivered", "OK or refused?", e)
+    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li, "reason": "ZZMATRIX test edit"}); rec("T02", "edit invoice 10 -> 8 while 10 shipped+delivered", "OK or refused?", e)
     # rebuild shipment: undeliver, delete, recreate at 8
     if not Z.delete(f"/shipmentorders/{sid}").get("code") == 0:
         undeliver("T02", sid); rec("T02", "delete shipment (2nd try)", "OK", Z.delete(f"/shipmentorders/{sid}"))
@@ -220,7 +235,7 @@ def T03():
     so2, L = so_lines(so["salesorder_id"]); rec("T03", "line after return", "pk 10 sh 10 ret 2 (room 0?)", {"code": 0}, qty_str(L[ITEM_A]))
     iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
     li = [{"line_item_id": iv["line_items"][0]["line_item_id"], "item_id": ITEM_A, "quantity": 8, "rate": 10, "salesorder_item_id": so["line_items"][0]["line_item_id"]}]
-    rec("T03", "edit invoice 10 -> 8", "OK", Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li}))
+    rec("T03", "edit invoice 10 -> 8", "OK", Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li, "reason": "ZZMATRIX test edit"}))
     inv2 = mk_inv("T03", so2, [(ITEM_A, 2)]); rec("T03", "invoice 2 more", "OK", inv2)
     p = mk_pkg(so2, [(ITEM_A, 2)]); rec("T03", "pack 2 again after return", "THE QUESTION: refused if returns do not free room", p)
     so3, L = so_lines(so["salesorder_id"]); rec("T03", "final line", "", {"code": 0}, qty_str(L[ITEM_A]))
@@ -301,7 +316,7 @@ def T12():
     inv = mk_inv("T12", so, [(ITEM_A, 2)]); pid, sid = ship_full("T12", so, [(ITEM_A, 2)])
     iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
     li = [{"line_item_id": iv["line_items"][0]["line_item_id"], "item_id": ITEM_B, "quantity": 2, "rate": 10, "salesorder_item_id": so["line_items"][1]["line_item_id"]}]
-    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li}); rec("T12", "edit invoice: swap A for B while A shipped", "allowed?", e)
+    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li, "reason": "ZZMATRIX test edit"}); rec("T12", "edit invoice: swap A for B while A shipped", "allowed?", e)
     so2, L = so_lines(so["salesorder_id"]); rec("T12", "lines after swap", "", {"code": 0}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]))
 
 def T13():
@@ -309,7 +324,7 @@ def T13():
     so = mk_so("T13", [(ITEM_A, 1)])
     inv = mk_inv("T13", so, [(ITEM_A, 1)]); pid, sid = ship_full("T13", so, [(ITEM_A, 1)])
     iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]; before = iv["last_modified_time"]
-    e = Z.put(f"/invoices/{iv['invoice_id']}", {"date": (dt.date.today() - dt.timedelta(days=1)).isoformat()})
+    e = Z.put(f"/invoices/{iv['invoice_id']}", {"date": (dt.date.today() - dt.timedelta(days=1)).isoformat(), "reason": "ZZMATRIX test edit"})
     after = Z.get(f"/invoices/{iv['invoice_id']}")["invoice"]["last_modified_time"]
     rec("T13", "date-only edit", "OK, last_modified changes", e, f"{before} -> {after}")
 
@@ -318,7 +333,7 @@ def T14():
     so = mk_so("T14", [(ITEM_A, 4)])
     inv = mk_inv("T14", so, [(ITEM_A, 4)]); pid, sid = ship_full("T14", so, [(ITEM_A, 4)])
     iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
-    cn = Z.post("/creditnotes", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX T14", "salesperson_id": SALESPERSON,
+    cn = Z.post("/creditnotes", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX T14", "salesperson_id": SALESPERSON, **({"place_of_supply": iv["place_of_supply"]} if iv.get("place_of_supply") else {}),
                                  "line_items": [{"item_id": ITEM_A, "quantity": 2, "rate": 10}]}, invoice_id=iv["invoice_id"])
     rec("T14", "credit note 2 units against shipped invoice", "OK", cn)
     so2, L = so_lines(so["salesorder_id"]); rec("T14", "SO line after credit note (no return yet)", "ret 0, Zoho does not auto-return", {"code": 0}, qty_str(L[ITEM_A]))
@@ -374,6 +389,7 @@ def T18():
     rec("T18", "void invoice", "OK", void_inv(need(inv, "invoice")["invoice"]["invoice_id"]))
     r = mk_return("T18", so, [(ITEM_B, 10)]); rec("T18", "sales return 10 + receive", "OK", r, f"received into {r.get('receive_locs')}")
     so2, L = so_lines(so["salesorder_id"]); rec("T18", "line after void+return", "inv 10 pk 10 sh 10 ret 10", {"code": 0}, qty_str(L[ITEM_B]) + f" so {so2['status']}")
+    rec("T18", "SO GET carries a salesreturns list (needed by the void rule)", "yes", {"code": 0}, f"{len(so2['salesreturns'])} returns listed" if "salesreturns" in so2 else "KEY MISSING: " + ",".join(k for k in so2 if "return" in k or "package" in k))
     rec("T18", "item B stock: before / shipped / after return", "phys back to before", {"code": 0}, f"{before} / {shipped} / {item_stock(ITEM_B)}")
     r2 = mk_return("T18", so, [(ITEM_B, 1)]); rec("T18", "one more return after full return", "refused", r2)
 
@@ -385,7 +401,7 @@ def T19():
     byitem = {l["item_id"]: l for l in iv["line_items"]}
     li = [{"line_item_id": byitem[ITEM_A]["line_item_id"], "item_id": ITEM_A, "quantity": 10, "rate": 10, "salesorder_item_id": so["line_items"][0]["line_item_id"]},
           {"line_item_id": byitem[ITEM_B]["line_item_id"], "item_id": ITEM_B, "quantity": 3, "rate": 10, "salesorder_item_id": so["line_items"][1]["line_item_id"]}]
-    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li}); rec("T19", "edit invoice A 8->10, B 5->3 while shipped 8/5", "OK", e)
+    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li, "reason": "ZZMATRIX test edit"}); rec("T19", "edit invoice A 8->10, B 5->3 while shipped 8/5", "OK", e)
     so2, L = so_lines(so["salesorder_id"]); rec("T19", "lines after edit (packages untouched)", "A inv 10 pk 8, B inv 3 pk 5", {"code": 0}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]))
     # rebuild like the automation would: delete shipment+package, recreate at 10/3
     rec("T19", "delete shipment", "OK", Z.delete(f"/shipmentorders/{sid}")); rec("T19", "delete package", "OK", Z.delete(f"/packages/{pid}"))
@@ -410,7 +426,7 @@ def T21():
     so = mk_so("T21", [(ITEM_A, 6)])
     inv = mk_inv("T21", so, [(ITEM_A, 6)]); pid, sid = ship_full("T21", so, [(ITEM_A, 6)])
     iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
-    cn = Z.post("/creditnotes", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX T21", "salesperson_id": SALESPERSON,
+    cn = Z.post("/creditnotes", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX T21", "salesperson_id": SALESPERSON, **({"place_of_supply": iv["place_of_supply"]} if iv.get("place_of_supply") else {}),
                                  "line_items": [{"item_id": ITEM_A, "quantity": 2, "rate": 10}]}, invoice_id=iv["invoice_id"])
     rec("T21", "credit note 2 (with item line) on shipped invoice", "OK", cn)
     mid = item_stock(ITEM_A)
