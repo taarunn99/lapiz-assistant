@@ -1,0 +1,41 @@
+name: ZZ TEST matrix (sandbox only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      cases:
+        description: "Comma separated case ids (empty = all), e.g. T01,T04"
+        required: false
+        default: ""
+      cleanup:
+        description: "Set to 1 to void all ZZMATRIX invoices and sales orders instead of running cases"
+        required: false
+        default: "0"
+
+concurrency:
+  group: stock-sync-backfill
+  cancel-in-progress: false
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests
+      - name: Run matrix on ZZ TEST CUSTOMER 2 only
+        env:
+          ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
+          ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
+          ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
+          ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
+          CASES: ${{ inputs.cases }}
+          CLEANUP: ${{ inputs.cleanup }}
+        run: |
+          mkdir -p out
+          python scripts/zz_test_matrix.py 2>&1 | tee out/matrix_log.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: matrix-out, path: out, retention-days: 30 }
