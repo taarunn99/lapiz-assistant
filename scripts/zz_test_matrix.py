@@ -83,10 +83,14 @@ def mk_so(case, lines, location=None):
     body = {"customer_id": CUST, "date": TODAY, "salesperson_id": SALESPERSON, "reference_number": f"ZZMATRIX {case}", "line_items": li}
     j = Z.post("/salesorders", body)
     if j.get("code") != 0: raise RuntimeError(f"SO create failed: {j.get('message')}")
-    so = j["salesorder"]
-    c = Z.post(f"/salesorders/{so['salesorder_id']}/status/confirmed")
-    if c.get("code") != 0: log("confirm:", c.get("message"))
-    return Z.get(f"/salesorders/{so['salesorder_id']}")["salesorder"]
+    so = j["salesorder"]; sid = so["salesorder_id"]
+    # this org has sales order approval switched on: submit, approve, then confirm (each step may say "already")
+    for step in ("submit", "approve", "status/confirmed"):
+        c = Z.post(f"/salesorders/{sid}/{step}")
+        if c.get("code") != 0: log(f"{step}:", c.get("message"))
+    so = Z.get(f"/salesorders/{sid}")["salesorder"]
+    if so.get("status") not in ("confirmed", "open"): raise RuntimeError(f"SO {so.get('salesorder_number')} not confirmed: status {so.get('status')}")
+    return so
 
 def so_lines(so_id):
     so = Z.get(f"/salesorders/{so_id}")["salesorder"]
@@ -95,6 +99,10 @@ def so_lines(so_id):
 def qty_str(l):
     return f"ord {l['quantity']:g} inv {l.get('quantity_invoiced',0):g} pk {l.get('quantity_packed',0):g} sh {l.get('quantity_shipped',0):g} ret {l.get('quantity_returned',0):g}"
 
+class Stop(Exception): pass
+def need(resp, what):
+    if resp.get("code") != 0: raise Stop(f"{what}: {resp.get('message')}")
+    return resp
 def mk_inv(case, so, lines, date=TODAY):
     """lines: list of (item_id, qty). Links to SO lines via salesorder_item_id."""
     byitem = {l["item_id"]: l for l in so["line_items"]}
@@ -118,7 +126,7 @@ def mk_ship(so, pkg_id, date=TODAY, note="ZZMATRIX"):
 
 def ship_full(case, so, lines, date=TODAY):
     p = mk_pkg(so, lines, date)
-    if not rec(case, f"create package {lines}", "OK", p): return None, None
+    if not rec(case, f"create package {lines}", "OK", p): raise Stop("package refused")
     pid = p["package"]["package_id"]
     s = mk_ship(so, pid, date)
     rec(case, "create shipment", "OK", s)
@@ -173,7 +181,7 @@ def T02():
     inv = mk_inv("T02", so, [(ITEM_A, 10)]); rec("T02", "invoice 10", "OK", inv)
     pid, sid = ship_full("T02", so, [(ITEM_A, 10)]); deliver("T02", sid)
     # edit invoice to 8
-    iv = Z.get(f"/invoices/{inv['invoice']['invoice_id']}")["invoice"]
+    iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
     li = [{"line_item_id": iv["line_items"][0]["line_item_id"], "item_id": ITEM_A, "quantity": 8, "rate": 10, "salesorder_item_id": so["line_items"][0]["line_item_id"]}]
     e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li}); rec("T02", "edit invoice 10 -> 8 while 10 shipped+delivered", "OK or refused?", e)
     # rebuild shipment: undeliver, delete, recreate at 8
@@ -193,7 +201,7 @@ def T03():
     inv = mk_inv("T03", so, [(ITEM_A, 10)]); pid, sid = ship_full("T03", so, [(ITEM_A, 10)]); deliver("T03", sid)
     r = mk_return("T03", so, [(ITEM_A, 2)]); rec("T03", "sales return 2 + receive", "OK", r, f"receive: {r.get('receive', {}).get('message')}")
     so2, L = so_lines(so["salesorder_id"]); rec("T03", "line after return", "pk 10 sh 10 ret 2 (room 0?)", {"code": 0}, qty_str(L[ITEM_A]))
-    iv = Z.get(f"/invoices/{inv['invoice']['invoice_id']}")["invoice"]
+    iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
     li = [{"line_item_id": iv["line_items"][0]["line_item_id"], "item_id": ITEM_A, "quantity": 8, "rate": 10, "salesorder_item_id": so["line_items"][0]["line_item_id"]}]
     rec("T03", "edit invoice 10 -> 8", "OK", Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li}))
     inv2 = mk_inv("T03", so2, [(ITEM_A, 2)]); rec("T03", "invoice 2 more", "OK", inv2)
@@ -204,7 +212,7 @@ def T04():
     """Void an invoice whose 10 are shipped: what does the SO line say, can it be re-invoiced, does a return of 10 work."""
     so = mk_so("T04", [(ITEM_A, 10)])
     inv = mk_inv("T04", so, [(ITEM_A, 10)]); pid, sid = ship_full("T04", so, [(ITEM_A, 10)]); deliver("T04", sid)
-    rec("T04", "void invoice", "OK", void_inv(inv["invoice"]["invoice_id"]))
+    rec("T04", "void invoice", "OK", void_inv(need(inv,"invoice")["invoice"]["invoice_id"]))
     so2, L = so_lines(so["salesorder_id"]); rec("T04", "line after void", "does inv still say 10?", {"code": 0}, qty_str(L[ITEM_A]) + f" so status {so2['status']}")
     r = mk_return("T04", so2, [(ITEM_A, 10)]); rec("T04", "sales return 10 + receive (goods back)", "OK", r, f"receive: {r.get('receive', {}).get('message')}")
     so3, L = so_lines(so["salesorder_id"]); rec("T04", "line after return", "ret 10", {"code": 0}, qty_str(L[ITEM_A]))
@@ -250,15 +258,15 @@ def T09():
     """Delete (not void) an invoice that has a shipped package."""
     so = mk_so("T09", [(ITEM_A, 2)])
     inv = mk_inv("T09", so, [(ITEM_A, 2)]); pid, sid = ship_full("T09", so, [(ITEM_A, 2)])
-    d = Z.delete(f"/invoices/{inv['invoice']['invoice_id']}"); rec("T09", "DELETE invoice with shipped package", "allowed? then package is orphaned", d)
+    d = Z.delete(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}"); rec("T09", "DELETE invoice with shipped package", "allowed? then package is orphaned", d)
     so2, L = so_lines(so["salesorder_id"]); rec("T09", "line after delete", "", {"code": 0}, qty_str(L[ITEM_A]))
 
 def T10():
     """Void then un-void (mark as sent again)."""
     so = mk_so("T10", [(ITEM_A, 2)])
     inv = mk_inv("T10", so, [(ITEM_A, 2)]); pid, sid = ship_full("T10", so, [(ITEM_A, 2)])
-    rec("T10", "void", "OK", void_inv(inv["invoice"]["invoice_id"]))
-    u = Z.post(f"/invoices/{inv['invoice']['invoice_id']}/status/sent"); rec("T10", "un-void (status sent) after void", "allowed?", u)
+    rec("T10", "void", "OK", void_inv(need(inv,"invoice")["invoice"]["invoice_id"]))
+    u = Z.post(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}/status/sent"); rec("T10", "un-void (status sent) after void", "allowed?", u)
     so2, L = so_lines(so["salesorder_id"]); rec("T10", "line after un-void", "", {"code": 0}, qty_str(L[ITEM_A]))
 
 def T11():
@@ -274,7 +282,7 @@ def T12():
     """Item swap on an invoice (A -> B) after A was shipped."""
     so = mk_so("T12", [(ITEM_A, 2), (ITEM_B, 2)])
     inv = mk_inv("T12", so, [(ITEM_A, 2)]); pid, sid = ship_full("T12", so, [(ITEM_A, 2)])
-    iv = Z.get(f"/invoices/{inv['invoice']['invoice_id']}")["invoice"]
+    iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
     li = [{"line_item_id": iv["line_items"][0]["line_item_id"], "item_id": ITEM_B, "quantity": 2, "rate": 10, "salesorder_item_id": so["line_items"][1]["line_item_id"]}]
     e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li}); rec("T12", "edit invoice: swap A for B while A shipped", "allowed?", e)
     so2, L = so_lines(so["salesorder_id"]); rec("T12", "lines after swap", "", {"code": 0}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]))
@@ -283,7 +291,7 @@ def T13():
     """Date-only edit: does last_modified change and do quantities stay."""
     so = mk_so("T13", [(ITEM_A, 1)])
     inv = mk_inv("T13", so, [(ITEM_A, 1)]); pid, sid = ship_full("T13", so, [(ITEM_A, 1)])
-    iv = Z.get(f"/invoices/{inv['invoice']['invoice_id']}")["invoice"]; before = iv["last_modified_time"]
+    iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]; before = iv["last_modified_time"]
     e = Z.put(f"/invoices/{iv['invoice_id']}", {"date": (dt.date.today() - dt.timedelta(days=1)).isoformat()})
     after = Z.get(f"/invoices/{iv['invoice_id']}")["invoice"]["last_modified_time"]
     rec("T13", "date-only edit", "OK, last_modified changes", e, f"{before} -> {after}")
@@ -292,7 +300,7 @@ def T14():
     """Credit note with item lines on a shipped invoice: does Zoho itself move stock or SO quantities?"""
     so = mk_so("T14", [(ITEM_A, 4)])
     inv = mk_inv("T14", so, [(ITEM_A, 4)]); pid, sid = ship_full("T14", so, [(ITEM_A, 4)])
-    iv = Z.get(f"/invoices/{inv['invoice']['invoice_id']}")["invoice"]
+    iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
     cn = Z.post("/creditnotes", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX T14",
                                  "line_items": [{"item_id": ITEM_A, "quantity": 2, "rate": 10}]}, invoice_id=iv["invoice_id"])
     rec("T14", "credit note 2 units against shipped invoice", "OK", cn)
@@ -319,7 +327,7 @@ def T16():
     so = mk_so("T16", [(ITEM_A, 2), (ITEM_B, 2)])
     i1 = mk_inv("T16", so, [(ITEM_A, 2)]); so, L = so_lines(so["salesorder_id"]); i2 = mk_inv("T16", so, [(ITEM_B, 2)])
     p1, s1 = ship_full("T16", so, [(ITEM_A, 2)]); p2, s2 = ship_full("T16", so, [(ITEM_B, 2)])
-    v1 = void_inv(i1["invoice"]["invoice_id"]); v2 = void_inv(i2["invoice"]["invoice_id"])
+    v1 = void_inv(need(i1,"invoice 1")["invoice"]["invoice_id"]); v2 = void_inv(need(i2,"invoice 2")["invoice"]["invoice_id"])
     rec("T16", "void invoice 1", "OK", v1); rec("T16", "void invoice 2 immediately after", "OK", v2)
     r1 = mk_return("T16", so, [(ITEM_A, 2)]); r2 = mk_return("T16", so, [(ITEM_B, 2)])
     rec("T16", "return A (right after void)", "OK", r1); rec("T16", "return B (back to back)", "OK", r2)
@@ -348,6 +356,8 @@ def main():
         if ONLY and name not in ONLY: continue
         log(f"\n===== {name}: {CASES[name].__doc__.strip()}")
         try: CASES[name]()
+        except Stop as e:
+            RESULTS.append({"case": name, "step": "stopped", "expected": "", "zoho": str(e), "note": "case could not continue"}); log("STOP", e)
         except Exception as e:
             RESULTS.append({"case": name, "step": "CRASH", "expected": "", "zoho": str(e), "note": traceback.format_exc()[-300:]})
             log("CRASH", e)
