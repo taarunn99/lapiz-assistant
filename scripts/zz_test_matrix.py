@@ -441,6 +441,37 @@ def T22():
     rec("T22", "void", "OK", void_inv(need(inv, "invoice")["invoice"]["invoice_id"]))
     r = mk_return("T22", so, [(ITEM_C, 3)]); rec("T22", "return on non-returnable item after void", "refused?", r, f"receive: {r.get('receive', {}).get('message') if r.get('code') == 0 else ''}")
 
+def T23():
+    """Human style swap: invoice has line A (from SO). Edit: remove line A, add line B (B is on the SO). Then rebuild like the automation."""
+    so = mk_so("T23", [(ITEM_A, 2), (ITEM_B, 2)])
+    inv = mk_inv("T23", so, [(ITEM_A, 2)]); pid, sid = ship_full("T23", so, [(ITEM_A, 2)])
+    iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
+    li = [{"item_id": ITEM_B, "quantity": 2, "rate": 10, "salesorder_item_id": so["line_items"][1]["line_item_id"]}]   # no line_item_id = new line; A's line is left out = deleted
+    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li, "reason": "ZZMATRIX test edit"}); rec("T23", "edit invoice: delete line A, add line B (SO item)", "allowed?", e)
+    iv2 = Z.get(f"/invoices/{iv['invoice_id']}").get("invoice", {})
+    rec("T23", "invoice lines after edit", "only B, linked to SO", {"code": 0}, "; ".join(f"{l.get('name')} x{l.get('quantity'):g} so_line={'yes' if l.get('salesorder_item_id') else 'NO'}" for l in iv2.get("line_items", [])))
+    so2, L = so_lines(so["salesorder_id"]); rec("T23", "SO lines after edit (package untouched)", "A inv 0 pk 2, B inv 2 pk 0", {"code": 0}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]))
+    if e.get("code") == 0:
+        rec("T23", "delete shipment A", "OK", Z.delete(f"/shipmentorders/{sid}")); rec("T23", "delete package A", "OK", Z.delete(f"/packages/{pid}"))
+        pid2, sid2 = ship_full("T23", so2, [(ITEM_B, 2)])
+        so3, L = so_lines(so["salesorder_id"]); rec("T23", "SO lines after rebuild", "A 0/0/0, B 2/2/2", {"code": 0}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]))
+
+def T24():
+    """Extra item on an SO invoice: add item C which is NOT on the sales order. What happens to C's stock, and can the SO lines still be packed."""
+    before = item_stock(ITEM_C)
+    so = mk_so("T24", [(ITEM_A, 2)])
+    inv = mk_inv("T24", so, [(ITEM_A, 2)])
+    iv = Z.get(f"/invoices/{need(inv,'invoice')['invoice']['invoice_id']}")["invoice"]
+    li = [{"line_item_id": iv["line_items"][0]["line_item_id"], "item_id": ITEM_A, "quantity": 2, "rate": 10, "salesorder_item_id": so["line_items"][0]["line_item_id"]},
+          {"item_id": ITEM_C, "quantity": 3, "rate": 10}]
+    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li, "reason": "ZZMATRIX test edit"}); rec("T24", "edit invoice: add item C (not on SO)", "allowed?", e)
+    iv2 = Z.get(f"/invoices/{iv['invoice_id']}").get("invoice", {})
+    rec("T24", "invoice lines after edit", "A linked, C not linked", {"code": 0}, "; ".join(f"{l.get('name')} x{l.get('quantity'):g} so_line={'yes' if l.get('salesorder_item_id') else 'NO'}" for l in iv2.get("line_items", [])))
+    rec("T24", "item C stock before / after invoice with extra line", "does Zoho move C's physical stock on its own?", {"code": 0}, f"{before} / {item_stock(ITEM_C)}")
+    pid, sid = ship_full("T24", so, [(ITEM_A, 2)])
+    so2, L = so_lines(so["salesorder_id"]); rec("T24", "SO line A", "2/2/2", {"code": 0}, qty_str(L[ITEM_A]))
+    rec("T24", "item C stock after A shipped", "unchanged by A", {"code": 0}, item_stock(ITEM_C))
+
 CASES = {n: f for n, f in globals().items() if n.startswith("T") and n[1:].isdigit()}
 
 def cleanup():
