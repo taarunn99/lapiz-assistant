@@ -284,11 +284,16 @@ def execute_so(p):
                    package_ids=pid, salesorder_id=p["salesorder_id"], send_notification="false")
         if s.get("code") != 0:
             res.append(f"{p['salesorder_number']} shipment for {pk['invoice_number']} FAILED after package {pid}: {s.get('message')}"); continue
-        res.append(f"{p['salesorder_number']} OK {pk['invoice_number']} pkg {r['package'].get('package_number')} ship {s['shipmentorder'].get('shipment_number')}")
+        ship = s.get("shipmentorder") or {}
+        ship_id = ship.get("shipmentorder_id") or ship.get("shipment_id")
+        dl = Z.post(f"/shipmentorders/{ship_id}/status/delivered") if ship_id else {"code": -1, "message": "no shipment id"}
+        dtxt = "delivered" if dl.get("code") == 0 else f"NOT delivered: {dl.get('message')}"
+        res.append(f"{p['salesorder_number']} OK {pk['invoice_number']} pkg {r['package'].get('package_number')} ship {ship.get('shipment_number')} {dtxt}")
     # returns from the plan (credit notes do not change between dry and live often; re-check room)
     if p.get("returns"):
         sj = Z.get(f"/salesorders/{p['salesorder_id']}"); so = sj.get("salesorder", {})
         room = {l["line_item_id"]: float(l.get("quantity_shipped", 0)) - float(l.get("quantity_returned", 0)) for l in so.get("line_items", [])}
+        loc_of = {l["line_item_id"]: l.get("location_id") for l in so.get("line_items", [])}   # receive into the SO line's warehouse
         done_cn = set()
         for sr in so.get("salesreturns", []):
             rj = Z.get(f"/salesreturns/{sr['salesreturn_id']}")
@@ -301,10 +306,15 @@ def execute_so(p):
             for l in rt["lines"]:
                 q = min(l["quantity"], max(room.get(l["salesorder_item_id"], 0.0), 0.0))
                 if q < l["quantity"]: res.append(f"{p['salesorder_number']} {rt['creditnote_number']} {l['item']}: capped {l['quantity']:g} -> {q:g} (not enough shipped)")
-                if q > 0: lines.append({"salesorder_item_id": l["salesorder_item_id"], "item_id": l.get("item_id"), "quantity": q}); room[l["salesorder_item_id"]] -= q
+                if q > 0:
+                    d = {"salesorder_item_id": l["salesorder_item_id"], "item_id": l.get("item_id"), "quantity": q}
+                    if loc_of.get(l["salesorder_item_id"]): d["location_id"] = loc_of[l["salesorder_item_id"]]   # same warehouse as the SO line (matrix T08/T17)
+                    lines.append(d); room[l["salesorder_item_id"]] -= q
             if not lines: continue
-            r = Z.post("/salesreturns", {"salesorder_id": p["salesorder_id"], "date": rt["creditnote_date"],
-                                          "reason": f"Credit note {rt['creditnote_number']}", "notes": note, "line_items": lines})
+            body = {"salesorder_id": p["salesorder_id"], "date": rt["creditnote_date"],
+                    "reason": f"Credit note {rt['creditnote_number']}", "notes": note, "line_items": lines}
+            if so.get("location_id"): body["location_id"] = so["location_id"]
+            r = Z.post("/salesreturns", body, salesorder_id=p["salesorder_id"])   # Zoho wants the SO id as a query param for JSON bodies (matrix T03)
             if r.get("code") != 0:
                 res.append(f"{p['salesorder_number']} return for {rt['creditnote_number']} FAILED: {r.get('message')}"); continue
             sret = r["salesreturn"]
@@ -391,6 +401,24 @@ def main():
             f"{sum(len(p['returns']) for p in plans)} returns, {len(skipped)} skipped. calls {Z.calls}")
     elif MODE == "live":
         plans = json.load(open(f"{OUT}/plan.json"))
+        # ---- guard: a live run only touches what it was explicitly told to ----
+        # SO_NUMBERS set      -> only those sales orders (testing on ZZ TEST)
+        # LIVE_SCOPE=ALL      -> the whole plan, and only inside the night window (20:00 to 06:00 Dubai)
+        # anything else       -> refuse
+        scope = os.environ.get("LIVE_SCOPE", "").strip().upper()
+        if SO_NUMBERS:
+            plans = [p for p in plans if p["salesorder_number"] in SO_NUMBERS]
+            missing = SO_NUMBERS - {p["salesorder_number"] for p in plans}
+            if missing: log(f"not in plan.json (ignored): {', '.join(sorted(missing))}")
+            log(f"live run limited to {len(plans)} sales order(s): {', '.join(p['salesorder_number'] for p in plans)}")
+        elif scope == "ALL":
+            dubai_hour = (dt.datetime.utcnow() + dt.timedelta(hours=4)).hour
+            if not (dubai_hour >= 20 or dubai_hour < 6) and os.environ.get("ALLOW_DAYTIME") != "1":
+                raise SystemExit(f"refusing full live run at {dubai_hour:02d}:xx Dubai time; allowed 20:00 to 06:00 (set ALLOW_DAYTIME=1 to override)")
+            log(f"FULL live run over {len(plans)} sales orders")
+        else:
+            raise SystemExit("live mode needs SO_NUMBERS (test) or LIVE_SCOPE=ALL (whole plan). Nothing was done.")
+        if not plans: raise SystemExit("nothing to do")
         done_path = f"{OUT}/done.json"
         done = set(json.load(open(done_path))) if os.path.exists(done_path) else set()
         logf = open(f"{OUT}/live_log.txt", "a")
