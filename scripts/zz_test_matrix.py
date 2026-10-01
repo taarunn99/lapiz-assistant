@@ -14,6 +14,10 @@ import json, os, sys, time, datetime as dt, traceback
 import requests
 
 BASE = "https://www.zohoapis.com/inventory/v1"
+BASE_BOOKS = "https://www.zohoapis.com/books/v3"
+# Books workflow rules did not fire for invoices created through the Inventory API (run #7, 29 Sep).
+# Humans work in Books, so the live cases (L*) send every /invoices call through the Books API instead.
+USE_BOOKS_FOR_INVOICES = False
 TOKEN_URL = "https://accounts.zoho.com/oauth/v2/token"
 ORG = os.environ["ZOHO_ORG_ID_DXB"]
 OUT = os.environ.get("OUT_DIR", "out"); os.makedirs(OUT, exist_ok=True)
@@ -43,7 +47,8 @@ class Zoho:
         if len(self.win) >= RATE: time.sleep(60 - (now - self.win[0]) + 0.5)
         self._auth(); p = dict(params or {}); p["organization_id"] = ORG
         for attempt in range(3):
-            r = requests.request(m, BASE + path, params=p, json=body, headers={"Authorization": f"Zoho-oauthtoken {self.tok}"}, timeout=60)
+            base = BASE_BOOKS if (USE_BOOKS_FOR_INVOICES and path.startswith("/invoices")) else BASE
+            r = requests.request(m, base + path, params=p, json=body, headers={"Authorization": f"Zoho-oauthtoken {self.tok}"}, timeout=60)
             self.calls += 1; self.win.append(time.time())
             if r.status_code == 429:
                 ra = r.headers.get("Retry-After", ""); wait = int(ra) if ra.strip().isdigit() else 65
@@ -675,12 +680,13 @@ def cleanup():
             page += 1
 
 def main():
-    global CUST
+    global CUST, USE_BOOKS_FOR_INVOICES
     if os.environ.get("CLEANUP") == "1": cleanup(); return
     cust2 = customer2(); log("customer 2:", cust2)
     for name in sorted(CASES):
         if ONLY and name not in ONLY: continue
         CUST = CUST_LIVE if name.startswith("L") else cust2   # L cases run on ZZ TEST CUSTOMER where the automation fires
+        USE_BOOKS_FOR_INVOICES = name.startswith("L")
         log(f"\n===== {name}: {CASES[name].__doc__.strip()}")
         try: CASES[name]()
         except Stop as e:
