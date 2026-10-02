@@ -1,4 +1,4 @@
-// lb_sync_creditnote_return | Zoho Books | Dubai org 719219457 | Module: Credit Note
+// lb_sync_creditnote_return v2.1 (1 Oct 2026: marker kept in the return reason, Zoho drops notes) | Zoho Books | Dubai org 719219457 | Module: Credit Note
 // Rule: "Credit Note is created or edited" (any field, edited each time).
 //
 // Business rule (confirmed by management 25 Sep 2026):
@@ -222,7 +222,8 @@ for each  soId in soIds
 			continue;
 		}
 		s = srr.get("salesreturn");
-		notes = ifnull(s.get("notes"),"");
+		// Zoho does not keep notes on a sales return, so the marker lives in the reason (1 Oct 2026)
+		notes = ifnull(s.get("reason"),"") + " " + ifnull(s.get("notes"),"");
 		if(notes.contains(MARK) && notes.contains("cn:" + cnId))
 		{
 			have = Map();
@@ -356,11 +357,9 @@ for each  soId in soIds
 		for each  lid in soWant.keys()
 		{
 			sl = ifnull(fresh.get(lid),Map());
-			shipped = ifnull(sl.get("quantity_shipped"),0).toDecimal();
-			returned = ifnull(sl.get("quantity_returned"),0).toDecimal();
-			// only the part not yet returned by anyone (manual returns count too)
-			q = soWant.get(lid) - returned;
-			room = shipped - returned;
+			// room = shipped and not yet returned by anyone (manual returns count too); the credit note quantity is what comes back
+			room = ifnull(sl.get("quantity_shipped"),0).toDecimal() - ifnull(sl.get("quantity_returned"),0).toDecimal();
+			q = soWant.get(lid);
 			if(q > room)
 			{
 				short = short + ifnull(sl.get("name"),lid) + " credit note qty " + soWant.get(lid) + " but only " + room + " shipped and not yet returned; ";
@@ -372,6 +371,12 @@ for each  soId in soIds
 				li.put("salesorder_item_id",lid);
 				li.put("item_id",ifnull(sl.get("item_id"),"").toString());
 				li.put("quantity",q);
+				// same warehouse as the SO line; without this Zoho puts the return into Al Quoz (matrix T08, T17)
+				loc = ifnull(sl.get("location_id"),"").toString();
+				if(loc != "")
+				{
+					li.put("location_id",loc);
+				}
 				retLines.add(li);
 			}
 		}
@@ -384,12 +389,17 @@ for each  soId in soIds
 			body = Map();
 			body.put("salesorder_id",soId);
 			body.put("date",cnDate);
-			body.put("reason","Credit note " + cnNum);
+			body.put("reason","Credit note " + cnNum + " | " + MARK + " cn:" + cnId);
 			body.put("notes",noteText);
 			body.put("line_items",retLines);
+			soLoc = ifnull(so.get("location_id"),"").toString();
+			if(soLoc != "")
+			{
+				body.put("location_id",soLoc);
+			}
 			cr = invokeurl
 			[
-				url :API + "/salesreturns?organization_id=" + orgId
+				url :API + "/salesreturns?organization_id=" + orgId + "&salesorder_id=" + soId
 				type :POST
 				parameters:body.toString()
 				connection:"lb_inventory"
