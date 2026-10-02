@@ -848,6 +848,21 @@ def L26():
     res, secs = wait_for("return", lambda: returned_ok(so["salesorder_id"], {ITEM_A: 10})); report("L26", "return 10 for the SO line after void", res, secs)
     so3, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L26", "after void", "ret 10, stock back to before", {"code": 0}, qty_str(L[ITEM_A]) + f" returns {len(rets)} alerts {cm} stock {item_stock(ITEM_A)} (before {before})")
 
+def L99():
+    """Probe (no records made): which filters the packages LIST accepts, and what each list row carries. Needed for the L16 fix."""
+    cust = CUST
+    for name, params in [("customer_id + date_start/date_end", {"customer_id": cust, "date_start": TODAY, "date_end": TODAY, "per_page": 200}),
+                         ("customer_id + date", {"customer_id": cust, "date": TODAY, "per_page": 200}),
+                         ("customer_id only", {"customer_id": cust, "per_page": 5, "sort_column": "date", "sort_order": "D"}),
+                         ("date_after yesterday", {"date_after": (dt.date.today() - dt.timedelta(days=1)).isoformat(), "per_page": 5}),
+                         ("filter_by Status.Delivered + customer_id", {"customer_id": cust, "filter_by": "Status.Delivered", "per_page": 5})]:
+        j = Z.get("/packages", **params)
+        rows = j.get("packages", [])
+        rec("L99", f"packages list: {name}", "OK", j, f"{len(rows)} rows; " + (f"row keys {sorted(rows[0].keys())}; first {rows[0].get('package_number')} {rows[0].get('date')} cust {rows[0].get('customer_name')} so {rows[0].get('salesorder_number')} notes={'notes' in rows[0]} ship={rows[0].get('shipment_id')}" if rows else ""))
+    j = Z.get("/invoices", customer_id=cust, per_page=3, sort_column="date", sort_order="D")
+    rows = j.get("invoices", [])
+    rec("L99", "invoices list keys (for later use)", "OK", j, f"{len(rows)} rows; keys {sorted(rows[0].keys()) if rows else ''}")
+
 CASES = {n: f for n, f in globals().items() if n[:1] in ("T", "L") and n[1:].isdigit()}
 
 def cleanup():
