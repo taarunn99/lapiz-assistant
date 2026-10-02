@@ -506,8 +506,8 @@ def so_state(so_id):
     rets = []
     for r in so.get("salesreturns", []):
         full = Z.get(f"/salesreturns/{r['salesreturn_id']}").get("salesreturn", {})
-        rets.append({"number": full.get("salesreturn_number"), "status": full.get("status"), "notes": full.get("notes", ""), "date": full.get("date"),
-                     "qty": sum(float(l.get("quantity", 0)) for l in full.get("line_items", [])), "received": full.get("receive_status") or full.get("status"),
+        rets.append({"number": full.get("salesreturn_number"), "status": full.get("status"), "notes": (full.get("reason") or "") + " " + (full.get("notes") or ""), "date": full.get("date"),
+                     "qty": sum(float(l.get("quantity", 0)) for l in full.get("line_items", [])), "received": full.get("receive_status") or full.get("salesreturn_status") or full.get("status"), "receives": len(full.get("salesreturnreceives") or []),
                      "locs": sorted({l.get("location_name") or "?" for l in full.get("line_items", [])})})
     comments = [c.get("description", "") for c in Z.get(f"/salesorders/{so_id}/comments").get("comments", []) if "LB-STOCKSYNC" in (c.get("description") or "")]
     return so, L, pk, rets, comments
