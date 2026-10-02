@@ -1,30 +1,36 @@
-// lb_sync_so_shipment | Zoho Books | Dubai org 719219457 | Module: Invoice
+// lb_sync_so_shipment v2.1 (1 Oct 2026: re-check before alerting, for two saves in one second) | Zoho Books | Dubai org 719219457 | Module: Invoice
 // Rule: "Invoice is created or edited" (any field). One function handles create, edit and void.
 //
 // What it does, in one sentence: for every sales order behind this invoice, keep exactly one
-// package + one shipment that mirrors the invoice's current lines, dated to the invoice date.
+// package + one shipment (marked Delivered) that mirrors the invoice's current lines, and when the
+// invoice is voided, bring the goods back with a Sales Return received in full.
 //
-//  - Invoice saved with SO lines        -> package + shipment for those quantities
-//  - Invoice edited (qty up or down)    -> old mirror removed, new mirror built from current lines
-//  - Invoice voided                     -> mirror removed, physical stock comes back
+//  - Invoice saved with SO lines        -> package + shipment for those quantities, shipment marked Delivered
+//  - Invoice edited (qty up or down)    -> old mirror removed, new mirror built from current lines, Delivered again
+//  - Invoice voided                     -> shipment is KEPT, a Sales Return for the invoice quantities is created
+//                                          dated the day of the void, received into the same warehouse as the SO line
 //  - Run again with nothing changed     -> compares and does nothing (safe to re-fire)
 //  - Anything odd (drop ship, batch or serial item, manual package in the way, API error)
 //                                       -> nothing destructive, an ALERT comment is posted on the SO
 //
 // Only packages whose notes carry the marker LB-STOCKSYNC and this invoice's id are ever deleted.
-// Hand made packages are never touched.
+// Hand made packages are never touched. Sales returns are never deleted by this function.
+// Zoho sometimes answers "The requested action could not be completed. Please try again." when two
+// invoices on the same sales order are saved at the same moment; every write here is retried 3 times.
 
 TEST_ONLY = true;                         // go live: set to false (and widen the rule criteria)
 // connection "lb_inventory": Books connection, Zoho Inventory service, authorised by Adil (Deluge needs it as a literal)
 API = "https://www.zohoapis.com/inventory/v1";
 MARK = "LB-STOCKSYNC";
 DELIVERY_METHOD = "Al Quoz";
+TRIES = {1,2,3};
 
 orgId = organization.get("organization_id");
 invId = invoice.get("invoice_id").toString();
 invNum = ifnull(invoice.get("invoice_number"),"");
 invStatus = ifnull(invoice.get("status"),"").toLowerCase();
 custName = ifnull(invoice.get("customer_name"),"");
+today = zoho.currentdate.toString("yyyy-MM-dd");
 
 if(TEST_ONLY == true && custName.startsWith("ZZ TEST") == false)
 {
@@ -35,6 +41,11 @@ if(invStatus == "draft" || invStatus == "pending_approval")
 {
 	info "skip: " + invNum + " is " + invStatus;
 	return;
+}
+isVoid = false;
+if(invStatus == "void")
+{
+	isVoid = true;
 }
 // ---------- 1. full invoice: SO links are not in the trigger map ----------
 r = invokeurl
@@ -49,7 +60,7 @@ if(ifnull(r.get("code"),-1) != 0)
 	return;
 }
 inv = r.get("invoice");
-invDate = ifnull(inv.get("date"),zoho.currentdate.toString("yyyy-MM-dd"));
+invDate = ifnull(inv.get("date"),today);
 invMod = ifnull(inv.get("last_modified_time"),"");
 soIds = List();
 for each  s in ifnull(inv.get("salesorders"),List())
@@ -70,25 +81,25 @@ if(soIds.size() == 0)
 	info "skip: " + invNum + " has no sales order (standalone invoice, stock handled by Books preference)";
 	return;
 }
-// ---------- 2. what this invoice wants shipped: so_line_item_id -> qty (void wants nothing) ----------
+// ---------- 2. invoice lines: so_line_item_id -> qty ----------
+// live invoice: this is what must be packed and shipped
+// void invoice: this is what must come back as a sales return
 want = Map();
-if(invStatus != "void")
+for each  il in ifnull(inv.get("line_items"),List())
 {
-	for each  il in ifnull(inv.get("line_items"),List())
+	lid = ifnull(il.get("salesorder_item_id"),"").toString();
+	if(lid != "" && ifnull(il.get("item_type"),"") == "inventory")
 	{
-		lid = ifnull(il.get("salesorder_item_id"),"").toString();
-		if(lid != "" && ifnull(il.get("item_type"),"") == "inventory")
+		q = ifnull(il.get("quantity"),0).toDecimal();
+		if(want.containKey(lid))
 		{
-			q = ifnull(il.get("quantity"),0).toDecimal();
-			if(want.containKey(lid))
-			{
-				q = q + want.get(lid);
-			}
-			want.put(lid,q);
+			q = q + want.get(lid);
 		}
+		want.put(lid,q);
 	}
 }
 noteText = MARK + " inv:" + invId + " " + invNum + " mod:" + invMod;
+voidNote = MARK + " void inv:" + invId + " " + invNum;
 // ---------- 3. per sales order ----------
 for each  soId in soIds
 {
@@ -134,6 +145,200 @@ for each  soId in soIds
 			soWant.put(lid,want.get(lid));
 		}
 	}
+	// =====================================================================================
+	// VOID: keep the shipment, bring the goods back with one sales return, received in full
+	// =====================================================================================
+	if(isVoid)
+	{
+		// 3v-a. did this function already make the return for this void? (safe to re-fire)
+		done = "";
+		for each  sr in ifnull(so.get("salesreturns"),List())
+		{
+			srid = ifnull(sr.get("salesreturn_id"),"").toString();
+			srr = invokeurl
+			[
+				url :API + "/salesreturns/" + srid + "?organization_id=" + orgId
+				type :GET
+				connection:"lb_inventory"
+			];
+			if(ifnull(srr.get("code"),-1) != 0)
+			{
+				continue;
+			}
+			// Zoho does not keep notes on a sales return, so the marker lives in the reason (1 Oct 2026)
+			notes = ifnull(srr.get("salesreturn").get("reason"),"") + " " + ifnull(srr.get("salesreturn").get("notes"),"");
+			if(notes.contains(MARK) && notes.contains("void inv:" + invId))
+			{
+				done = ifnull(srr.get("salesreturn").get("salesreturn_number"),srid);
+			}
+		}
+		if(done != "")
+		{
+			info soNum + ": void of " + invNum + " already returned as " + done;
+			continue;
+		}
+		if(alert != "")
+		{
+			c = Map();
+			c.put("description",MARK + " ALERT (" + invNum + " void): " + alert);
+			cr2 = invokeurl
+			[
+				url :API + "/salesorders/" + soId + "/comments?organization_id=" + orgId
+				type :POST
+				parameters:c.toString()
+				connection:"lb_inventory"
+			];
+			info soNum + " ALERT: " + alert;
+			continue;
+		}
+		// 3v-b. how much of each line can still come back: shipped and not yet returned
+		retLines = List();
+		short = "";
+		nothing = true;
+		for each  lid in soWant.keys()
+		{
+			sl = ifnull(lines.get(lid),Map());
+			shipped = ifnull(sl.get("quantity_shipped"),0).toDecimal();
+			returned = ifnull(sl.get("quantity_returned"),0).toDecimal();
+			room = shipped - returned;
+			q = soWant.get(lid);
+			if(shipped > 0)
+			{
+				nothing = false;
+			}
+			if(q > room)
+			{
+				short = short + ifnull(sl.get("name"),lid) + " invoice qty " + q + " but only " + room + " shipped and not yet returned; ";
+				q = room;
+			}
+			if(q > 0)
+			{
+				li = Map();
+				li.put("salesorder_item_id",lid);
+				li.put("item_id",ifnull(sl.get("item_id"),"").toString());
+				li.put("quantity",q);
+				// same warehouse as the SO line; without this Zoho puts the return into Al Quoz (matrix T08, T17)
+				loc = ifnull(sl.get("location_id"),"").toString();
+				if(loc != "")
+				{
+					li.put("location_id",loc);
+				}
+				retLines.add(li);
+			}
+		}
+		if(nothing)
+		{
+			info soNum + ": " + invNum + " voided but nothing was shipped for it, no return needed";
+			continue;
+		}
+		if(short != "")
+		{
+			alert = "return capped: " + short;
+		}
+		// 3v-c. create the sales return (retry on Zoho's "please try again")
+		if(retLines.size() > 0)
+		{
+			body = Map();
+			body.put("salesorder_id",soId);
+			body.put("date",today);
+			body.put("reason","Invoice " + invNum + " voided | " + voidNote);
+			body.put("notes",voidNote);
+			body.put("line_items",retLines);
+			soLoc = ifnull(so.get("location_id"),"").toString();
+			if(soLoc != "")
+			{
+				body.put("location_id",soLoc);
+			}
+			cr = Map();
+			for each  t in TRIES
+			{
+				cr = invokeurl
+				[
+					url :API + "/salesreturns?organization_id=" + orgId + "&salesorder_id=" + soId
+					type :POST
+					parameters:body.toString()
+					connection:"lb_inventory"
+				];
+				if(ifnull(cr.get("code"),-1) == 0)
+				{
+					break;
+				}
+				if(ifnull(cr.get("message"),"").containsIgnoreCase("try again") == false)
+				{
+					break;
+				}
+				info soNum + ": sales return attempt " + t + " busy, retrying";
+			}
+			if(ifnull(cr.get("code"),-1) != 0)
+			{
+				alert = "sales return create failed: " + cr.get("message");
+			}
+			else
+			{
+				sret = cr.get("salesreturn");
+				srid = sret.get("salesreturn_id").toString();
+				// 3v-d. receive it in full, into the warehouse of each SO line
+				rcvLines = List();
+				for each  rl in ifnull(sret.get("line_items"),List())
+				{
+					x = Map();
+					x.put("line_item_id",ifnull(rl.get("line_item_id"),"").toString());
+					x.put("quantity",ifnull(rl.get("quantity"),0).toDecimal());
+					rcvLines.add(x);
+				}
+				rb = Map();
+				rb.put("salesreturn_id",srid);
+				rb.put("date",today);
+				rb.put("notes",voidNote);
+				rb.put("line_items",rcvLines);
+				rr = Map();
+				for each  t in TRIES
+				{
+					rr = invokeurl
+					[
+						url :API + "/salesreturnreceives?organization_id=" + orgId + "&salesreturn_id=" + srid
+						type :POST
+						parameters:rb.toString()
+						connection:"lb_inventory"
+					];
+					if(ifnull(rr.get("code"),-1) == 0)
+					{
+						break;
+					}
+					if(ifnull(rr.get("message"),"").containsIgnoreCase("try again") == false)
+					{
+						break;
+					}
+					info soNum + ": receive attempt " + t + " busy, retrying";
+				}
+				if(ifnull(rr.get("code"),-1) != 0)
+				{
+					alert = "return " + sret.get("salesreturn_number") + " created but receive failed: " + rr.get("message");
+				}
+				else
+				{
+					info soNum + ": " + invNum + " voided -> sales return " + sret.get("salesreturn_number") + " received into stock";
+				}
+			}
+		}
+		if(alert != "")
+		{
+			c = Map();
+			c.put("description",MARK + " ALERT (" + invNum + " void): " + alert);
+			cr2 = invokeurl
+			[
+				url :API + "/salesorders/" + soId + "/comments?organization_id=" + orgId
+				type :POST
+				parameters:c.toString()
+				connection:"lb_inventory"
+			];
+			info soNum + " ALERT: " + alert;
+		}
+		continue;
+	}
+	// =====================================================================================
+	// CREATE or EDIT: one package + one delivered shipment that mirrors the invoice lines
+	// =====================================================================================
 	// ---------- 3a. find the mirror package(s) this function made earlier for this invoice ----------
 	mine = List();
 	for each  pk in ifnull(so.get("packages"),List())
@@ -221,18 +426,31 @@ for each  soId in soIds
 		info soNum + " ALERT: " + alert;
 		continue;
 	}
-	// ---------- 3c. remove old mirror (shipment first, then package) ----------
+	// ---------- 3c. remove old mirror (shipment first, then package). Zoho lets a Delivered shipment be deleted directly ----------
 	for each  m in mine
 	{
 		shId = m.get("shipment_id");
 		if(shId != "" && alert == "")
 		{
-			d = invokeurl
-			[
-				url :API + "/shipmentorders/" + shId + "?organization_id=" + orgId
-				type :DELETE
-				connection:"lb_inventory"
-			];
+			d = Map();
+			for each  t in TRIES
+			{
+				d = invokeurl
+				[
+					url :API + "/shipmentorders/" + shId + "?organization_id=" + orgId
+					type :DELETE
+					connection:"lb_inventory"
+				];
+				if(ifnull(d.get("code"),-1) == 0)
+				{
+					break;
+				}
+				if(ifnull(d.get("message"),"").containsIgnoreCase("try again") == false)
+				{
+					break;
+				}
+				info soNum + ": delete shipment attempt " + t + " busy, retrying";
+			}
 			if(ifnull(d.get("code"),-1) != 0)
 			{
 				alert = "could not delete shipment of package " + m.get("package_number") + ": " + d.get("message");
@@ -240,12 +458,25 @@ for each  soId in soIds
 		}
 		if(alert == "")
 		{
-			d = invokeurl
-			[
-				url :API + "/packages/" + m.get("package_id") + "?organization_id=" + orgId
-				type :DELETE
-				connection:"lb_inventory"
-			];
+			d = Map();
+			for each  t in TRIES
+			{
+				d = invokeurl
+				[
+					url :API + "/packages/" + m.get("package_id") + "?organization_id=" + orgId
+					type :DELETE
+					connection:"lb_inventory"
+				];
+				if(ifnull(d.get("code"),-1) == 0)
+				{
+					break;
+				}
+				if(ifnull(d.get("message"),"").containsIgnoreCase("try again") == false)
+				{
+					break;
+				}
+				info soNum + ": delete package attempt " + t + " busy, retrying";
+			}
 			if(ifnull(d.get("code"),-1) != 0)
 			{
 				alert = "could not delete package " + m.get("package_number") + ": " + d.get("message");
@@ -301,13 +532,26 @@ for each  soId in soIds
 			body.put("date",invDate);
 			body.put("notes",noteText);
 			body.put("line_items",pkgLines);
-			cr = invokeurl
-			[
-				url :API + "/packages?organization_id=" + orgId + "&salesorder_id=" + soId
-				type :POST
-				parameters:body.toString()
-				connection:"lb_inventory"
-			];
+			cr = Map();
+			for each  t in TRIES
+			{
+				cr = invokeurl
+				[
+					url :API + "/packages?organization_id=" + orgId + "&salesorder_id=" + soId
+					type :POST
+					parameters:body.toString()
+					connection:"lb_inventory"
+				];
+				if(ifnull(cr.get("code"),-1) == 0)
+				{
+					break;
+				}
+				if(ifnull(cr.get("message"),"").containsIgnoreCase("try again") == false)
+				{
+					break;
+				}
+				info soNum + ": package attempt " + t + " busy, retrying";
+			}
 			if(ifnull(cr.get("code"),-1) != 0)
 			{
 				alert = "package create failed: " + cr.get("message");
@@ -316,26 +560,188 @@ for each  soId in soIds
 			{
 				pkg = cr.get("package");
 				pid = pkg.get("package_id").toString();
+				// ---------- 3d-2. duplicate guard ----------
+				// Two saves in one second run this function twice at once, and both can create a package for this
+				// invoice (test L09, 1 Oct 2026: two packages of 4 for one invoice of 4). Keep the oldest one (lowest id),
+				// remove our own if an older mirror for this invoice exists. Ours has no shipment yet, so this is safe.
+				dup = "";
+				r4 = invokeurl
+				[
+					url :API + "/salesorders/" + soId + "?organization_id=" + orgId
+					type :GET
+					connection:"lb_inventory"
+				];
+				for each  pk4 in ifnull(ifnull(r4.get("salesorder"),Map()).get("packages"),List())
+				{
+					pid4 = ifnull(pk4.get("package_id"),"").toString();
+					if(pid4 != "" && pid4 != pid && pid4.toLong() < pid.toLong())
+					{
+						pr4 = invokeurl
+						[
+							url :API + "/packages/" + pid4 + "?organization_id=" + orgId
+							type :GET
+							connection:"lb_inventory"
+						];
+						if(ifnull(pr4.get("code"),-1) == 0)
+						{
+							n4 = ifnull(pr4.get("package").get("notes"),"");
+							if(n4.contains(MARK) && n4.contains("inv:" + invId))
+							{
+								dup = ifnull(pr4.get("package").get("package_number"),pid4);
+							}
+						}
+					}
+				}
+				if(dup != "")
+				{
+					d4 = invokeurl
+					[
+						url :API + "/packages/" + pid + "?organization_id=" + orgId
+						type :DELETE
+						connection:"lb_inventory"
+					];
+					info soNum + ": " + invNum + " package " + pkg.get("package_number") + " removed again, a parallel run already made " + dup + " (" + ifnull(d4.get("message"),"") + ")";
+				}
+				else
+				{
 				sb = Map();
 				sb.put("date",invDate);
 				sb.put("delivery_method",DELIVERY_METHOD);
 				sb.put("notes",noteText);
-				sr = invokeurl
-				[
-					url :API + "/shipmentorders?organization_id=" + orgId + "&package_ids=" + pid + "&salesorder_id=" + soId + "&send_notification=false"
-					type :POST
-					parameters:sb.toString()
-					connection:"lb_inventory"
-				];
+				sr = Map();
+				for each  t in TRIES
+				{
+					sr = invokeurl
+					[
+						url :API + "/shipmentorders?organization_id=" + orgId + "&package_ids=" + pid + "&salesorder_id=" + soId + "&send_notification=false"
+						type :POST
+						parameters:sb.toString()
+						connection:"lb_inventory"
+					];
+					if(ifnull(sr.get("code"),-1) == 0)
+					{
+						break;
+					}
+					if(ifnull(sr.get("message"),"").containsIgnoreCase("try again") == false)
+					{
+						break;
+					}
+					info soNum + ": shipment attempt " + t + " busy, retrying";
+				}
 				if(ifnull(sr.get("code"),-1) != 0)
 				{
 					alert = "package " + pkg.get("package_number") + " created but shipment failed: " + sr.get("message");
 				}
 				else
 				{
-					info soNum + ": " + invNum + " -> package " + pkg.get("package_number") + ", shipment " + ifnull(sr.get("shipmentorder"),Map()).get("shipment_number");
+					ship = ifnull(sr.get("shipmentorder"),Map());
+					shId = ifnull(ship.get("shipmentorder_id"),ifnull(ship.get("shipment_id"),"")).toString();
+					// ---------- 3e. mark the shipment Delivered ----------
+					delivered = "";
+					if(shId != "")
+					{
+						dr = Map();
+						for each  t in TRIES
+						{
+							dr = invokeurl
+							[
+								url :API + "/shipmentorders/" + shId + "/status/delivered?organization_id=" + orgId
+								type :POST
+								connection:"lb_inventory"
+							];
+							if(ifnull(dr.get("code"),-1) == 0)
+							{
+								break;
+							}
+							if(ifnull(dr.get("message"),"").containsIgnoreCase("try again") == false)
+							{
+								break;
+							}
+							info soNum + ": deliver attempt " + t + " busy, retrying";
+						}
+						if(ifnull(dr.get("code"),-1) == 0)
+						{
+							delivered = " (delivered)";
+						}
+						else
+						{
+							alert = "shipment " + ifnull(ship.get("shipment_number"),"") + " created but could not be marked delivered: " + dr.get("message");
+						}
+					}
+					info soNum + ": " + invNum + " -> package " + pkg.get("package_number") + ", shipment " + ifnull(ship.get("shipment_number"),"") + delivered;
+				}
 				}
 			}
+		}
+	}
+	// ---------- 3f. before alerting, look once more ----------
+	// Two saves in one second (Approve and Send, or two edits) run this function twice at the same time.
+	// The other run may already have built the mirror, so our failure is not a real problem (1 Oct 2026, test L01).
+	if(alert != "")
+	{
+		r3 = invokeurl
+		[
+			url :API + "/salesorders/" + soId + "?organization_id=" + orgId
+			type :GET
+			connection:"lb_inventory"
+		];
+		so3 = ifnull(r3.get("salesorder"),Map());
+		mine3 = 0;
+		have3 = Map();
+		for each  pk in ifnull(so3.get("packages"),List())
+		{
+			pid = ifnull(pk.get("package_id"),"").toString();
+			pr = invokeurl
+			[
+				url :API + "/packages/" + pid + "?organization_id=" + orgId
+				type :GET
+				connection:"lb_inventory"
+			];
+			if(ifnull(pr.get("code"),-1) != 0)
+			{
+				continue;
+			}
+			p = pr.get("package");
+			notes = ifnull(p.get("notes"),"");
+			if(notes.contains(MARK) && notes.contains("inv:" + invId))
+			{
+				mine3 = mine3 + 1;
+				for each  pl in ifnull(p.get("line_items"),List())
+				{
+					plid = ifnull(pl.get("so_line_item_id"),"").toString();
+					hq = ifnull(pl.get("quantity"),0).toDecimal();
+					if(have3.containKey(plid))
+					{
+						hq = hq + have3.get(plid);
+					}
+					have3.put(plid,hq);
+				}
+			}
+		}
+		ok3 = false;
+		if(mine3 == 0 && soWant.size() == 0)
+		{
+			ok3 = true;
+		}
+		if(mine3 == 1 && have3.size() == soWant.size())
+		{
+			ok3 = true;
+			for each  lid in soWant.keys()
+			{
+				if(have3.containKey(lid) == false)
+				{
+					ok3 = false;
+				}
+				else if(have3.get(lid) != soWant.get(lid))
+				{
+					ok3 = false;
+				}
+			}
+		}
+		if(ok3)
+		{
+			info soNum + ": " + invNum + " already in sync, a parallel run did it. Dropped alert: " + alert;
+			alert = "";
 		}
 	}
 	if(alert != "")
