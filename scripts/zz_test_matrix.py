@@ -112,19 +112,38 @@ class Stop(Exception): pass
 def need(resp, what):
     if resp.get("code") != 0: raise Stop(f"{what}: {resp.get('message')}")
     return resp
-def mk_inv(case, so, lines, date=TODAY):
-    """lines: list of (item_id, qty). Links to SO lines via salesorder_item_id."""
+def mk_inv(case, so, lines, date=TODAY, extra=None, approve=True, so_param=True):
+    """lines: list of (item_id, qty). Links to SO lines via salesorder_item_id.
+    extra: list of (item_id, qty) NOT linked to the SO. approve=False leaves the invoice as a draft.
+    so_param=False sends no salesorder_id query param (multi SO invoice)."""
     byitem = {l["item_id"]: l for l in so["line_items"]}
     li = [{"item_id": it, "quantity": q, "rate": 10, "salesorder_item_id": byitem[it]["line_item_id"]} for it, q in lines]
+    li += [{"item_id": it, "quantity": q, "rate": 10} for it, q in (extra or [])]
     body = {"customer_id": CUST, "date": date, "reference_number": f"ZZMATRIX {case}", "salesperson_id": SALESPERSON, "line_items": li}
-    j = Z.post("/invoices", body, salesorder_id=so["salesorder_id"])
+    j = Z.post("/invoices", body, **({"salesorder_id": so["salesorder_id"]} if so_param else {}))
     if j.get("code") != 0: return j
-    inv = j["invoice"]
-    for step in ("submit", "approve", "status/sent"):   # invoice approval is switched on in this org
-        r = Z.post(f"/invoices/{inv['invoice_id']}/{step}")
-        if r.get("code") != 0: log(f"invoice {step}:", r.get("message"))
-    j["status_after"] = Z.get(f"/invoices/{inv['invoice_id']}").get("invoice", {}).get("status")
+    if approve: approve_inv(j["invoice"]["invoice_id"])
+    j["status_after"] = Z.get(f"/invoices/{j['invoice']['invoice_id']}").get("invoice", {}).get("status")
     return j
+
+def approve_inv(inv_id):
+    for step in ("submit", "approve", "status/sent"):   # invoice approval is switched on in this org
+        r = Z.post(f"/invoices/{inv_id}/{step}")
+        if r.get("code") != 0: log(f"invoice {step}:", r.get("message"))
+
+def edit_inv(inv_id, so, keep, add=None, extra=None):
+    """Rebuild the invoice line list. keep: {item_id: qty} for existing SO linked lines (missing = deleted, item changed = swap on same line);
+    add: list of (item_id, qty) new SO linked lines; extra: list of (item_id, qty) new lines not on the SO."""
+    iv = Z.get(f"/invoices/{inv_id}")["invoice"]
+    so_by_item = {l["item_id"]: l for l in so["line_items"]}
+    li = []
+    for il in iv["line_items"]:
+        it = il["item_id"]
+        if it in keep:
+            li.append({"line_item_id": il["line_item_id"], "item_id": it, "quantity": keep[it], "rate": 10, "salesorder_item_id": so_by_item[it]["line_item_id"]})
+    for it, q in (add or []): li.append({"item_id": it, "quantity": q, "rate": 10, "salesorder_item_id": so_by_item[it]["line_item_id"]})
+    for it, q in (extra or []): li.append({"item_id": it, "quantity": q, "rate": 10})
+    return Z.put(f"/invoices/{inv_id}", {"line_items": li, "reason": "ZZMATRIX test edit"})
 
 def mk_pkg(so, lines, date=TODAY, note="ZZMATRIX"):
     byitem = {l["item_id"]: l for l in so["line_items"]}
@@ -662,6 +681,172 @@ def L12():
     rec("L12", "edit A 8->10, B 5->3", "OK", Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li, "reason": "ZZMATRIX test edit"}))
     res, secs = wait_for("rebuilt", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 10, ITEM_B: 3})); report("L12", "rebuilt at 10 and 3, delivered", res, secs)
     so2, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L12", "lines", "A 10/10/10, B 3/3/3, one package", {"code": 0}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]) + f" packages {len(pk)} alerts {cm}")
+
+
+def L13():
+    """Extra item NOT on the sales order included in the very first save of the invoice (A 2 from SO plus C 3 extra)."""
+    so = mk_so("L13", [(ITEM_A, 2)]); inv = need(mk_inv("L13", so, [(ITEM_A, 2)], extra=[(ITEM_C, 3)]), "invoice")
+    iv = Z.get(f"/invoices/{inv['invoice']['invoice_id']}")["invoice"]
+    rec("L13", "invoice lines", "A linked, C not linked", {"code": 0}, "; ".join(f"{l.get('name')} x{l.get('quantity'):g} so_line={'yes' if l.get('salesorder_item_id') else 'NO'}" for l in iv.get("line_items", [])))
+    res, secs = wait_for("mirror", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 2})); report("L13", "A shipped, C ignored", res, secs)
+    so2, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L13", "state", "A 2/2/2, 1 package, 0 alerts", {"code": 0 if len(pk) == 1 and not cm else -1, "message": f"{len(pk)} packages, alerts {cm}"}, qty_str(L[ITEM_A]) + f" packages {len(pk)} alerts {cm}")
+
+def L14():
+    """SO has A and B, invoice A only. Edit the SAME line from item A to item B (through the Books door)."""
+    so = mk_so("L14", [(ITEM_A, 2), (ITEM_B, 2)]); inv = need(mk_inv("L14", so, [(ITEM_A, 2)]), "invoice")
+    res, secs = wait_for("mirror A", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 2})); report("L14", "A shipped", res, secs)
+    iv = Z.get(f"/invoices/{inv['invoice']['invoice_id']}")["invoice"]
+    li = [{"line_item_id": iv["line_items"][0]["line_item_id"], "item_id": ITEM_B, "quantity": 2, "rate": 10, "salesorder_item_id": so["line_items"][1]["line_item_id"]}]
+    e = Z.put(f"/invoices/{iv['invoice_id']}", {"line_items": li, "reason": "ZZMATRIX test edit"}); allowed = rec("L14", "edit: same line, item A changed to B", "Zoho refuses, or if allowed the automation swaps", e)
+    if allowed:
+        res, secs = wait_for("mirror B", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 0, ITEM_B: 2})); report("L14", "A back to 0, B shipped 2", res, secs)
+    so2, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L14", "lines", "A 0/0/0 B 2/2/2 if allowed, else A 2/2/2 untouched", {"code": 0}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]) + f" packages {len(pk)} alerts {cm}")
+
+def L15():
+    """SO has A and B, invoice A only. Edit: keep A, add B. Save. Later edit again: remove B."""
+    so = mk_so("L15", [(ITEM_A, 2), (ITEM_B, 3)]); inv = need(mk_inv("L15", so, [(ITEM_A, 2)]), "invoice"); iid = inv["invoice"]["invoice_id"]
+    res, secs = wait_for("mirror A", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 2})); report("L15", "A shipped", res, secs)
+    rec("L15", "edit: keep A, add B 3", "OK", edit_inv(iid, so, {ITEM_A: 2}, add=[(ITEM_B, 3)]))
+    res, secs = wait_for("mirror A+B", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 2, ITEM_B: 3})); report("L15", "rebuilt with A 2 and B 3", res, secs)
+    so2, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L15", "after add", "A 2/2/2, B 3/3/3, 1 package", {"code": 0 if len(pk) == 1 else -1, "message": f"{len(pk)} packages"}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]) + f" alerts {cm}")
+    rec("L15", "edit: remove B again", "OK", edit_inv(iid, so, {ITEM_A: 2}))
+    res, secs = wait_for("mirror A only", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 2, ITEM_B: 0})); report("L15", "rebuilt with A only, B back to 0", res, secs)
+    so3, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L15", "after remove", "A 2/2/2, B 0/0/0, 1 package", {"code": 0 if len(pk) == 1 else -1, "message": f"{len(pk)} packages"}, "A: " + qty_str(L[ITEM_A]) + " | B: " + qty_str(L[ITEM_B]) + f" alerts {cm}")
+
+def L16():
+    """Edit removes every SO line and leaves only an extra non-SO item: the package must go away, nothing else."""
+    so = mk_so("L16", [(ITEM_A, 2)]); inv = need(mk_inv("L16", so, [(ITEM_A, 2)]), "invoice"); iid = inv["invoice"]["invoice_id"]
+    res, secs = wait_for("mirror A", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 2})); report("L16", "A shipped", res, secs)
+    e = edit_inv(iid, so, {}, extra=[(ITEM_C, 1)]); rec("L16", "edit: remove A, leave only extra item C", "OK (or Zoho refuses)", e)
+    if e.get("code") == 0:
+        res, secs = wait_for("unshipped", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 0})); report("L16", "A back to 0, package removed", res, secs)
+    so2, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L16", "state", "A 0/0/0, 0 packages, 0 alerts", {"code": 0}, qty_str(L[ITEM_A]) + f" packages {len(pk)} alerts {cm}")
+
+def L17():
+    """Invoice saved as DRAFT first (not approved). No package until it is approved and sent later."""
+    so = mk_so("L17", [(ITEM_A, 2)]); inv = need(mk_inv("L17", so, [(ITEM_A, 2)], approve=False), "invoice"); iid = inv["invoice"]["invoice_id"]
+    rec("L17", "invoice status after save", "draft", {"code": 0}, str(inv.get("status_after")))
+    time.sleep(75); so2, L, pk, rets, cm = so_state(so["salesorder_id"])
+    rec("L17", "while draft: nothing packed", "pk 0, 0 packages", {"code": 0 if len(pk) == 0 and float(L[ITEM_A].get("quantity_packed", 0)) == 0 else -1, "message": f"{len(pk)} packages"}, qty_str(L[ITEM_A]) + f" alerts {cm}")
+    approve_inv(iid)
+    res, secs = wait_for("mirror", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 2})); report("L17", "after approve and send: shipped", res, secs)
+    so3, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L17", "state", "A 2/2/2, 1 package", {"code": 0}, qty_str(L[ITEM_A]) + f" packages {len(pk)} alerts {cm}")
+
+def L18():
+    """Decimal quantity: 2.5 units."""
+    so = mk_so("L18", [(ITEM_A, 2.5)]); inv = need(mk_inv("L18", so, [(ITEM_A, 2.5)]), "invoice")
+    res, secs = wait_for("mirror", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 2.5})); report("L18", "2.5 shipped", res, secs)
+    so2, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L18", "state", "2.5/2.5/2.5", {"code": 0}, qty_str(L[ITEM_A]) + f" packages {[(p['number'], sum(p['lines'].values())) for p in pk]} alerts {cm}")
+
+def L19():
+    """Warehouse packed by hand BEFORE the invoice: automation must not add a second package and must not touch the hand package."""
+    so = mk_so("L19", [(ITEM_A, 2)])
+    hp = mk_pkg(so, [(ITEM_A, 2)], note="hand packed by warehouse"); rec("L19", "hand package (no marker)", "OK", hp)
+    hpid = hp.get("package", {}).get("package_id")
+    inv = need(mk_inv("L19", so, [(ITEM_A, 2)]), "invoice")
+    time.sleep(90); so2, L, pk, rets, cm = so_state(so["salesorder_id"])
+    still = any(str(p.get("number")) == str(hp.get("package", {}).get("package_number")) for p in pk)
+    rec("L19", "after invoice", "hand package still there, no second package, an ALERT for a human", {"code": 0 if len(pk) == 1 and still else -1, "message": f"{len(pk)} packages, hand package present {still}"}, qty_str(L[ITEM_A]) + f" packages {[(p['number'], p['notes'][:20]) for p in pk]} alerts {cm}")
+
+def L20():
+    """Invoice dated yesterday: the package and shipment should carry that date."""
+    y = (dt.date.today() - dt.timedelta(days=1)).isoformat()
+    so = mk_so("L20", [(ITEM_A, 1)]); inv = need(mk_inv("L20", so, [(ITEM_A, 1)], date=y), "invoice")
+    res, secs = wait_for("mirror", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 1})); report("L20", "shipped", res, secs)
+    so2, L, pk, rets, cm = so_state(so["salesorder_id"])
+    dates = []
+    for p in so2.get("packages", []):
+        full = Z.get(f"/packages/{p['package_id']}").get("package", {}); dates.append((full.get("package_number"), full.get("date"), (full.get("shipment_order") or {}).get("date") or full.get("shipment_date")))
+    rec("L20", "package date", f"{y}", {"code": 0 if all(d[1] == y for d in dates) else -1, "message": str(dates)}, str(dates) + f" alerts {cm}")
+
+def L21():
+    """One invoice covering TWO sales orders (A from SO1, B from SO2)."""
+    so1 = mk_so("L21", [(ITEM_A, 2)]); so2 = mk_so("L21", [(ITEM_B, 3)])
+    li = [{"item_id": ITEM_A, "quantity": 2, "rate": 10, "salesorder_item_id": so1["line_items"][0]["line_item_id"]},
+          {"item_id": ITEM_B, "quantity": 3, "rate": 10, "salesorder_item_id": so2["line_items"][0]["line_item_id"]}]
+    j = Z.post("/invoices", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX L21", "salesperson_id": SALESPERSON, "line_items": li})
+    ok = rec("L21", "create one invoice from two sales orders", "allowed?", j)
+    if not ok: return
+    approve_inv(j["invoice"]["invoice_id"])
+    iv = Z.get(f"/invoices/{j['invoice']['invoice_id']}")["invoice"]
+    rec("L21", "invoice links", "2 sales orders", {"code": 0}, f"salesorders on invoice: {[s.get('salesorder_number') for s in iv.get('salesorders', [])]} lines so_line={[bool(l.get('salesorder_item_id')) for l in iv['line_items']]}")
+    r1, s1 = wait_for("so1", lambda: mirror_ok(so1["salesorder_id"], {ITEM_A: 2})); report("L21", "SO1 A shipped", r1, s1)
+    r2, s2 = wait_for("so2", lambda: mirror_ok(so2["salesorder_id"], {ITEM_B: 3}), timeout=60); report("L21", "SO2 B shipped", r2, s2)
+    for so in (so1, so2):
+        s_, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L21", f"state {so['salesorder_number']}", "", {"code": 0}, " | ".join(qty_str(l) for l in L.values()) + f" packages {len(pk)} alerts {cm}")
+
+def L22():
+    """Same item on two lines of one sales order (A 3 and A 4); invoice both lines."""
+    body = {"customer_id": CUST, "date": TODAY, "salesperson_id": SALESPERSON, "reference_number": "ZZMATRIX L22",
+            "line_items": [{"item_id": ITEM_A, "quantity": 3, "rate": 10}, {"item_id": ITEM_A, "quantity": 4, "rate": 10}]}
+    j = Z.post("/salesorders", body)
+    if not rec("L22", "SO with item A on two lines", "OK", j): return
+    sid = j["salesorder"]["salesorder_id"]
+    for step in ("submit", "approve", "status/confirmed"): Z.post(f"/salesorders/{sid}/{step}")
+    so = Z.get(f"/salesorders/{sid}")["salesorder"]
+    li = [{"item_id": ITEM_A, "quantity": l["quantity"], "rate": 10, "salesorder_item_id": l["line_item_id"]} for l in so["line_items"]]
+    inv = Z.post("/invoices", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX L22", "salesperson_id": SALESPERSON, "line_items": li}, salesorder_id=sid)
+    if not rec("L22", "invoice both lines", "OK", inv): return
+    approve_inv(inv["invoice"]["invoice_id"])
+    def ok():
+        s_ = Z.get(f"/salesorders/{sid}")["salesorder"]
+        return all(float(l.get("quantity_shipped", 0)) == float(l["quantity"]) for l in s_["line_items"]) and s_
+    res, secs = wait_for("both lines", ok); report("L22", "both lines shipped (3 and 4)", res, secs)
+    s_, L, pk, rets, cm = so_state(sid); rec("L22", "state", "lines 3/3/3 and 4/4/4, 1 package", {"code": 0}, " | ".join(qty_str(l) for l in s_["line_items"]) + f" packages {[(p['number'], p['lines']) for p in pk]} alerts {cm}")
+
+def L23():
+    """Credit note WITH item lines on a shipped invoice (second function), then the credit note voided."""
+    before = item_stock(ITEM_A)
+    so = mk_so("L23", [(ITEM_A, 6)]); inv = need(mk_inv("L23", so, [(ITEM_A, 6)]), "invoice")
+    res, secs = wait_for("mirror", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 6})); report("L23", "6 shipped", res, secs)
+    shipped = item_stock(ITEM_A)
+    iv = Z.get(f"/invoices/{inv['invoice']['invoice_id']}")["invoice"]
+    cn = Z.post("/creditnotes", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX L23", "salesperson_id": SALESPERSON, **({"place_of_supply": iv["place_of_supply"]} if iv.get("place_of_supply") else {}),
+                                 "line_items": [{"item_id": ITEM_A, "quantity": 2, "rate": 10}]}, invoice_id=iv["invoice_id"])
+    if not rec("L23", "credit note 2 of A against the invoice", "OK", cn): return
+    cnid = cn["creditnote"]["creditnote_id"]
+    for step in ("submit", "approve"):
+        r = Z.post(f"/creditnotes/{cnid}/{step}")
+        if r.get("code") != 0: log("cn", step, r.get("message"))
+    res, secs = wait_for("return 2", lambda: returned_ok(so["salesorder_id"], {ITEM_A: 2})); report("L23", "sales return 2 received after credit note", res, secs)
+    so2, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L23", "return details", "1 return, marker cn:, received", {"code": 0}, str(rets) + f" alerts {cm}")
+    rec("L23", "item A stock before / shipped / after credit note", "physical back by 2", {"code": 0}, f"{before} / {shipped} / {item_stock(ITEM_A)}")
+    v = Z.post(f"/creditnotes/{cnid}/status/void"); rec("L23", "void the credit note", "OK", v)
+    res, secs = wait_for("return removed", lambda: returned_ok(so["salesorder_id"], {ITEM_A: 0})); report("L23", "return removed after credit note void", res, secs)
+    so3, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L23", "after void", "ret 0, 0 returns", {"code": 0}, qty_str(L[ITEM_A]) + f" returns {len(rets)} alerts {cm} stock {item_stock(ITEM_A)}")
+
+
+def L24():
+    """Sales order A 10, invoice A for 20 on the one line (over invoice) through the Books door."""
+    so = mk_so("L24", [(ITEM_A, 10)]); inv = mk_inv("L24", so, [(ITEM_A, 20)])
+    ok = rec("L24", "invoice 20 on a sales order line of 10", "Zoho refuses, or if allowed automation packs only what the SO has room for and alerts", inv)
+    if ok:
+        time.sleep(90); so2, L, pk, rets, cm = so_state(so["salesorder_id"])
+        rec("L24", "state", "packed at most 10, alert for the rest", {"code": 0}, qty_str(L[ITEM_A]) + f" packages {[(p['number'], sum(p['lines'].values())) for p in pk]} alerts {cm}")
+
+def L25():
+    """Sales order A 10, invoice has item A twice, 11 and 9, both lines linked to the same sales order line."""
+    so = mk_so("L25", [(ITEM_A, 10)]); lid = so["line_items"][0]["line_item_id"]
+    li = [{"item_id": ITEM_A, "quantity": 11, "rate": 10, "salesorder_item_id": lid}, {"item_id": ITEM_A, "quantity": 9, "rate": 10, "salesorder_item_id": lid}]
+    j = Z.post("/invoices", {"customer_id": CUST, "date": TODAY, "reference_number": "ZZMATRIX L25", "salesperson_id": SALESPERSON, "line_items": li}, salesorder_id=so["salesorder_id"])
+    ok = rec("L25", "invoice A twice (11 + 9) on one SO line of 10", "Zoho refuses, or automation packs 10 and alerts", j)
+    if ok:
+        approve_inv(j["invoice"]["invoice_id"]); time.sleep(90); so2, L, pk, rets, cm = so_state(so["salesorder_id"])
+        rec("L25", "state", "packed at most 10", {"code": 0}, qty_str(L[ITEM_A]) + f" packages {[(p['number'], sum(p['lines'].values())) for p in pk]} alerts {cm}")
+
+def L26():
+    """Sales order A 10, invoice has A 10 linked to the SO plus a second A 10 line NOT linked (the way a human adds a second line). Then void."""
+    before = item_stock(ITEM_A)
+    so = mk_so("L26", [(ITEM_A, 10)]); inv = mk_inv("L26", so, [(ITEM_A, 10)], extra=[(ITEM_A, 10)])
+    ok = rec("L26", "invoice A 10 (SO) + A 10 (extra, no SO link)", "allowed", inv)
+    if not ok: return
+    res, secs = wait_for("mirror", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 10})); report("L26", "SO line shipped 10, extra 10 not packed", res, secs)
+    mid = item_stock(ITEM_A)
+    so2, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L26", "after invoice", "A 10/10/10, 1 package of 10, no alert", {"code": 0 if len(pk) == 1 and not cm else -1, "message": f"{len(pk)} packages alerts {cm}"}, qty_str(L[ITEM_A]) + f" packages {[(p['number'], sum(p['lines'].values())) for p in pk]}")
+    rec("L26", "item A stock before / after", "accounting down 20 (Zoho), physical down 20 (10 by Zoho for the extra line, 10 by the automation)", {"code": 0}, f"{before} / {mid}")
+    rec("L26", "void invoice", "OK", void_inv(inv["invoice"]["invoice_id"]))
+    res, secs = wait_for("return", lambda: returned_ok(so["salesorder_id"], {ITEM_A: 10})); report("L26", "return 10 for the SO line after void", res, secs)
+    so3, L, pk, rets, cm = so_state(so["salesorder_id"]); rec("L26", "after void", "ret 10, stock back to before", {"code": 0}, qty_str(L[ITEM_A]) + f" returns {len(rets)} alerts {cm} stock {item_stock(ITEM_A)} (before {before})")
 
 CASES = {n: f for n, f in globals().items() if n[:1] in ("T", "L") and n[1:].isdigit()}
 
