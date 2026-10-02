@@ -47,7 +47,7 @@ class Zoho:
         if len(self.win) >= RATE: time.sleep(60 - (now - self.win[0]) + 0.5)
         self._auth(); p = dict(params or {}); p["organization_id"] = ORG
         for attempt in range(3):
-            base = BASE_BOOKS if (USE_BOOKS_FOR_INVOICES and path.startswith("/invoices")) else BASE
+            base = BASE_BOOKS if (USE_BOOKS_FOR_INVOICES and (path.startswith("/invoices") or path.startswith("/creditnotes"))) else BASE
             r = requests.request(m, base + path, params=p, json=body, headers={"Authorization": f"Zoho-oauthtoken {self.tok}"}, timeout=60)
             self.calls += 1; self.win.append(time.time())
             if r.status_code == 429:
