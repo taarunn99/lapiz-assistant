@@ -244,7 +244,7 @@ def scan_credit_notes(plans_by_so):
                 already = False
                 for sr in s.get("salesreturns", []):
                     rj = Z.get(f"/salesreturns/{sr['salesreturn_id']}")
-                    if rj.get("code") == 0 and f"cn:{cn['creditnote_id']}" in (rj["salesreturn"].get("notes") or ""):
+                    if rj.get("code") == 0 and f"cn:{cn['creditnote_id']}" in ((rj["salesreturn"].get("reason") or "") + " " + (rj["salesreturn"].get("notes") or "")):
                         already = True
                 if already: continue
                 so_lines = {l["line_item_id"]: l for l in s.get("line_items", [])}
@@ -297,7 +297,8 @@ def execute_so(p):
         done_cn = set()
         for sr in so.get("salesreturns", []):
             rj = Z.get(f"/salesreturns/{sr['salesreturn_id']}")
-            n = (rj.get("salesreturn", {}).get("notes") or "")
+            # Zoho does not keep notes on a sales return, so the marker is also in the reason (1 Oct 2026)
+            n = (rj.get("salesreturn", {}).get("reason") or "") + " " + (rj.get("salesreturn", {}).get("notes") or "")
             if "cn:" in n: done_cn.add(n.split("cn:")[1].split()[0])
         for rt in p["returns"]:
             if rt["creditnote_id"] in done_cn: res.append(f"{p['salesorder_number']} return for {rt['creditnote_number']} already exists"); continue
@@ -312,7 +313,7 @@ def execute_so(p):
                     lines.append(d); room[l["salesorder_item_id"]] -= q
             if not lines: continue
             body = {"salesorder_id": p["salesorder_id"], "date": rt["creditnote_date"],
-                    "reason": f"Credit note {rt['creditnote_number']}", "notes": note, "line_items": lines}
+                    "reason": f"Credit note {rt['creditnote_number']} | {MARK} cn:{rt['creditnote_id']} backfill", "notes": note, "line_items": lines}
             if so.get("location_id"): body["location_id"] = so["location_id"]
             r = Z.post("/salesreturns", body, salesorder_id=p["salesorder_id"])   # Zoho wants the SO id as a query param for JSON bodies (matrix T03)
             if r.get("code") != 0:
