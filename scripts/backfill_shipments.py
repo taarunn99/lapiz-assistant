@@ -8,9 +8,9 @@ credit notes) for every sales order, exactly the way the live Deluge functions d
 Per sales order, per LIVE (non void) invoice:
     one package + one shipment mirroring that invoice's SO lines, dated to the invoice date,
     notes "LB-STOCKSYNC inv:<invoice_id> <invoice_number> mod:<last_modified> backfill"
-Per credit note WITH item lines tied to such an invoice:
-    one sales return + receive mirroring the credit note lines, dated to the credit note date,
-    notes "LB-STOCKSYNC cn:<creditnote_id> <cn_number> mod:<last_modified> backfill"
+Credit notes: NOT touched. Zoho itself puts a credit note's item quantities back into both
+    accounting and physical stock (proven 2 Oct 2026, matrix T21 and L23), so a sales return on
+    top would count the goods back twice. CN_RETURNS below is False and must stay False.
 
 The note format matches the live functions, so if an old invoice is edited after the backfill the
 live function recognises the backfilled package as its mirror and rebuilds it correctly.
@@ -27,7 +27,7 @@ Optional
   RATE_PER_MIN calls per minute (default 45; Zoho allows 100 per org, Adil's daily pull uses up to 70)
   SO_LIMIT    only process the first N sales orders (testing)
   SO_NUMBERS  comma separated SO numbers to restrict to (testing on ZZ TEST)
-  SKIP_CN     set to 1 to skip the credit note scan (faster dry run)
+  SKIP_CN     (ignored since 2 Oct 2026, the credit note scan is always skipped)
 """
 import json, os, sys, time, datetime as dt
 import requests
@@ -38,7 +38,8 @@ ORG = os.environ["ZOHO_ORG_ID_DXB"]
 MAX_CALLS = int(os.environ.get("MAX_CALLS", "8000"))
 SO_LIMIT = int(os.environ.get("SO_LIMIT", "0") or 0)
 SO_NUMBERS = {s.strip() for s in os.environ.get("SO_NUMBERS", "").split(",") if s.strip()}
-SKIP_CN = os.environ.get("SKIP_CN", "0") == "1"
+CN_RETURNS = False   # 2 Oct 2026: Zoho already restores stock on a credit note with item lines; never create returns for credit notes
+SKIP_CN = True       # credit note scan is off for the same reason (the env var is ignored)
 MODE = sys.argv[1] if len(sys.argv) > 1 else "dry"
 OUT = os.environ.get("OUT_DIR", "out"); os.makedirs(OUT, exist_ok=True)
 MARK = "LB-STOCKSYNC"
@@ -290,7 +291,7 @@ def execute_so(p):
         dtxt = "delivered" if dl.get("code") == 0 else f"NOT delivered: {dl.get('message')}"
         res.append(f"{p['salesorder_number']} OK {pk['invoice_number']} pkg {r['package'].get('package_number')} ship {ship.get('shipment_number')} {dtxt}")
     # returns from the plan (credit notes do not change between dry and live often; re-check room)
-    if p.get("returns"):
+    if p.get("returns") and CN_RETURNS:   # CN_RETURNS is False: old plan.json files may still carry returns, they are ignored
         sj = Z.get(f"/salesorders/{p['salesorder_id']}"); so = sj.get("salesorder", {})
         room = {l["line_item_id"]: float(l.get("quantity_shipped", 0)) - float(l.get("quantity_returned", 0)) for l in so.get("line_items", [])}
         loc_of = {l["line_item_id"]: l.get("location_id") for l in so.get("line_items", [])}   # receive into the SO line's warehouse
