@@ -1,4 +1,4 @@
-// lb_sync_so_shipment v2.1 (1 Oct 2026: re-check before alerting, for two saves in one second) | Zoho Books | Dubai org 719219457 | Module: Invoice
+// lb_sync_so_shipment v2.2 (2 Oct 2026: orphan sweep when every SO line is removed, package date never before SO date, one alert not two) | Zoho Books | Dubai org 719219457 | Module: Invoice
 // Rule: "Invoice is created or edited" (any field). One function handles create, edit and void.
 //
 // What it does, in one sentence: for every sales order behind this invoice, keep exactly one
@@ -78,7 +78,77 @@ if(hdrSo != "" && soIds.contains(hdrSo) == false)
 }
 if(soIds.size() == 0)
 {
-	info "skip: " + invNum + " has no sales order (standalone invoice, stock handled by Books preference)";
+	// Either a standalone invoice (Books moves the stock itself) or an edit removed EVERY sales order line,
+	// in which case Zoho drops the link and our mirror package would be left behind (2 Oct 2026, test L16).
+	// Look through this customer's packages dated on the invoice date for our marker and remove that package.
+	swept = 0;
+	custId = ifnull(inv.get("customer_id"),"").toString();
+	if(isVoid == false && custId != "")
+	{
+		pl = invokeurl
+		[
+			url :API + "/packages?organization_id=" + orgId + "&customer_id=" + custId + "&date_start=" + invDate + "&date_end=" + invDate + "&per_page=200"
+			type :GET
+			connection:"lb_inventory"
+		];
+		for each  pk0 in ifnull(pl.get("packages"),List())
+		{
+			pid0 = ifnull(pk0.get("package_id"),"").toString();
+			pr0 = invokeurl
+			[
+				url :API + "/packages/" + pid0 + "?organization_id=" + orgId
+				type :GET
+				connection:"lb_inventory"
+			];
+			if(ifnull(pr0.get("code"),-1) != 0)
+			{
+				continue;
+			}
+			p0 = pr0.get("package");
+			n0 = ifnull(p0.get("notes"),"");
+			if(n0.contains(MARK) && n0.contains("inv:" + invId))
+			{
+				sh0 = ifnull(p0.get("shipment_id"),"").toString();
+				ok0 = true;
+				if(sh0 != "")
+				{
+					d0 = invokeurl
+					[
+						url :API + "/shipmentorders/" + sh0 + "?organization_id=" + orgId
+						type :DELETE
+						connection:"lb_inventory"
+					];
+					if(ifnull(d0.get("code"),-1) != 0)
+					{
+						ok0 = false;
+						info "ERROR " + invNum + ": could not delete orphan shipment of " + p0.get("package_number") + ": " + d0.get("message");
+					}
+				}
+				if(ok0)
+				{
+					d0 = invokeurl
+					[
+						url :API + "/packages/" + pid0 + "?organization_id=" + orgId
+						type :DELETE
+						connection:"lb_inventory"
+					];
+					if(ifnull(d0.get("code"),-1) == 0)
+					{
+						swept = swept + 1;
+						info invNum + ": no sales order lines left, removed orphan mirror package " + p0.get("package_number");
+					}
+					else
+					{
+						info "ERROR " + invNum + ": could not delete orphan package " + p0.get("package_number") + ": " + d0.get("message");
+					}
+				}
+			}
+		}
+	}
+	if(swept == 0)
+	{
+		info "skip: " + invNum + " has no sales order (standalone invoice, stock handled by Books preference)";
+	}
 	return;
 }
 // ---------- 2. invoice lines: so_line_item_id -> qty ----------
@@ -118,6 +188,13 @@ for each  soId in soIds
 	so = r.get("salesorder");
 	soNum = ifnull(so.get("salesorder_number"),"");
 	soStatus = ifnull(so.get("status"),"");
+	// Zoho refuses a package dated before its sales order (2 Oct 2026, test L20): use the later of the two dates
+	pkDate = invDate;
+	soDate = ifnull(so.get("date"),"");
+	if(soDate != "" && soDate.toDate() > invDate.toDate())
+	{
+		pkDate = soDate;
+	}
 	if(ifnull(so.get("is_dropshipped"),false) == true)
 	{
 		alert = "drop ship sales order, no shipment created";
@@ -529,7 +606,7 @@ for each  soId in soIds
 		if(pkgLines.size() > 0)
 		{
 			body = Map();
-			body.put("date",invDate);
+			body.put("date",pkDate);
 			body.put("notes",noteText);
 			body.put("line_items",pkgLines);
 			cr = Map();
@@ -605,7 +682,7 @@ for each  soId in soIds
 				else
 				{
 				sb = Map();
-				sb.put("date",invDate);
+				sb.put("date",pkDate);
 				sb.put("delivery_method",DELIVERY_METHOD);
 				sb.put("notes",noteText);
 				sr = Map();
@@ -746,15 +823,38 @@ for each  soId in soIds
 	}
 	if(alert != "")
 	{
-		c = Map();
-		c.put("description",MARK + " ALERT (" + invNum + "): " + alert);
-		cr2 = invokeurl
+		// two runs at the same moment (approve + send) would post the same alert twice: post it only if it is not there yet
+		txt = MARK + " ALERT (" + invNum + "): " + alert;
+		seen = false;
+		cl = invokeurl
 		[
 			url :API + "/salesorders/" + soId + "/comments?organization_id=" + orgId
-			type :POST
-			parameters:c.toString()
+			type :GET
 			connection:"lb_inventory"
 		];
-		info soNum + " ALERT: " + alert;
+		for each  cm in ifnull(cl.get("comments"),List())
+		{
+			if(ifnull(cm.get("description"),"") == txt)
+			{
+				seen = true;
+			}
+		}
+		if(seen)
+		{
+			info soNum + " ALERT already posted: " + alert;
+		}
+		else
+		{
+			c = Map();
+			c.put("description",txt);
+			cr2 = invokeurl
+			[
+				url :API + "/salesorders/" + soId + "/comments?organization_id=" + orgId
+				type :POST
+				parameters:c.toString()
+				connection:"lb_inventory"
+			];
+			info soNum + " ALERT: " + alert;
+		}
 	}
 }
