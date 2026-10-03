@@ -1,3 +1,8 @@
+// RETIRED 3 Oct 2026: rule "LB stock sync on credit note" set to Inactive in Zoho Books (Tarun's decision).
+// Reason: Zoho itself puts a credit note's item quantities back into BOTH accounting and physical stock
+// (proven 2 Oct 2026, matrix T21 and L23). A sales return on top counted the goods back twice.
+// Business rule now: goods coming back against a sales order go through a Sales Return first, then the
+// credit note is made from that return (Zoho then moves no stock again). Kept here for history only.
 // lb_sync_creditnote_return v2.1 (1 Oct 2026: marker kept in the return reason, Zoho drops notes) | Zoho Books | Dubai org 719219457 | Module: Credit Note
 // Rule: "Credit Note is created or edited" (any field, edited each time).
 //
