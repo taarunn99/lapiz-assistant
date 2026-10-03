@@ -749,7 +749,7 @@ def L19():
     rec("L19", "after invoice", "hand package still there, no second package, an ALERT for a human", {"code": 0 if len(pk) == 1 and still else -1, "message": f"{len(pk)} packages, hand package present {still}"}, qty_str(L[ITEM_A]) + f" packages {[(p['number'], p['notes'][:20]) for p in pk]} alerts {cm}")
 
 def L20():
-    """Invoice dated yesterday: the package and shipment should carry that date."""
+    """Invoice dated yesterday on a sales order dated today: Zoho refuses a package before the SO date, so the package must carry the SO date."""
     y = (dt.date.today() - dt.timedelta(days=1)).isoformat()
     so = mk_so("L20", [(ITEM_A, 1)]); inv = need(mk_inv("L20", so, [(ITEM_A, 1)], date=y), "invoice")
     res, secs = wait_for("mirror", lambda: mirror_ok(so["salesorder_id"], {ITEM_A: 1})); report("L20", "shipped", res, secs)
@@ -757,7 +757,9 @@ def L20():
     dates = []
     for p in so2.get("packages", []):
         full = Z.get(f"/packages/{p['package_id']}").get("package", {}); dates.append((full.get("package_number"), full.get("date"), (full.get("shipment_order") or {}).get("date") or full.get("shipment_date")))
-    rec("L20", "package date", f"{y}", {"code": 0 if all(d[1] == y for d in dates) else -1, "message": str(dates)}, str(dates) + f" alerts {cm}")
+    # Zoho refuses a package dated before its sales order, so the automation uses the later of the two dates (SO today, invoice yesterday -> today)
+    want_date = max(y, so2.get("date", TODAY))
+    rec("L20", "package date", f"later of invoice date {y} and SO date {so2.get('date')}", {"code": 0 if dates and all(d[1] == want_date for d in dates) else -1, "message": str(dates)}, str(dates) + f" alerts {cm}")
 
 def L21():
     """One invoice covering TWO sales orders (A from SO1, B from SO2)."""
