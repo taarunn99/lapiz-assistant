@@ -977,6 +977,26 @@ def deep_cleanup():
     RESULTS.append({"case": "DEEP CLEANUP", "step": "done", "expected": "", "zoho": f"{len(acts)} OK, {len(fails)} failed", "note": "; ".join(fails)[:1500]})
 
 
+def L97():
+    """WRITE (Tarun's yes, 6 Oct 2026): mark every active inventory item that is NOT returnable as returnable. Nothing else on the item changes."""
+    page = 1; todo = []
+    while True:
+        j = Z.get("/items", per_page=200, page=page)
+        if j.get("code") != 0: rec("L97", "items list", "OK", j); return
+        for it in j.get("items", []):
+            if it.get("is_returnable") is False and it.get("item_type") == "inventory" and it.get("status") == "active":
+                todo.append((it["item_id"], it.get("name")))
+        if not j.get("page_context", {}).get("has_more_page"): break
+        page += 1
+    log(f"L97: {len(todo)} active inventory items to mark returnable")
+    ok = 0; failed = []
+    for i, (iid, name) in enumerate(todo, 1):
+        r = Z.put(f"/items/{iid}", {"is_returnable": True})
+        if r.get("code") == 0: ok += 1
+        else: failed.append((name, r.get("message")))
+        if i % 100 == 0: log(f"  {i}/{len(todo)} done, {len(failed)} failed")
+    rec("L97", "marked returnable", f"{len(todo)}", {"code": 0 if not failed else -1, "message": f"{len(failed)} failed"}, f"{ok} updated of {len(todo)}; failed: {failed[:20]}")
+
 def L98():
     """Probe (read only): how many items in the org are marked NOT returnable, with a sample of names. For Tarun's 'mark all returnable' request."""
     page = 1; total = 0; notret = []; inactive = 0
@@ -992,6 +1012,7 @@ def L98():
     rec("L98", "items scanned", "OK", {"code": 0}, f"{total} items ({inactive} inactive); NOT returnable inventory items: {len(notret)}; first 15: {notret[:15]}")
 
 CASES["L98"] = L98
+CASES["L97"] = L97
 
 def main():
     global CUST, USE_BOOKS_FOR_INVOICES
