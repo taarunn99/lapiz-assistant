@@ -868,18 +868,53 @@ def L99():
 CASES = {n: f for n, f in globals().items() if n[:1] in ("T", "L") and n[1:].isdigit()}
 
 def cleanup():
-    """Void every ZZMATRIX invoice and SO (returns and shipments stay as history, as agreed)."""
+    """Void every invoice and sales order of BOTH ZZ TEST customers (robot runs, Adil's hand tests, everything).
+    Live customer voids fire the automation, which brings the shipped goods back with received sales returns.
+    Shipments and returns stay as history. Prints the ZZ TEST item stock at the end."""
+    cust2 = customer2()
+    custs = {CUST_LIVE: "ZZ TEST CUSTOMER", cust2: "ZZ TEST CUSTOMER 2"}
+    done = {"invoices": [], "salesorders": []}; refused = []
     for path, key in (("/invoices", "invoices"), ("/salesorders", "salesorders")):
-        page = 1
-        while True:
-            j = Z.get(path, reference_number_startswith="ZZMATRIX", per_page=200, page=page)
-            rows = j.get(key, [])
-            for r in rows:
-                if r.get("status") in ("void", "draft"): continue
-                idk = "invoice_id" if key == "invoices" else "salesorder_id"
-                v = Z.post(f"{path}/{r[idk]}/status/void"); log("void", r.get("invoice_number") or r.get("salesorder_number"), v.get("message"))
-            if not j.get("page_context", {}).get("has_more_page"): break
-            page += 1
+        for cid, cname in custs.items():
+            page = 1
+            while True:
+                j = Z.get(path, customer_id=cid, per_page=200, page=page, sort_column="created_time", sort_order="D")
+                rows = j.get(key, [])
+                for r in rows:
+                    num = r.get("invoice_number") or r.get("salesorder_number"); st = r.get("status")
+                    if st in ("void", "closed", "cancelled"): continue
+                    idk = "invoice_id" if key == "invoices" else "salesorder_id"
+                    if st == "draft":
+                        v = Z.delete(f"{path}/{r[idk]}")
+                        if v.get("code") == 0: done[key].append(num + " (draft deleted)"); log("deleted draft", num); continue
+                    v = Z.post(f"{path}/{r[idk]}/status/void")
+                    if v.get("code") == 0: done[key].append(num); log("void", num)
+                    else: refused.append((key, num, cname, st, v.get("message"))); log("REFUSED", key, num, st, v.get("message"))
+                    if key == "invoices" and cid == CUST_LIVE: time.sleep(3)   # give the automation room: each void makes a return + receive
+                if not j.get("page_context", {}).get("has_more_page"): break
+                page += 1
+    log(f"\nvoided {len(done['invoices'])} invoices, {len(done['salesorders'])} sales orders; refused {len(refused)}")
+    for x in refused: log("  refused:", x)
+    time.sleep(90)   # let the last automation runs finish before reading stock
+    for name, iid in (("A", ITEM_A), ("B", ITEM_B), ("C", ITEM_C)):
+        log(f"ZZ TEST ITEM {name}: {item_stock(iid)}")
+    RESULTS.append({"case": "CLEANUP", "step": "voided", "expected": "", "zoho": f"{len(done['invoices'])} invoices, {len(done['salesorders'])} SOs", "note": "; ".join(f"{k} {n}: {m}" for k, n, c, st, m in refused)})
+
+def L98():
+    """Probe (read only): how many items in the org are marked NOT returnable, with a sample of names. For Tarun's 'mark all returnable' request."""
+    page = 1; total = 0; notret = []; inactive = 0
+    while True:
+        j = Z.get("/items", per_page=200, page=page)
+        if j.get("code") != 0: rec("L98", "items list", "OK", j); return
+        for it in j.get("items", []):
+            total += 1
+            if it.get("status") != "active": inactive += 1
+            if it.get("is_returnable") is False and it.get("item_type") == "inventory": notret.append((it.get("name"), it.get("sku"), it.get("status")))
+        if not j.get("page_context", {}).get("has_more_page"): break
+        page += 1
+    rec("L98", "items scanned", "OK", {"code": 0}, f"{total} items ({inactive} inactive); NOT returnable inventory items: {len(notret)}; first 15: {notret[:15]}")
+
+CASES["L98"] = L98
 
 def main():
     global CUST, USE_BOOKS_FOR_INVOICES
