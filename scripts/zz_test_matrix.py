@@ -900,6 +900,83 @@ def cleanup():
         log(f"ZZ TEST ITEM {name}: {item_stock(iid)}")
     RESULTS.append({"case": "CLEANUP", "step": "voided", "expected": "", "zoho": f"{len(done['invoices'])} invoices, {len(done['salesorders'])} SOs", "note": "; ".join(f"{k} {n}: {m}" for k, n, c, st, m in refused)})
 
+def deep_cleanup():
+    """CLEANUP=2. For the two ZZ TEST customers only: remove what blocks a void (payments, credit note credits,
+    packages, shipments, sales returns and their receives), then void every remaining invoice and sales order.
+    Test data only. Prints per-warehouse stock of the ZZ TEST items at the end so Tarun can decide the final adjustment."""
+    cust2 = customer2()
+    custs = {CUST_LIVE: "ZZ TEST CUSTOMER", cust2: "ZZ TEST CUSTOMER 2"}
+    acts = []; fails = []
+    def act(label, resp):
+        ok = resp.get("code") == 0
+        (acts if ok else fails).append(f"{label}: {'OK' if ok else resp.get('message')}"); log(("OK " if ok else "FAIL ") + label, "" if ok else resp.get("message"))
+        return ok
+    # 1. credit notes of the test customers: un-apply credits, then delete (or void)
+    for cid, cname in custs.items():
+        j = Z.get("/creditnotes", customer_id=cid, per_page=200)
+        for cn in j.get("creditnotes", []):
+            if cn.get("status") == "void": continue
+            full = Z.get(f"/creditnotes/{cn['creditnote_id']}").get("creditnote", {})
+            for ci in full.get("invoices_credited", []) or full.get("invoices", []):
+                cii = ci.get("creditnote_invoice_id")
+                if cii: act(f"unapply {cn['creditnote_number']} from {ci.get('invoice_number')}", Z.delete(f"/creditnotes/{cn['creditnote_id']}/invoices/{cii}"))
+            for rf in full.get("refunds", []) or []:
+                act(f"delete refund on {cn['creditnote_number']}", Z.delete(f"/creditnotes/{cn['creditnote_id']}/refunds/{rf.get('creditnote_refund_id')}"))
+            d = Z.delete(f"/creditnotes/{cn['creditnote_id']}")
+            if not act(f"delete credit note {cn['creditnote_number']}", d):
+                act(f"void credit note {cn['creditnote_number']}", Z.post(f"/creditnotes/{cn['creditnote_id']}/status/void"))
+    # 2. invoices: delete payments, then void
+    for cid, cname in custs.items():
+        page = 1
+        while True:
+            j = Z.get("/invoices", customer_id=cid, per_page=200, page=page)
+            for r in j.get("invoices", []):
+                if r.get("status") in ("void",): continue
+                full = Z.get(f"/invoices/{r['invoice_id']}").get("invoice", {})
+                for pm in full.get("payments", []) or []:
+                    pid = pm.get("payment_id")
+                    if pid: act(f"delete payment on {r['invoice_number']}", Z.delete(f"/customerpayments/{pid}"))
+                for cr in full.get("credits", []) or []:
+                    cii = cr.get("creditnote_invoice_id") or cr.get("creditnotes_invoice_id")
+                    if cii: act(f"unapply credit on {r['invoice_number']}", Z.delete(f"/creditnotes/{cr.get('creditnote_id')}/invoices/{cii}"))
+                if r.get("status") == "draft":
+                    act(f"delete draft {r['invoice_number']}", Z.delete(f"/invoices/{r['invoice_id']}")); continue
+                act(f"void {r['invoice_number']}", Z.post(f"/invoices/{r['invoice_id']}/status/void"))
+            if not j.get("page_context", {}).get("has_more_page"): break
+            page += 1
+    # 3. sales orders: delete receives, returns, shipments, packages, then void
+    for cid, cname in custs.items():
+        page = 1
+        while True:
+            j = Z.get("/salesorders", customer_id=cid, per_page=200, page=page)
+            for r in j.get("salesorders", []):
+                if r.get("status") == "void": continue
+                so = Z.get(f"/salesorders/{r['salesorder_id']}").get("salesorder", {})
+                for sr in so.get("salesreturns", []) or []:
+                    full = Z.get(f"/salesreturns/{sr['salesreturn_id']}").get("salesreturn", {})
+                    for rc in full.get("salesreturnreceives", []) or []:
+                        act(f"delete receive on {full.get('salesreturn_number')}", Z.delete(f"/salesreturnreceives/{rc.get('receive_id')}"))
+                    act(f"delete return {full.get('salesreturn_number')}", Z.delete(f"/salesreturns/{sr['salesreturn_id']}"))
+                for pk in so.get("packages", []) or []:
+                    full = Z.get(f"/packages/{pk['package_id']}").get("package", {})
+                    sh = full.get("shipment_id")
+                    if sh: act(f"delete shipment of {full.get('package_number')}", Z.delete(f"/shipmentorders/{sh}"))
+                    act(f"delete package {full.get('package_number')}", Z.delete(f"/packages/{pk['package_id']}"))
+                if r.get("status") == "draft":
+                    act(f"delete draft SO {r['salesorder_number']}", Z.delete(f"/salesorders/{r['salesorder_id']}")); continue
+                act(f"void SO {r['salesorder_number']}", Z.post(f"/salesorders/{r['salesorder_id']}/status/void"))
+            if not j.get("page_context", {}).get("has_more_page"): break
+            page += 1
+    log(f"\nDEEP CLEANUP: {len(acts)} actions OK, {len(fails)} failed")
+    for f in fails: log("  FAIL", f)
+    time.sleep(20)
+    for name, iid in (("A", ITEM_A), ("B", ITEM_B), ("C", ITEM_C)):
+        it = Z.get(f"/items/{iid}").get("item", {})
+        locs = [(l.get("location_name") or l.get("warehouse_name"), l.get("location_stock_on_hand", l.get("warehouse_stock_on_hand")), l.get("location_actual_available_stock", l.get("warehouse_actual_available_stock"))) for l in (it.get("locations") or it.get("warehouses") or [])]
+        log(f"ZZ TEST ITEM {name}: total acct {it.get('stock_on_hand')} phys {it.get('actual_available_stock')}; per warehouse (name, acct, phys): {locs}")
+    RESULTS.append({"case": "DEEP CLEANUP", "step": "done", "expected": "", "zoho": f"{len(acts)} OK, {len(fails)} failed", "note": "; ".join(fails)[:1500]})
+
+
 def L98():
     """Probe (read only): how many items in the org are marked NOT returnable, with a sample of names. For Tarun's 'mark all returnable' request."""
     page = 1; total = 0; notret = []; inactive = 0
@@ -919,6 +996,7 @@ CASES["L98"] = L98
 def main():
     global CUST, USE_BOOKS_FOR_INVOICES
     if os.environ.get("CLEANUP") == "1": cleanup(); return
+    if os.environ.get("CLEANUP") == "2": deep_cleanup(); return
     cust2 = customer2(); log("customer 2:", cust2)
     for name in sorted(CASES):
         if ONLY and name not in ONLY: continue
