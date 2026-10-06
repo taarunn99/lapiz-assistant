@@ -48,7 +48,12 @@ class Zoho:
         self._auth(); p = dict(params or {}); p["organization_id"] = ORG
         for attempt in range(3):
             base = BASE_BOOKS if (USE_BOOKS_FOR_INVOICES and (path.startswith("/invoices") or path.startswith("/creditnotes"))) else BASE
-            r = requests.request(m, base + path, params=p, json=body, headers={"Authorization": f"Zoho-oauthtoken {self.tok}"}, timeout=60)
+            try:
+                r = requests.request(m, base + path, params=p, json=body, headers={"Authorization": f"Zoho-oauthtoken {self.tok}"}, timeout=60)
+            except requests.RequestException as e:   # network hiccup (6 Oct: connect timeout killed a 1,181 item run at 300): wait and retry
+                log(f"network error, attempt {attempt + 1}: {str(e)[:120]}"); time.sleep(20 * (attempt + 1))
+                if attempt == 2: return {"code": -1, "message": f"network error: {str(e)[:200]}"}
+                continue
             self.calls += 1; self.win.append(time.time())
             if r.status_code == 429:
                 ra = r.headers.get("Retry-After", ""); wait = int(ra) if ra.strip().isdigit() else 65
