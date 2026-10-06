@@ -137,6 +137,10 @@ def plan_so(so_id):
     for lid, l in lines.items():
         if l.get("batches") or l.get("serial_numbers"): flags.append(f"tracked item {l['name']}, needs human")
     if any("skip" in f or "human" in f for f in flags): return None, flags
+    # Zoho refuses a package dated before its sales order (matrix L20, 2 Oct 2026). Same rule as the live
+    # Deluge function: the package and shipment carry the later of the invoice date and the SO date.
+    so_date = so.get("date") or ""
+    def pk_date(inv_date): return so_date if so_date > (inv_date or "") else inv_date
 
     # Fast path (1 API call instead of 2 or more): exactly one invoice on the SO, it is live, and no packages exist.
     # Then the SO line's quantity_invoiced IS that invoice's quantity for the line (void invoices would pollute it,
@@ -151,7 +155,7 @@ def plan_so(so_id):
             take = min(q, room_l)
             if take > 0: pkg_lines.append({"so_line_item_id": lid, "item": l["name"], "quantity": take})
             if q - take > 0.0001: flags.append(f"{inv['invoice_number']} {l['name']}: {q - take:g} could not be packed (no room on SO)")
-        plan = [{"invoice_id": inv["invoice_id"], "invoice_number": inv["invoice_number"], "invoice_date": inv["date"],
+        plan = [{"invoice_id": inv["invoice_id"], "invoice_number": inv["invoice_number"], "invoice_date": pk_date(inv["date"]),
                  "invoice_mod": inv.get("last_modified_time", ""), "lines": pkg_lines}] if pkg_lines else []
         return {"salesorder_id": so_id, "salesorder_number": so["salesorder_number"],
                 "customer": so["customer_name"], "packages": plan, "returns": []}, flags
@@ -195,7 +199,7 @@ def plan_so(so_id):
                 flags.append(f"{inv['invoice_number']} {lines[lid]['name']}: {q - covered - take:g} could not be packed (no room on SO)")
         if pkg_lines:
             plan.append({"invoice_id": inv["invoice_id"], "invoice_number": inv["invoice_number"],
-                         "invoice_date": inv["date"], "invoice_mod": iv.get("last_modified_time", ""),
+                         "invoice_date": pk_date(inv["date"]), "invoice_mod": iv.get("last_modified_time", ""),
                          "lines": pkg_lines})
     return {"salesorder_id": so_id, "salesorder_number": so["salesorder_number"],
             "customer": so["customer_name"], "packages": plan, "returns": []}, flags
