@@ -17,6 +17,10 @@ on:
         description: "Optional: comma separated SO numbers to restrict to (testing)"
         required: false
         default: ""
+      live_scope:
+        description: "Live only: type ALL to run the whole plan (night window 20:00 to 06:00 Dubai). Leave empty when so_numbers is set."
+        required: false
+        default: ""
       max_calls:
         description: "API call cap for this run"
         required: false
@@ -57,6 +61,7 @@ jobs:
           ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
           ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
           SO_NUMBERS: ${{ inputs.so_numbers || '' }}
+          LIVE_SCOPE: ${{ inputs.live_scope || '' }}
           MAX_CALLS: ${{ inputs.max_calls || '9000' }}
           RATE_PER_MIN: "45"
         # a scheduled run has no inputs, so it is always a capped dry run. Output is kept for the daily report.
