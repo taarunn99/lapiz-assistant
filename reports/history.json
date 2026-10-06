@@ -188,5 +188,24 @@
   "cn_lines_skipped": 1692,
   "cn_done": true,
   "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37355054335"
+ },
+ {
+  "date": "2026-10-06",
+  "run_outcome": "success",
+  "status": "COMPLETE: all sales orders examined and credit notes scanned. Plan is ready for review.",
+  "mode": "dry",
+  "cap": "9000",
+  "calls_used": 85,
+  "examined_today": 41,
+  "examined_cumulative": 7532,
+  "total_candidates": 7532,
+  "remaining": 0,
+  "planned_sos": 7511,
+  "packages": 8496,
+  "returns": 101,
+  "skipped_human": 0,
+  "cn_lines_skipped": 1692,
+  "cn_done": true,
+  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37490983454"
  }
 ]
