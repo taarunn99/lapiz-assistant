@@ -18,7 +18,14 @@
 // Zoho sometimes answers "The requested action could not be completed. Please try again." when two
 // invoices on the same sales order are saved at the same moment; every write here is retried 3 times.
 
-TEST_ONLY = true;                         // go live: set to false (and widen the rule criteria)
+// STAGE 1 (6 Oct 2026, Tarun's go): ZZ TEST customers + FIRST_CUSTOMERS only. STAGE 2: every customer.
+// The workflow rule "LB stock sync on invoice" has no customer criterion from stage 1 on; this gate is the only filter.
+STAGE = 1;
+FIRST_CUSTOMERS = {"2305879000025783189","2305879000148166333","2305879000022370257"};
+FIRST_NAMES = {"LAPIZ BLUE GENERAL TRADING LLC - ABU DHABI","GLOBAL CLASSIC BUILDING MATERIALS TRADING L.L.C","MONTOLITE BUILDING MATERIAL TRADING LLC"};
+// 2305879000025783189 = LAPIZ BLUE GENERAL TRADING LLC - ABU DHABI (own branch)
+// 2305879000148166333 = GLOBAL CLASSIC BUILDING MATERIALS TRADING L.L.C (group company)
+// 2305879000022370257 = MONTOLITE BUILDING MATERIAL TRADING LLC (regular trade customer)
 // connection "lb_inventory": Books connection, Zoho Inventory service, authorised by Adil (Deluge needs it as a literal)
 API = "https://www.zohoapis.com/inventory/v1";
 MARK = "LB-STOCKSYNC";
@@ -32,9 +39,10 @@ invStatus = ifnull(invoice.get("status"),"").toLowerCase();
 custName = ifnull(invoice.get("customer_name"),"");
 today = zoho.currentdate.toString("yyyy-MM-dd");
 
-if(TEST_ONLY == true && custName.startsWith("ZZ TEST") == false)
+custKey = ifnull(invoice.get("customer_id"),"").toString();
+if(STAGE == 1 && custName.startsWith("ZZ TEST") == false && FIRST_CUSTOMERS.contains(custKey) == false && FIRST_NAMES.contains(custName) == false)
 {
-	info "skip (test mode): " + invNum + " customer " + custName;
+	info "skip (stage 1): " + invNum + " customer " + custName;
 	return;
 }
 if(invStatus == "draft" || invStatus == "pending_approval")
