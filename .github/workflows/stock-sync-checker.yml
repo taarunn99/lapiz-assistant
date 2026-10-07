@@ -1,0 +1,52 @@
+name: Stock sync checker (2 day check to Cliq)
+
+on:
+  schedule:
+    # every day at 07:40 Dubai (03:40 UTC). Read only. Checks every sales order touched in the last 2 days.
+    - cron: "40 3 * * *"
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Look back window in days"
+        required: false
+        default: "2"
+
+concurrency:
+  group: stock-sync-checker
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests reportlab
+      - name: Run the checker
+        env:
+          ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
+          ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
+          ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
+          ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
+          CLIQ_WEBHOOK: ${{ secrets.CLIQ_WEBHOOK }}
+          DAYS: ${{ inputs.days || '2' }}
+          RATE_PER_MIN: "45"
+        run: python scripts/stock_checker.py 2>&1 | tee checker_log.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: checker-out, path: "checker_log.txt", retention-days: 90 }
+      - name: Keep the PDF in reports/
+        if: always()
+        run: |
+          git config user.name "stock-sync-bot"
+          git config user.email "stock-sync-bot@users.noreply.github.com"
+          git add reports || true
+          if git diff --cached --quiet; then echo "no report changes"; exit 0; fi
+          git commit -m "Stock check $(date -u +%Y-%m-%d)" || exit 0
+          git pull --rebase origin main || true
+          git push origin HEAD:main || echo "push failed, PDF is in the run artifact"
