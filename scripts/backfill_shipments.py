@@ -137,11 +137,21 @@ def plan_so(so_id):
     lines = {l["line_item_id"]: l for l in so["line_items"] if l.get("item_type") == "inventory"}
     for lid, l in lines.items():
         if l.get("batches") or l.get("serial_numbers"): flags.append(f"tracked item {l['name']}, needs human")
+    if so.get("picklists"):
+        # Zoho: "Only 0.00 units ... can be directly packed since the remaining quantity is associated with picklists"
+        # (SO26-06306, 7 Oct 2026). Those have to be packed from the picklist screen by a person.
+        flags.append("has a picklist, pack from the picklist screen, needs human")
     if any("skip" in f or "human" in f for f in flags): return None, flags
     # Zoho refuses a package dated before its sales order (matrix L20, 2 Oct 2026). Same rule as the live
     # Deluge function: the package and shipment carry the later of the invoice date and the SO date.
     so_date = so.get("date") or ""
     def pk_date(inv_date): return so_date if so_date > (inv_date or "") else inv_date
+    # How much Zoho lets us pack on a line: ordered, minus what was cancelled (credit note with item lines marks
+    # the quantity cancelled, SO26-07038 on 7 Oct 2026: 170 ordered, 58 cancelled, Zoho allows 112), minus what was
+    # fulfilled by hand or drop shipped, minus what is already packed.
+    def packable(l):
+        return max(float(l["quantity"]) - float(l.get("quantity_cancelled", 0) or 0) - float(l.get("quantity_manuallyfulfilled", 0) or 0)
+                   - float(l.get("quantity_dropshipped", 0) or 0) - float(l.get("quantity_packed", 0) or 0), 0.0)
 
     # Fast path (1 API call instead of 2 or more): exactly one invoice on the SO, it is live, and no packages exist.
     # Then the SO line's quantity_invoiced IS that invoice's quantity for the line (void invoices would pollute it,
@@ -152,10 +162,10 @@ def plan_so(so_id):
         inv = live_invs[0]; pkg_lines = []
         for lid, l in lines.items():
             q = float(l.get("quantity_invoiced", 0) or 0)
-            room_l = max(float(l["quantity"]) - float(l.get("quantity_packed", 0) or 0), 0.0)
+            room_l = packable(l)
             take = min(q, room_l)
             if take > 0: pkg_lines.append({"so_line_item_id": lid, "item": l["name"], "quantity": take})
-            if q - take > 0.0001: flags.append(f"{inv['invoice_number']} {l['name']}: {q - take:g} could not be packed (no room on SO)")
+            if q - take > 0.0001: flags.append(f"{inv['invoice_number']} {l['name']}: {q - take:g} could not be packed (no room on SO: cancelled {l.get('quantity_cancelled', 0)}, packed {l.get('quantity_packed', 0)})")
         plan = [{"invoice_id": inv["invoice_id"], "invoice_number": inv["invoice_number"], "invoice_date": pk_date(inv["date"]),
                  "invoice_mod": inv.get("last_modified_time", ""), "lines": pkg_lines}] if pkg_lines else []
         return {"salesorder_id": so_id, "salesorder_number": so["salesorder_number"],
@@ -183,7 +193,7 @@ def plan_so(so_id):
     # live invoices, oldest first. Void ones are ignored entirely (Zoho still counts them on the SO).
     invoices = sorted([i for i in so.get("invoices", []) if i.get("status") not in ("void", "draft")],
                       key=lambda i: (i["date"], i["invoice_number"]))
-    room = {lid: float(l["quantity"]) - float(l.get("quantity_packed", 0)) for lid, l in lines.items()}
+    room = {lid: packable(l) for lid, l in lines.items()}
     hand_packed_left = dict(other_packed)   # hand made packages are assumed to cover the OLDEST invoices
     plan = []
     for inv in invoices:
@@ -444,15 +454,30 @@ def main():
         done_path = f"{OUT}/done.json"
         done = set(json.load(open(done_path))) if os.path.exists(done_path) else set()
         logf = open(f"{OUT}/live_log.txt", "a")
+        failed = []
+        human_path = f"{OUT}/needs_human.json"
+        human = json.load(open(human_path)) if os.path.exists(human_path) else {}
         for p in plans:
-            if p["salesorder_id"] in done: continue
+            if p["salesorder_id"] in done and not SO_NUMBERS: continue   # SO_NUMBERS = deliberate re-run, done.json is ignored
             try:
-                for line in execute_so(p): log(line); logf.write(line + "\n")
+                out = []
+                for line in execute_so(p): log(line); logf.write(line + "\n"); out.append(line)
             except SystemExit as e:
                 log(e); break
-            done.add(p["salesorder_id"]); json.dump(sorted(done), open(done_path, "w"))
+            bad = [line for line in out if "FAILED" in line]
+            # a blacklisted customer: Zoho's own validation rule blocks every package, a person has to decide
+            # (lift the block for a minute and pack, or leave it). Same for "skipped now" (picklist, void, tracked item).
+            for_human = [line for line in bad if "BLACKLISTED" in line.upper()] + [line for line in out if "skipped now" in line]
+            if for_human:
+                human[p["salesorder_number"]] = for_human
+                json.dump(human, open(human_path, "w"), indent=1)
+            if bad and len(bad) > len([b for b in bad if "BLACKLISTED" in b.upper()]):
+                failed.append(p["salesorder_number"])   # not marked done: the next run re-plans it and tries again
+            else:
+                done.add(p["salesorder_id"]); json.dump(sorted(done), open(done_path, "w"))
             logf.flush()
-        log(f"live run stopped. {len(done)}/{len(plans)} SOs processed. calls {Z.calls}")
+        log(f"live run stopped. {len(done)}/{len(plans)} SOs processed, {len(failed)} with a failed line (retried next run): {', '.join(failed[:50])}. "
+            f"{len(human)} sales orders need a human (out/needs_human.json). calls {Z.calls}")
     else:
         raise SystemExit("mode must be dry or live")
 
