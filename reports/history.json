@@ -207,5 +207,24 @@
   "cn_lines_skipped": 1692,
   "cn_done": true,
   "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37490983454"
+ },
+ {
+  "date": "2026-10-07",
+  "run_outcome": "failure",
+  "status": "FAILED (GitHub run outcome: failure)",
+  "mode": "live",
+  "cap": "14500",
+  "calls_used": 0,
+  "examined_today": 0,
+  "examined_cumulative": 7532,
+  "total_candidates": 7532,
+  "remaining": 0,
+  "planned_sos": 7511,
+  "packages": 8496,
+  "returns": 101,
+  "skipped_human": 0,
+  "cn_lines_skipped": 1692,
+  "cn_done": true,
+  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37575131327"
  }
 ]
