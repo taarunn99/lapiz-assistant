@@ -91,10 +91,11 @@ class Zoho:
         # never hand a half-answer back to the planner: a missing package or invoice would turn into a duplicate shipment
         raise SystemExit(f"Zoho API kept failing on {method} {path} (last status {r.status_code}); stopping and saving progress")
     def get(self, path, **params): return self.req("GET", path, params=params)
-    def post(self, path, body, **params): return self.req("POST", path, params=params, json=body)
+    def post(self, path, body=None, **params): return self.req("POST", path, params=params, json=body)
 
 Z = Zoho()
 INV_CACHE = {}
+HEAL = {}   # so_id -> mirror packages found without a delivered shipment (filled by plan_so, finished by execute_so)
 def get_invoice(inv_id):
     if inv_id not in INV_CACHE:
         j = Z.get(f"/invoices/{inv_id}")
@@ -170,6 +171,10 @@ def plan_so(so_id):
         p = pj["package"]; notes = p.get("notes", "") or ""
         if MARK in notes and "inv:" in notes:
             existing_mirror_inv.add(notes.split("inv:")[1].split()[0])
+            # a mirror package left half done (run stopped between package, shipment and delivered): finish it in live mode
+            if not p.get("shipment_id") or (p.get("status") or "") != "delivered":
+                HEAL.setdefault(so_id, []).append({"package_id": p["package_id"], "package_number": p.get("package_number"),
+                                                   "shipment_id": p.get("shipment_id"), "date": p.get("date"), "notes": notes})
         else:
             for pl in p.get("line_items", []):
                 lid = pl.get("so_line_item_id")
@@ -294,6 +299,17 @@ def execute_so(p):
         dl = Z.post(f"/shipmentorders/{ship_id}/status/delivered") if ship_id else {"code": -1, "message": "no shipment id"}
         dtxt = "delivered" if dl.get("code") == 0 else f"NOT delivered: {dl.get('message')}"
         res.append(f"{p['salesorder_number']} OK {pk['invoice_number']} pkg {r['package'].get('package_number')} ship {ship.get('shipment_number')} {dtxt}")
+    # mirror packages from an earlier run that never got their shipment, or whose shipment was not marked delivered
+    for h in HEAL.pop(p["salesorder_id"], []):
+        ship_id = h.get("shipment_id")
+        if not ship_id:
+            s = Z.post("/shipmentorders", {"date": h.get("date"), "delivery_method": DELIVERY_METHOD, "notes": h.get("notes")},
+                       package_ids=h["package_id"], salesorder_id=p["salesorder_id"], send_notification="false")
+            if s.get("code") != 0:
+                res.append(f"{p['salesorder_number']} heal: shipment for package {h.get('package_number')} FAILED: {s.get('message')}"); continue
+            ship = s.get("shipmentorder") or {}; ship_id = ship.get("shipmentorder_id") or ship.get("shipment_id")
+        dl = Z.post(f"/shipmentorders/{ship_id}/status/delivered") if ship_id else {"code": -1, "message": "no shipment id"}
+        res.append(f"{p['salesorder_number']} heal: package {h.get('package_number')} shipment {ship_id} " + ("delivered" if dl.get("code") == 0 else f"NOT delivered: {dl.get('message')}"))
     # returns from the plan (credit notes do not change between dry and live often; re-check room)
     if p.get("returns") and CN_RETURNS:   # CN_RETURNS is False: old plan.json files may still carry returns, they are ignored
         sj = Z.get(f"/salesorders/{p['salesorder_id']}"); so = sj.get("salesorder", {})
