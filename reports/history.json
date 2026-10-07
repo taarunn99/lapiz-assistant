@@ -213,18 +213,18 @@
   "run_outcome": "success",
   "status": "Ran, but no progress marker found in the log. Needs a look.",
   "mode": "live",
-  "cap": "14500",
-  "calls_used": 14500,
-  "examined_today": 0,
-  "examined_cumulative": 7532,
+  "cap": "2000",
+  "calls_used": 171,
+  "examined_today": 2,
+  "examined_cumulative": 7534,
   "total_candidates": 7532,
-  "remaining": 0,
-  "planned_sos": 7511,
-  "packages": 8496,
+  "remaining": -2,
+  "planned_sos": 7513,
+  "packages": 8498,
   "returns": 101,
   "skipped_human": 0,
   "cn_lines_skipped": 1692,
   "cn_done": true,
-  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37618884743"
+  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37662129544"
  }
 ]
