@@ -371,7 +371,9 @@ def main():
             skipped = state.get("skipped", [])
             log(f"resuming: {len(state['examined'])} SOs already examined, {len(plans_by_so)} planned")
         examined = set(state["examined"])
-        sos = [s for s in sos if s["salesorder_id"] not in examined]
+        # An SO examined before it was invoiced had nothing to plan then. If it is still in today's candidate list
+        # (invoiced > shipped) and has no plan entry, look at it again (7 Oct 2026: SO26-07470 to 07491 were missed this way).
+        sos = [s for s in sos if s["salesorder_id"] not in examined or s["salesorder_id"] not in plans_by_so]
         log(f"{len(sos)} sales orders to examine this run")
         partial = ""
 
@@ -400,6 +402,7 @@ def main():
             elif p and not p["packages"] and not flags:
                 pass   # nothing left to ship on this SO
             else:
+                skipped = [row for row in skipped if row[0] != s["salesorder_number"]]   # re-examined SOs replace their old row
                 skipped.append([s["salesorder_number"], s["customer_name"], "; ".join(flags) or "no packable lines"])
             if i % 100 == 0:
                 log(f"  {i}/{len(sos)} planned, {Z.calls} calls used")
