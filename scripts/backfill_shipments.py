@@ -45,6 +45,9 @@ OUT = os.environ.get("OUT_DIR", "out"); os.makedirs(OUT, exist_ok=True)
 MARK = "LB-STOCKSYNC"
 DELIVERY_METHOD = "Al Quoz"
 FAST_PATH = os.environ.get("NO_FAST_PATH", "0") != "1"   # testing switch only
+# 8 Oct 2026: also finish packages made by staff (packed never shipped, or shipped never delivered). Off by default,
+# switched on only for a targeted SO_NUMBERS run (workflow input heal_staff).
+HEAL_STAFF = os.environ.get("HEAL_STAFF", "0") == "1"
 RATE_PER_MIN = int(os.environ.get("RATE_PER_MIN", "45") or 45)   # org limit is 100/min shared with Adil's jobs
 
 def log(*a):
@@ -186,6 +189,17 @@ def plan_so(so_id):
                 HEAL.setdefault(so_id, []).append({"package_id": p["package_id"], "package_number": p.get("package_number"),
                                                    "shipment_id": p.get("shipment_id"), "date": p.get("date"), "notes": notes})
         else:
+            # 8 Oct 2026: a staff package that was never shipped, or shipped but never marked delivered, keeps the SO on
+            # Zoho's "Invoiced & Not Shipped" list (the filter needs quantity_delivered). Finish it, but only when the SO
+            # still has a live invoice (SO25-09342: package LB-22965 but invoice LB25-20490 is void -> human).
+            if HEAL_STAFF and (p.get("status") or "") != "delivered":
+                live_now = [i for i in so.get("invoices", []) if i.get("status") not in ("void", "draft")]
+                if live_now:
+                    HEAL.setdefault(so_id, []).append({"package_id": p["package_id"], "package_number": p.get("package_number"),
+                                                       "shipment_id": p.get("shipment_id"), "date": p.get("date"),
+                                                       "notes": f"{MARK} staff package {p.get('package_number')} finished by backfill"})
+                else:
+                    flags.append(f"package {p.get('package_number')} is {p.get('status')} but every invoice is void, needs human")
             for pl in p.get("line_items", []):
                 lid = pl.get("so_line_item_id")
                 if lid in other_packed: other_packed[lid] += float(pl.get("quantity", 0))
@@ -444,7 +458,13 @@ def main():
         if SO_NUMBERS:
             plans = [p for p in plans if p["salesorder_number"] in SO_NUMBERS]
             missing = SO_NUMBERS - {p["salesorder_number"] for p in plans}
-            if missing: log(f"not in plan.json (ignored): {', '.join(sorted(missing))}")
+            if missing and HEAL_STAFF:
+                # 8 Oct 2026: heal only runs need no planned packages, build empty plan entries from the SO list
+                plans += [{"salesorder_id": s["salesorder_id"], "salesorder_number": s["salesorder_number"],
+                           "customer": s["customer_name"], "packages": [], "returns": []}
+                          for s in so_by_numbers() if s["salesorder_number"] in missing]
+                log(f"heal only (not in plan.json): {', '.join(sorted(missing))}")
+            elif missing: log(f"not in plan.json (ignored): {', '.join(sorted(missing))}")
             log(f"live run limited to {len(plans)} sales order(s): {', '.join(p['salesorder_number'] for p in plans)}")
         elif scope == "ALL":
             dubai_hour = (dt.datetime.utcnow() + dt.timedelta(hours=4)).hour
