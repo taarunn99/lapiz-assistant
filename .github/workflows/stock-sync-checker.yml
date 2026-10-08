@@ -21,7 +21,7 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 300   # 8 Oct 2026: the 7 Oct repair touched 7,300 sales orders, so the 2 day window needs about 3 hours until 10 Oct
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
