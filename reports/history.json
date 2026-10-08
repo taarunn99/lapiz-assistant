@@ -229,11 +229,11 @@
  },
  {
   "date": "2026-10-08",
-  "run_outcome": "success",
-  "status": "Ran, but no progress marker found in the log. Needs a look.",
-  "mode": "live",
-  "cap": "200",
-  "calls_used": 52,
+  "run_outcome": "failure",
+  "status": "FAILED (GitHub run outcome: failure)",
+  "mode": "dry",
+  "cap": "9000",
+  "calls_used": 0,
   "examined_today": 0,
   "examined_cumulative": 7534,
   "total_candidates": 7532,
@@ -244,6 +244,6 @@
   "skipped_human": 0,
   "cn_lines_skipped": 1692,
   "cn_done": true,
-  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37756887353"
+  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37808351244"
  }
 ]
