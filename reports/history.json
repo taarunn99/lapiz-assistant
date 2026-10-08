@@ -232,8 +232,8 @@
   "run_outcome": "success",
   "status": "Ran, but no progress marker found in the log. Needs a look.",
   "mode": "live",
-  "cap": "14500",
-  "calls_used": 0,
+  "cap": "200",
+  "calls_used": 52,
   "examined_today": 0,
   "examined_cumulative": 7534,
   "total_candidates": 7532,
@@ -244,6 +244,6 @@
   "skipped_human": 0,
   "cn_lines_skipped": 1692,
   "cn_done": true,
-  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37714599229"
+  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/37756887353"
  }
 ]
