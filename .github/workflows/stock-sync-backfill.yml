@@ -5,13 +5,8 @@ on:
     # every day at 13:10 Dubai (09:10 UTC, off the busy top of the hour): resumes the dry scan where it stopped.
     # Paced at 45 calls/min (org limit 100/min shared with Adil's 9:30 pull) and capped per run.
     - cron: "10 9 * * *"
-    # LIVE history repair, 6 Oct 2026 (Tarun: Adil approved, API limits boosted until 11 Oct, run it fully).
-    # Three live runs a day: 20:05, 02:05 and 08:05 Dubai. Each one resumes from done.json (it only touches sales
-    # orders not done yet, re-checks each one right before acting), so when the history is finished these runs
-    # find nothing to do and end in a minute. Remove these three lines once the backfill is complete.
-    - cron: "5 16 * * *"
-    - cron: "5 22 * * *"
-    - cron: "5 4 * * *"
+    # LIVE history repair finished 8 Oct 2026 00:00 (7,513 of 7,513). The three nightly live crons (20:05, 02:05,
+    # 08:05 Dubai) were removed on 8 Oct. Live runs are now manual only (workflow_dispatch with so_numbers).
   workflow_dispatch:
     inputs:
       mode:
@@ -36,6 +31,10 @@ on:
         description: "API call cap for this run"
         required: false
         default: "9000"
+      heal_staff:
+        description: "Live + so_numbers only: type 1 to also finish packages made by staff (never shipped, or shipped but not delivered)"
+        required: false
+        default: ""
 
 concurrency:
   group: stock-sync-backfill
@@ -93,6 +92,7 @@ jobs:
           ALLOW_DAYTIME: ${{ steps.d.outputs.day }}
           MAX_CALLS: ${{ steps.d.outputs.calls }}
           RATE_PER_MIN: "45"
+          HEAL_STAFF: ${{ inputs.heal_staff || '' }}
         run: |
           set -o pipefail
           python scripts/backfill_shipments.py ${{ steps.d.outputs.mode }} 2>&1 | tee out/run_log.txt
