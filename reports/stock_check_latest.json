@@ -1,25 +1,26 @@
 {
- "generated": "11 Oct 2026 14:17",
+ "generated": "12 Oct 2026 15:17",
  "window_days": 2,
- "checked_sos": 113,
- "lines": 310,
- "clean_sos": 107,
+ "checked_sos": 114,
+ "lines": 271,
+ "clean_sos": 106,
  "bad_sos": [
-  "SO26-03747",
+  "SO26-03787",
   "SO26-06061",
-  "SO26-07989",
+  "SO26-06138",
+  "SO26-07301",
   "SO26-07998",
-  "SOSJ26-00449"
+  "SO26-08028"
  ],
  "problems": [
   {
-   "so": "SO26-03747",
+   "so": "SO26-03787",
    "customer": "AL KHARBASH GENERAL MAINTENANCE LLC",
    "item": "Kerapoxy Easy Design 0133 Sand unit 3kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
+   "invoiced": "8",
    "shipped": "0",
-   "why": "invoice LB26-08444 updated"
+   "why": "invoice LB26-08570 updated"
   },
   {
    "so": "SO26-06061",
@@ -31,13 +32,67 @@
    "why": "invoice LB26-14602 updated"
   },
   {
-   "so": "SO26-07989",
-   "customer": "ADVANCE VICTORY CONTRACTING LLC",
-   "item": "Vetotop CL530 25kg",
+   "so": "SO26-06138",
+   "customer": "APG INTERNATIONAL LLC",
+   "item": "Ultracolor Plus 127 ALU bag 5kg (box of 4)",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "3",
-   "shipped": "40",
-   "why": "invoice LB26-19316 updated, sales order updated"
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-14671 updated"
+  },
+  {
+   "so": "SO26-07301",
+   "customer": "Evo Build LTD",
+   "item": "X Prime MT100 18ltr",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
+   "shipped": "0",
+   "why": "invoice LB26-17734 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07301",
+   "customer": "Evo Build LTD",
+   "item": "X-Tech ASG (M) - 0.4 to 0.8mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
+   "shipped": "0",
+   "why": "invoice LB26-17734 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07301",
+   "customer": "Evo Build LTD",
+   "item": "X-Tech EpoxyFloor TU - 12L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "121",
+   "shipped": "0",
+   "why": "invoice LB26-17734 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07301",
+   "customer": "Evo Build LTD",
+   "item": "X-Tech SealCoat HT - 15L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "10",
+   "shipped": "0",
+   "why": "invoice LB26-17734 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07301",
+   "customer": "Evo Build LTD",
+   "item": "X-Tech Coving Mortar TU - 12L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "45",
+   "shipped": "0",
+   "why": "invoice LB26-17734 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07301",
+   "customer": "Evo Build LTD",
+   "item": "X-PRIME BUG FILL 8KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
+   "shipped": "0",
+   "why": "invoice LB26-17734 updated, sales order updated"
   },
   {
    "so": "SO26-07998",
@@ -76,13 +131,13 @@
    "why": "invoice LB26-19335 updated, sales order updated"
   },
   {
-   "so": "SOSJ26-00449",
-   "customer": "ALHAMD BUILDING MATERIALS TRADING LLC",
-   "item": "Ultracolor Plus 110 ALU bag 5kg (box of 4)",
+   "so": "SO26-08028",
+   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+   "item": "TERRACO HANDY SPRAY FC 25KG",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "6",
-   "shipped": "0",
-   "why": "invoice LBSJ26-01389 updated"
+   "invoiced": "0",
+   "shipped": "3",
+   "why": "invoice LB26-19398 updated, sales order updated"
   }
  ],
  "alerts": [
@@ -92,9 +147,9 @@
    "when": "2026-10-07"
   },
   {
-   "so": "SO26-07989",
-   "text": "LB-STOCKSYNC ALERT (LB26-19316): partly covered by another package already: Vetotop CL530 25kg invoice qty 3.0 but only -37.0 left to pack; ",
-   "when": "2026-10-10"
+   "so": "SO26-07301",
+   "text": "LB-STOCKSYNC ALERT (LB26-17734): package create failed: Only 0.00 units of item X Prime MT100 18ltr can be directly packed since the remaining quantity is associated with picklist(s).",
+   "when": "2026-10-12"
   },
   {
    "so": "SO26-07998",
@@ -107,5 +162,5 @@
    "when": "2026-10-10"
   }
  ],
- "calls": 392
+ "calls": 370
 }
