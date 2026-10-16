@@ -1,256 +1,121 @@
 {
- "generated": "15 Oct 2026 12:34",
+ "generated": "16 Oct 2026 12:28",
  "window_days": 2,
- "checked_sos": 201,
- "lines": 490,
- "clean_sos": 181,
+ "checked_sos": 184,
+ "lines": 436,
+ "clean_sos": 167,
  "bad_sos": [
-  "SO26-02827",
-  "SO26-03248",
-  "SO26-04096",
-  "SO26-06180",
-  "SO26-06273",
-  "SO26-07675",
-  "SO26-07929",
-  "SO26-08102",
+  "SO25-09342",
+  "SO25-10791",
+  "SO26-01047",
+  "SO26-05838",
+  "SO26-06061",
+  "SO26-06292",
+  "SO26-07998",
   "SO26-08110",
-  "SOSJ25-00174",
+  "SO26-08159",
+  "SOSJ26-00105",
   "SOSJ26-00552"
  ],
  "problems": [
   {
-   "so": "SO26-02827",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DS WS POWERFLEXX SILK BASE B 16.5 L",
-   "issue": "invoiced and shipped do not match",
+   "so": "SO25-09342",
+   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
+   "item": "Planitop 110 ME bag 20kg",
+   "issue": "invoiced and shipped do not match (manually fulfilled 100)",
    "invoiced": "0",
-   "shipped": "1",
-   "why": "invoice LB26-08240 updated, sales order updated"
-  },
-  {
-   "so": "SO26-02827",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DS EASYCLEAN SILK BASE D 4 L",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "4",
-   "why": "invoice LB26-08240 updated, sales order updated"
-  },
-  {
-   "so": "SO26-02827",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DS INSPIRE SILK BASE A 4L",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "4",
-   "why": "invoice LB26-08240 updated, sales order updated"
-  },
-  {
-   "so": "SO26-02827",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DS WS MATT BASE C 4 L",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "4",
-   "why": "invoice LB26-08240 updated, sales order updated"
-  },
-  {
-   "so": "SO26-02827",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DS WS MATT WHITE 4 L",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "4",
-   "why": "invoice LB26-08240 updated, sales order updated"
-  },
-  {
-   "so": "SO26-03248",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN YOX/ TINTER YELLOW OXIDE 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
    "shipped": "0",
-   "why": "invoice LB26-07258 updated, sales order updated"
+   "why": "sales order updated"
   },
   {
-   "so": "SO26-03248",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN LFY/ TINTER LIGHT FAST YELLOW 1LT",
+   "so": "SO25-10791",
+   "customer": "PACE INTERIOR FZCO",
+   "item": "STAINLY STEEL CUTTER",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
+   "invoiced": "3",
    "shipped": "0",
-   "why": "invoice LB26-07258 updated, sales order updated"
+   "why": "sales order updated"
   },
   {
-   "so": "SO26-03248",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN GRN/ TINTER GREEN 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "invoice LB26-07258 updated, sales order updated"
-  },
-  {
-   "so": "SO26-03248",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN TBL/ TINTER PTHALO BLUE 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-07258 updated, sales order updated"
-  },
-  {
-   "so": "SO26-03248",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN WHT/ TINTER WHITE 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "invoice LB26-07258 updated, sales order updated"
-  },
-  {
-   "so": "SO26-03248",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN MAG / TINTER MAGENTA 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "invoice LB26-07258 updated, sales order updated"
-  },
-  {
-   "so": "SO26-03248",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN FFR/ TINTER FAST FAST RED 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "invoice LB26-07258 updated, sales order updated"
-  },
-  {
-   "so": "SO26-03248",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN BLK/ TINTER BLACK 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "invoice LB26-07258 updated, sales order updated"
-  },
-  {
-   "so": "SO26-03248",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN OXR/ TINTER RED OXIDE 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "invoice LB26-07258 updated, sales order updated"
-  },
-  {
-   "so": "SO26-04096",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN YOX/ TINTER YELLOW OXIDE 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "invoice LB26-09840 updated, sales order updated"
-  },
-  {
-   "so": "SO26-04096",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN LFY/ TINTER LIGHT FAST YELLOW 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "4",
-   "shipped": "0",
-   "why": "invoice LB26-09840 updated, sales order updated"
-  },
-  {
-   "so": "SO26-04096",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN WHT/ TINTER WHITE 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
-   "shipped": "0",
-   "why": "invoice LB26-09840 updated, sales order updated"
-  },
-  {
-   "so": "SO26-04096",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN FFR/ TINTER FAST FAST RED 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-09840 updated, sales order updated"
-  },
-  {
-   "so": "SO26-04096",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN BLK/ TINTER BLACK 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
-   "shipped": "0",
-   "why": "invoice LB26-09840 updated, sales order updated"
-  },
-  {
-   "so": "SO26-04096",
-   "customer": "MEERA AL MADINA BUILDINGS MATERIAL - L.L.C",
-   "item": "DN OXR/ TINTER RED OXIDE 1LT",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-09840 updated, sales order updated"
-  },
-  {
-   "so": "SO26-06180",
-   "customer": "ALHAMD BUILDING MATERIALS TRADING LLC",
-   "item": "Pegoland Dos Plus C2TE Grey 25 kg ( 486 )",
+   "so": "SO25-10791",
+   "customer": "PACE INTERIOR FZCO",
+   "item": "DRILL BIT MAKITA 6X20",
    "issue": "invoiced and shipped do not match",
    "invoiced": "10",
    "shipped": "0",
-   "why": "invoice LB26-14816 updated"
+   "why": "sales order updated"
   },
   {
-   "so": "SO26-06273",
-   "customer": "ADVANCE VICTORY CONTRACTING LLC",
-   "item": "SPPG LIGHT PEWTER 5.2 KG (A+B+C)",
+   "so": "SO26-01047",
+   "customer": "PACE INTERIOR FZCO",
+   "item": "Push in Tiles 600mm x 600mm white",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
+   "invoiced": "175",
    "shipped": "0",
-   "why": "invoice LB26-14997 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07675",
-   "customer": "MODERN BUILDING MATERIALS LLC",
-   "item": "Topcem Pronto bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "40",
-   "shipped": "36",
    "why": "sales order updated"
   },
   {
-   "so": "SO26-07675",
-   "customer": "MODERN BUILDING MATERIALS LLC",
-   "item": "Planicrete jerrycan 5kg",
+   "so": "SO26-05838",
+   "customer": "GENESIS GUANGJU DECORATION DESIGN IMPLEMENTATION L.L.C",
+   "item": "Vetobond PB433",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "1",
+   "invoiced": "8",
+   "shipped": "0",
    "why": "sales order updated"
   },
   {
-   "so": "SO26-07929",
-   "customer": "ASB CITY CONSTRUCTION LLC",
-   "item": "Kerabond Plus Grey bag 25kg",
+   "so": "SO26-06061",
+   "customer": "Najm AlQama Trading Company",
+   "item": "Mapelastic Aquadefense Zero bucket 15kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "1000",
-   "shipped": "874",
-   "why": "invoice LB26-19516 updated, sales order updated"
+   "invoiced": "100",
+   "shipped": "0",
+   "why": "sales order updated"
   },
   {
-   "so": "SO26-08102",
-   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
-   "item": "Ultracare Kerapoxy Cleaner jerrycan 5lt /5.5kg",
-   "issue": "packed 4 but shipped 2",
+   "so": "SO26-06292",
+   "customer": "PACE INTERIOR FZCO",
+   "item": "FCH0136 HOLESAW 50mm",
+   "issue": "invoiced and shipped do not match",
    "invoiced": "2",
-   "shipped": "2",
-   "why": "invoice LB26-19564 updated, sales order updated"
+   "shipped": "0",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO26-07998",
+   "customer": "Evo Build LTD",
+   "item": "Ultracolor Plus 110 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "7",
+   "shipped": "0",
+   "why": "invoice LB26-19335 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07998",
+   "customer": "Evo Build LTD",
+   "item": "Ultracolor Plus 127 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "50",
+   "shipped": "0",
+   "why": "invoice LB26-19335 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07998",
+   "customer": "Evo Build LTD",
+   "item": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "22",
+   "shipped": "0",
+   "why": "invoice LB26-19335 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07998",
+   "customer": "Evo Build LTD",
+   "item": "Kerapoxy 100 unit 5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "30",
+   "shipped": "0",
+   "why": "invoice LB26-19335 updated, sales order updated"
   },
   {
    "so": "SO26-08110",
@@ -262,12 +127,21 @@
    "why": "sales order updated"
   },
   {
-   "so": "SOSJ25-00174",
-   "customer": "NASIM MUHAMMAD BUILDING MATERIALS TRADING LLC",
-   "item": "KERASET GREY BAGS NEW 25 KG",
+   "so": "SO26-08159",
+   "customer": "SYED SADATH BUILDING & CONSTRUCTION MATERIALS TRADING L.L.C",
+   "item": "Adesilex P9 White bag 25kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "63",
+   "invoiced": "63",
+   "shipped": "126",
+   "why": "invoice LB26-19703 updated, sales order updated"
+  },
+  {
+   "so": "SOSJ26-00105",
+   "customer": "HERCULES INT.BLDG MATERIALS TRADING .LLC",
+   "item": "DM DULUX W&C MATT ECO BASE W 16.5L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "2",
+   "shipped": "0",
    "why": "sales order updated"
   },
   {
@@ -282,20 +156,20 @@
  ],
  "alerts": [
   {
-   "so": "SO26-03248",
-   "text": "LB-STOCKSYNC ALERT (LB26-07258): package create failed: Quantity recorded cannot be more than quantity ordered.",
-   "when": "2026-10-14"
-  },
-  {
-   "so": "SO26-04096",
-   "text": "LB-STOCKSYNC ALERT (LB26-09840): package create failed: Quantity recorded cannot be more than quantity ordered.",
-   "when": "2026-10-14"
-  },
-  {
-   "so": "SO26-06273",
-   "text": "LB-STOCKSYNC ALERT (LB26-14997): partly covered by another package already: Kerapoxy 141 unit 5kg invoice qty 1.0 but only 0.0 left to pack; SPPG LIGHT PEWTER 5.2 KG (A+B+C) invoice qty 1.0 but only 0",
+   "so": "SO26-06061",
+   "text": "LB-STOCKSYNC ALERT (LB26-14602): package create failed: Only 0.00 units of item Mapelastic Aquadefense Zero bucket 15kg can be directly packed since the remaining quantity is associated with picklist(",
    "when": "2026-10-07"
+  },
+  {
+   "so": "SO26-07998",
+   "text": "LB-STOCKSYNC ALERT (LB26-19335): partly covered by another package already: Ultracolor Plus 110 ALU bag 5kg (box of 4) invoice qty 7.0 but only 0.0 left to pack; Ultracolor Plus 127 ALU bag 5kg (box o",
+   "when": "2026-10-10"
+  },
+  {
+   "so": "SO26-07998",
+   "text": "LB-STOCKSYNC ALERT (LB26-19335): partly covered by another package already: Ultracolor Plus 110 ALU bag 5kg (box of 4) invoice qty 7.0 but only 0.0 left to pack; Ultracolor Plus 127 ALU bag 5kg (box o",
+   "when": "2026-10-10"
   }
  ],
- "calls": 569
+ "calls": 528
 }
