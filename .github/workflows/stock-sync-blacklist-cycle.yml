@@ -1,0 +1,70 @@
+name: Stock sync blacklist cycle
+
+# 16 Oct 2026. Closes the invoiced-not-shipped sales orders of BLACKLISTED customers: for each customer it unticks the
+# BLACKLISTED checkbox, runs the normal backfill (package + shipment + delivered per live invoice), then ticks the
+# checkbox back on and confirms it. Manual only. Customer list: scripts/blacklist_customers.json.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry (read flags, show what would ship) or live (do it)"
+        required: true
+        default: dry
+        type: choice
+        options: [dry, live]
+      customer_ids:
+        description: "Optional: comma separated contact ids to limit the run (default all 23)"
+        required: false
+        default: ""
+      limit:
+        description: "Optional: max customers this run (0 = all)"
+        required: false
+        default: "0"
+      max_calls:
+        description: "API call cap for this run"
+        required: false
+        default: "1500"
+
+concurrency:
+  group: stock-sync-backfill
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests openpyxl
+      - name: Restore plan.json from the last backfill run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        continue-on-error: true
+        run: |
+          mkdir -p out
+          for id in $(gh run list --workflow stock-sync-backfill.yml --status completed --limit 15 --json databaseId -q '.[].databaseId'); do
+            if gh run download "$id" -n backfill-out -D out 2>/dev/null; then echo "restored artifact from run $id"; break; fi
+          done
+          ls -la out || true
+      - name: Run
+        env:
+          ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
+          ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
+          ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
+          ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
+          CUSTOMER_IDS: ${{ inputs.customer_ids || '' }}
+          LIMIT: ${{ inputs.limit || '0' }}
+          MAX_CALLS: ${{ inputs.max_calls || '1500' }}
+          RATE_PER_MIN: "45"
+        run: |
+          set -o pipefail
+          python scripts/blacklist_cycle.py ${{ inputs.mode }} 2>&1 | tee out/blacklist_run_log.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: blacklist-cycle-out, path: out, retention-days: 90 }
