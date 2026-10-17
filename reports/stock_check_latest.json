@@ -1,21 +1,22 @@
 {
- "generated": "16 Oct 2026 12:28",
+ "generated": "17 Oct 2026 12:01",
  "window_days": 2,
- "checked_sos": 184,
- "lines": 436,
- "clean_sos": 167,
+ "checked_sos": 286,
+ "lines": 588,
+ "clean_sos": 271,
  "bad_sos": [
   "SO25-09342",
   "SO25-10791",
   "SO26-01047",
+  "SO26-02879",
   "SO26-05838",
   "SO26-06061",
   "SO26-06292",
+  "SO26-07173",
+  "SO26-07913",
   "SO26-07998",
-  "SO26-08110",
   "SO26-08159",
-  "SOSJ26-00105",
-  "SOSJ26-00552"
+  "SOSJ26-00105"
  ],
  "problems": [
   {
@@ -55,6 +56,24 @@
    "why": "sales order updated"
   },
   {
+   "so": "SO26-02879",
+   "customer": "FAUTAEH INTERIORS AND GENERAL CONTRACTING",
+   "item": "Premium Fix-Grey",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "2520",
+   "shipped": "840",
+   "why": "invoice LB26-13238 updated, sales order updated"
+  },
+  {
+   "so": "SO26-02879",
+   "customer": "FAUTAEH INTERIORS AND GENERAL CONTRACTING",
+   "item": "Tile Fix Universal-Grey 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "2400",
+   "shipped": "0",
+   "why": "invoice LB26-13238 updated, sales order updated"
+  },
+  {
    "so": "SO26-05838",
    "customer": "GENESIS GUANGJU DECORATION DESIGN IMPLEMENTATION L.L.C",
    "item": "Vetobond PB433",
@@ -80,6 +99,24 @@
    "invoiced": "2",
    "shipped": "0",
    "why": "sales order updated"
+  },
+  {
+   "so": "SO26-07173",
+   "customer": "SENERGY TECHNICAL SERVICES",
+   "item": "DS INSPIRE MATT WHITE 18L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
+   "shipped": "0",
+   "why": "invoice LB26-17363 updated, invoice LB26-19763 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07913",
+   "customer": "ALJA INVESTMENTS LIMITED",
+   "item": "Mapelastic Aquadefense Zero bucket 15kg",
+   "issue": "packed 6 but shipped 3",
+   "invoiced": "3",
+   "shipped": "3",
+   "why": "invoice LB26-19790 updated, sales order updated"
   },
   {
    "so": "SO26-07998",
@@ -118,15 +155,6 @@
    "why": "invoice LB26-19335 updated, sales order updated"
   },
   {
-   "so": "SO26-08110",
-   "customer": "DMDC CONTRACTING LLC",
-   "item": "Kerapoxy 113 unit 5kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
    "so": "SO26-08159",
    "customer": "SYED SADATH BUILDING & CONSTRUCTION MATERIALS TRADING L.L.C",
    "item": "Adesilex P9 White bag 25kg",
@@ -143,15 +171,6 @@
    "invoiced": "2",
    "shipped": "0",
    "why": "sales order updated"
-  },
-  {
-   "so": "SOSJ26-00552",
-   "customer": "GLOBAL CLASSIC BUILDING MATERIALS TRADING L.L.C",
-   "item": "9\"x1.75\" Cage Roller + Refill - Polyester Blue (10mm pile) - Roll Roy",
-   "issue": "packed 4 but shipped 2",
-   "invoiced": "2",
-   "shipped": "2",
-   "why": "invoice LBSJ26-01670 updated, sales order updated"
   }
  ],
  "alerts": [
@@ -171,5 +190,5 @@
    "when": "2026-10-10"
   }
  ],
- "calls": 528
+ "calls": 639
 }
