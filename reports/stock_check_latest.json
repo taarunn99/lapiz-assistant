@@ -1,60 +1,16 @@
 {
- "generated": "17 Oct 2026 12:01",
+ "generated": "18 Oct 2026 12:18",
  "window_days": 2,
- "checked_sos": 286,
- "lines": 588,
- "clean_sos": 271,
+ "checked_sos": 244,
+ "lines": 455,
+ "clean_sos": 239,
  "bad_sos": [
-  "SO25-09342",
-  "SO25-10791",
-  "SO26-01047",
   "SO26-02879",
-  "SO26-05838",
-  "SO26-06061",
-  "SO26-06292",
   "SO26-07173",
   "SO26-07913",
-  "SO26-07998",
-  "SO26-08159",
-  "SOSJ26-00105"
+  "SO26-08216"
  ],
  "problems": [
-  {
-   "so": "SO25-09342",
-   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
-   "item": "Planitop 110 ME bag 20kg",
-   "issue": "invoiced and shipped do not match (manually fulfilled 100)",
-   "invoiced": "0",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-10791",
-   "customer": "PACE INTERIOR FZCO",
-   "item": "STAINLY STEEL CUTTER",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "3",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-10791",
-   "customer": "PACE INTERIOR FZCO",
-   "item": "DRILL BIT MAKITA 6X20",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "10",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-01047",
-   "customer": "PACE INTERIOR FZCO",
-   "item": "Push in Tiles 600mm x 600mm white",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "175",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
   {
    "so": "SO26-02879",
    "customer": "FAUTAEH INTERIORS AND GENERAL CONTRACTING",
@@ -72,33 +28,6 @@
    "invoiced": "2400",
    "shipped": "0",
    "why": "invoice LB26-13238 updated, sales order updated"
-  },
-  {
-   "so": "SO26-05838",
-   "customer": "GENESIS GUANGJU DECORATION DESIGN IMPLEMENTATION L.L.C",
-   "item": "Vetobond PB433",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "8",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-06061",
-   "customer": "Najm AlQama Trading Company",
-   "item": "Mapelastic Aquadefense Zero bucket 15kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "100",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-06292",
-   "customer": "PACE INTERIOR FZCO",
-   "item": "FCH0136 HOLESAW 50mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "sales order updated"
   },
   {
    "so": "SO26-07173",
@@ -119,76 +48,15 @@
    "why": "invoice LB26-19790 updated, sales order updated"
   },
   {
-   "so": "SO26-07998",
-   "customer": "Evo Build LTD",
-   "item": "Ultracolor Plus 110 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "7",
-   "shipped": "0",
-   "why": "invoice LB26-19335 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07998",
-   "customer": "Evo Build LTD",
-   "item": "Ultracolor Plus 127 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "50",
-   "shipped": "0",
-   "why": "invoice LB26-19335 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07998",
-   "customer": "Evo Build LTD",
-   "item": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "22",
-   "shipped": "0",
-   "why": "invoice LB26-19335 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07998",
-   "customer": "Evo Build LTD",
-   "item": "Kerapoxy 100 unit 5kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "30",
-   "shipped": "0",
-   "why": "invoice LB26-19335 updated, sales order updated"
-  },
-  {
-   "so": "SO26-08159",
-   "customer": "SYED SADATH BUILDING & CONSTRUCTION MATERIALS TRADING L.L.C",
-   "item": "Adesilex P9 White bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "63",
-   "shipped": "126",
-   "why": "invoice LB26-19703 updated, sales order updated"
-  },
-  {
-   "so": "SOSJ26-00105",
-   "customer": "HERCULES INT.BLDG MATERIALS TRADING .LLC",
-   "item": "DM DULUX W&C MATT ECO BASE W 16.5L",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "sales order updated"
+   "so": "SO26-08216",
+   "customer": "SEVEN COLORS BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracare Kerapoxy Cleaner Spray bottle 0.75lt (box of 6)",
+   "issue": "packed 20 but shipped 10",
+   "invoiced": "10",
+   "shipped": "10",
+   "why": "invoice LB26-19849 updated, sales order updated"
   }
  ],
- "alerts": [
-  {
-   "so": "SO26-06061",
-   "text": "LB-STOCKSYNC ALERT (LB26-14602): package create failed: Only 0.00 units of item Mapelastic Aquadefense Zero bucket 15kg can be directly packed since the remaining quantity is associated with picklist(",
-   "when": "2026-10-07"
-  },
-  {
-   "so": "SO26-07998",
-   "text": "LB-STOCKSYNC ALERT (LB26-19335): partly covered by another package already: Ultracolor Plus 110 ALU bag 5kg (box of 4) invoice qty 7.0 but only 0.0 left to pack; Ultracolor Plus 127 ALU bag 5kg (box o",
-   "when": "2026-10-10"
-  },
-  {
-   "so": "SO26-07998",
-   "text": "LB-STOCKSYNC ALERT (LB26-19335): partly covered by another package already: Ultracolor Plus 110 ALU bag 5kg (box of 4) invoice qty 7.0 but only 0.0 left to pack; Ultracolor Plus 127 ALU bag 5kg (box o",
-   "when": "2026-10-10"
-  }
- ],
- "calls": 639
+ "alerts": [],
+ "calls": 547
 }
