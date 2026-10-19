@@ -1,51 +1,230 @@
 {
- "generated": "18 Oct 2026 12:18",
+ "generated": "19 Oct 2026 13:16",
  "window_days": 2,
- "checked_sos": 244,
- "lines": 455,
- "clean_sos": 239,
+ "checked_sos": 114,
+ "lines": 296,
+ "clean_sos": 110,
  "bad_sos": [
-  "SO26-02879",
-  "SO26-07173",
-  "SO26-07913",
-  "SO26-08216"
+  "SO26-07043",
+  "SO26-08216",
+  "SO26-08245"
  ],
  "problems": [
   {
-   "so": "SO26-02879",
-   "customer": "FAUTAEH INTERIORS AND GENERAL CONTRACTING",
-   "item": "Premium Fix-Grey",
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 120x74mm",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "2520",
-   "shipped": "840",
-   "why": "invoice LB26-13238 updated, sales order updated"
-  },
-  {
-   "so": "SO26-02879",
-   "customer": "FAUTAEH INTERIORS AND GENERAL CONTRACTING",
-   "item": "Tile Fix Universal-Grey 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2400",
+   "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-13238 updated, sales order updated"
+   "why": "invoice LB26-17262 updated, sales order updated"
   },
   {
-   "so": "SO26-07173",
-   "customer": "SENERGY TECHNICAL SERVICES",
-   "item": "DS INSPIRE MATT WHITE 18L",
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 70x74mm",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
+   "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-17363 updated, invoice LB26-19763 updated, sales order updated"
+   "why": "invoice LB26-17262 updated, sales order updated"
   },
   {
-   "so": "SO26-07913",
-   "customer": "ALJA INVESTMENTS LIMITED",
-   "item": "Mapelastic Aquadefense Zero bucket 15kg",
-   "issue": "packed 6 but shipped 3",
-   "invoiced": "3",
-   "shipped": "3",
-   "why": "invoice LB26-19790 updated, sales order updated"
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 75x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 65x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 60x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 55x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 50x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 45x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 40x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 35x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 32x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 30x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 28x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 25x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 22x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 20x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 18mmx64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 16mmx64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 14mmx64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 12x64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 10x64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 8x64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 6x64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "2\" BLUE TIP BRUSH - WHITE BRISTLE",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "invoice LB26-17262 updated, sales order updated"
   },
   {
    "so": "SO26-08216",
@@ -55,8 +234,23 @@
    "invoiced": "10",
    "shipped": "10",
    "why": "invoice LB26-19849 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08245",
+   "customer": "TAJ MAHAL MARBLES TR L.L.C",
+   "item": "Keraflex White bag 25kg",
+   "issue": "packed 378 but shipped 189",
+   "invoiced": "189",
+   "shipped": "189",
+   "why": "invoice LB26-19899 updated, sales order updated"
   }
  ],
- "alerts": [],
- "calls": 547
+ "alerts": [
+  {
+   "so": "SO26-07043",
+   "text": "LB-STOCKSYNC ALERT (LB26-17262): could not delete shipment of package LB-24070: You cannot delete this shipment as you have recorded a sales return for some of the items.",
+   "when": "2026-10-19"
+  }
+ ],
+ "calls": 346
 }
