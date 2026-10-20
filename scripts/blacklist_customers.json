@@ -1,52 +1,39 @@
 [
  {
-  "customer_id": "2305879000052027903",
-  "customer": "AL SHIRAWI CONTRACTING CO. (L.L.C.)",
+  "customer_id": "2305879000027803293",
+  "customer": "CONCEPT BOX TECHNICAL WORKS L.L.C",
   "sos": [
-   "SO25-10050"
+   "SO24-00537"
   ]
  },
  {
-  "customer_id": "2305879000005487040",
-  "customer": "JABAL ALROKHAM MARBLES IND. L L C",
+  "customer_id": "2305879000062696226",
+  "customer": "DESERT PRECISION CONTRACTING L.L.C",
   "sos": [
-   "SO25-10877"
-  ]
- },
- {
-  "customer_id": "2305879000001832055",
-  "customer": "SMART CHOICE BUILDING MATERIALS TRADING LLC",
-  "sos": [
-   "SO26-00124"
-  ]
- },
- {
-  "customer_id": "2305879000051788134",
-  "customer": "IMPART DESIGN LLC",
-  "sos": [
-   "SO26-00266"
+   "SO24-06412"
   ]
  },
  {
   "customer_id": "2305879000044434528",
   "customer": "METAMORPHIC BUILDING CONTRACTING LLC",
   "sos": [
-   "SO26-01186"
+   "SO25-02171",
+   "SO25-00132",
+   "SO25-04893"
   ]
  },
  {
-  "customer_id": "2305879000001102076",
-  "customer": "AL KHARBASH GENERAL MAINTENANCE LLC",
+  "customer_id": "2305879000024077356",
+  "customer": "MAKAREM AL MAJD GENERAL CONTRACTING",
   "sos": [
-   "SO26-03810"
+   "SOAD22-483"
   ]
  },
  {
-  "customer_id": "2305879000059575500",
-  "customer": "APG INTERNATIONAL LLC",
+  "customer_id": "2305879000036911299",
+  "customer": "BLUEPRINT EMIRATES INTERIORS LLC",
   "sos": [
-   "SO26-04687",
-   "SO26-05504"
+   "SO25-05583"
   ]
  }
 ]
