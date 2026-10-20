@@ -458,10 +458,10 @@
  {
   "date": "2026-10-20",
   "run_outcome": "success",
-  "status": "Sales orders complete, credit note scan still to run.",
-  "mode": "dry",
+  "status": "Ran, but no progress marker found in the log. Needs a look.",
+  "mode": "live",
   "cap": "600",
-  "calls_used": 227,
+  "calls_used": 360,
   "examined_today": 0,
   "examined_cumulative": 69,
   "total_candidates": 69,
@@ -472,6 +472,6 @@
   "skipped_human": 0,
   "cn_lines_skipped": 0,
   "cn_done": false,
-  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/39394233756"
+  "run_url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/39401444334"
  }
 ]
