@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Step 2: close old open sales orders in Zoho Books (Dubai org) to release committed stock.
+"""v2 (20 Oct 2026 evening): dropped warehouse_id, zero lines are removed instead of set to 0, picked quantity respected.
+Step 2: close old open sales orders in Zoho Books (Dubai org) to release committed stock.
 
 Two groups, both older than CUTOFF (default 2026-08-20):
   A  status open, nothing invoiced / packed / shipped        -> mark as void
@@ -95,7 +96,7 @@ log(f"{MODE} run, cutoff {CUTOFF}, groups {GROUPS}: {len(cands)} candidate order
 # ---- 2. check each one live and act --------------------------------------------------------
 done = []; skipped = []
 KEEP = ("line_item_id", "item_id", "name", "description", "rate", "quantity", "unit", "discount", "tax_id",
-        "item_order", "location_id", "warehouse_id", "project_id", "tags", "item_custom_fields", "hsn_or_sac")
+        "item_order", "location_id", "project_id", "tags", "item_custom_fields", "hsn_or_sac")
 for grp, s in cands:
     so_no = s["salesorder_number"]
     j = call("GET", f"/salesorders/{s['salesorder_id']}")
@@ -125,13 +126,16 @@ for grp, s in cands:
         for l in L:
             li = float(l.get("quantity_invoiced", 0) or 0); ls = float(l.get("quantity_shipped", 0) or 0)
             lp = float(l.get("quantity_packed", 0) or 0); lq = float(l["quantity"])
-            target = max(li, ls, lp)                       # Zoho will not go below what is already shipped or packed
+            lpk = float(l.get("quantity_picked", l.get("picked_quantity", 0)) or 0)
+            target = max(li, ls, lp, lpk)                  # Zoho will not go below what is already shipped, packed or picked
             if target > lq: bad = True
             released += lq - target
+            if target <= 0:
+                continue                                   # nothing ever happened on this line: drop it (Zoho refuses zero quantity lines)
             nl = {k: l[k] for k in KEEP if k in l and l[k] not in (None, "", [])}
             nl["quantity"] = target
             new_lines.append(nl)
-        if bad or released <= 0:
+        if bad or released <= 0 or not new_lines:
             log(so_no, "skip: nothing to reduce"); skipped.append(so_no); continue
         if MODE == "live":
             body = {"customer_id": so["customer_id"], "line_items": new_lines}
