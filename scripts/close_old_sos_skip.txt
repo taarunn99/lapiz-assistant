@@ -1,0 +1,2 @@
+# Sales orders to leave open, one per line. Example:
+# SO26-05123
