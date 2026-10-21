@@ -1,16 +1,28 @@
 {
- "generated": "20 Oct 2026 12:51",
+ "generated": "21 Oct 2026 12:51",
  "window_days": 2,
- "checked_sos": 190,
- "lines": 509,
- "clean_sos": 162,
+ "checked_sos": 1212,
+ "lines": 1709,
+ "clean_sos": 623,
  "bad_sos": [
+  "SO23-02192",
+  "SO25-05873",
+  "SO25-06480",
+  "SO25-06700",
+  "SO25-07825",
+  "SO25-07863",
+  "SO25-07958",
+  "SO25-08633",
+  "SO25-09305",
+  "SO25-09535",
+  "SO25-09775",
   "SO25-10146",
   "SO25-10331",
   "SO25-10421",
   "SO25-10963",
   "SO26-00381",
   "SO26-00937",
+  "SO26-01104",
   "SO26-01672",
   "SO26-02016",
   "SO26-03712",
@@ -22,13 +34,129 @@
   "SO26-05581",
   "SO26-05811",
   "SO26-05964",
-  "SO26-07043",
   "SO26-07675",
   "SO26-07698",
   "SO26-08228",
   "SO26-08245"
  ],
  "problems": [
+  {
+   "so": "SO23-02192",
+   "customer": "Mr . ALI",
+   "item": "KERAPOXY EASY DESIGN 188 BISCUIT  UNITS 3 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "8",
+   "shipped": "4",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-05873",
+   "customer": "ALI AL KENDI INTERIOR DESIGN AND DECORE LLC",
+   "item": "GRANIRAPID /A + B GREY 30.5 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "3599",
+   "shipped": "4414",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-05873",
+   "customer": "ALI AL KENDI INTERIOR DESIGN AND DECORE LLC",
+   "item": "Ultracare HD Cleaner jerrycan 5lt /5,5kg",
+   "issue": "packed 1 but shipped 0",
+   "invoiced": "0",
+   "shipped": "0",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-06480",
+   "customer": "THE COLLECTIONAL TRADING L.L.C",
+   "item": "ECO PRIM GRIP WHITE FUSTINI BUCKETS 10 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "167",
+   "shipped": "170",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-06700",
+   "customer": "SOLE FINE DECOR WORKS LLC",
+   "item": "GRANIRAPID WHITE A+B 28 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "140",
+   "shipped": "280",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-07825",
+   "customer": "DANI TRADING LLC",
+   "item": "Ultracare Stain Protector W jerrycan 1lt (box of 10)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "4",
+   "shipped": "6",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-07863",
+   "customer": "Green Prefab FZE",
+   "item": "KERASET GREY BAGS NEW 25 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "126",
+   "shipped": "378",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-07958",
+   "customer": "STATIC CONTRACTING L.L.C",
+   "item": "Ultracolor Plus 133 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "18",
+   "shipped": "40",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-08633",
+   "customer": "KATILINK PARKWAY METALS AND JOINERY INDUSTRIES LLC",
+   "item": "Keraflex Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "315",
+   "shipped": "441",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-09305",
+   "customer": "YELLOW ZONE TECHNICAL SERVICES",
+   "item": "SADOLIN CLASSIC PALISANDAR 1 USG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "2",
+   "shipped": "4",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-09535",
+   "customer": "MODULAR INNOVATIONS LLC",
+   "item": "ZQAN/10 BLACK ANOD. ALU. CM270",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "92",
+   "shipped": "184",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-09535",
+   "customer": "MODULAR INNOVATIONS LLC",
+   "item": "Alum Tile Edge L Trim 15mm x3mmx2.7m",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "50",
+   "shipped": "100",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-09775",
+   "customer": "TAJ MAHAL MARBLES TR L.L.C",
+   "item": "Primer G jerrycan 5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
+   "shipped": "10",
+   "why": "sales order updated"
+  },
   {
    "so": "SO25-10146",
    "customer": "SOFT LINE BLDG CONT LLC SP",
@@ -134,6 +262,24 @@
    "item": "KT Spiked Shoes Black color with 13 pointed hardened steel spikes 25 mm in each shoe to provide ...",
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
+   "shipped": "0",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO26-01104",
+   "customer": "DESERT DELIGHT IRRIGATION EQUIPMENT TRADING LLC",
+   "item": "AQUASTOP NANOFLEX 20KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
+   "shipped": "0",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO26-01104",
+   "customer": "DESERT DELIGHT IRRIGATION EQUIPMENT TRADING LLC",
+   "item": "BIOGEL EXTREME A+B",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
    "shipped": "0",
    "why": "sales order updated"
   },
@@ -264,222 +410,6 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 120x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 70x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 75x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 65x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 60x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 55x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 50x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 45x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 40x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 35x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 32x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 30x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 28x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 25x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 22x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 20x74mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 18mmx64mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 16mmx64mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 14mmx64mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 12x64mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 10x64mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 8x64mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 6x64mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07043",
-   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
-   "item": "2\" BLUE TIP BRUSH - WHITE BRISTLE",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "invoice LB26-17262 updated, sales order updated"
-  },
-  {
    "so": "SO26-07675",
    "customer": "MODERN BUILDING MATERIALS LLC",
    "item": "Topcem Pronto bag 25kg",
@@ -500,11 +430,38 @@
   {
    "so": "SO26-07698",
    "customer": "TAJ MAHAL MARBLES TR L.L.C",
+   "item": "Ultracolor Plus 110 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "24",
+   "shipped": "4",
+   "why": "invoice LB26-18740 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07698",
+   "customer": "TAJ MAHAL MARBLES TR L.L.C",
+   "item": "Ultracolor Plus 131 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "40",
+   "shipped": "0",
+   "why": "invoice LB26-18740 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07698",
+   "customer": "TAJ MAHAL MARBLES TR L.L.C",
+   "item": "Ultracolor Plus 142 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "8",
+   "shipped": "0",
+   "why": "invoice LB26-18740 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07698",
+   "customer": "TAJ MAHAL MARBLES TR L.L.C",
    "item": "Ultracolor Plus 188 ALU bag 5kg (box of 4)",
    "issue": "packed 8 but shipped 4",
    "invoiced": "4",
    "shipped": "4",
-   "why": "sales order updated"
+   "why": "invoice LB26-18740 updated, sales order updated"
   },
   {
    "so": "SO26-08228",
@@ -519,18 +476,12 @@
    "so": "SO26-08245",
    "customer": "TAJ MAHAL MARBLES TR L.L.C",
    "item": "Keraflex White bag 25kg",
-   "issue": "packed 378 but shipped 189",
-   "invoiced": "189",
-   "shipped": "189",
-   "why": "invoice LB26-19899 updated, sales order updated"
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "268",
+   "shipped": "252",
+   "why": "invoice LB26-19997 updated, sales order updated"
   }
  ],
- "alerts": [
-  {
-   "so": "SO26-07043",
-   "text": "LB-STOCKSYNC ALERT (LB26-17262): could not delete shipment of package LB-24070: You cannot delete this shipment as you have recorded a sales return for some of the items.",
-   "when": "2026-10-19"
-  }
- ],
- "calls": 534
+ "alerts": [],
+ "calls": 1656
 }
