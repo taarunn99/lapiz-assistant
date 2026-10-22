@@ -1,9 +1,9 @@
 {
- "generated": "21 Oct 2026 12:51",
+ "generated": "22 Oct 2026 12:53",
  "window_days": 2,
- "checked_sos": 1212,
- "lines": 1709,
- "clean_sos": 623,
+ "checked_sos": 1199,
+ "lines": 1692,
+ "clean_sos": 629,
  "bad_sos": [
   "SO23-02192",
   "SO25-05873",
@@ -16,28 +16,12 @@
   "SO25-09305",
   "SO25-09535",
   "SO25-09775",
-  "SO25-10146",
-  "SO25-10331",
-  "SO25-10421",
-  "SO25-10963",
-  "SO26-00381",
-  "SO26-00937",
   "SO26-01104",
-  "SO26-01672",
-  "SO26-02016",
-  "SO26-03712",
-  "SO26-04044",
-  "SO26-04989",
-  "SO26-05132",
   "SO26-05357",
-  "SO26-05382",
-  "SO26-05581",
-  "SO26-05811",
-  "SO26-05964",
-  "SO26-07675",
   "SO26-07698",
-  "SO26-08228",
-  "SO26-08245"
+  "SO26-08046",
+  "SO26-08245",
+  "SO26-08282"
  ],
  "problems": [
   {
@@ -158,114 +142,6 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO25-10146",
-   "customer": "SOFT LINE BLDG CONT LLC SP",
-   "item": "Mapenet 150 roll 1x50mt /164,05ft",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "6",
-   "shipped": "2",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-10146",
-   "customer": "SOFT LINE BLDG CONT LLC SP",
-   "item": "Primer SN  A+B 20 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "6",
-   "shipped": "4",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-10331",
-   "customer": "FINAL SPECS FLOORING L.L.C",
-   "item": "ACTIVE PRIME GRIP 5KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "10",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-10421",
-   "customer": "PURAN RAM TECHNICAL SERVICES CO.L.L.C",
-   "item": "STAUF FLOORFIX D-63 PRIMER",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-10963",
-   "customer": "AHMED ALQAYDI",
-   "item": "Adesilex PG2 TG unit 6kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-10963",
-   "customer": "AHMED ALQAYDI",
-   "item": "Quartz 0.5 ME bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-10963",
-   "customer": "AHMED ALQAYDI",
-   "item": "AQUABARRIER NET - 100 MTR ROLL",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-00381",
-   "customer": "DMDC CONTRACTING LLC",
-   "item": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-00381",
-   "customer": "DMDC CONTRACTING LLC",
-   "item": "SPPG SLATE GREY 5.2 KG (A+B+C)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-00937",
-   "customer": "INZAMAM HUSSAIN LANDSCAPE GARDENING",
-   "item": "Ultraplan Eco 20 bag 23kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "17",
-   "shipped": "10",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-00937",
-   "customer": "INZAMAM HUSSAIN LANDSCAPE GARDENING",
-   "item": "Spiked roller 9\" pile length 13mm (D806C with handle)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-00937",
-   "customer": "INZAMAM HUSSAIN LANDSCAPE GARDENING",
-   "item": "KT Spiked Shoes Black color with 13 pointed hardened steel spikes 25 mm in each shoe to provide ...",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
    "so": "SO26-01104",
    "customer": "DESERT DELIGHT IRRIGATION EQUIPMENT TRADING LLC",
    "item": "AQUASTOP NANOFLEX 20KG",
@@ -284,87 +160,6 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO26-01672",
-   "customer": "DMDC CONTRACTING LLC",
-   "item": "SUPER MASTIC/MARBLE GLUE WITH HARDNER 1KG-CRYSTAL CLEAR",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-02016",
-   "customer": "DNB DESIGN CONCEPTS INTERIORS L.L.C",
-   "item": "VASA Epoxy Tile Grout\uff08 White-01\uff09",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "65",
-   "shipped": "17",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-03712",
-   "customer": "JSIR AL MAJARAH BLDG. MATERIAL TRADING L.L.C",
-   "item": "Ultracolor Plus 112 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "30",
-   "shipped": "10",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-04044",
-   "customer": "EDGE - SCM BUILDING CONTRACTING LLC",
-   "item": "Kerapoxy Easy Design 0163 Light Lilac unit 3kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "13",
-   "shipped": "3",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-04989",
-   "customer": "ALBASSAT TRADING LLC",
-   "item": "Ultracolor Plus 131 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-04989",
-   "customer": "ALBASSAT TRADING LLC",
-   "item": "Ultracolor Plus 130 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-04989",
-   "customer": "ALBASSAT TRADING LLC",
-   "item": "Ultracolor Plus 132 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-04989",
-   "customer": "ALBASSAT TRADING LLC",
-   "item": "Ultracolor Plus 142 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-05132",
-   "customer": "SEVEN COLORS BUILDING MATERIALS TRADING L.L.C",
-   "item": "AQUABARRIER NET - 100 MTR ROLL",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "10",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
    "so": "SO26-05357",
    "customer": "TRIKAI TECHNICAL SERVICES",
    "item": "254 PLATINUM GREY 20 KG BAG",
@@ -372,60 +167,6 @@
    "invoiced": "50",
    "shipped": "3",
    "why": "sales order updated"
-  },
-  {
-   "so": "SO26-05382",
-   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
-   "item": "Ultracolor Plus 136 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "8",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-05581",
-   "customer": "GOLDEN GATEWAY GOODS WHOLESALERS L.L.C",
-   "item": "Drywall Skimming\nScraper,ergonomic PVC handle,Flexible 0.3mm stainless steel blade 1000mm 1000mm",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-05811",
-   "customer": "WETAR BUILDING MATERIALS TRADING CO.L.L.C.",
-   "item": "Quartz 0.5mm bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "33",
-   "shipped": "5",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-05964",
-   "customer": "IDYLLIC INTERIORS LLC",
-   "item": "Ultraplan Eco 20 bag 23kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "60",
-   "shipped": "42",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-07675",
-   "customer": "MODERN BUILDING MATERIALS LLC",
-   "item": "Topcem Pronto bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "40",
-   "shipped": "36",
-   "why": "invoice LB26-18559 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07675",
-   "customer": "MODERN BUILDING MATERIALS LLC",
-   "item": "Planicrete jerrycan 5kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "1",
-   "why": "invoice LB26-18559 updated, sales order updated"
   },
   {
    "so": "SO26-07698",
@@ -464,24 +205,33 @@
    "why": "invoice LB26-18740 updated, sales order updated"
   },
   {
-   "so": "SO26-08228",
-   "customer": "AL QOUZ BUILDING MATERIAL TRADING LLC",
-   "item": "Kerapoxy Easy Design 0168 Cerulean unit 3kg",
+   "so": "SO26-08046",
+   "customer": "SION STAR BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultralite S2 Flex (N) White bag 15kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "3",
-   "shipped": "0",
-   "why": "invoice LB26-19870 updated, sales order updated"
+   "invoiced": "12",
+   "shipped": "11",
+   "why": "sales order updated"
   },
   {
    "so": "SO26-08245",
    "customer": "TAJ MAHAL MARBLES TR L.L.C",
    "item": "Keraflex White bag 25kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "268",
+   "invoiced": "344",
    "shipped": "252",
-   "why": "invoice LB26-19997 updated, sales order updated"
+   "why": "invoice LB26-19997 updated, invoice LB26-20111 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08282",
+   "customer": "ADVANCE VICTORY CONTRACTING LLC",
+   "item": "Mapesil AC Zero 137 crt 310ml (box of 12)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "4",
+   "shipped": "0",
+   "why": "invoice LB26-20162 updated, sales order updated"
   }
  ],
  "alerts": [],
- "calls": 1656
+ "calls": 1640
 }
