@@ -127,6 +127,18 @@ def handle(row):
         elif picks:
             log("   picklist present and DELETE_PICKLISTS off; stopping here for this order"); refused.append([so_no, "picklist"]); return
         if rets:
+            # an earlier attempt may have created the return without receiving it: receive that one instead of making a second
+            ex = Z.get("/salesreturns", salesorder_id=so["salesorder_id"]).get("salesreturns", [])
+            ex = [e for e in ex if float(e.get("quantity_yet_to_receive") or 0) > 0 and e.get("salesreturn_status") != "void"]
+            if ex:
+                e = ex[0]; srd = Z.get(f"/salesreturns/{e['salesreturn_id']}").get("salesreturn", {})
+                rl = [{"line_item_id": li["line_item_id"], "quantity": float(li["quantity"]) - float(li.get("quantity_received") or 0)} for li in srd.get("line_items", [])]
+                rl = [x for x in rl if x["quantity"] > 0]
+                r2 = Z.post("/salesreturnreceives", {"date": TODAY, "line_items": rl, "notes": "Stock sync 22 Oct 2026"}, salesreturn_id=e["salesreturn_id"])
+                if r2.get("code") != 0: log(f"   receive of existing {e['salesreturn_number']} FAILED: {r2.get('message')}"); refused.append([so_no, "receive: " + str(r2.get("message"))]); return
+                q = sum(x["quantity"] for x in rl); log(f"   existing return {e['salesreturn_number']} received, physical stock up by {q:g}")
+                done.append({"so": so_no, "action": "receive existing return", "units": q, "rma": e["salesreturn_number"]}); rets = []
+        if rets:
             body = {"salesorder_id": so["salesorder_id"], "date": TODAY, "reason": "Stock sync 22 Oct 2026: shipped more than invoiced, physical aligned to accounting",
                     "line_items": [{"salesorder_item_id": l["line_item_id"], "item_id": l["item_id"], "quantity": q,
                                     "rate": l.get("rate", 0), "location_id": l.get("location_id") or so.get("location_id")} for l, q in rets]}
@@ -135,7 +147,7 @@ def handle(row):
             if r.get("code") != 0: log(f"   sales return FAILED: {r.get('message')}"); refused.append([so_no, "return: " + str(r.get("message"))]); return
             sr = r["salesreturn"]; log(f"   sales return {sr['salesreturn_number']} created, {sum(q for _, q in rets):g} units")
             rl = [{"line_item_id": li["line_item_id"], "quantity": li["quantity"]} for li in sr.get("line_items", [])]
-            r2 = Z.post("/salesreturnreceives", {"salesreturn_id": sr["salesreturn_id"], "date": TODAY, "line_items": rl, "notes": "Stock sync 22 Oct 2026"})
+            r2 = Z.post("/salesreturnreceives", {"date": TODAY, "line_items": rl, "notes": "Stock sync 22 Oct 2026"}, salesreturn_id=sr["salesreturn_id"])
             if r2.get("code") != 0:
                 log(f"   receive FAILED: {r2.get('message')} (return {sr['salesreturn_number']} left unreceived, fix by hand)"); refused.append([so_no, "receive: " + str(r2.get("message"))]); return
             log(f"   received {r2.get('salesreturnreceive', {}).get('receive_number', '')}: physical stock up by {sum(q for _, q in rets):g}")
