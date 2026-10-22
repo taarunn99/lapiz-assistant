@@ -131,7 +131,7 @@ def handle(row):
                     "line_items": [{"salesorder_item_id": l["line_item_id"], "item_id": l["item_id"], "quantity": q,
                                     "rate": l.get("rate", 0), "location_id": l.get("location_id") or so.get("location_id")} for l, q in rets]}
             body["line_items"] = [{k: v for k, v in li.items() if v not in (None, "")} for li in body["line_items"]]
-            r = Z.post("/salesreturns", body)
+            r = Z.post("/salesreturns", body, salesorder_id=so["salesorder_id"])
             if r.get("code") != 0: log(f"   sales return FAILED: {r.get('message')}"); refused.append([so_no, "return: " + str(r.get("message"))]); return
             sr = r["salesreturn"]; log(f"   sales return {sr['salesreturn_number']} created, {sum(q for _, q in rets):g} units")
             rl = [{"line_item_id": li["line_item_id"], "quantity": li["quantity"]} for li in sr.get("line_items", [])]
