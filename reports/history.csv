@@ -25,3 +25,4 @@ date,run_outcome,status,mode,cap,calls_used,examined_today,examined_cumulative,t
 2026-10-19,success,COMPLETE: all sales orders examined and credit notes scanned. Plan is ready for review.,dry,9000,67,0,7536,7590,54,7514,8499,101,0,1692,True,https://github.com/taarunn99/lapiz-assistant/actions/runs/39285208967
 2026-10-20,success,"Sales orders complete, credit note scan still to run.",dry,9000,110,67,136,137,1,58,62,0,1,0,False,https://github.com/taarunn99/lapiz-assistant/actions/runs/39437562214
 2026-10-21,success,"Sales orders complete, credit note scan still to run.",dry,9000,110,0,136,204,68,58,62,0,1,0,False,https://github.com/taarunn99/lapiz-assistant/actions/runs/39616875646
+2026-10-22,success,"Ran, but no progress marker found in the log. Needs a look.",live,600,27,0,136,204,68,58,62,0,1,0,False,https://github.com/taarunn99/lapiz-assistant/actions/runs/39773455427
