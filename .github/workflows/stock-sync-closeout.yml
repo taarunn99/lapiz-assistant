@@ -1,0 +1,60 @@
+name: Stock sync close out old orders
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry (show what would happen, change nothing) or live (do it)"
+        required: true
+        default: "dry"
+        type: choice
+        options: [dry, live]
+      cutoff:
+        description: "Only orders dated on or before this day (YYYY-MM-DD)"
+        required: true
+        default: "2026-08-20"
+      so_numbers:
+        description: "Optional: comma separated SO numbers to restrict to (testing)"
+        required: false
+        default: ""
+      delete_picklists:
+        description: "Type 1 to delete picklists that block an order (they hold no stock and no money)"
+        required: true
+        default: "0"
+      max_calls:
+        description: "API call cap for this run"
+        required: true
+        default: "4000"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Close out old sales orders
+        env:
+          ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
+          ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
+          ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
+          ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
+          CUTOFF: ${{ inputs.cutoff }}
+          SO_NUMBERS: ${{ inputs.so_numbers }}
+          DELETE_PICKLISTS: ${{ inputs.delete_picklists }}
+          MAX_CALLS: ${{ inputs.max_calls }}
+          RATE_PER_MIN: "40"
+          SKIP_FILE: scripts/close_old_sos_skip.txt
+        run: |
+          mkdir -p out
+          echo "mode ${{ inputs.mode }} cutoff $CUTOFF delete_picklists $DELETE_PICKLISTS"
+          python scripts/close_out_step2.py ${{ inputs.mode }} 2>&1 | tee out/run_log.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: closeout-out
+          path: out
+          retention-days: 90
