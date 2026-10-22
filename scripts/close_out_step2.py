@@ -103,7 +103,9 @@ def handle(row):
         qi = float(l.get("quantity_invoiced") or 0); v = min(voids.get(l["item_id"], 0), qi); voids[l["item_id"]] = voids.get(l["item_id"], 0) - v
         live = qi - v; out = float(l.get("quantity_shipped") or 0) + float(l.get("quantity_manuallyfulfilled") or 0) - float(l.get("quantity_returned") or 0)
         if out > live + 1e-6: rets.append((l, out - live)); summary.append(f"{l['name'][:25]}: out {out:g} after returns, invoiced {live:g}, return {out - live:g}")
-        elif live > out + 1e-6: ship_needed.append((l, live - out)); summary.append(f"{l['name'][:25]}: invoiced {live:g}, shipped {out:g}, backfill must ship {live - out:g}")
+        elif live > out + float(l.get("quantity_returned") or 0) + 1e-6:
+            gapq = live - out - float(l.get("quantity_returned") or 0)
+            ship_needed.append((l, gapq)); summary.append(f"{l['name'][:25]}: invoiced {live:g}, shipped {out + float(l.get('quantity_returned') or 0):g}, backfill must ship {gapq:g}")
     nothing = all(float(l.get("quantity_invoiced") or 0) == 0 and float(l.get("quantity_shipped") or 0) == 0 and float(l.get("quantity_packed") or 0) == 0 and float(l.get("quantity_manuallyfulfilled") or 0) == 0 for l in L)
     picks = so.get("picklists") or []
     flag, _ = read_flag(cid)
