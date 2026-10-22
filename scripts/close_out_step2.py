@@ -114,8 +114,15 @@ def handle(row):
     if flag: plan.append("re-blacklist")
     log(f"{so_no} {so['date']} {cust[:30]} [{so['status']}/{so.get('shipped_status')}] -> {'; '.join(plan)}  | {' / '.join(summary)}")
     if MODE != "live": return
-    unticked = False
+    unticked = False; reactivated = []
     try:
+        if rets:
+            for l, q in rets:
+                it = Z.get(f"/items/{l['item_id']}").get("item", {})
+                if it.get("status") == "inactive":
+                    r = Z.post(f"/items/{l['item_id']}/active")
+                    if r.get("code") == 0: reactivated.append((l["item_id"], l["name"])); log(f"   item {l['name'][:30]} was inactive, set active for the return")
+                    else: log(f"   could not activate item {l['name'][:30]}: {r.get('message')}")
         if flag:
             ok, msg = set_flag(cid, False)
             if not ok or read_flag(cid)[0]: log(f"   could not untick BLACKLISTED ({msg}); skipped"); refused.append([so_no, "untick failed"]); return
@@ -129,7 +136,7 @@ def handle(row):
         if rets:
             # an earlier attempt may have created the return without receiving it: receive that one instead of making a second
             ex = Z.get("/salesreturns", salesorder_id=so["salesorder_id"]).get("salesreturns", [])
-            ex = [e for e in ex if float(e.get("quantity_yet_to_receive") or 0) > 0 and e.get("salesreturn_status") != "void"]
+            ex = [e for e in ex if str(e.get("salesorder_id")) == str(so["salesorder_id"]) and float(e.get("quantity_yet_to_receive") or 0) > 0 and e.get("salesreturn_status") != "void"]
             if ex:
                 e = ex[0]; srd = Z.get(f"/salesreturns/{e['salesreturn_id']}").get("salesreturn", {})
                 rl = [{"line_item_id": li["line_item_id"], "quantity": float(li["quantity"]) - float(li.get("quantity_received") or 0)} for li in srd.get("line_items", [])]
@@ -166,7 +173,7 @@ def handle(row):
         new_lines = []; released = 0.0
         for l in L:
             qi = float(l.get("quantity_invoiced") or 0); live = qi - min(voids.get(l["item_id"], 0), qi)
-            tgt = max(live, float(l.get("quantity_shipped") or 0), float(l.get("quantity_packed") or 0), float(l.get("quantity_picked") or 0))
+            tgt = max(live, qi, float(l.get("quantity_shipped") or 0), float(l.get("quantity_packed") or 0), float(l.get("quantity_picked") or 0))
             tgt = min(tgt, float(l["quantity"])); released += float(l["quantity"]) - tgt
             if tgt <= 0: continue
             nl = {k: l[k] for k in KEEP if k in l and l[k] not in (None, "", [])}; nl["quantity"] = tgt; new_lines.append(nl)
@@ -177,6 +184,9 @@ def handle(row):
         else:
             log(f"   REDUCE FAILED: {r.get('message')}"); refused.append([so_no, "reduce: " + str(r.get("message"))])
     finally:
+        for iid, nm in reactivated:
+            r = Z.post(f"/items/{iid}/inactive")
+            log(f"   item {nm[:30]} set back to inactive: {'ok' if r.get('code') == 0 else 'FAILED ' + str(r.get('message'))}")
         if unticked: restore(cid, cust)
 
 rows = list_sos()
