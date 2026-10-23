@@ -359,6 +359,13 @@ def reverse_zero_invoice(inv):
         if v.get("code") != 0: refused.append([no, "credit note void: " + str(v.get("message"))]); return False
     if inv.get("status") != "void":
         v = Z.post(f"/invoices/{inv['invoice_id']}/status/void")
+        if v.get("code") != 0 and "BLACKLIST" in str(v.get("message")).upper():
+            # same dance as the close out: untick the flag, void, tick it back (always)
+            cid = inv["customer_id"]; cust = inv.get("customer_name", "")
+            ok, msg = set_flag(cid, False)
+            log(f"   {cust[:30]} BLACKLISTED unticked for the void: {'ok' if ok and not read_flag(cid)[0] else 'FAILED ' + str(msg)}")
+            try: v = Z.post(f"/invoices/{inv['invoice_id']}/status/void")
+            finally: restore(cid, cust)
         log(f"   invoice {no} void: {'ok' if v.get('code') == 0 else 'FAILED ' + str(v.get('message'))}")
         if v.get("code") != 0: refused.append([no, "invoice void: " + str(v.get("message"))]); return False
     so_no = inv.get("reference_number") or ""
