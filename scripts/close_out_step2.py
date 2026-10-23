@@ -249,6 +249,17 @@ def credit_zero_invoice(inv, so_no):
     """Credit note with the same item lines as the zero invoice, so accounting stock goes straight back up.
     Tries the lines exactly as Zoho wrote them on the invoice, first tied to the invoice, then standalone.
     If Zoho refuses both, the zero invoice is VOIDED so accounting stock is never left lower than before."""
+    # this org has invoice approval on: a new invoice is born as a DRAFT (no stock effect, no credit note possible). Approve it first.
+    if inv.get("status") in ("draft", "pending_approval"):
+        a = Z.post(f"/invoices/{inv['invoice_id']}/approve")
+        if a.get("code") != 0:
+            s = Z.post(f"/invoices/{inv['invoice_id']}/submit"); a = Z.post(f"/invoices/{inv['invoice_id']}/approve")
+        inv = Z.get(f"/invoices/{inv['invoice_id']}").get("invoice", inv)
+        log(f"   invoice {inv['invoice_number']} approve: {'ok' if a.get('code') == 0 else 'FAILED ' + str(a.get('message'))}, status now {inv.get('status')}")
+        if inv.get("status") in ("draft", "pending_approval"):
+            v = Z.post(f"/invoices/{inv['invoice_id']}/status/void")
+            log(f"   could not approve, void {inv['invoice_number']}: {'ok' if v.get('code') == 0 else 'FAILED ' + str(v.get('message'))}")
+            refused.append([so_no, "zero invoice could not be approved" + (" (voided)" if v.get("code") == 0 else f" ({inv['invoice_number']} still draft)")]); return None
     CNKEEP = ("item_id", "name", "description", "quantity", "rate", "unit", "tax_id", "location_id", "account_id", "item_order")
     cn_lines = [{k: x[k] for k in CNKEEP if k in x and x[k] not in (None, "")} for x in inv.get("line_items", [])]
     for li in cn_lines: li["rate"] = 0
