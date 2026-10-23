@@ -404,6 +404,8 @@ def dedup_returns(only_so=None):
     for so_no, lst in sorted(by_so.items()):
         if len(lst) < 2: continue
         so = Z.get(f"/salesorders/{lst[0]['salesorder_id']}").get("salesorder", {})
+        if any(float(i.get("total") or 0) == 0 and i.get("status") != "void" for i in so.get("invoices", [])):
+            log(f"{so_no}: still has a live zero value invoice, reverse it first (REVERSE), skipped"); continue
         voids = void_qty_by_item(so)
         need = {}   # salesorder_item_id -> units that SHOULD have been returned = shipped - live invoiced
         for l in so.get("line_items", []):
@@ -425,7 +427,10 @@ def dedup_returns(only_so=None):
         for d in reversed(full):
             qty = {li["salesorder_item_id"]: float(li["quantity"]) for li in d.get("line_items", [])}
             if not all(over.get(k, 0) + 1e-6 >= q for k, q in qty.items()): log(f"   {d['salesreturn_number']} is not a pure duplicate, left for a human"); continue
-            if MODE != "live": log(f"   would delete {d['salesreturn_number']} ({sum(qty.values()):g} units) and its receive"); continue
+            if MODE != "live":
+                log(f"   would delete {d['salesreturn_number']} ({sum(qty.values()):g} units) and its receive")
+                for k, q in qty.items(): over[k] = over.get(k, 0) - q
+                continue
             for rc in d.get("salesreturnreceives", []) or d.get("receives", []):
                 x = Z.req("DELETE", f"/salesreturnreceives/{rc.get('receive_id') or rc.get('salesreturnreceive_id')}")
                 log(f"   receive {rc.get('receive_number','')} of {d['salesreturn_number']} delete: {'ok' if x.get('code') == 0 else 'FAILED ' + str(x.get('message'))}")
