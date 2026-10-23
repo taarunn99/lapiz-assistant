@@ -349,6 +349,49 @@ def credit_zero_invoice(inv, so_no):
         if CN_FAILS >= 2 and ZERO_CLOSE: ZERO_CLOSE = False; log("   two credit notes refused in this run: zero invoice closing switched OFF for the rest of the run")
     return cn
 
+def reverse_zero_invoice(inv):
+    """Undo one close out zero invoice: void its credit note(s), then void the invoice. The sales order reopens."""
+    no = inv["invoice_number"]
+    cns = [c for c in Z.get("/creditnotes", reference_number=no).get("creditnotes", []) if c.get("status") != "void"]
+    for c in cns:
+        v = Z.post(f"/creditnotes/{c['creditnote_id']}/status/void")
+        log(f"   credit note {c['creditnote_number']} void: {'ok' if v.get('code') == 0 else 'FAILED ' + str(v.get('message'))}")
+        if v.get("code") != 0: refused.append([no, "credit note void: " + str(v.get("message"))]); return False
+    if inv.get("status") != "void":
+        v = Z.post(f"/invoices/{inv['invoice_id']}/status/void")
+        log(f"   invoice {no} void: {'ok' if v.get('code') == 0 else 'FAILED ' + str(v.get('message'))}")
+        if v.get("code") != 0: refused.append([no, "invoice void: " + str(v.get("message"))]); return False
+    so_no = inv.get("reference_number") or ""
+    st = ""
+    if so_no:
+        j = Z.get("/salesorders", salesorder_number=so_no); s = (j.get("salesorders") or [{}])[0]
+        st = f"{s.get('status')}/{s.get('shipped_status')} order_status {s.get('order_status')}"
+    log(f"   {no} reversed, {so_no} now {st}")
+    done.append({"so": so_no, "action": "reverse zero invoice", "units": 0, "invoice": no, "credit_notes": [c["creditnote_number"] for c in cns], "status_after": st})
+    return True
+
+def reverse_all(only=None):
+    page = 1; found = []
+    while True:
+        j = Z.get("/invoices", date=TODAY, per_page=200, page=page)
+        for i in j.get("invoices", []):
+            if float(i.get("total") or 0) == 0 and i.get("status") != "void": found.append(i)
+        if not j.get("page_context", {}).get("has_more_page"): break
+        page += 1
+    log(f"reverse: {len(found)} zero value non void invoices dated {TODAY}" + (f", restricted to {sorted(only)}" if only else ""))
+    for i in found:
+        if only and i["invoice_number"] not in only: continue
+        inv = Z.get(f"/invoices/{i['invoice_id']}").get("invoice", {})
+        if "Stock sync close out" not in (inv.get("notes") or ""): log(f"{i['invoice_number']}: not a close out invoice, left alone"); continue
+        log(f"{inv['invoice_number']} ({inv.get('reference_number')}) status {inv.get('status')}")
+        if MODE == "live": reverse_zero_invoice(inv)
+
+if ONLY == {"REVERSE"} or (ONLY and all(s.startswith("REVERSE:") for s in ONLY)):
+    reverse_all(None if ONLY == {"REVERSE"} else {s.split(":", 1)[1] for s in ONLY})
+    json.dump({"mode": MODE, "reverse": True, "done": done, "refused": refused, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
+    log(f"reverse finished: {len(done)} invoices reversed, {len(refused)} refused, calls {Z.calls}")
+    sys.exit(0)
+
 if ONLY == {"REPAIR"}:
     repair_zero_invoices()
     json.dump({"mode": MODE, "repair": True, "done": done, "refused": refused, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
