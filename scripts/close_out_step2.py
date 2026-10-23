@@ -3,6 +3,8 @@
 v3 changes: counts quantity already returned; Sharjah location on returns; ships invoiced-not-shipped lines through the backfill (heal on);
 voids drop ships that have no invoice; when Zoho will not reduce a line, closes the order with a zero value invoice plus a credit note
 against it (ZERO_CLOSE=1, default on).
+v3.2 (22 Oct 18:00): zero invoice quantity ignores voided invoices (quantity_invoiced counts them, Zoho's "left to invoice" does not);
+zero invoices carry the order's salesperson, or a default one, because this org refuses invoices without a salesperson.
 
 Rule agreed with Tarun and his manager on 22 Oct 2026: accounting stock is correct, physical must follow it.
 For every open or partially invoiced sales order dated on or before CUTOFF (default 2026-08-20):
@@ -119,7 +121,7 @@ def handle(row):
     if flag: plan.append("re-blacklist")
     log(f"{so_no} {so['date']} {cust[:30]} [{so['status']}/{so.get('shipped_status')}] -> {'; '.join(plan)}  | {' / '.join(summary)}")
     if MODE != "live": return
-    unticked = False; reactivated = []
+    unticked = False; reactivated = []; relocated = []
     try:
         if rets:
             for l, q in rets:
@@ -156,6 +158,14 @@ def handle(row):
                                     "rate": l.get("rate", 0), "location_id": l.get("location_id") or so.get("location_id")} for l, q in rets]}
             body["line_items"] = [{k: v for k, v in li.items() if v not in (None, "")} for li in body["line_items"]]
             r = Z.post("/salesreturns", body, salesorder_id=so["salesorder_id"])
+            if r.get("code") != 0 and "location" in str(r.get("message")).lower() and "inactive" in str(r.get("message")).lower():
+                # Sharjah location is switched off: wake it for this return, put it back to sleep in finally
+                for lid in {x for x in [so.get("location_id")] + [li.get("location_id") for li in body["line_items"]] if x}:
+                    a = Z.post(f"/locations/{lid}/active")
+                    if a.get("code") != 0: a = Z.post(f"/settings/locations/{lid}/active")
+                    log(f"   location {lid} set active for the return: {'ok' if a.get('code') == 0 else 'FAILED ' + str(a.get('message'))}")
+                    if a.get("code") == 0: relocated.append(lid)
+                if relocated: r = Z.post("/salesreturns", body, salesorder_id=so["salesorder_id"])
             if r.get("code") != 0: log(f"   sales return FAILED: {r.get('message')}"); refused.append([so_no, "return: " + str(r.get("message"))]); return
             sr = r["salesreturn"]; log(f"   sales return {sr['salesreturn_number']} created, {sum(q for _, q in rets):g} units")
             rl = [{"line_item_id": li["line_item_id"], "quantity": li["quantity"]} for li in sr.get("line_items", [])]
@@ -166,8 +176,14 @@ def handle(row):
             done.append({"so": so_no, "action": "return+receive", "units": sum(q for _, q in rets), "rma": sr["salesreturn_number"]})
         if ship_needed and not dropship:
             bf.HEAL_STAFF = True
-            for line in bf.execute_so({"salesorder_id": so["salesorder_id"], "salesorder_number": so_no}): log("   backfill: " + str(line)[:200])
-            done.append({"so": so_no, "action": "backfill ship", "units": sum(q for _, q in ship_needed)})
+            bl = [str(x) for x in bf.execute_so({"salesorder_id": so["salesorder_id"], "salesorder_number": so_no})]
+            for line in bl: log("   backfill: " + line[:200])
+            if any(" OK " in x or "delivered" in x for x in bl):
+                done.append({"so": so_no, "action": "backfill ship", "units": sum(q for _, q in ship_needed)})
+            else:
+                _, fl = bf.plan_so(so["salesorder_id"])          # say why the backfill found nothing to ship
+                log("   backfill could not ship: " + ("; ".join(fl) if fl else "no live invoice line with room on the order"))
+                refused.append([so_no, "backfill: " + ("; ".join(fl)[:150] if fl else "nothing packable")])
         # close the order
         so = Z.get(f"/salesorders/{so['salesorder_id']}").get("salesorder", so)
         if so.get("status") in ("closed", "void", "invoiced") and so.get("shipped_status") in ("fulfilled", "shipped"):
@@ -180,6 +196,8 @@ def handle(row):
             r = Z.post(f"/salesorders/{so['salesorder_id']}/status/void")
             log(f"   VOID {'ok' if r.get('code') == 0 else 'FAILED: ' + str(r.get('message'))}")
             if r.get("code") == 0: done.append({"so": so_no, "action": "void", "units": sum(float(l['quantity']) for l in L)})
+            elif dropship and ZERO_CLOSE:
+                log("   drop ship cannot be voided, closing it with a zero invoice + credit note instead"); zero_close(so, L, voids, so_no)
             else: refused.append([so_no, "void: " + str(r.get("message"))])
             return
         new_lines = []; released = 0.0
@@ -203,27 +221,51 @@ def handle(row):
         if ZERO_CLOSE: zero_close(so, L, voids, so_no)
         else: refused.append([so_no, "reduce: " + str(r.get("message"))])
     finally:
+        for lid in relocated:
+            a = Z.post(f"/locations/{lid}/inactive")
+            if a.get("code") != 0: a = Z.post(f"/settings/locations/{lid}/inactive")
+            log(f"   location {lid} set back to inactive: {'ok' if a.get('code') == 0 else 'FAILED ' + str(a.get('message'))}")
         for iid, nm in reactivated:
             r = Z.post(f"/items/{iid}/inactive")
             log(f"   item {nm[:30]} set back to inactive: {'ok' if r.get('code') == 0 else 'FAILED ' + str(r.get('message'))}")
         if unticked: restore(cid, cust)
 
 ZERO_CLOSE = os.environ.get("ZERO_CLOSE", "1") == "1"
+_sp = {}
+def default_salesperson():
+    """Used only when the sales order itself has no salesperson. Prefers the name in env SALESPERSON, else the first active one."""
+    if "id" in _sp: return _sp["id"]
+    _sp["id"] = None
+    j = Z.get("/salespersons")
+    people = [p for p in j.get("data", j.get("salespersons", [])) if p.get("is_active", True)]
+    want = (os.environ.get("SALESPERSON") or "").strip().lower()
+    for p in people:
+        if want and want in (p.get("salesperson_name") or "").lower(): _sp["id"] = p["salesperson_id"]; break
+    if not _sp["id"] and people: _sp["id"] = people[0]["salesperson_id"]
+    log(f"   default salesperson for zero invoices: {_sp['id'] and next(p['salesperson_name'] for p in people if p['salesperson_id'] == _sp['id'])}")
+    return _sp["id"]
+
 def zero_close(so, L, voids, so_no):
     """Zoho closes a sales order only when invoiced quantity equals ordered quantity. When the line cannot be reduced,
     invoice the leftover quantity at zero price and immediately credit note that invoice with the same item lines.
     Accounting stock goes down and straight back up (net zero), physical does not move, no money, no VAT, order closes."""
     inv_lines = []
+    vd = void_qty_by_item(so)                      # fresh copy: quantity_invoiced counts voided invoices too, Zoho's own "left to invoice" does not
     for l in L:
-        qi = float(l.get("quantity_invoiced") or 0); q = float(l["quantity"]) - qi - float(l.get("quantity_cancelled") or 0)
+        qi = float(l.get("quantity_invoiced") or 0); v = min(vd.get(l["item_id"], 0), qi); vd[l["item_id"]] = vd.get(l["item_id"], 0) - v
+        live = qi - v; q = float(l["quantity"]) - live - float(l.get("quantity_cancelled") or 0)
         if q > 1e-6:
             inv_lines.append({"item_id": l["item_id"], "salesorder_item_id": l["line_item_id"], "quantity": q, "rate": 0, "name": l.get("name"),
                               "description": "Stock sync close out 22 Oct 2026, zero value", "location_id": l.get("location_id") or so.get("location_id")})
     inv_lines = [{k: v for k, v in li.items() if v not in (None, "")} for li in inv_lines]
-    if not inv_lines: log("   zero close: nothing left to invoice"); return
-    r = Z.post("/invoices", {"customer_id": so["customer_id"], "date": TODAY, "reference_number": so_no, "line_items": inv_lines,
-                             "notes": "Stock sync close out 22 Oct 2026. Zero value invoice so Zoho can close the sales order. A credit note is issued against it."},
-               salesorderids=so["salesorder_id"])
+    if not inv_lines:
+        log("   zero close: nothing left to invoice | " + " / ".join(f"{l['name'][:20]} ord {float(l['quantity']):g} inv {float(l.get('quantity_invoiced') or 0):g} canc {float(l.get('quantity_cancelled') or 0):g} shp {float(l.get('quantity_shipped') or 0):g}" for l in L))
+        refused.append([so_no, "still open but nothing left to invoice (invoiced = ordered), check shipped status"]); return
+    body = {"customer_id": so["customer_id"], "date": TODAY, "reference_number": so_no, "line_items": inv_lines,
+            "notes": "Stock sync close out 22 Oct 2026. Zero value invoice so Zoho can close the sales order. A credit note is issued against it."}
+    sp = so.get("salesperson_id") or default_salesperson()   # org rule: "Salesperson cannot be empty"
+    if sp: body["salesperson_id"] = sp
+    r = Z.post("/invoices", body, salesorderids=so["salesorder_id"])
     if r.get("code") != 0: log(f"   zero invoice FAILED: {r.get('message')}"); refused.append([so_no, "zero invoice: " + str(r.get("message"))]); return
     inv = r["invoice"]; log(f"   zero invoice {inv['invoice_number']} created for {sum(x['quantity'] for x in inv_lines):g} units")
     cn_lines = []
