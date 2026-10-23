@@ -452,6 +452,44 @@ def dedup_returns(only_so=None):
         so2 = Z.get(f"/salesorders/{so['salesorder_id']}").get("salesorder", {})
         log(f"   {so_no} now: returned {sum(float(l.get('quantity_returned') or 0) for l in so2.get('line_items', [])):g}, shipped {sum(float(l.get('quantity_shipped') or 0) for l in so2.get('line_items', [])):g}, status {so2.get('status')}/{so2.get('shipped_status')}")
 
+def deliver_finished(only_so=None):
+    """Group A (23 Oct 2026): orders where ordered = invoiced = shipped but a shipment was never marked delivered,
+    so Zoho still lists them as partly shipped. Marks those shipments delivered. No document, no stock change."""
+    rows = list_sos()
+    if only_so: rows = [r for r in rows if r["salesorder_number"] in only_so]
+    log(f"deliver: {len(rows)} open or partly invoiced orders dated <= {CUTOFF} to check")
+    n_fix = 0
+    for r in rows:
+        so = Z.get(f"/salesorders/{r['salesorder_id']}").get("salesorder", {})
+        L = [l for l in so.get("line_items", []) if l.get("item_type") == "inventory"]
+        if not L: continue
+        full = all(abs(float(l["quantity"]) - float(l.get("quantity_invoiced") or 0)) < 1e-6 and abs(float(l["quantity"]) - float(l.get("quantity_shipped") or 0)) < 1e-6 for l in L)
+        if not full: continue
+        if so.get("order_status") == "closed" and so.get("shipped_status") in ("fulfilled", "shipped"): continue
+        pend = [p for p in so.get("packages", []) if (p.get("status") or "") != "delivered"]
+        log(f"{so['salesorder_number']} {so['date']} {so['customer_name'][:30]}: ordered=invoiced=shipped, status {so.get('status')}/{so.get('shipped_status')}, packages not delivered: {[(p.get('package_number'), p.get('status'), p.get('shipment_number')) for p in pend]}")
+        if not pend: log("   no undelivered package found, Zoho status is stale, left alone"); refused.append([so["salesorder_number"], "all packages delivered already"]); continue
+        if MODE != "live": n_fix += 1; continue
+        for p in pend:
+            sid = p.get("shipment_id")
+            if not sid:
+                s = Z.post("/shipmentorders", {"date": p.get("date") or so["date"], "delivery_method": "Al Quoz", "notes": "Stock sync 23 Oct 2026: shipment for an already packed order"}, package_ids=p["package_id"], salesorder_id=so["salesorder_id"], send_notification="false")
+                if s.get("code") != 0: log(f"   shipment for {p.get('package_number')} FAILED: {s.get('message')}"); refused.append([so["salesorder_number"], f"shipment {p.get('package_number')}: {s.get('message')}"]); continue
+                sid = (s.get("shipmentorder") or {}).get("shipmentorder_id") or (s.get("shipmentorder") or {}).get("shipment_id")
+            d = Z.post(f"/shipmentorders/{sid}/status/delivered")
+            log(f"   {p.get('package_number')} marked delivered: {'ok' if d.get('code') == 0 else 'FAILED ' + str(d.get('message'))}")
+            if d.get("code") == 0: done.append({"so": so["salesorder_number"], "action": "mark delivered", "units": float(p.get("quantity") or 0), "package": p.get("package_number")})
+            else: refused.append([so["salesorder_number"], f"deliver {p.get('package_number')}: {d.get('message')}"])
+        so2 = Z.get(f"/salesorders/{so['salesorder_id']}").get("salesorder", {})
+        log(f"   now {so2.get('status')}/{so2.get('shipped_status')} order_status {so2.get('order_status')}")
+    if MODE != "live": log(f"deliver dry: {n_fix} orders would be marked delivered")
+
+if ONLY == {"DELIVER"} or (ONLY and all(s.startswith("DELIVER:") for s in ONLY)):
+    deliver_finished(None if ONLY == {"DELIVER"} else {s.split(":", 1)[1] for s in ONLY})
+    json.dump({"mode": MODE, "deliver": True, "done": done, "refused": refused, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
+    log(f"deliver finished: {len(done)} packages marked delivered, {len(refused)} refused, calls {Z.calls}")
+    sys.exit(0)
+
 if ONLY == {"DEDUP"} or (ONLY and all(s.startswith("DEDUP:") for s in ONLY)):
     dedup_returns(None if ONLY == {"DEDUP"} else {s.split(":", 1)[1] for s in ONLY})
     json.dump({"mode": MODE, "dedup": True, "done": done, "refused": refused, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
