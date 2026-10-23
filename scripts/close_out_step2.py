@@ -245,6 +245,55 @@ def default_salesperson():
     log(f"   default salesperson for zero invoices: {_sp['id'] and next(p['salesperson_name'] for p in people if p['salesperson_id'] == _sp['id'])}")
     return _sp["id"]
 
+def credit_zero_invoice(inv, so_no):
+    """Credit note with the same item lines as the zero invoice, so accounting stock goes straight back up.
+    Tries the lines exactly as Zoho wrote them on the invoice, first tied to the invoice, then standalone.
+    If Zoho refuses both, the zero invoice is VOIDED so accounting stock is never left lower than before."""
+    CNKEEP = ("item_id", "name", "description", "quantity", "rate", "unit", "tax_id", "location_id", "account_id", "item_order")
+    cn_lines = [{k: x[k] for k in CNKEEP if k in x and x[k] not in (None, "")} for x in inv.get("line_items", [])]
+    for li in cn_lines: li["rate"] = 0
+    body = {"customer_id": inv["customer_id"], "date": TODAY, "reference_number": inv["invoice_number"], "line_items": cn_lines,
+            "notes": f"Stock sync close out 22 Oct 2026. Cancels zero value invoice {inv['invoice_number']} (sales order {so_no})."}
+    if inv.get("salesperson_id"): body["salesperson_id"] = inv["salesperson_id"]
+    if inv.get("location_id"): body["location_id"] = inv["location_id"]
+    r2 = Z.post("/creditnotes", body, invoice_id=inv["invoice_id"])
+    if r2.get("code") != 0:
+        log(f"   credit note tied to invoice refused ({r2.get('message')} | {json.dumps(r2)[:300]}), trying standalone")
+        r2 = Z.post("/creditnotes", body)
+    if r2.get("code") != 0:
+        log(f"   standalone refused ({r2.get('message')}), trying minimal lines")
+        body2 = dict(body); body2["line_items"] = [{"item_id": x["item_id"], "quantity": x["quantity"], "rate": 0} for x in cn_lines]
+        r2 = Z.post("/creditnotes", body2, invoice_id=inv["invoice_id"])
+    if r2.get("code") != 0:
+        log(f"   credit note FAILED: {r2.get('message')}; voiding zero invoice {inv['invoice_number']} so stock is untouched")
+        v = Z.post(f"/invoices/{inv['invoice_id']}/status/void")
+        log(f"   void {inv['invoice_number']}: {'ok' if v.get('code') == 0 else 'FAILED ' + str(v.get('message'))}")
+        refused.append([so_no, "credit note: " + str(r2.get("message")) + (" (zero invoice voided)" if v.get("code") == 0 else f" (zero invoice {inv['invoice_number']} STANDS, void by hand)")])
+        return None
+    cn = r2["creditnote"]; log(f"   credit note {cn['creditnote_number']} created against {inv['invoice_number']}")
+    return cn
+
+def repair_zero_invoices():
+    """so_numbers = REPAIR: find today's zero value close out invoices that have no credit note yet and credit them."""
+    page = 1; found = []
+    while True:
+        j = Z.get("/invoices", date=TODAY, per_page=200, page=page)
+        for i in j.get("invoices", []):
+            if float(i.get("total") or 0) == 0 and i.get("status") != "void": found.append(i)
+        if not j.get("page_context", {}).get("has_more_page"): break
+        page += 1
+    log(f"repair: {len(found)} zero value invoices dated {TODAY}")
+    for i in found:
+        inv = Z.get(f"/invoices/{i['invoice_id']}").get("invoice", {})
+        if "Stock sync close out" not in (inv.get("notes") or ""): continue
+        cns = Z.get("/creditnotes", reference_number=inv["invoice_number"]).get("creditnotes", [])
+        if any(c.get("status") != "void" for c in cns): log(f"{inv['invoice_number']} already has credit note {cns[0]['creditnote_number']}"); continue
+        so_no = inv.get("reference_number") or "?"
+        log(f"{inv['invoice_number']} ({so_no}) needs its credit note")
+        if MODE == "live":
+            cn = credit_zero_invoice(inv, so_no)
+            if cn: done.append({"so": so_no, "action": "credit note for standing zero invoice", "units": sum(float(x.get("quantity") or 0) for x in inv.get("line_items", [])), "invoice": inv["invoice_number"], "credit_note": cn["creditnote_number"]})
+
 def zero_close(so, L, voids, so_no):
     """Zoho closes a sales order only when invoiced quantity equals ordered quantity. When the line cannot be reduced,
     invoice the leftover quantity at zero price and immediately credit note that invoice with the same item lines.
@@ -268,19 +317,39 @@ def zero_close(so, L, voids, so_no):
     r = Z.post("/invoices", body, salesorderids=so["salesorder_id"])
     if r.get("code") != 0: log(f"   zero invoice FAILED: {r.get('message')}"); refused.append([so_no, "zero invoice: " + str(r.get("message"))]); return
     inv = r["invoice"]; log(f"   zero invoice {inv['invoice_number']} created for {sum(x['quantity'] for x in inv_lines):g} units")
-    cn_lines = []
-    for li in inv_lines:
-        iid = next((x["line_item_id"] for x in inv.get("line_items", []) if x.get("item_id") == li["item_id"]), None)
-        c = {"item_id": li["item_id"], "quantity": li["quantity"], "rate": 0, "name": li.get("name"), "invoice_item_id": iid, "location_id": li.get("location_id")}
-        cn_lines.append({k: v for k, v in c.items() if v not in (None, "")})
-    r2 = Z.post("/creditnotes", {"customer_id": so["customer_id"], "date": TODAY, "reference_number": inv["invoice_number"], "line_items": cn_lines,
-                                 "notes": f"Stock sync close out 22 Oct 2026. Cancels zero value invoice {inv['invoice_number']}."}, invoice_id=inv["invoice_id"])
-    if r2.get("code") != 0:
-        log(f"   credit note FAILED: {r2.get('message')} (zero invoice {inv['invoice_number']} stands, void it by hand)"); refused.append([so_no, "credit note: " + str(r2.get("message"))]); return
-    cn = r2["creditnote"]; log(f"   credit note {cn['creditnote_number']} created against {inv['invoice_number']}")
+    cn = credit_zero_invoice(inv, so_no)
+    if not cn: return
     so2 = Z.get(f"/salesorders/{so['salesorder_id']}").get("salesorder", {})
     log(f"   order now {so2.get('status')}/{so2.get('shipped_status')}")
     done.append({"so": so_no, "action": "zero invoice + credit note", "units": sum(x["quantity"] for x in inv_lines), "invoice": inv["invoice_number"], "credit_note": cn["creditnote_number"], "status_after": so2.get("status")})
+
+CN_FAILS = 0
+_orig_credit = credit_zero_invoice
+def credit_zero_invoice(inv, so_no):
+    """Wrapper: after 2 credit note failures in one run, stop creating zero invoices at all (ZERO_CLOSE off)."""
+    global CN_FAILS, ZERO_CLOSE
+    cn = _orig_credit(inv, so_no)
+    if cn is None:
+        CN_FAILS += 1
+        if CN_FAILS >= 2 and ZERO_CLOSE: ZERO_CLOSE = False; log("   two credit notes refused in this run: zero invoice closing switched OFF for the rest of the run")
+    return cn
+
+if ONLY == {"REPAIR"}:
+    repair_zero_invoices()
+    json.dump({"mode": MODE, "repair": True, "done": done, "refused": refused, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
+    log(f"repair finished: {len(done)} credit notes made, {len(refused)} refused, calls {Z.calls}")
+    sys.exit(0)
+if ONLY and all(s.startswith("REPAIR:") for s in ONLY):   # REPAIR:LB26-20250 = repair that one invoice only (test)
+    want = {s.split(":", 1)[1] for s in ONLY}
+    for no in want:
+        j = Z.get("/invoices", invoice_number=no); i = (j.get("invoices") or [{}])[0]
+        inv = Z.get(f"/invoices/{i.get('invoice_id')}").get("invoice", {}) if i.get("invoice_id") else {}
+        if not inv or "Stock sync close out" not in (inv.get("notes") or "") or float(inv.get("total") or 0) != 0: log(f"{no}: not a close out zero invoice, skipped"); continue
+        log(f"{no} ({inv.get('reference_number')}) total {inv.get('total')} status {inv.get('status')}")
+        if MODE == "live":
+            cn = credit_zero_invoice(inv, inv.get("reference_number") or "?")
+            if cn: done.append({"so": inv.get("reference_number"), "action": "credit note for standing zero invoice", "units": sum(float(x.get("quantity") or 0) for x in inv.get("line_items", [])), "invoice": no, "credit_note": cn["creditnote_number"]})
+    log(f"repair finished: {len(done)} credit notes made, {len(refused)} refused, calls {Z.calls}"); sys.exit(0)
 
 rows = list_sos()
 if ONLY: rows = [r for r in rows if r["salesorder_number"] in ONLY]
