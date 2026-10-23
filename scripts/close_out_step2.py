@@ -250,13 +250,15 @@ def credit_zero_invoice(inv, so_no):
     Tries the lines exactly as Zoho wrote them on the invoice, first tied to the invoice, then standalone.
     If Zoho refuses both, the zero invoice is VOIDED so accounting stock is never left lower than before."""
     # this org has invoice approval on: a new invoice is born as a DRAFT (no stock effect, no credit note possible). Approve it first.
-    if inv.get("status") in ("draft", "pending_approval"):
-        a = Z.post(f"/invoices/{inv['invoice_id']}/approve")
+    if inv.get("status") in ("draft", "pending_approval", "approved"):
+        a = Z.post(f"/invoices/{inv['invoice_id']}/approve") if inv.get("status") != "approved" else {"code": 0}
         if a.get("code") != 0:
             s = Z.post(f"/invoices/{inv['invoice_id']}/submit"); a = Z.post(f"/invoices/{inv['invoice_id']}/approve")
+        # "approved" still counts as draft for Zoho until the invoice is marked as sent (no email goes out)
+        s = Z.post(f"/invoices/{inv['invoice_id']}/status/sent")
         inv = Z.get(f"/invoices/{inv['invoice_id']}").get("invoice", inv)
-        log(f"   invoice {inv['invoice_number']} approve: {'ok' if a.get('code') == 0 else 'FAILED ' + str(a.get('message'))}, status now {inv.get('status')}")
-        if inv.get("status") in ("draft", "pending_approval"):
+        log(f"   invoice {inv['invoice_number']} approve: {'ok' if a.get('code') == 0 else 'FAILED ' + str(a.get('message'))}, mark sent: {'ok' if s.get('code') == 0 else 'FAILED ' + str(s.get('message'))}, status now {inv.get('status')}")
+        if inv.get("status") in ("draft", "pending_approval", "approved"):
             v = Z.post(f"/invoices/{inv['invoice_id']}/status/void")
             log(f"   could not approve, void {inv['invoice_number']}: {'ok' if v.get('code') == 0 else 'FAILED ' + str(v.get('message'))}")
             refused.append([so_no, "zero invoice could not be approved" + (" (voided)" if v.get("code") == 0 else f" ({inv['invoice_number']} still draft)")]); return None
