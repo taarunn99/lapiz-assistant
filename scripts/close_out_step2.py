@@ -269,6 +269,8 @@ def credit_zero_invoice(inv, so_no):
             "notes": f"Stock sync close out 22 Oct 2026. Cancels zero value invoice {inv['invoice_number']} (sales order {so_no})."}
     if inv.get("salesperson_id"): body["salesperson_id"] = inv["salesperson_id"]
     if inv.get("location_id"): body["location_id"] = inv["location_id"]
+    for k in ("place_of_supply", "vat_treatment", "tax_treatment", "is_inclusive_tax", "vat_reg_no", "tax_reg_no"):   # UAE VAT: must match the invoice
+        if inv.get(k) not in (None, ""): body[k] = inv[k]
     r2 = Z.post("/creditnotes", body, invoice_id=inv["invoice_id"])
     if r2.get("code") != 0:
         log(f"   credit note tied to invoice refused ({r2.get('message')} | {json.dumps(r2)[:300]}), trying standalone")
