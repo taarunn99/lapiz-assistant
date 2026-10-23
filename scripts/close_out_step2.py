@@ -495,9 +495,7 @@ def deliver_finished(only_so=None):
         drop = bool(so.get("is_dropshipped") or so.get("is_drop_shipment"))
         if so_fm: method, src = so_fm, "order field"
         elif so_no in mapping: method, src = mapping[so_no], "decided in fulfillment_map.csv"
-        elif len(inv_fm) == 1: method, src = next(iter(inv_fm)), "invoice field"
-        elif drop: method, src = "Delivery from Supplier", "drop ship flag"
-        else: method, src = "", "no clue"
+        else: method, src = "Collect at Lapiz Blue", "Adil's decision 23 Oct 2026: all old orders without the field get Collect at Lapiz Blue"
         log(f"{so_no} {so['date']} {so['customer_name'][:30]}: ordered=invoiced=shipped, status {so.get('status')}/{so.get('shipped_status')}, "
             f"packages not delivered: {[(p.get('package_number'), p.get('status'), p.get('shipment_number')) for p in pend]} | "
             f"fulfillment: order='{so_fm}' invoice={sorted(inv_fm)} staff carriers={carriers} dropship={drop} -> {method or 'UNKNOWN'} ({src})")
