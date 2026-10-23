@@ -452,13 +452,28 @@ def dedup_returns(only_so=None):
         so2 = Z.get(f"/salesorders/{so['salesorder_id']}").get("salesorder", {})
         log(f"   {so_no} now: returned {sum(float(l.get('quantity_returned') or 0) for l in so2.get('line_items', [])):g}, shipped {sum(float(l.get('quantity_shipped') or 0) for l in so2.get('line_items', [])):g}, status {so2.get('status')}/{so2.get('shipped_status')}")
 
+FM_FIELD = "2305879000128578077"     # custom field "Fulfillment Method" on sales orders (mandatory since ~Mar 2026)
+FM_VALUES = ("Collect at Lapiz Blue", "Delivery From Lapiz Blue", "Delivery from Supplier")
+def fm_map():
+    """scripts/fulfillment_map.csv: so_number,method  (decided by Tarun or Adil for orders that carry no clue)"""
+    m = {}; p = "scripts/fulfillment_map.csv"
+    if os.path.exists(p):
+        for line in open(p):
+            parts = [x.strip() for x in line.split(",", 1)]
+            if len(parts) == 2 and parts[1] in FM_VALUES: m[parts[0]] = parts[1]
+    return m
+
 def deliver_finished(only_so=None):
-    """Group A (23 Oct 2026): orders where ordered = invoiced = shipped but a shipment was never marked delivered,
-    so Zoho still lists them as partly shipped. Marks those shipments delivered. No document, no stock change."""
+    """Group A (23 Oct 2026): orders where ordered = invoiced = shipped but a shipment was never marked delivered.
+    Found by hand on SO-00544: Zoho's cached shipment status is stale, so 'Mark as Delivered' refuses with a quantity
+    mismatch. Saving the order once refreshes the cache, after which the delivered tick works. Saving needs the
+    mandatory custom field Fulfillment Method, which older orders lack: it is taken from the order itself, else from
+    scripts/fulfillment_map.csv (decided by a person), else from the order's invoice, else from the drop ship flag.
+    Orders with no source are listed and left alone. No document, no stock change."""
     rows = list_sos()
     if only_so: rows = [r for r in rows if r["salesorder_number"] in only_so]
     log(f"deliver: {len(rows)} open or partly invoiced orders dated <= {CUTOFF} to check")
-    n_fix = 0
+    n_fix = 0; need_decision = []; mapping = fm_map()
     for r in rows:
         so = Z.get(f"/salesorders/{r['salesorder_id']}").get("salesorder", {})
         L = [l for l in so.get("line_items", []) if l.get("item_type") == "inventory"]
@@ -466,10 +481,37 @@ def deliver_finished(only_so=None):
         full = all(abs(float(l["quantity"]) - float(l.get("quantity_invoiced") or 0)) < 1e-6 and abs(float(l["quantity"]) - float(l.get("quantity_shipped") or 0)) < 1e-6 for l in L)
         if not full: continue
         if so.get("order_status") == "closed" and so.get("shipped_status") in ("fulfilled", "shipped"): continue
+        so_no = so["salesorder_number"]
         pend = [p for p in so.get("packages", []) if (p.get("status") or "") != "delivered"]
-        log(f"{so['salesorder_number']} {so['date']} {so['customer_name'][:30]}: ordered=invoiced=shipped, status {so.get('status')}/{so.get('shipped_status')}, packages not delivered: {[(p.get('package_number'), p.get('status'), p.get('shipment_number')) for p in pend]}")
-        if not pend: log("   no undelivered package found, Zoho status is stale, left alone"); refused.append([so["salesorder_number"], "all packages delivered already"]); continue
+        # clues for the fulfillment method
+        so_fm = next((c.get("value") for c in so.get("custom_fields", []) if str(c.get("customfield_id")) == FM_FIELD and c.get("value")), "")
+        inv_fm = set()
+        for i in so.get("invoices", []):
+            if i.get("status") == "void": continue
+            iv = bf.get_invoice(i["invoice_id"]) or {}
+            for c in iv.get("custom_fields", []):
+                if c.get("api_name") == "cf_fulfillment_method" and c.get("value"): inv_fm.add(c["value"])
+        carriers = sorted({p.get("carrier") for p in so.get("packages", []) if p.get("carrier") and p.get("carrier") != "Al Quoz"})
+        drop = bool(so.get("is_dropshipped") or so.get("is_drop_shipment"))
+        if so_fm: method, src = so_fm, "order field"
+        elif so_no in mapping: method, src = mapping[so_no], "decided in fulfillment_map.csv"
+        elif len(inv_fm) == 1: method, src = next(iter(inv_fm)), "invoice field"
+        elif drop: method, src = "Delivery from Supplier", "drop ship flag"
+        else: method, src = "", "no clue"
+        log(f"{so_no} {so['date']} {so['customer_name'][:30]}: ordered=invoiced=shipped, status {so.get('status')}/{so.get('shipped_status')}, "
+            f"packages not delivered: {[(p.get('package_number'), p.get('status'), p.get('shipment_number')) for p in pend]} | "
+            f"fulfillment: order='{so_fm}' invoice={sorted(inv_fm)} staff carriers={carriers} dropship={drop} -> {method or 'UNKNOWN'} ({src})")
+        if not pend: log("   no undelivered package found, Zoho status is stale, left alone"); refused.append([so_no, "all packages delivered already"]); continue
+        if not method: need_decision.append([so_no, so["date"], so["customer_name"], ", ".join(l["name"][:30] for l in L)]); continue
         if MODE != "live": n_fix += 1; continue
+        # 1. save the order once (same lines, fulfillment method set) so Zoho refreshes its cached shipment status
+        body_lines = []
+        for l in so["line_items"]:
+            nl = {k: l[k] for k in KEEP if k in l and l[k] not in (None, "", [])}; body_lines.append(nl)
+        u = Z.req("PUT", f"/salesorders/{so['salesorder_id']}", params={"ignore_auto_number_generation": "true"},
+                  json={"customer_id": so["customer_id"], "line_items": body_lines, "custom_fields": [{"customfield_id": FM_FIELD, "value": method}]})
+        if u.get("code") != 0: log(f"   save FAILED: {u.get('message')}"); refused.append([so_no, "save: " + str(u.get("message"))]); continue
+        log(f"   order saved (fulfillment method {method}, {src}), shipment status now {u.get('salesorder', {}).get('shipped_status')}")
         for p in pend:
             sid = p.get("shipment_id")
             if not sid:
@@ -482,7 +524,127 @@ def deliver_finished(only_so=None):
             else: refused.append([so["salesorder_number"], f"deliver {p.get('package_number')}: {d.get('message')}"])
         so2 = Z.get(f"/salesorders/{so['salesorder_id']}").get("salesorder", {})
         log(f"   now {so2.get('status')}/{so2.get('shipped_status')} order_status {so2.get('order_status')}")
-    if MODE != "live": log(f"deliver dry: {n_fix} orders would be marked delivered")
+    if need_decision:
+        log(f"deliver: {len(need_decision)} orders have no clue for Fulfillment Method, a person decides (put them in scripts/fulfillment_map.csv as so_number,method):")
+        for nd in need_decision: log("   NEEDS DECISION " + " | ".join(nd))
+        json.dump(need_decision, open(f"{OUT}/fulfillment_needs_decision.json", "w"), indent=1)
+    if MODE != "live": log(f"deliver dry: {n_fix} orders would be saved and marked delivered, {len(need_decision)} wait for a decision")
+
+def cn_returns(only_so=None):
+    """Tarun's rule (23 Oct 2026): per sales order line, net shipped must equal net invoiced.
+    net invoiced = invoiced - voided - credited (credit notes with item lines that were NOT born from a sales return).
+    Where shipped - returned is more than net invoiced, create a sales return for the difference and receive it.
+    Only returns and receives are created. Approved after CN26-00230 / SO26-00618 was checked by hand."""
+    credited = {}; cn_of = {}; page = 1; seen = 0
+    if only_so:   # test path: read only the credit notes hanging off the named orders
+        for so_no in sorted(only_so):
+            s = (Z.get("/salesorders", salesorder_number=so_no).get("salesorders") or [{}])[0]
+            if not s.get("salesorder_id"): log(f"{so_no}: not found"); continue
+            so = Z.get(f"/salesorders/{s['salesorder_id']}").get("salesorder", {})
+            for c in so.get("creditnotes", []):
+                if c.get("salesreturn_id") or str(c.get("status", "")).lower() in ("void", "draft"): continue
+                cn = Z.get(f"/creditnotes/{c['creditnotes_id']}").get("creditnote")
+                if not cn: continue
+                seen += 1
+                for cl in cn.get("line_items", []):
+                    if cl.get("item_type") != "inventory": continue
+                    iid = cl.get("invoice_id") or cn.get("invoice_id"); iil = cl.get("invoice_item_id")
+                    if not iid or not iil: continue
+                    iv = bf.get_invoice(iid) or {}
+                    for il in iv.get("line_items", []):
+                        if il["line_item_id"] == iil and il.get("salesorder_item_id"):
+                            d = credited.setdefault(so["salesorder_id"], {}); d[il["salesorder_item_id"]] = d.get(il["salesorder_item_id"], 0.0) + float(cl["quantity"])
+                            cn_of.setdefault(so["salesorder_id"], set()).add((cn["creditnote_number"], cn["creditnote_id"]))
+            credited.setdefault(so["salesorder_id"], {})
+    while not only_so:
+        j = Z.get("/creditnotes", per_page=200, page=page, sort_column="date")
+        if j.get("code") != 0: log(f"credit note list failed: {j.get('message')}"); break
+        for c in j.get("creditnotes", []):
+            if c.get("status") in ("void", "draft"): continue
+            cn = Z.get(f"/creditnotes/{c['creditnote_id']}").get("creditnote")
+            if not cn: continue
+            seen += 1
+            if cn.get("salesreturn_id"): continue          # made from a sales return: stock already moved once
+            want = {}
+            for cl in cn.get("line_items", []):
+                if cl.get("item_type") != "inventory": continue
+                iid = cl.get("invoice_id") or cn.get("invoice_id"); iil = cl.get("invoice_item_id")
+                if not iid or not iil: continue             # not tied to an invoice line: counter credit, nothing to pair
+                want.setdefault(iid, {}); want[iid][iil] = want[iid].get(iil, 0.0) + float(cl["quantity"])
+            for iid, lines in want.items():
+                iv = bf.get_invoice(iid)
+                if not iv: continue
+                so_ids = [s["salesorder_id"] for s in iv.get("salesorders", [])] or ([iv["salesorder_id"]] if iv.get("salesorder_id") else [])
+                if not so_ids: continue
+                for il in iv.get("line_items", []):
+                    if il["line_item_id"] in lines and il.get("salesorder_item_id"):
+                        d = credited.setdefault(so_ids[0], {}); d[il["salesorder_item_id"]] = d.get(il["salesorder_item_id"], 0.0) + lines[il["line_item_id"]]
+                        cn_of.setdefault(so_ids[0], set()).add((cn["creditnote_number"], cn["creditnote_id"]))
+        if not j.get("page_context", {}).get("has_more_page"): break
+        page += 1
+    log(f"credit notes read: {seen}, sales orders with credited item lines: {len(credited)}")
+    n_need = 0; units = 0.0
+    for so_id, cred in credited.items():
+        so = Z.get(f"/salesorders/{so_id}").get("salesorder", {})
+        if not so: continue
+        so_no = so["salesorder_number"]
+        if only_so and so_no not in only_so: continue
+        voids = void_qty_by_item(so); rets = []; info = []
+        for l in so.get("line_items", []):
+            if l.get("item_type") != "inventory": continue
+            qi = float(l.get("quantity_invoiced") or 0); v = min(voids.get(l["item_id"], 0), qi); voids[l["item_id"]] = voids.get(l["item_id"], 0) - v
+            net_inv = qi - v - cred.get(l["line_item_id"], 0.0)
+            out = float(l.get("quantity_shipped") or 0) + float(l.get("quantity_manuallyfulfilled") or 0)
+            returned = float(l.get("quantity_returned") or 0)
+            gap = (out - returned) - net_inv
+            if abs(gap) > 1e-6: info.append(f"{l['name'][:25]}: shipped {out:g}, returned {returned:g}, invoiced {qi:g}, voided {v:g}, credited {cred.get(l['line_item_id'],0):g} -> {'return ' + format(gap,'g') if gap > 0 else 'over returned by ' + format(-gap,'g')}")
+            if gap > 1e-6: rets.append((l, gap))
+        if not rets: continue
+        n_need += 1; units += sum(q for _, q in rets)
+        cns = ", ".join(sorted(n for n, _ in cn_of.get(so_id, [])))
+        log(f"{so_no} {so['date']} {so['customer_name'][:30]} [{so.get('status')}] credit notes {cns} | " + " / ".join(info))
+        if MODE != "live": continue
+        cid = so["customer_id"]; flag, _ = read_flag(cid); unticked = False; reactivated = []; relocated = []
+        try:
+            if flag:
+                ok, msg = set_flag(cid, False)
+                if not ok or read_flag(cid)[0]: log(f"   could not untick BLACKLISTED ({msg}); skipped"); refused.append([so_no, "untick failed"]); continue
+                unticked = True; log("   BLACKLISTED unticked")
+            for l, q in rets:
+                it = Z.get(f"/items/{l['item_id']}").get("item", {})
+                if it.get("status") == "inactive":
+                    r = Z.post(f"/items/{l['item_id']}/active")
+                    if r.get("code") == 0: reactivated.append((l["item_id"], l["name"])); log(f"   item {l['name'][:30]} was inactive, set active for the return")
+            body = {"salesorder_id": so_id, "date": TODAY, "location_id": so.get("location_id"),
+                    "reason": f"Stock sync 23 Oct 2026: goods credited on {cns} never recorded back, physical aligned to accounting | " + " ".join(f"cn:{i}" for _, i in cn_of.get(so_id, [])),
+                    "line_items": [{"salesorder_item_id": l["line_item_id"], "item_id": l["item_id"], "quantity": q, "rate": l.get("rate", 0), "location_id": l.get("location_id") or so.get("location_id")} for l, q in rets]}
+            body["line_items"] = [{k: v for k, v in li.items() if v not in (None, "")} for li in body["line_items"]]
+            r = Z.post("/salesreturns", body, salesorder_id=so_id)
+            if r.get("code") != 0 and "location" in str(r.get("message")).lower() and "inactive" in str(r.get("message")).lower():
+                for lid in {x for x in [so.get("location_id")] + [li.get("location_id") for li in body["line_items"]] if x}:
+                    a = Z.post(f"/settings/locations/{lid}/active")
+                    if a.get("code") == 0: relocated.append(lid); log(f"   location {lid} set active for the return")
+                if relocated: r = Z.post("/salesreturns", body, salesorder_id=so_id)
+            if r.get("code") != 0: log(f"   sales return FAILED: {r.get('message')}"); refused.append([so_no, "return: " + str(r.get("message"))]); continue
+            sr = r["salesreturn"]; log(f"   sales return {sr['salesreturn_number']} created, {sum(q for _, q in rets):g} units")
+            rl = [{"line_item_id": li["line_item_id"], "quantity": li["quantity"]} for li in sr.get("line_items", [])]
+            r2 = Z.post("/salesreturnreceives", {"date": TODAY, "line_items": rl, "notes": "Stock sync 23 Oct 2026"}, salesreturn_id=sr["salesreturn_id"])
+            if r2.get("code") != 0: log(f"   receive FAILED: {r2.get('message')} ({sr['salesreturn_number']} left unreceived)"); refused.append([so_no, "receive: " + str(r2.get("message"))]); continue
+            log(f"   received: physical stock up by {sum(q for _, q in rets):g}")
+            done.append({"so": so_no, "action": "credit note return+receive", "units": sum(q for _, q in rets), "rma": sr["salesreturn_number"], "credit_notes": cns})
+        finally:
+            for lid in relocated:
+                a = Z.post(f"/settings/locations/{lid}/inactive"); log(f"   location {lid} set back to inactive: {'ok' if a.get('code') == 0 else 'FAILED'}")
+            for iid, nm in reactivated:
+                a = Z.post(f"/items/{iid}/inactive"); log(f"   item {nm[:30]} set back to inactive: {'ok' if a.get('code') == 0 else 'FAILED'}")
+            if unticked: restore(cid, so["customer_name"])
+    log(f"credit note returns: {n_need} orders need a return, {units:g} units" + ("" if MODE == "live" else " (dry, nothing changed)"))
+
+if ONLY == {"CNRET"} or (ONLY and all(s.startswith("CNRET:") for s in ONLY)):
+    cn_returns(None if ONLY == {"CNRET"} else {s.split(":", 1)[1] for s in ONLY})
+    json.dump({"mode": MODE, "cnret": True, "done": done, "refused": refused, "unrestored": unrestored, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
+    log(f"cnret finished: {len(done)} returns made, {len(refused)} refused, calls {Z.calls}, customers left unblacklisted: {len(unrestored)}")
+    sys.exit(1 if unrestored else 0)
 
 if ONLY == {"DELIVER"} or (ONLY and all(s.startswith("DELIVER:") for s in ONLY)):
     deliver_finished(None if ONLY == {"DELIVER"} else {s.split(":", 1)[1] for s in ONLY})
