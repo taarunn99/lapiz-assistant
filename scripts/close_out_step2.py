@@ -386,6 +386,66 @@ def reverse_all(only=None):
         log(f"{inv['invoice_number']} ({inv.get('reference_number')}) status {inv.get('status')}")
         if MODE == "live": reverse_zero_invoice(inv)
 
+def dedup_returns(only_so=None):
+    """Find sales orders where the 22 Oct stock sync made the same return twice (run 6 then run 7) and delete the
+    duplicate: its receive first, then the return. Keeps the oldest return. Only touches returns whose reason starts
+    with 'Stock sync 22 Oct 2026'. Approved by Tarun 23 Oct 2026 after SO25-06700 showed RMA-00716 + RMA-00727."""
+    page = 1; rets = []
+    while True:
+        j = Z.get("/salesreturns", per_page=200, page=page, sort_column="date", sort_order="D")
+        rows = j.get("salesreturns", []); rets += [r for r in rows if r.get("date", "") >= "2026-10-22"]
+        if not j.get("page_context", {}).get("has_more_page") or (rows and rows[-1].get("date", "") < "2026-10-22"): break
+        page += 1
+    by_so = {}
+    for r in rets:
+        if only_so and r.get("salesorder_number") not in only_so: continue
+        by_so.setdefault(r.get("salesorder_number"), []).append(r)
+    log(f"dedup: {len(rets)} returns since 22 Oct, {sum(1 for v in by_so.values() if len(v) > 1)} orders with more than one")
+    for so_no, lst in sorted(by_so.items()):
+        if len(lst) < 2: continue
+        so = Z.get(f"/salesorders/{lst[0]['salesorder_id']}").get("salesorder", {})
+        voids = void_qty_by_item(so)
+        need = {}   # salesorder_item_id -> units that SHOULD have been returned = shipped - live invoiced
+        for l in so.get("line_items", []):
+            qi = float(l.get("quantity_invoiced") or 0); v = min(voids.get(l["item_id"], 0), qi); voids[l["item_id"]] = voids.get(l["item_id"], 0) - v
+            out = float(l.get("quantity_shipped") or 0) + float(l.get("quantity_manuallyfulfilled") or 0)
+            need[l["line_item_id"]] = max(out - (qi - v), 0.0)
+        full = []
+        for r in sorted(lst, key=lambda x: x["salesreturn_number"]):
+            d = Z.get(f"/salesreturns/{r['salesreturn_id']}").get("salesreturn", {})
+            if not (d.get("reason") or "").startswith("Stock sync 22 Oct 2026"): continue
+            full.append(d)
+        got = {}
+        for d in full:
+            for li in d.get("line_items", []): got[li["salesorder_item_id"]] = got.get(li["salesorder_item_id"], 0) + float(li["quantity"])
+        over = {k: got[k] - need.get(k, 0) for k in got if got[k] - need.get(k, 0) > 1e-6}
+        log(f"{so_no} {so.get('customer_name','')[:30]}: returns {[d['salesreturn_number'] for d in full]}, returned {sum(got.values()):g}, should be {sum(need.get(k,0) for k in got):g}" + (f", EXTRA {sum(over.values()):g}" if over else ", fine"))
+        if not over: continue
+        # delete newest returns while they are entirely surplus
+        for d in reversed(full):
+            qty = {li["salesorder_item_id"]: float(li["quantity"]) for li in d.get("line_items", [])}
+            if not all(over.get(k, 0) + 1e-6 >= q for k, q in qty.items()): log(f"   {d['salesreturn_number']} is not a pure duplicate, left for a human"); continue
+            if MODE != "live": log(f"   would delete {d['salesreturn_number']} ({sum(qty.values()):g} units) and its receive"); continue
+            for rc in d.get("salesreturnreceives", []) or d.get("receives", []):
+                x = Z.req("DELETE", f"/salesreturnreceives/{rc.get('receive_id') or rc.get('salesreturnreceive_id')}")
+                log(f"   receive {rc.get('receive_number','')} of {d['salesreturn_number']} delete: {'ok' if x.get('code') == 0 else 'FAILED ' + str(x.get('message'))}")
+                if x.get("code") != 0: refused.append([so_no, f"delete receive of {d['salesreturn_number']}: {x.get('message')}"]); break
+            else:
+                x = Z.req("DELETE", f"/salesreturns/{d['salesreturn_id']}")
+                log(f"   return {d['salesreturn_number']} delete: {'ok' if x.get('code') == 0 else 'FAILED ' + str(x.get('message'))}")
+                if x.get("code") == 0:
+                    done.append({"so": so_no, "action": "deleted duplicate return", "units": sum(qty.values()), "rma": d["salesreturn_number"]})
+                    for k, q in qty.items(): over[k] = over.get(k, 0) - q
+                else: refused.append([so_no, f"delete {d['salesreturn_number']}: {x.get('message')}"])
+        so2 = Z.get(f"/salesorders/{so['salesorder_id']}").get("salesorder", {})
+        log(f"   {so_no} now: returned {sum(float(l.get('quantity_returned') or 0) for l in so2.get('line_items', [])):g}, shipped {sum(float(l.get('quantity_shipped') or 0) for l in so2.get('line_items', [])):g}, status {so2.get('status')}/{so2.get('shipped_status')}")
+
+if ONLY == {"DEDUP"} or (ONLY and all(s.startswith("DEDUP:") for s in ONLY)):
+    dedup_returns(None if ONLY == {"DEDUP"} else {s.split(":", 1)[1] for s in ONLY})
+    json.dump({"mode": MODE, "dedup": True, "done": done, "refused": refused, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
+    log(f"dedup finished: {len(done)} duplicate returns deleted, {len(refused)} refused, calls {Z.calls}")
+    sys.exit(0)
+
 if ONLY == {"REVERSE"} or (ONLY and all(s.startswith("REVERSE:") for s in ONLY)):
     reverse_all(None if ONLY == {"REVERSE"} else {s.split(":", 1)[1] for s in ONLY})
     json.dump({"mode": MODE, "reverse": True, "done": done, "refused": refused, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
