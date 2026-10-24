@@ -1,37 +1,43 @@
 {
- "generated": "23 Oct 2026 12:48",
+ "generated": "24 Oct 2026 12:22",
  "window_days": 2,
- "checked_sos": 316,
- "lines": 782,
- "clean_sos": 276,
+ "checked_sos": 337,
+ "lines": 941,
+ "clean_sos": 301,
  "bad_sos": [
+  "SO23-02192",
   "SO25-05873",
-  "SO25-06480",
-  "SO25-06619",
-  "SO25-06700",
-  "SO25-06780",
-  "SO25-06892",
   "SO25-07036",
   "SO25-07729",
-  "SO25-07825",
-  "SO25-07827",
-  "SO25-08633",
+  "SO25-07938",
   "SO25-08683",
   "SO25-08970",
   "SO25-09226",
   "SO25-10499",
+  "SO26-01083",
   "SO26-01947",
+  "SO26-03191",
   "SO26-03659",
   "SO26-04044",
   "SO26-04989",
+  "SO26-05811",
   "SO26-06175",
-  "SO26-08046",
   "SO26-08102",
   "SO26-08205",
-  "SO26-08245",
-  "SO26-08282"
+  "SO26-08347",
+  "SO26-08375",
+  "SOSJ25-00213"
  ],
  "problems": [
+  {
+   "so": "SO23-02192",
+   "customer": "Mr . ALI",
+   "item": "KERAPOXY EASY DESIGN 188 BISCUIT  UNITS 3 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "8",
+   "shipped": "4",
+   "why": "sales order updated"
+  },
   {
    "so": "SO25-05873",
    "customer": "ALI AL KENDI INTERIOR DESIGN AND DECORE LLC",
@@ -39,7 +45,7 @@
    "issue": "packed 4540 but shipped 4414",
    "invoiced": "3599",
    "shipped": "3599",
-   "why": "sales order updated"
+   "why": "invoice LB26-20250 updated, sales order updated"
   },
   {
    "so": "SO25-05873",
@@ -48,60 +54,15 @@
    "issue": "packed 1 but shipped 0",
    "invoiced": "0",
    "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-06480",
-   "customer": "THE COLLECTIONAL TRADING L.L.C",
-   "item": "ECO PRIM GRIP WHITE FUSTINI BUCKETS 10 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "167",
-   "shipped": "164",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-06619",
-   "customer": "TAJ MAHAL MARBLES TR L.L.C",
-   "item": "Adesilex P9 Grey bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "74",
-   "shipped": "41",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-06700",
-   "customer": "SOLE FINE DECOR WORKS LLC",
-   "item": "GRANIRAPID WHITE A+B 28 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "140",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-06780",
-   "customer": "TECHNICAL SUPPLIES & SERVICES CO LLC",
-   "item": "Ultralite S2 Flex (N) Grey bag 15kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "70",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-06892",
-   "customer": "HORIZON CONTRACTING CO LLC",
-   "item": "Kerabond T Grey bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "252",
-   "shipped": "0",
-   "why": "sales order updated"
+   "why": "invoice LB26-20250 updated, sales order updated"
   },
   {
    "so": "SO25-07036",
    "customer": "HORIZON CONTRACTING CO LLC",
    "item": "Kerabond T White bag 25kg",
-   "issue": "invoiced and shipped do not match",
+   "issue": "packed 1260 but shipped 1134",
    "invoiced": "977",
-   "shipped": "820",
+   "shipped": "977",
    "why": "sales order updated"
   },
   {
@@ -123,40 +84,22 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO25-07825",
-   "customer": "DANI TRADING LLC",
-   "item": "Ultracare Stain Protector W jerrycan 1lt (box of 10)",
+   "so": "SO25-07938",
+   "customer": "NEXTEP INTERIOR DECORATION LLC",
+   "item": "Ultraplan Trade bag 25kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "4",
-   "shipped": "2",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-07827",
-   "customer": "APTAL DMCC",
-   "item": "Keraflex Grey bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "20",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-08633",
-   "customer": "KATILINK PARKWAY METALS AND JOINERY INDUSTRIES LLC",
-   "item": "Keraflex Grey bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "315",
-   "shipped": "189",
+   "invoiced": "580",
+   "shipped": "372",
    "why": "sales order updated"
   },
   {
    "so": "SO25-08683",
    "customer": "T H K BUILDING CONTRACTING LLC",
    "item": "Kerabond T White bag 25kg",
-   "issue": "packed 300 but shipped 200",
+   "issue": "invoiced and shipped do not match",
    "invoiced": "100",
-   "shipped": "100",
-   "why": "sales order updated"
+   "shipped": "200",
+   "why": "invoice LB26-20285 updated, sales order updated"
   },
   {
    "so": "SO25-08970",
@@ -165,7 +108,7 @@
    "issue": "packed 80 but shipped 53",
    "invoiced": "26",
    "shipped": "26",
-   "why": "sales order updated"
+   "why": "invoice LB26-20302 updated, sales order updated"
   },
   {
    "so": "SO25-09226",
@@ -174,7 +117,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "11",
    "shipped": "0",
-   "why": "sales order updated"
+   "why": "invoice LB26-20310 updated, sales order updated"
   },
   {
    "so": "SO25-10499",
@@ -183,7 +126,16 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "800",
    "shipped": "600",
-   "why": "sales order updated"
+   "why": "invoice LB26-20329 updated, sales order updated"
+  },
+  {
+   "so": "SO26-01083",
+   "customer": "adiltest123",
+   "item": "001",
+   "issue": "invoiced and shipped do not match (drop shipped 1)",
+   "invoiced": "0",
+   "shipped": "0",
+   "why": "invoice LB26-20330 updated, sales order updated"
   },
   {
    "so": "SO26-01947",
@@ -192,7 +144,16 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "4",
    "shipped": "0",
-   "why": "sales order updated"
+   "why": "invoice LB26-20332 updated, sales order updated"
+  },
+  {
+   "so": "SO26-03191",
+   "customer": "TAJ ALNAWAH TECHNICAL SERVICES CO.",
+   "item": "Adesilex PG4 unit 6kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "2",
+   "why": "invoice LB26-20333 updated, sales order updated"
   },
   {
    "so": "SO26-03659",
@@ -201,7 +162,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "212",
    "shipped": "140",
-   "why": "sales order updated"
+   "why": "invoice LB26-20334 updated, sales order updated"
   },
   {
    "so": "SO26-04044",
@@ -210,7 +171,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "13",
    "shipped": "1",
-   "why": "sales order updated"
+   "why": "invoice LB26-20335 updated, sales order updated"
   },
   {
    "so": "SO26-04989",
@@ -219,7 +180,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "sales order updated"
+   "why": "invoice LB26-20336 updated, sales order updated"
   },
   {
    "so": "SO26-04989",
@@ -228,7 +189,16 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "sales order updated"
+   "why": "invoice LB26-20336 updated, sales order updated"
+  },
+  {
+   "so": "SO26-05811",
+   "customer": "WETAR BUILDING MATERIALS TRADING CO.L.L.C.",
+   "item": "Quartz 0.5mm bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "33",
+   "shipped": "5",
+   "why": "invoice LB26-13911 updated, sales order updated"
   },
   {
    "so": "SO26-06175",
@@ -237,16 +207,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-08046",
-   "customer": "SION STAR BUILDING MATERIALS TRADING L.L.C",
-   "item": "Ultralite S2 Flex (N) White bag 15kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "12",
-   "shipped": "11",
-   "why": "sales order updated"
+   "why": "invoice LB26-20339 updated, sales order updated"
   },
   {
    "so": "SO26-08102",
@@ -285,22 +246,58 @@
    "why": "invoice LB26-19815 updated, sales order updated"
   },
   {
-   "so": "SO26-08245",
-   "customer": "TAJ MAHAL MARBLES TR L.L.C",
-   "item": "Keraflex White bag 25kg",
+   "so": "SO26-08347",
+   "customer": "A Z I BUILDING MATERIALS TRADING L.L.C",
+   "item": "Pragma easy Grey 20kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "344",
-   "shipped": "252",
-   "why": "invoice LB26-20111 updated, sales order updated"
+   "invoiced": "0",
+   "shipped": "25",
+   "why": "sales order updated"
   },
   {
-   "so": "SO26-08282",
-   "customer": "ADVANCE VICTORY CONTRACTING LLC",
-   "item": "Mapesil AC Zero 137 crt 310ml (box of 12)",
+   "so": "SO26-08375",
+   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+   "item": "weberpremix SP-33 (50 Kg)",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "4",
+   "invoiced": "20",
    "shipped": "0",
-   "why": "invoice LB26-20162 updated, sales order updated"
+   "why": "invoice LB26-20351 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08375",
+   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+   "item": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "50",
+   "shipped": "0",
+   "why": "invoice LB26-20351 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08375",
+   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+   "item": "Mapeflex PU 45 FT 111 Grey sausage 600 ml (box of 20)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "10",
+   "shipped": "0",
+   "why": "invoice LB26-20351 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08375",
+   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+   "item": "Mapeflex AC4 White crt 310ml (box of 12)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "24",
+   "shipped": "0",
+   "why": "invoice LB26-20351 updated, sales order updated"
+  },
+  {
+   "so": "SOSJ25-00213",
+   "customer": "CARRARA MID-EAST INDUSTRIAL CO",
+   "item": "Adesilex P9 White bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "478",
+   "shipped": "452",
+   "why": "sales order updated"
   }
  ],
  "alerts": [
@@ -310,5 +307,5 @@
    "when": "2026-10-17"
   }
  ],
- "calls": 782
+ "calls": 927
 }
