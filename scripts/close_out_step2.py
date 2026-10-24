@@ -3,6 +3,7 @@
 v3 changes: counts quantity already returned; Sharjah location on returns; ships invoiced-not-shipped lines through the backfill (heal on);
 voids drop ships that have no invoice; when Zoho will not reduce a line, closes the order with a zero value invoice plus a credit note
 against it (ZERO_CLOSE=1, default on).
+v3.17 (24 Oct 2026): CNRET respects the cutoff date (SOSJ26-00441 of 8 Sep 2026 was being picked up); SHIPRET mode added in v3.16.
 v3.2 (22 Oct 18:00): zero invoice quantity ignores voided invoices (quantity_invoiced counts them, Zoho's "left to invoice" does not);
 zero invoices carry the order's salesperson, or a default one, because this org refuses invoices without a salesperson.
 
@@ -612,12 +613,15 @@ def cn_returns(only_so=None):
         if not j.get("page_context", {}).get("has_more_page"): break
         page += 1
     log(f"credit notes read: {seen}, sales orders with credited item lines: {len(credited)}")
-    n_need = 0; units = 0.0; acc_issues = []
+    n_need = 0; units = 0.0; acc_issues = []; after_cutoff = []
     for so_id, cred in credited.items():
         so = Z.get(f"/salesorders/{so_id}").get("salesorder", {})
         if not so: continue
         so_no = so["salesorder_number"]
         if only_so and so_no not in only_so: continue
+        if so.get("date", "") > CUTOFF:
+            # v3.17 (24 Oct): credit notes are read org wide, so recent live orders turn up here; they are outside the project's scope
+            log(f"{so_no} {so['date']} {so['customer_name'][:30]}: dated after cutoff {CUTOFF}, left alone (still being worked by sales)"); after_cutoff.append(so_no); continue
         voids = void_qty_by_item(so); rets = []; info = []
         for l in so.get("line_items", []):
             if l.get("item_type") != "inventory": continue
@@ -677,6 +681,7 @@ def cn_returns(only_so=None):
         for a in acc_issues: log("   ACCOUNTS " + " | ".join(str(x) for x in a))
         json.dump(acc_issues, open(f"{OUT}/credited_more_than_invoiced.json", "w"), indent=1)
     log(f"credit note returns: {n_need} orders need a return, {units:g} units" + ("" if MODE == "live" else " (dry, nothing changed)"))
+    if after_cutoff: log(f"credit note returns: {len(after_cutoff)} orders dated after {CUTOFF} left alone: " + ", ".join(after_cutoff))
 
 def ship_and_return(only_so=None):
     """Adil's method (24 Oct 2026) for orders Zoho will not cancel, void or reduce (a voided invoice still counts as
