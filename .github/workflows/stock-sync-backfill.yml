@@ -1,10 +1,6 @@
 name: Stock sync backfill
 
 on:
-  schedule:
-    # every day at 13:10 Dubai (09:10 UTC, off the busy top of the hour): resumes the dry scan where it stopped.
-    # Paced at 45 calls/min (org limit 100/min shared with Adil's 9:30 pull) and capped per run.
-    - cron: "10 9 * * *"
     # LIVE history repair finished 8 Oct 2026 00:00 (7,513 of 7,513). The three nightly live crons (20:05, 02:05,
     # 08:05 Dubai) were removed on 8 Oct. Live runs are now manual only (workflow_dispatch with so_numbers).
   workflow_dispatch:
