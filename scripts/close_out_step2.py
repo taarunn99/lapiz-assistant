@@ -678,6 +678,76 @@ def cn_returns(only_so=None):
         json.dump(acc_issues, open(f"{OUT}/credited_more_than_invoiced.json", "w"), indent=1)
     log(f"credit note returns: {n_need} orders need a return, {units:g} units" + ("" if MODE == "live" else " (dry, nothing changed)"))
 
+def ship_and_return(only_so=None):
+    """Adil's method (24 Oct 2026) for orders Zoho will not cancel, void or reduce (a voided invoice still counts as
+    invoiced, or shipped less than ordered with the rest never coming): ship the leftover quantity (package, shipment,
+    delivered) and immediately sales return it and receive it. Net shipped is unchanged, physical stock is unchanged,
+    no invoice or credit note is touched, and Zoho sees ordered = shipped and closes the order."""
+    rows = list_sos()
+    if only_so: rows = [r for r in rows if r["salesorder_number"] in only_so]
+    log(f"ship+return: {len(rows)} open or partly invoiced orders dated <= {CUTOFF} to check")
+    n = 0; units = 0.0
+    for r in rows:
+        so = Z.get(f"/salesorders/{r['salesorder_id']}").get("salesorder", {})
+        if not so or so.get("order_status") == "closed" or so.get("status") in ("void", "closed"): continue
+        so_no = so["salesorder_number"]
+        if so.get("is_dropshipped") or so.get("is_drop_shipment"): log(f"{so_no}: drop ship, cannot be packaged, left for Adil"); refused.append([so_no, "drop ship"]); continue
+        if so.get("picklists"): log(f"{so_no}: has a picklist, left alone"); refused.append([so_no, "picklist"]); continue
+        L = [l for l in so.get("line_items", []) if l.get("item_type") == "inventory"]
+        plan = []
+        for l in L:
+            left = float(l["quantity"]) - float(l.get("quantity_shipped") or 0) - float(l.get("quantity_manuallyfulfilled") or 0) \
+                   - float(l.get("quantity_cancelled") or 0) - float(l.get("quantity_dropshipped") or 0)
+            if left > 1e-6: plan.append((l, left))
+        if not plan: log(f"{so_no}: nothing left to ship on stock lines, status {so.get('status')}/{so.get('shipped_status')} (untracked lines? use Mark shipment as fulfilled)"); refused.append([so_no, "no stock line left to ship"]); continue
+        n += 1; units += sum(q for _, q in plan)
+        log(f"{so_no} {so['date']} {so['customer_name'][:30]} [{so.get('status')}/{so.get('shipped_status')}]: ship then return " + ", ".join(f"{l['name'][:25]} x{q:g}" for l, q in plan))
+        if MODE != "live": continue
+        cid = so["customer_id"]; flag, _ = read_flag(cid); unticked = False; reactivated = []
+        try:
+            if flag:
+                ok, msg = set_flag(cid, False)
+                if not ok or read_flag(cid)[0]: log(f"   could not untick BLACKLISTED ({msg}); skipped"); refused.append([so_no, "untick failed"]); continue
+                unticked = True; log("   BLACKLISTED unticked")
+            for l, q in plan:
+                it = Z.get(f"/items/{l['item_id']}").get("item", {})
+                if it.get("status") == "inactive":
+                    a = Z.post(f"/items/{l['item_id']}/active")
+                    if a.get("code") == 0: reactivated.append((l["item_id"], l["name"])); log(f"   item {l['name'][:30]} was inactive, set active for this")
+                    else: log(f"   item {l['name'][:30]} inactive and could not be activated: {a.get('message')}")
+            note = f"Stock sync 24 Oct 2026: leftover quantity shipped and returned the same day to close the order (Adil's method), SO {so_no}"
+            p = Z.post("/packages", {"date": TODAY, "notes": note, "line_items": [{"so_line_item_id": l["line_item_id"], "quantity": q} for l, q in plan]}, salesorder_id=so["salesorder_id"])
+            if p.get("code") != 0: log(f"   package FAILED: {p.get('message')}"); refused.append([so_no, "package: " + str(p.get("message"))]); continue
+            pid = p["package"]["package_id"]; log(f"   package {p['package'].get('package_number')} created")
+            s = Z.post("/shipmentorders", {"date": TODAY, "delivery_method": "Al Quoz", "notes": note}, package_ids=pid, salesorder_id=so["salesorder_id"], send_notification="false")
+            if s.get("code") != 0: log(f"   shipment FAILED: {s.get('message')} (package {pid} left, delete it by hand)"); refused.append([so_no, "shipment: " + str(s.get("message"))]); continue
+            sh = s.get("shipmentorder") or {}; sid = sh.get("shipmentorder_id") or sh.get("shipment_id")
+            d = Z.post(f"/shipmentorders/{sid}/status/delivered")
+            log(f"   shipment {sh.get('shipment_number')} created, delivered: {'ok' if d.get('code') == 0 else 'FAILED ' + str(d.get('message'))}")
+            body = {"salesorder_id": so["salesorder_id"], "date": TODAY, "location_id": so.get("location_id"), "reason": note,
+                    "line_items": [{"salesorder_item_id": l["line_item_id"], "item_id": l["item_id"], "quantity": q, "rate": l.get("rate", 0), "location_id": l.get("location_id") or so.get("location_id")} for l, q in plan]}
+            body["line_items"] = [{k: v for k, v in li.items() if v not in (None, "")} for li in body["line_items"]]
+            rr = Z.post("/salesreturns", body, salesorder_id=so["salesorder_id"])
+            if rr.get("code") != 0: log(f"   sales return FAILED: {rr.get('message')} (shipment stands, physical stock is DOWN by {sum(q for _, q in plan):g} until a return is made by hand)"); refused.append([so_no, "return: " + str(rr.get("message"))]); continue
+            sr = rr["salesreturn"]
+            rl = [{"line_item_id": li["line_item_id"], "quantity": li["quantity"]} for li in sr.get("line_items", [])]
+            rc = Z.post("/salesreturnreceives", {"date": TODAY, "line_items": rl, "notes": note}, salesreturn_id=sr["salesreturn_id"])
+            if rc.get("code") != 0: log(f"   receive FAILED: {rc.get('message')} ({sr['salesreturn_number']} unreceived, physical DOWN until received by hand)"); refused.append([so_no, "receive: " + str(rc.get("message"))]); continue
+            so2 = Z.get(f"/salesorders/{so['salesorder_id']}").get("salesorder", {})
+            log(f"   return {sr['salesreturn_number']} received. Order now {so2.get('status')}/{so2.get('shipped_status')} order_status {so2.get('order_status')}")
+            done.append({"so": so_no, "action": "ship+return", "units": sum(q for _, q in plan), "rma": sr["salesreturn_number"], "status_after": so2.get("order_status")})
+        finally:
+            for iid, nm in reactivated:
+                a = Z.post(f"/items/{iid}/inactive"); log(f"   item {nm[:30]} set back to inactive: {'ok' if a.get('code') == 0 else 'FAILED'}")
+            if unticked: restore(cid, so["customer_name"])
+    log(f"ship+return: {n} orders, {units:g} units" + ("" if MODE == "live" else " (dry, nothing changed)"))
+
+if ONLY == {"SHIPRET"} or (ONLY and all(s.startswith("SHIPRET:") for s in ONLY)):
+    ship_and_return(None if ONLY == {"SHIPRET"} else {s.split(":", 1)[1] for s in ONLY})
+    json.dump({"mode": MODE, "shipret": True, "done": done, "refused": refused, "unrestored": unrestored, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
+    log(f"shipret finished: {len(done)} orders closed, {len(refused)} refused, calls {Z.calls}, customers left unblacklisted: {len(unrestored)}")
+    sys.exit(1 if unrestored else 0)
+
 if ONLY == {"CNRET"} or (ONLY and all(s.startswith("CNRET:") for s in ONLY)):
     cn_returns(None if ONLY == {"CNRET"} else {s.split(":", 1)[1] for s in ONLY})
     json.dump({"mode": MODE, "cnret": True, "done": done, "refused": refused, "unrestored": unrestored, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
