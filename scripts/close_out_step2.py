@@ -3,6 +3,7 @@
 v3 changes: counts quantity already returned; Sharjah location on returns; ships invoiced-not-shipped lines through the backfill (heal on);
 voids drop ships that have no invoice; when Zoho will not reduce a line, closes the order with a zero value invoice plus a credit note
 against it (ZERO_CLOSE=1, default on).
+v3.20 (24 Oct 2026, 16:20): SHIPRET ships packages that already existed but were never shipped before making a new one.
 v3.19 (24 Oct 2026, 15:40): SHIPRET skips orders that are not fully invoiced (they would stay open anyway) and honours the skip file.
 v3.18 (24 Oct 2026, 14:45): zero invoice path OFF by default; sales returns fall back to the order header location when the line location is inactive (SOSJ26-00276).
 v3.17 (24 Oct 2026): CNRET respects the cutoff date (SOSJ26-00441 of 8 Sep 2026 was being picked up); SHIPRET mode added in v3.16.
@@ -742,14 +743,27 @@ def ship_and_return(only_so=None):
                     if a.get("code") == 0: reactivated.append((l["item_id"], l["name"])); log(f"   item {l['name'][:30]} was inactive, set active for this")
                     else: log(f"   item {l['name'][:30]} inactive and could not be activated: {a.get('message')}")
             note = f"Stock sync 24 Oct 2026: leftover quantity shipped and returned the same day to close the order (Adil's method), SO {so_no}"
-            p = Z.post("/packages", {"date": TODAY, "notes": note, "line_items": [{"so_line_item_id": l["line_item_id"], "quantity": q} for l, q in plan]}, salesorder_id=so["salesorder_id"])
-            if p.get("code") != 0: log(f"   package FAILED: {p.get('message')}"); refused.append([so_no, "package: " + str(p.get("message"))]); continue
-            pid = p["package"]["package_id"]; log(f"   package {p['package'].get('package_number')} created")
-            s = Z.post("/shipmentorders", {"date": TODAY, "delivery_method": "Al Quoz", "notes": note}, package_ids=pid, salesorder_id=so["salesorder_id"], send_notification="false")
-            if s.get("code") != 0: log(f"   shipment FAILED: {s.get('message')} (package {pid} left, delete it by hand)"); refused.append([so_no, "shipment: " + str(s.get("message"))]); continue
-            sh = s.get("shipmentorder") or {}; sid = sh.get("shipmentorder_id") or sh.get("shipment_id")
-            d = Z.post(f"/shipmentorders/{sid}/status/delivered")
-            log(f"   shipment {sh.get('shipment_number')} created, delivered: {'ok' if d.get('code') == 0 else 'FAILED ' + str(d.get('message'))}")
+            # v3.20: packages that were made earlier but never shipped (SO25-05873, SO25-08970) are shipped first; only the rest gets a new package
+            old_pk = [pk for pk in so.get("packages", []) if not pk.get("shipment_id") and pk.get("status") not in ("shipped", "delivered")]
+            bad = False
+            for pk in old_pk:
+                s = Z.post("/shipmentorders", {"date": TODAY, "delivery_method": "Al Quoz", "notes": note}, package_ids=pk["package_id"], salesorder_id=so["salesorder_id"], send_notification="false")
+                if s.get("code") != 0: log(f"   shipment for old package {pk.get('package_number')} FAILED: {s.get('message')}"); refused.append([so_no, "old package shipment: " + str(s.get("message"))]); bad = True; break
+                sh = s.get("shipmentorder") or {}; sid = sh.get("shipmentorder_id") or sh.get("shipment_id")
+                d = Z.post(f"/shipmentorders/{sid}/status/delivered")
+                log(f"   old package {pk.get('package_number')} ({pk.get('quantity')} units) shipped as {sh.get('shipment_number')}, delivered: {'ok' if d.get('code') == 0 else 'FAILED ' + str(d.get('message'))}")
+            if bad: continue
+            new_pkg = [(l, q - max(0.0, float(l.get("quantity_packed") or 0) - float(l.get("quantity_shipped") or 0))) for l, q in plan]
+            new_pkg = [(l, q) for l, q in new_pkg if q > 1e-6]
+            if new_pkg:
+                p = Z.post("/packages", {"date": TODAY, "notes": note, "line_items": [{"so_line_item_id": l["line_item_id"], "quantity": q} for l, q in new_pkg]}, salesorder_id=so["salesorder_id"])
+                if p.get("code") != 0: log(f"   package FAILED: {p.get('message')}"); refused.append([so_no, "package: " + str(p.get("message"))]); continue
+                pid = p["package"]["package_id"]; log(f"   package {p['package'].get('package_number')} created")
+                s = Z.post("/shipmentorders", {"date": TODAY, "delivery_method": "Al Quoz", "notes": note}, package_ids=pid, salesorder_id=so["salesorder_id"], send_notification="false")
+                if s.get("code") != 0: log(f"   shipment FAILED: {s.get('message')} (package {pid} left, delete it by hand)"); refused.append([so_no, "shipment: " + str(s.get("message"))]); continue
+                sh = s.get("shipmentorder") or {}; sid = sh.get("shipmentorder_id") or sh.get("shipment_id")
+                d = Z.post(f"/shipmentorders/{sid}/status/delivered")
+                log(f"   shipment {sh.get('shipment_number')} created, delivered: {'ok' if d.get('code') == 0 else 'FAILED ' + str(d.get('message'))}")
             body = {"salesorder_id": so["salesorder_id"], "date": TODAY, "location_id": so.get("location_id"), "reason": note,
                     "line_items": [{"salesorder_item_id": l["line_item_id"], "item_id": l["item_id"], "quantity": q, "rate": l.get("rate", 0), "location_id": l.get("location_id") or so.get("location_id")} for l, q in plan]}
             body["line_items"] = [{k: v for k, v in li.items() if v not in (None, "")} for li in body["line_items"]]
