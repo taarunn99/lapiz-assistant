@@ -3,6 +3,7 @@
 v3 changes: counts quantity already returned; Sharjah location on returns; ships invoiced-not-shipped lines through the backfill (heal on);
 voids drop ships that have no invoice; when Zoho will not reduce a line, closes the order with a zero value invoice plus a credit note
 against it (ZERO_CLOSE=1, default on).
+v3.18 (24 Oct 2026, 14:45): zero invoice path OFF by default; sales returns fall back to the order header location when the line location is inactive (SOSJ26-00276).
 v3.17 (24 Oct 2026): CNRET respects the cutoff date (SOSJ26-00441 of 8 Sep 2026 was being picked up); SHIPRET mode added in v3.16.
 v3.2 (22 Oct 18:00): zero invoice quantity ignores voided invoices (quantity_invoiced counts them, Zoho's "left to invoice" does not);
 zero invoices carry the order's salesperson, or a default one, because this org refuses invoices without a salesperson.
@@ -231,7 +232,7 @@ def handle(row):
             log(f"   item {nm[:30]} set back to inactive: {'ok' if r.get('code') == 0 else 'FAILED ' + str(r.get('message'))}")
         if unticked: restore(cid, cust)
 
-ZERO_CLOSE = os.environ.get("ZERO_CLOSE", "1") == "1"
+ZERO_CLOSE = os.environ.get("ZERO_CLOSE", "0") == "1"   # v3.18: OFF by default (Tarun, 23 Oct: no invoices or credit notes from this job, ever)
 _sp = {}
 def default_salesperson():
     """Used only when the sales order itself has no salesperson. Prefers the name in env SALESPERSON, else the first active one."""
@@ -577,6 +578,24 @@ def cn_lines_to_so(cn):
             if hit: break
     return out
 
+def post_return(body, so, relocated):
+    """v3.18: create a sales return; if Zoho says the line location is inactive, (a) try to wake that location,
+    (b) if that fails, put the lines on the order's header location (the active branch) and say so in the log."""
+    r = Z.post("/salesreturns", body, salesorder_id=so["salesorder_id"])
+    msg = str(r.get("message")).lower()
+    if r.get("code") != 0 and "location" in msg and "inactive" in msg:
+        lids = {x for x in [so.get("location_id")] + [li.get("location_id") for li in body["line_items"]] if x}
+        for lid in lids:
+            a = Z.post(f"/settings/locations/{lid}/active")
+            log(f"   location {lid} set active for the return: {'ok' if a.get('code') == 0 else 'FAILED ' + str(a.get('message'))}")
+            if a.get("code") == 0: relocated.append(lid)
+        if relocated: r = Z.post("/salesreturns", body, salesorder_id=so["salesorder_id"])
+        if r.get("code") != 0 and so.get("location_id"):
+            b2 = dict(body); b2["line_items"] = [dict(li, location_id=so["location_id"]) for li in body["line_items"]]; b2["location_id"] = so["location_id"]
+            r = Z.post("/salesreturns", b2, salesorder_id=so["salesorder_id"])
+            log(f"   retried with the order's header location {so.get('location_name', so['location_id'])}: {'ok' if r.get('code') == 0 else 'FAILED ' + str(r.get('message'))}")
+    return r
+
 def cn_returns(only_so=None):
     """Tarun's rule (23 Oct 2026): per sales order line, net shipped must equal net invoiced.
     net invoiced = invoiced - voided - credited (credit notes with item lines that were NOT born from a sales return).
@@ -657,12 +676,7 @@ def cn_returns(only_so=None):
                     "reason": f"Stock sync 23 Oct 2026: goods credited on {cns} never recorded back, physical aligned to accounting | " + " ".join(f"cn:{i}" for _, i in cn_of.get(so_id, [])),
                     "line_items": [{"salesorder_item_id": l["line_item_id"], "item_id": l["item_id"], "quantity": q, "rate": l.get("rate", 0), "location_id": l.get("location_id") or so.get("location_id")} for l, q in rets]}
             body["line_items"] = [{k: v for k, v in li.items() if v not in (None, "")} for li in body["line_items"]]
-            r = Z.post("/salesreturns", body, salesorder_id=so_id)
-            if r.get("code") != 0 and "location" in str(r.get("message")).lower() and "inactive" in str(r.get("message")).lower():
-                for lid in {x for x in [so.get("location_id")] + [li.get("location_id") for li in body["line_items"]] if x}:
-                    a = Z.post(f"/settings/locations/{lid}/active")
-                    if a.get("code") == 0: relocated.append(lid); log(f"   location {lid} set active for the return")
-                if relocated: r = Z.post("/salesreturns", body, salesorder_id=so_id)
+            r = post_return(body, so, relocated)
             if r.get("code") != 0: log(f"   sales return FAILED: {r.get('message')}"); refused.append([so_no, "return: " + str(r.get("message"))]); continue
             sr = r["salesreturn"]; log(f"   sales return {sr['salesreturn_number']} created, {sum(q for _, q in rets):g} units")
             rl = [{"line_item_id": li["line_item_id"], "quantity": li["quantity"]} for li in sr.get("line_items", [])]
@@ -708,7 +722,7 @@ def ship_and_return(only_so=None):
         n += 1; units += sum(q for _, q in plan)
         log(f"{so_no} {so['date']} {so['customer_name'][:30]} [{so.get('status')}/{so.get('shipped_status')}]: ship then return " + ", ".join(f"{l['name'][:25]} x{q:g}" for l, q in plan))
         if MODE != "live": continue
-        cid = so["customer_id"]; flag, _ = read_flag(cid); unticked = False; reactivated = []
+        cid = so["customer_id"]; flag, _ = read_flag(cid); unticked = False; reactivated = []; relocated = []
         try:
             if flag:
                 ok, msg = set_flag(cid, False)
@@ -732,7 +746,7 @@ def ship_and_return(only_so=None):
             body = {"salesorder_id": so["salesorder_id"], "date": TODAY, "location_id": so.get("location_id"), "reason": note,
                     "line_items": [{"salesorder_item_id": l["line_item_id"], "item_id": l["item_id"], "quantity": q, "rate": l.get("rate", 0), "location_id": l.get("location_id") or so.get("location_id")} for l, q in plan]}
             body["line_items"] = [{k: v for k, v in li.items() if v not in (None, "")} for li in body["line_items"]]
-            rr = Z.post("/salesreturns", body, salesorder_id=so["salesorder_id"])
+            rr = post_return(body, so, relocated)
             if rr.get("code") != 0: log(f"   sales return FAILED: {rr.get('message')} (shipment stands, physical stock is DOWN by {sum(q for _, q in plan):g} until a return is made by hand)"); refused.append([so_no, "return: " + str(rr.get("message"))]); continue
             sr = rr["salesreturn"]
             rl = [{"line_item_id": li["line_item_id"], "quantity": li["quantity"]} for li in sr.get("line_items", [])]
@@ -742,6 +756,8 @@ def ship_and_return(only_so=None):
             log(f"   return {sr['salesreturn_number']} received. Order now {so2.get('status')}/{so2.get('shipped_status')} order_status {so2.get('order_status')}")
             done.append({"so": so_no, "action": "ship+return", "units": sum(q for _, q in plan), "rma": sr["salesreturn_number"], "status_after": so2.get("order_status")})
         finally:
+            for lid in relocated:
+                a = Z.post(f"/settings/locations/{lid}/inactive"); log(f"   location {lid} set back to inactive: {'ok' if a.get('code') == 0 else 'FAILED'}")
             for iid, nm in reactivated:
                 a = Z.post(f"/items/{iid}/inactive"); log(f"   item {nm[:30]} set back to inactive: {'ok' if a.get('code') == 0 else 'FAILED'}")
             if unticked: restore(cid, so["customer_name"])
