@@ -3,6 +3,7 @@
 v3 changes: counts quantity already returned; Sharjah location on returns; ships invoiced-not-shipped lines through the backfill (heal on);
 voids drop ships that have no invoice; when Zoho will not reduce a line, closes the order with a zero value invoice plus a credit note
 against it (ZERO_CLOSE=1, default on).
+v3.19 (24 Oct 2026, 15:40): SHIPRET skips orders that are not fully invoiced (they would stay open anyway) and honours the skip file.
 v3.18 (24 Oct 2026, 14:45): zero invoice path OFF by default; sales returns fall back to the order header location when the line location is inactive (SOSJ26-00276).
 v3.17 (24 Oct 2026): CNRET respects the cutoff date (SOSJ26-00441 of 8 Sep 2026 was being picked up); SHIPRET mode added in v3.16.
 v3.2 (22 Oct 18:00): zero invoice quantity ignores voided invoices (quantity_invoiced counts them, Zoho's "left to invoice" does not);
@@ -712,13 +713,19 @@ def ship_and_return(only_so=None):
         so_no = so["salesorder_number"]
         if so.get("is_dropshipped") or so.get("is_drop_shipment"): log(f"{so_no}: drop ship, cannot be packaged, left for Adil"); refused.append([so_no, "drop ship"]); continue
         if so.get("picklists"): log(f"{so_no}: has a picklist, left alone"); refused.append([so_no, "picklist"]); continue
+        if so_no in SKIP: log(f"{so_no}: in the skip file, left alone"); continue
         L = [l for l in so.get("line_items", []) if l.get("item_type") == "inventory"]
-        plan = []
+        plan = []; under = []
         for l in L:
-            left = float(l["quantity"]) - float(l.get("quantity_shipped") or 0) - float(l.get("quantity_manuallyfulfilled") or 0) \
-                   - float(l.get("quantity_cancelled") or 0) - float(l.get("quantity_dropshipped") or 0)
+            want = float(l["quantity"]) - float(l.get("quantity_cancelled") or 0) - float(l.get("quantity_dropshipped") or 0)
+            left = want - float(l.get("quantity_shipped") or 0) - float(l.get("quantity_manuallyfulfilled") or 0)
             if left > 1e-6: plan.append((l, left))
+            if float(l.get("quantity_invoiced") or 0) + 1e-6 < want: under.append(f"{l['name'][:25]} invoiced {float(l.get('quantity_invoiced') or 0):g} of {want:g}")
         if not plan: log(f"{so_no}: nothing left to ship on stock lines, status {so.get('status')}/{so.get('shipped_status')} (untracked lines? use Mark shipment as fulfilled)"); refused.append([so_no, "no stock line left to ship"]); continue
+        if under:
+            # v3.19: Zoho closes an order only when invoiced = ordered as well as shipped = ordered. Shipping and returning here
+            # would create documents and still leave the order open, so it goes to the people list instead.
+            log(f"{so_no} {so['date']} {so['customer_name'][:30]}: NOT fully invoiced ({'; '.join(under)}), ship+return would not close it, left for a person"); refused.append([so_no, "not fully invoiced: " + "; ".join(under)]); continue
         n += 1; units += sum(q for _, q in plan)
         log(f"{so_no} {so['date']} {so['customer_name'][:30]} [{so.get('status')}/{so.get('shipped_status')}]: ship then return " + ", ".join(f"{l['name'][:25]} x{q:g}" for l, q in plan))
         if MODE != "live": continue
