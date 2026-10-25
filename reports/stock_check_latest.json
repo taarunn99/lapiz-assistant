@@ -1,34 +1,44 @@
 {
- "generated": "24 Oct 2026 12:22",
+ "generated": "25 Oct 2026 12:42",
  "window_days": 2,
- "checked_sos": 337,
- "lines": 941,
- "clean_sos": 301,
+ "checked_sos": 326,
+ "lines": 922,
+ "clean_sos": 302,
  "bad_sos": [
+  "SO23-00225",
   "SO23-02192",
-  "SO25-05873",
+  "SO23-03244",
+  "SO25-01946",
+  "SO25-05644",
+  "SO25-05792",
   "SO25-07036",
-  "SO25-07729",
   "SO25-07938",
   "SO25-08683",
-  "SO25-08970",
   "SO25-09226",
   "SO25-10499",
   "SO26-01083",
   "SO26-01947",
-  "SO26-03191",
   "SO26-03659",
   "SO26-04044",
   "SO26-04989",
   "SO26-05811",
   "SO26-06175",
-  "SO26-08102",
-  "SO26-08205",
+  "SO26-08282",
   "SO26-08347",
   "SO26-08375",
-  "SOSJ25-00213"
+  "SOSJ25-00213",
+  "SOSJ26-00276"
  ],
  "problems": [
+  {
+   "so": "SO23-00225",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "ULTRACOLOR PLUS 103 ALU BOXES 4X5KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "40",
+   "shipped": "4",
+   "why": "sales order updated"
+  },
   {
    "so": "SO23-02192",
    "customer": "Mr . ALI",
@@ -39,22 +49,94 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO25-05873",
-   "customer": "ALI AL KENDI INTERIOR DESIGN AND DECORE LLC",
-   "item": "GRANIRAPID /A + B GREY 30.5 KG",
-   "issue": "packed 4540 but shipped 4414",
-   "invoiced": "3599",
-   "shipped": "3599",
-   "why": "invoice LB26-20250 updated, sales order updated"
+   "so": "SO23-03244",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "KERAFLEX MAXI S1 N WHITE BAGS 25 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "126",
+   "shipped": "13",
+   "why": "sales order updated"
   },
   {
-   "so": "SO25-05873",
-   "customer": "ALI AL KENDI INTERIOR DESIGN AND DECORE LLC",
-   "item": "Ultracare HD Cleaner jerrycan 5lt /5,5kg",
-   "issue": "packed 1 but shipped 0",
-   "invoiced": "0",
-   "shipped": "0",
-   "why": "invoice LB26-20250 updated, sales order updated"
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "ENIFIX VA 20 Kgs",
+   "issue": "invoiced and shipped do not match (manually fulfilled 22)",
+   "invoiced": "22",
+   "shipped": "-18",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "ENIFIX CA 20 Kgs",
+   "issue": "invoiced and shipped do not match (manually fulfilled 15)",
+   "invoiced": "15",
+   "shipped": "-15",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "ENIFIX CT 18 Kgs",
+   "issue": "invoiced and shipped do not match (manually fulfilled 8)",
+   "invoiced": "8",
+   "shipped": "-8",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "ENIFIX CT 10 Kgs",
+   "issue": "invoiced and shipped do not match (manually fulfilled 4)",
+   "invoiced": "4",
+   "shipped": "-4",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "Enifix 350 650ml New (12pcs/Box)",
+   "issue": "invoiced and shipped do not match (manually fulfilled 12)",
+   "invoiced": "12",
+   "shipped": "-11",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "Turf Fix 511 650ml (24Pcs/Box)",
+   "issue": "invoiced and shipped do not match (manually fulfilled 10)",
+   "invoiced": "10",
+   "shipped": "-10",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "Master Fix 888 500ml (12Pcs/Box)",
+   "issue": "invoiced and shipped do not match (manually fulfilled 5)",
+   "invoiced": "5",
+   "shipped": "-5",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-05644",
+   "customer": "WESPORTS FIELDS AND ENGINEERING L.L.C",
+   "item": "Mapeflex PU 45 FT 111 Grey sausage 600 ml (box of 20)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "100",
+   "shipped": "66",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-05792",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "126",
+   "shipped": "63",
+   "why": "sales order updated"
   },
   {
    "so": "SO25-07036",
@@ -63,24 +145,6 @@
    "issue": "packed 1260 but shipped 1134",
    "invoiced": "977",
    "shipped": "977",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-07729",
-   "customer": "TREELINE LANDSCAPING",
-   "item": "MAPELASTIC SMART /A+B BAGS 30 KG",
-   "issue": "invoiced and shipped do not match (manually fulfilled 4)",
-   "invoiced": "32",
-   "shipped": "21",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-07729",
-   "customer": "TREELINE LANDSCAPING",
-   "item": "Mapetex Sel N 25x1mt roll 25sm",
-   "issue": "invoiced and shipped do not match (manually fulfilled 6)",
-   "invoiced": "6",
-   "shipped": "-6",
    "why": "sales order updated"
   },
   {
@@ -100,15 +164,6 @@
    "invoiced": "100",
    "shipped": "200",
    "why": "invoice LB26-20285 updated, sales order updated"
-  },
-  {
-   "so": "SO25-08970",
-   "customer": "SYED SADATH BUILDING & CONSTRUCTION MATERIALS TRADING L.L.C",
-   "item": "Adesilex P9 White bag 25kg",
-   "issue": "packed 80 but shipped 53",
-   "invoiced": "26",
-   "shipped": "26",
-   "why": "invoice LB26-20302 updated, sales order updated"
   },
   {
    "so": "SO25-09226",
@@ -145,15 +200,6 @@
    "invoiced": "4",
    "shipped": "0",
    "why": "invoice LB26-20332 updated, sales order updated"
-  },
-  {
-   "so": "SO26-03191",
-   "customer": "TAJ ALNAWAH TECHNICAL SERVICES CO.",
-   "item": "Adesilex PG4 unit 6kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "2",
-   "why": "invoice LB26-20333 updated, sales order updated"
   },
   {
    "so": "SO26-03659",
@@ -210,40 +256,13 @@
    "why": "invoice LB26-20339 updated, sales order updated"
   },
   {
-   "so": "SO26-08102",
-   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
-   "item": "Ultracare Kerapoxy Cleaner jerrycan 5lt /5.5kg",
-   "issue": "packed 4 but shipped 2",
-   "invoiced": "2",
-   "shipped": "2",
-   "why": "invoice LB26-20199 updated, sales order updated"
-  },
-  {
-   "so": "SO26-08205",
-   "customer": "GLOBAL CLASSIC BUILDING MATERIALS TRADING L.L.C",
-   "item": "Marbo 2100 Beige 23 kg",
+   "so": "SO26-08282",
+   "customer": "ADVANCE VICTORY CONTRACTING LLC",
+   "item": "Mapesil AC Zero 137 crt 310ml (box of 12)",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "50",
-   "why": "invoice LB26-19815 updated, sales order updated"
-  },
-  {
-   "so": "SO26-08205",
-   "customer": "GLOBAL CLASSIC BUILDING MATERIALS TRADING L.L.C",
-   "item": "Marbo 2100 White 23kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "50",
-   "why": "invoice LB26-19815 updated, sales order updated"
-  },
-  {
-   "so": "SO26-08205",
-   "customer": "GLOBAL CLASSIC BUILDING MATERIALS TRADING L.L.C",
-   "item": "MARBLE GLUE WHITE 28KG - TENAX",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
-   "shipped": "15",
-   "why": "invoice LB26-19815 updated, sales order updated"
+   "invoiced": "4",
+   "shipped": "0",
+   "why": "invoice LB26-20162 updated"
   },
   {
    "so": "SO26-08347",
@@ -298,14 +317,26 @@
    "invoiced": "478",
    "shipped": "452",
    "why": "sales order updated"
-  }
- ],
- "alerts": [
+  },
   {
-   "so": "SO26-08205",
-   "text": "LB-STOCKSYNC ALERT (LB26-19815): partly covered by another package already: Marbo 2100 Beige 23 kg invoice qty 50.0 but only 0.0 left to pack; Marbo 2100 White 23kg invoice qty 50.0 but only 0.0 left ",
-   "when": "2026-10-17"
+   "so": "SOSJ26-00276",
+   "customer": "ARAFA BUILDING MATERIALS TRADING LLC.",
+   "item": "Ultracolor Plus 134 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "6",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SOSJ26-00276",
+   "customer": "ARAFA BUILDING MATERIALS TRADING LLC.",
+   "item": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "2",
+   "shipped": "0",
+   "why": "sales order updated"
   }
  ],
- "calls": 927
+ "alerts": [],
+ "calls": 891
 }
