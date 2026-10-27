@@ -1,11 +1,22 @@
 name: Attach delivery notes
 
-# Reads every scanned delivery note PDF in dn-inbox/, cuts it page by page,
-# finds the invoice number on each page and attaches the page to that invoice
-# in Zoho Books (Dubai org). Void invoices are treated the same as any other.
-# dry = report only. live = report + upload, then the source PDF moves to dn-done/.
+# Three ways this runs:
+#   1. The Delivery Notes app: someone taps "Attach to invoices". The app sends the scan's download
+#      link here (repository_dispatch, event dn-scan). Runs live immediately.
+#   2. Every day at 08:07 and 18:17 Dubai: processes anything left in dn-inbox, the 2 day overdue check
+#      (invoices with no note, emailed to Suman), and the pending-delivery reminder (note shows less than
+#      the invoice, emailed to Vanessa every 2 days until the balance is delivered). Posts a brief to Cliq.
+#   3. Run workflow button, for a manual dry or live run.
+#
+# Every page is verified against the invoice (customer, date, every item by SKU and name, TRN)
+# before it is attached. Anything that does not agree is held for a person.
 
 on:
+  repository_dispatch:
+    types: [dn-scan]
+  schedule:
+    - cron: "7 4 * * *"       # 08:07 Dubai: pending-delivery reminders to Vanessa, overdue list to Suman
+    - cron: "17 14 * * *"     # 18:17 Dubai: end of day attach of anything left in dn-inbox
   workflow_dispatch:
     inputs:
       mode:
@@ -38,15 +49,38 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq tesseract-ocr poppler-utils
-          pip install requests pypdf pillow
+          pip install requests pypdf pillow pillow-heif
+      - name: Fetch the scan sent by the app
+        if: github.event_name == 'repository_dispatch'
+        env:
+          FILE_URL: ${{ github.event.client_payload.url }}
+          FILE_NAME: ${{ github.event.client_payload.filename }}
+        run: |
+          mkdir -p dn-inbox
+          safe=$(echo "$FILE_NAME" | tr -c 'A-Za-z0-9._ -' '_')
+          echo "downloading $safe"
+          curl -sSfL "$FILE_URL" -o "dn-inbox/$safe"
+          ls -la dn-inbox
       - name: Run
         env:
           ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
           ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
           ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
           ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
-          MODE: ${{ inputs.mode }}
-          ONLY_FILE: ${{ inputs.file }}
+          CLIQ_DN_WEBHOOK: ${{ secrets.CLIQ_DN_WEBHOOK }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DN_REPORT_TO: ${{ vars.DN_REPORT_TO || 'dayem.a@lapizblue.com' }}
+          DN_SHORT_TO: ${{ vars.DN_SHORT_TO || 'vanessa.p@lapizblue.com' }}
+          REMIND_EVERY_DAYS: ${{ vars.REMIND_EVERY_DAYS || '2' }}
+          DN_LEDGER: dn-ledger.json
+          DN_REPORT_CC: ${{ vars.DN_REPORT_CC || '' }}
+          DN_REPORT_FROM: ${{ vars.DN_REPORT_FROM || 'Delivery Notes <delivery-notes@lapizblue.com>' }}
+          OVERDUE_DAYS: ${{ vars.OVERDUE_DAYS || '2' }}
+          OVERDUE_FROM: ${{ vars.OVERDUE_FROM || '2026-10-22' }}
+          MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+          ONLY_FILE: ${{ github.event_name == 'workflow_dispatch' && inputs.file || '' }}
+          SCAN_URL: ${{ github.event.client_payload.url || '' }}
+          SCAN_BY: ${{ github.event.client_payload.uploaded_by || '' }}
           INBOX: dn-inbox
           OUT: out
         run: python scripts/attach_delivery_notes.py 2>&1 | tee out_log.txt
@@ -57,28 +91,34 @@ jobs:
           path: |
             out/report.md
             out/report.csv
-            out/split
             out/missing.csv
+            out/overdue.csv
+            out/split
             out/unmatched
             out/needs-check
             out_log.txt
           retention-days: 90
       - name: Move processed scans to dn-done (live only)
-        if: inputs.mode == 'live'
+        if: always() && (github.event_name != 'workflow_dispatch' || inputs.mode == 'live')
         run: |
           mkdir -p "dn-done/$(date -u +%Y-%m)"
           python3 - <<'EOF'
           import json, os, shutil, datetime
           done = f"dn-done/{datetime.datetime.utcnow().strftime('%Y-%m')}"
-          for p in json.load(open("out/processed.json")):
-              if os.path.exists(p):
-                  shutil.move(p, os.path.join(done, os.path.basename(p)))
-          shutil.copy("out/report.md", os.path.join(done, "report-" + datetime.datetime.utcnow().strftime('%Y-%m-%d-%H%M') + ".md"))
+          # scans sent by the app already live in the app's file store (their link is in the report),
+          # so they are deleted here instead of being kept in git
+          from_app = "${{ github.event_name }}" == "repository_dispatch"
+          if os.path.exists("out/processed.json"):
+              for p in json.load(open("out/processed.json")):
+                  if os.path.exists(p):
+                      os.remove(p) if from_app else shutil.move(p, os.path.join(done, os.path.basename(p)))
+          if os.path.exists("out/report.md"):
+              shutil.copy("out/report.md", os.path.join(done, "report-" + datetime.datetime.utcnow().strftime('%Y-%m-%d-%H%M') + ".md"))
           EOF
           git config user.name "dn-attach-bot"
           git config user.email "dn-attach-bot@users.noreply.github.com"
-          git add dn-inbox dn-done || true
+          git add dn-inbox dn-done dn-ledger.json || true
           if git diff --cached --quiet; then echo "nothing to move"; exit 0; fi
-          git commit -m "Delivery notes attached $(date -u +%Y-%m-%d)" || exit 0
+          git commit -m "Delivery notes $(date -u '+%Y-%m-%d %H:%M')" || exit 0
           git pull --rebase origin main || true
           git push origin HEAD:main || echo "push failed, report is in the run artifact"
