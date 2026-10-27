@@ -109,10 +109,15 @@ jobs:
           # scans sent by the app already live in the app's file store (their link is in the report),
           # so they are deleted here instead of being kept in git
           from_app = "${{ github.event_name }}" == "repository_dispatch"
-          if os.path.exists("out/processed.json"):
+          if from_app:
+              # whatever happened to the run (done, failed, cancelled), the downloaded scan never goes into git
+              for f in os.listdir("dn-inbox"):
+                  if f != "README.md":
+                      os.remove(os.path.join("dn-inbox", f))
+          elif os.path.exists("out/processed.json"):
               for p in json.load(open("out/processed.json")):
                   if os.path.exists(p):
-                      os.remove(p) if from_app else shutil.move(p, os.path.join(done, os.path.basename(p)))
+                      shutil.move(p, os.path.join(done, os.path.basename(p)))
           if os.path.exists("out/report.md"):
               shutil.copy("out/report.md", os.path.join(done, "report-" + datetime.datetime.utcnow().strftime('%Y-%m-%d-%H%M') + ".md"))
           EOF
