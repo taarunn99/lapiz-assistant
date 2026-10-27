@@ -40,7 +40,7 @@ permissions:
 jobs:
   attach:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -83,6 +83,7 @@ jobs:
           SCAN_BY: ${{ github.event.client_payload.uploaded_by || '' }}
           INBOX: dn-inbox
           OUT: out
+          OCR_WORKERS: "4"
         run: python scripts/attach_delivery_notes.py 2>&1 | tee out_log.txt
       - uses: actions/upload-artifact@v4
         if: always()
