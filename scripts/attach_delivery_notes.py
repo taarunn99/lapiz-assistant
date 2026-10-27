@@ -62,6 +62,7 @@ API = os.environ.get("ZOHO_API_BASE", "https://www.zohoapis.com/books/v3").rstri
 ORG = os.environ.get("ZOHO_ORG_ID_DXB", "")
 PACE_SECONDS = float(os.environ.get("PACE_SECONDS", "1.5"))
 OCR_WORKERS = int(os.environ.get("OCR_WORKERS", "4"))              # pages read in parallel (runner has 4 cores)
+os.environ.setdefault("OMP_THREAD_LIMIT", "1")                      # one thread per tesseract process, else parallel OCR crawls
 OWN_TRN = "100493956500003"   # Lapiz Blue's own TRN, printed on every note, ignored
 OVERDUE_DAYS = int(os.environ.get("OVERDUE_DAYS", "2"))          # a note is overdue this many days after the invoice date
 OVERDUE_FROM = os.environ.get("OVERDUE_FROM", "2026-10-22")       # invoices before the system went live are not chased
