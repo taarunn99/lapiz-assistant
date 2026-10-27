@@ -57,7 +57,7 @@ jobs:
           FILE_NAME: ${{ github.event.client_payload.filename }}
         run: |
           mkdir -p dn-inbox
-          safe=$(echo "$FILE_NAME" | tr -c 'A-Za-z0-9._ -' '_')
+          safe=$(printf '%s' "$FILE_NAME" | tr -c 'A-Za-z0-9._ -' '_')
           echo "downloading $safe"
           curl -sSfL "$FILE_URL" -o "dn-inbox/$safe"
           ls -la dn-inbox
