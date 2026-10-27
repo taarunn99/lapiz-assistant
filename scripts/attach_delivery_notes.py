@@ -47,7 +47,8 @@ import time
 from datetime import datetime
 
 import requests
-from datetime import timedelta
+from datetime import timedelta, timezone
+DUBAI = timezone(timedelta(hours=4))
 from PIL import Image, ImageOps
 from pypdf import PdfReader, PdfWriter
 
@@ -86,7 +87,7 @@ for d in ("split", "unmatched", "needs-check", "pages"):
 
 
 def log(msg):
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] {msg}", flush=True)
+    print(f"[{datetime.now(DUBAI).strftime('%H:%M:%S')}] {msg}", flush=True)
 
 
 # ---------------------------------------------------------------- OCR
@@ -530,25 +531,148 @@ def images_to_pdf(folder):
             log(f"could not convert {img}: {e}")
 
 
-def send_email(subject, body_lines, csv_path):
-    """Daily missing-note email through Resend. Skipped when no key is configured."""
+def esc(s):
+    return str(s if s is not None else "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def build_daily_email(rows, counts, due, overdue, overdue_void, pdfs, cutoff, today):
+    """One HTML email in the house style (dark card, lavender band, stat tiles, one card per document)."""
+    BG, CARD, BAND, TEXT, MUTED, LINE = "#1c1c1e", "#242426", "#b7bdf5", "#f2f2f4", "#9a9aa3", "#3a3a3e"
+    RED, GREEN, PURPLE_BG, PURPLE = "#ff8a6b", "#7bd88f", "#2e2a4a", "#c9c3ff"
+    day = today.strftime("%A, %d %b %Y")
+    pending_lines = sum(len(sf) for _, _, sf in due)
+    attached = counts.get("ATTACHED", 0) + counts.get("WOULD ATTACH", 0)
+    needs = counts.get("NEEDS CHECK", 0) + counts.get("NUMBER NOT READ", 0) + counts.get("ATTACH FAILED", 0)
+
+    def tile(num, label, hot=False):
+        return (f"<td width='33%' style='padding:6px'><div style='background:{'#3a2a28' if hot else '#2a2a2d'};border-radius:12px;"
+                f"padding:22px 10px;text-align:center'><div style='font-size:34px;font-weight:600;color:{RED if hot else TEXT}'>{num}</div>"
+                f"<div style='font-size:13px;color:{RED if hot else MUTED};margin-top:4px'>{label}</div></div></td>")
+
+    def th(t, align="left"):
+        return f"<th align='{align}' style='padding:10px 12px;font-size:11px;letter-spacing:.08em;color:{MUTED};font-weight:500;text-transform:uppercase'>{t}</th>"
+
+    def pill(t):
+        return f"<span style='background:{PURPLE_BG};color:{PURPLE};border-radius:999px;padding:2px 9px;font-size:12px'>{esc(t)}</span>"
+
+    h = [f"<div style='background:{BG};padding:24px 0;font-family:Roboto,Helvetica,Arial,sans-serif;color:{TEXT}'>"
+         f"<div style='max-width:960px;margin:0 auto;background:{CARD};border-radius:18px;overflow:hidden'>",
+         f"<div style='background:{BAND};padding:26px 32px;color:#1f1f2e'>"
+         f"<div style='font-size:12px;letter-spacing:.12em;text-transform:uppercase'>Lapiz Blue · Delivery Notes · Daily</div>"
+         f"<div style='font-size:30px;font-weight:600;margin-top:6px'>Delivery notes to chase</div>"
+         f"<div style='font-size:15px;margin-top:4px'>{day}</div></div>",
+         "<div style='padding:22px 26px'>",
+         "<table width='100%' cellspacing='0' cellpadding='0' style='color:{TEXT}'><tr>"
+         + tile(len(overdue), f"invoices with no delivery note for {OVERDUE_DAYS}+ days", hot=bool(overdue))
+         + tile(len(due), "invoices delivered less than invoiced", hot=bool(due))
+         + tile(attached, "notes attached in the last run" if pdfs else "notes attached today (no scan)")
+         + "</tr></table>"]
+
+    # ---- section 1: delivered less than invoiced
+    h.append(f"<div style='margin:26px 6px 10px;font-size:20px;font-weight:600'><span style='color:{PURPLE};font-size:14px'>&#9679;</span> "
+             f"Delivered less than invoiced <span style='font-size:14px;color:{MUTED};font-weight:400'>{len(due)} invoices, {pending_lines} lines</span></div>")
+    if not due:
+        h.append(f"<div style='margin:0 6px 10px;color:{MUTED};font-size:14px'>Nothing pending. Every attached note matches its invoice.</div>")
+    for key, e, shortfall in due:
+        url = BOOKS_UI + e["invoice_id"]
+        first = e["first_attached"][:10]
+        age = (today - datetime.strptime(first, "%Y-%m-%d").date()).days
+        h.append(f"<div style='border:1px solid {LINE};border-radius:14px;margin:0 6px 14px;overflow:hidden'>"
+                 "<table width='100%' cellspacing='0' cellpadding='0' style='color:{TEXT}'><tr>"
+                 + th("Number") + th("Customer") + th("Invoice date") + th("Note attached") + th("Status") + th("Notes", "right") +
+                 "</tr><tr style='font-size:15px'>"
+                 f"<td style='padding:12px;font-weight:600'><a href='{url}' style='color:{TEXT};text-decoration:none'>{esc(key)}</a></td>"
+                 f"<td style='padding:12px'>{esc(e['customer'])}</td>"
+                 f"<td style='padding:12px;color:{MUTED}'>{esc(e['date'])}</td>"
+                 f"<td style='padding:12px;color:{MUTED}'>{first} ({age} days ago)</td>"
+                 f"<td style='padding:12px'>{pill(e.get('status', ''))}</td>"
+                 f"<td style='padding:12px;text-align:right'>{len(e['notes'])}</td></tr></table>"
+                 f"<table width='100%' cellspacing='0' cellpadding='0' style='background:#2a2a2d;border-top:1px solid {LINE};color:{TEXT}'><tr>"
+                 + th("Short item") + th("SKU") + th("Invoiced", "right") + th("On note", "right") + th("Balance", "right") + "</tr>")
+        for r in shortfall:
+            bal = r["invoiced"] - r["delivered"]
+            h.append(f"<tr style='font-size:15px'><td style='padding:10px 12px'>{esc(r['name'])}</td>"
+                     f"<td style='padding:10px 12px;color:{MUTED}'>{esc(r['sku'])}</td>"
+                     f"<td style='padding:10px 12px;text-align:right'>{r['invoiced']:g}</td>"
+                     f"<td style='padding:10px 12px;text-align:right'>{r['delivered']:g}</td>"
+                     f"<td style='padding:10px 12px;text-align:right'><span style='background:#3a2a28;color:{RED};border-radius:999px;padding:2px 9px'>{bal:g}</span></td></tr>")
+        h.append(f"</table><div style='padding:8px 12px;font-size:12px;color:{MUTED}'>Open the invoice to see the attached note. "
+                 f"Reminder repeats every {REMIND_EVERY} days until the balance is delivered and its note attached.</div></div>")
+
+    # ---- section 2: no delivery note at all
+    h.append(f"<div style='margin:30px 6px 10px;font-size:20px;font-weight:600'><span style='color:{PURPLE};font-size:14px'>&#9679;</span> "
+             f"No delivery note for {OVERDUE_DAYS}+ days <span style='font-size:14px;color:{MUTED};font-weight:400'>{len(overdue)} invoices, dated {OVERDUE_FROM} to {cutoff}</span></div>")
+    groups = {}
+    for inv in overdue:
+        groups.setdefault(inv.get("cf_fulfillment_method", "") or "No fulfillment method", []).append(inv)
+    for method, invs in groups.items():
+        h.append(f"<div style='margin:14px 6px 6px;font-size:12px;letter-spacing:.08em;color:{MUTED};text-transform:uppercase'>{esc(method)} · {len(invs)}</div>"
+                 f"<div style='border:1px solid {LINE};border-radius:14px;margin:0 6px 10px;overflow:hidden'>"
+                 "<table width='100%' cellspacing='0' cellpadding='0' style='color:{TEXT}'><tr>"
+                 + th("Number") + th("Customer") + th("Invoice date") + th("Days") + th("Salesperson") + th("Status", "right") + "</tr>")
+        for inv in invs:
+            age = (today - datetime.strptime(inv.get("date"), "%Y-%m-%d").date()).days
+            url = BOOKS_UI + str(inv.get("invoice_id", ""))
+            h.append(f"<tr style='font-size:15px;border-top:1px solid {LINE}'>"
+                     f"<td style='padding:10px 12px;font-weight:600'><a href='{url}' style='color:{TEXT};text-decoration:none'>{esc(inv.get('invoice_number'))}</a></td>"
+                     f"<td style='padding:10px 12px'>{esc(inv.get('customer_name'))}</td>"
+                     f"<td style='padding:10px 12px;color:{MUTED}'>{esc(inv.get('date'))}</td>"
+                     f"<td style='padding:10px 12px;color:{RED if age >= OVERDUE_DAYS * 2 else TEXT}'>{age}</td>"
+                     f"<td style='padding:10px 12px;color:{MUTED}'>{esc(inv.get('salesperson_name', ''))}</td>"
+                     f"<td style='padding:10px 12px;text-align:right'>{pill(inv.get('status', ''))}</td></tr>")
+        h.append("</table></div>")
+    if overdue_void:
+        h.append(f"<div style='margin:10px 6px;font-size:13px;color:{MUTED}'>Void invoices with no note, not chased: {len(overdue_void)} "
+                 f"({esc(', '.join(i.get('invoice_number', '') for i in overdue_void[:12]))}{', ...' if len(overdue_void) > 12 else ''})</div>")
+
+    # ---- section 3: last attach run
+    if pdfs:
+        bad = [r for r in rows if r["result"] in ("NEEDS CHECK", "NUMBER NOT READ", "ATTACH FAILED")]
+        h.append(f"<div style='margin:30px 6px 10px;font-size:20px;font-weight:600'><span style='color:{PURPLE};font-size:14px'>&#9679;</span> "
+                 f"Last scan <span style='font-size:14px;color:{MUTED};font-weight:400'>{esc(', '.join(os.path.basename(p) for p in pdfs))}</span></div>"
+                 f"<div style='margin:0 6px;font-size:15px'>Attached {attached} · already there {counts.get('ALREADY ATTACHED', 0)} · "
+                 f"<span style='color:{RED if needs else TEXT}'>need a person {needs}</span></div>")
+        if bad:
+            h.append(f"<div style='border:1px solid {LINE};border-radius:14px;margin:10px 6px;overflow:hidden'><table width='100%' cellspacing='0' cellpadding='0' style='color:{TEXT}'><tr>"
+                     + th("Page") + th("Number on page") + th("Customer on page") + th("Why") + "</tr>")
+            for r in bad:
+                why = "number not readable" if r["result"] == "NUMBER NOT READ" else \
+                    ", ".join(c for c in r["checks"].split("; ")[0].split(", ") if "FAIL" in c) or r["detail"][:80]
+                h.append(f"<tr style='font-size:14px;border-top:1px solid {LINE}'><td style='padding:10px 12px'>{esc(r['pages'])}</td>"
+                         f"<td style='padding:10px 12px'>{esc(r['number_on_page'])}</td><td style='padding:10px 12px'>{esc(r['customer_on_page'][:40])}</td>"
+                         f"<td style='padding:10px 12px;color:{RED}'>{esc(why)}</td></tr>")
+            h.append("</table></div>")
+
+    h.append(f"<div style='margin:28px 6px 4px;font-size:12px;color:{MUTED}'>Sent automatically by the Lapiz Blue delivery note system. "
+             f"Scan signed notes through the Delivery Notes app; an invoice drops off these lists the day its note is attached."
+             + (f" <a href='{RUN_URL}' style='color:{PURPLE}'>Full report</a>" if RUN_URL else "") + "</div>")
+    h.append("</div></div></div>")
+    return "".join(h)
+
+
+def send_daily_email(html, subject, attachments):
+    """Send through Resend. attachments = list of file paths (csv). Returns True on success."""
     if not RESEND_KEY:
         log("RESEND_API_KEY not set, skipping email")
-        return
+        return False
     import base64
-    html = "<pre style='font-family:Arial,sans-serif;font-size:14px'>" + "\n".join(
-        l.replace("&", "&amp;").replace("<", "&lt;") for l in body_lines) + "</pre>"
-    payload = {"from": REPORT_FROM, "to": REPORT_TO, "subject": subject, "html": html,
-               "attachments": [{"filename": os.path.basename(csv_path),
-                                "content": base64.b64encode(open(csv_path, "rb").read()).decode()}]}
+    payload = {"from": REPORT_FROM, "to": REPORT_TO, "subject": subject, "html": html}
     if REPORT_CC:
         payload["cc"] = REPORT_CC
+    atts = []
+    for p in attachments:
+        if os.path.exists(p) and os.path.getsize(p) > 0:
+            atts.append({"filename": os.path.basename(p), "content": base64.b64encode(open(p, "rb").read()).decode()})
+    if atts:
+        payload["attachments"] = atts
     try:
         r = requests.post("https://api.resend.com/emails", json=payload,
                           headers={"Authorization": f"Bearer {RESEND_KEY}"}, timeout=30)
         log(f"email to {', '.join(REPORT_TO)}: HTTP {r.status_code} {r.text[:120]}")
+        return r.status_code < 300
     except Exception as e:
         log(f"email failed: {e}")
+        return False
 
 
 def load_ledger():
@@ -568,7 +692,7 @@ def save_ledger(led):
 def record_delivery(led, inv, source, pages):
     """Store what this note says was delivered, per invoice line, summed over all notes for the invoice."""
     key = inv.get("invoice_number", "").upper()
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    now = datetime.now(DUBAI).strftime("%Y-%m-%d %H:%M")
     e = led.setdefault(key, {"invoice_id": inv["invoice_id"], "customer": inv.get("customer_name", ""),
                              "date": inv.get("date", ""), "status": inv.get("status", ""),
                              "notes": [], "lines": {}, "first_attached": now, "last_reminded": "", "resolved": ""})
@@ -623,49 +747,6 @@ def pending_reminders(led, today):
                 continue
         due.append((key, e, shortfall))
     return due
-
-
-def send_short_delivery_email(due, today):
-    lines = [f"Pending deliveries: {len(due)} invoice(s) where the signed delivery note shows less than the invoice",
-             f"Reminder every {REMIND_EVERY} days until the balance is delivered and its note is attached.", "",
-             "For each line: invoiced quantity, quantity on the delivery note(s), balance. Open the invoice link to see the attached note.",
-             "If the note was read wrongly by the system, tell Tarun the invoice number and it will be marked as delivered.", ""]
-    html = ["<p>" + lines[0] + "<br>" + lines[1] + "</p><p>" + lines[3] + "<br>" + lines[4] + "</p>"]
-    for key, e, shortfall in due:
-        url = BOOKS_UI + e["invoice_id"]
-        first = e["first_attached"][:10]
-        age = (today - datetime.strptime(first, "%Y-%m-%d").date()).days
-        lines.append(f"{key}  {e['customer']}  (invoice {e['date']}, note attached {first}, {age} days ago)  {url}")
-        html.append(f"<h3 style='margin:18px 0 4px'><a href='{url}'>{key}</a> {e['customer']}</h3>"
-                    f"<div style='color:#555;font-size:13px'>invoice {e['date']}, first note attached {first} ({age} days ago), "
-                    f"{len(e['notes'])} note(s) attached</div>"
-                    "<table cellpadding='6' style='border-collapse:collapse;font-size:14px;margin-top:6px'>"
-                    "<tr style='background:#eee'><th align='left'>Item</th><th>SKU</th><th>Invoiced</th><th>On note</th><th>Balance</th><th>Read</th></tr>")
-        for r in shortfall:
-            bal = round(r["invoiced"] - r["delivered"], 2)
-            read = "ok"
-            lines.append(f"    {r['name']}  SKU {r['sku']}  invoiced {r['invoiced']:g}  on note {r['delivered']:g}  balance {bal:g}  ({read})")
-            html.append(f"<tr><td>{r['name']}</td><td>{r['sku']}</td><td align='right'>{r['invoiced']:g}</td>"
-                        f"<td align='right'>{r['delivered']:g}</td><td align='right'><b>{bal:g}</b></td><td>{read}</td></tr>")
-        html.append("</table>")
-        lines.append("")
-    html.append("<p style='color:#777;font-size:12px'>Lapiz Blue delivery note system</p>")
-    if not RESEND_KEY:
-        log("RESEND_API_KEY not set, skipping pending-delivery email")
-        print("\n".join(lines))
-        return False
-    payload = {"from": REPORT_FROM, "to": SHORT_TO, "subject": f"Pending deliveries: {len(due)} invoice(s) short on the delivery note ({today.strftime('%d %b %Y')})",
-               "html": "".join(html), "text": "\n".join(lines)}
-    if REPORT_CC:
-        payload["cc"] = REPORT_CC
-    try:
-        r = requests.post("https://api.resend.com/emails", json=payload,
-                          headers={"Authorization": f"Bearer {RESEND_KEY}"}, timeout=30)
-        log(f"pending-delivery email to {', '.join(SHORT_TO)}: HTTP {r.status_code} {r.text[:120]}")
-        return r.status_code < 300
-    except Exception as e:
-        log(f"pending-delivery email failed: {e}")
-        return False
 
 
 # ---------------------------------------------------------------- main
@@ -861,7 +942,7 @@ def main():
     for r in rows:
         counts[r["result"]] = counts.get(r["result"], 0) + 1
     lines = [f"# Delivery note attach report ({MODE} mode)", "",
-             f"Run: {datetime.now().strftime('%Y-%m-%d %H:%M')}   API calls: {z.calls}", ""]
+             f"Run: {datetime.now(DUBAI).strftime('%Y-%m-%d %H:%M')}   API calls: {z.calls}", ""]
     if os.environ.get("SCAN_URL"):
         lines += [f"Scan sent from the app by {os.environ.get('SCAN_BY') or 'unknown'}: {os.environ['SCAN_URL']}", ""]
     lines += [
@@ -905,7 +986,7 @@ def main():
                           inv.get("cf_fulfillment_method", ""), inv.get("salesperson_name", ""), inv.get("date")])
 
     # 6. overdue: invoices older than OVERDUE_DAYS with still no attachment (since go-live)
-    today = datetime.now().date()
+    today = datetime.now(DUBAI).date()
     cutoff = (today - timedelta(days=OVERDUE_DAYS)).strftime("%Y-%m-%d")
     overdue, overdue_void = [], []
     if OVERDUE_FROM <= cutoff:
@@ -944,7 +1025,7 @@ def main():
         json.dump(processed, fh)
     print("\n".join(lines))
 
-    # 7. short message to Cliq, and the overdue list by email
+    # 7. short message to Cliq
     post_cliq(rows, counts, missing, overdue, overdue_void, pdfs, cutoff)
     # 8. pending deliveries: delivery note shows less than the invoice, remind every REMIND_EVERY days
     due = pending_reminders(led, today)
@@ -955,32 +1036,18 @@ def main():
     print("\n".join(lines_pd))
     with open(f"{OUT}/report.md", "a") as fh:
         fh.write("\n".join(lines_pd) + "\n")
-    if MODE == "live" and due:
-        if send_short_delivery_email(due, today):
+    # 9. one daily email in the house style, with both lists and the last scan result
+    html = build_daily_email(rows, counts, due, overdue, overdue_void, pdfs, cutoff, today)
+    with open(f"{OUT}/daily_email.html", "w") as fh:
+        fh.write(html)
+    if MODE == "live" and (due or overdue or pdfs):
+        subject = (f"Delivery notes {today.strftime('%d %b')}: {len(overdue)} with no note, "
+                   f"{len(due)} delivered short" + (f", {counts.get('ATTACHED', 0)} attached" if pdfs else ""))
+        if send_daily_email(html, subject, [f"{OUT}/overdue.csv"]):
             for key, e, _ in due:
                 e["last_reminded"] = today.strftime("%Y-%m-%d")
     if MODE == "live":
         save_ledger(led)
-
-    if MODE == "live" and overdue:
-        body = [f"Delivery notes not attached for {OVERDUE_DAYS} or more days: {len(overdue)} invoice(s)",
-                f"(invoices dated {OVERDUE_FROM} to {cutoff} with no attachment in Zoho Books)", ""]
-        cur = None
-        for inv in overdue:
-            m = inv.get("cf_fulfillment_method", "") or "No fulfillment method"
-            if m != cur:
-                body.append(f"{m}:")
-                cur = m
-            age = (today - datetime.strptime(inv.get("date"), "%Y-%m-%d").date()).days
-            body.append(f"  {inv.get('invoice_number')}  {inv.get('date')}  {age} days  {inv.get('customer_name')}  "
-                        f"{inv.get('status')}  {inv.get('salesperson_name', '')}")
-        if overdue_void:
-            body += ["", f"Void invoices with no note ({len(overdue_void)}): " +
-                     ", ".join(i.get("invoice_number", "") for i in overdue_void)]
-        body += ["", "Please collect the signed delivery note and scan it through the Delivery Notes app.",
-                 "The invoice drops off this list the day its note is attached.", "", "Lapiz Blue delivery note system"]
-        send_email(f"Delivery notes missing {OVERDUE_DAYS}+ days: {len(overdue)} invoices ({today.strftime('%d %b %Y')})",
-                   body, f"{OUT}/overdue.csv")
 
     if any(r["result"] == "ATTACH FAILED" for r in rows):
         sys.exit(2)
@@ -991,7 +1058,7 @@ def post_cliq(rows, counts, missing, overdue, overdue_void, pdfs, cutoff):
     if not CLIQ_WEBHOOK:
         log("CLIQ_DN_WEBHOOK not set, skipping Cliq post")
         return
-    stamp = datetime.now().strftime("%d %b %Y %H:%M")
+    stamp = datetime.now(DUBAI).strftime("%d %b %Y %H:%M")
     msg = [f"*Delivery notes, {stamp}* ({MODE} run)"]
     if pdfs:
         msg.append("Scans: " + ", ".join(os.path.basename(p) for p in pdfs) +
