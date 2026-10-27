@@ -293,11 +293,18 @@ def verify(page, inv, strict=False):
     for name, q in qrows:
         if not any(squash(r["name"])[:14] == squash(name)[:14] for r in rows):
             rows.append({"sku": "", "name": name, "qty": q})
-    text_sq_tokens = set(re.findall(r"[A-Z0-9]{4,}", text_up.replace("-", "").replace(" ", "")))
+    text_sq_tokens = set(re.findall(r"[A-Z0-9]{4,}", text_up.replace("-", "")))
     page_lines = [l.strip() for l in page["text"].split("\n") if l.strip()]
 
+    row_skus = [r["sku"] for r in rows if r["sku"]]
+
     def sku_on_page(sku):
-        return sku in text_sq or any(edit_distance(sku, t) <= 1 for t in text_sq_tokens if abs(len(t) - len(sku)) <= 1)
+        # exact anywhere, or within one OCR slip of a parsed "SKU : xxx" row, or of any token of the same length
+        if sku in text_sq:
+            return True
+        if any(edit_distance(sku, k) <= 1 or (len(k) > len(sku) and k.startswith(sku)) for k in row_skus):
+            return True
+        return any(edit_distance(sku, t) <= 1 for t in text_sq_tokens if abs(len(t) - len(sku)) <= 1)
 
     def name_on_page(name):
         name_sq = squash(name)
@@ -338,7 +345,7 @@ def verify(page, inv, strict=False):
             li["_delivered"] = qty
     # rows on the page that match no invoice line at all
     inv_skus = [squash(li.get("sku", "")) for li in lines if len(squash(li.get("sku", ""))) >= 4]
-    foreign = [r for r in rows if r["sku"] and not any(edit_distance(r["sku"], k) <= 1 for k in inv_skus)]
+    foreign = [r for r in rows if r["sku"] and not any(edit_distance(r["sku"], k) <= 1 or r["sku"].startswith(k) for k in inv_skus)]
     if foreign:
         problems.append("page has item rows that are not on this invoice: " +
                         ", ".join(f"SKU {r['sku']}" for r in foreign[:5]))
