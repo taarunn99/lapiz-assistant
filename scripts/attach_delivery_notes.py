@@ -47,6 +47,7 @@ import time
 from datetime import datetime
 
 import requests
+from datetime import timedelta
 from PIL import Image, ImageOps
 from pypdf import PdfReader, PdfWriter
 
@@ -59,6 +60,19 @@ API = os.environ.get("ZOHO_API_BASE", "https://www.zohoapis.com/books/v3").rstri
 ORG = os.environ.get("ZOHO_ORG_ID_DXB", "")
 PACE_SECONDS = float(os.environ.get("PACE_SECONDS", "1.5"))
 OWN_TRN = "100493956500003"   # Lapiz Blue's own TRN, printed on every note, ignored
+OVERDUE_DAYS = int(os.environ.get("OVERDUE_DAYS", "2"))          # a note is overdue this many days after the invoice date
+OVERDUE_FROM = os.environ.get("OVERDUE_FROM", "2026-10-22")       # invoices before the system went live are not chased
+CLIQ_WEBHOOK = os.environ.get("CLIQ_DN_WEBHOOK", "").strip()      # Cliq channel post URL (with zapikey); blank = no post
+RESEND_KEY = os.environ.get("RESEND_API_KEY", "").strip()          # email sender; blank = no email
+REPORT_TO = [x.strip() for x in os.environ.get("DN_REPORT_TO", "dayem.a@lapizblue.com").split(",") if x.strip()]
+REPORT_CC = [x.strip() for x in os.environ.get("DN_REPORT_CC", "").split(",") if x.strip()]
+REPORT_FROM = os.environ.get("DN_REPORT_FROM", "Delivery Notes <delivery-notes@lapizblue.com>")
+SHORT_TO = [x.strip() for x in os.environ.get("DN_SHORT_TO", "vanessa.p@lapizblue.com").split(",") if x.strip()]
+REMIND_EVERY = int(os.environ.get("REMIND_EVERY_DAYS", "2"))     # pending deliveries are re-sent every N days
+LEDGER = os.environ.get("DN_LEDGER", "dn-ledger.json")           # per invoice: invoiced vs delivered, kept in the repo
+BOOKS_UI = os.environ.get("ZOHO_BOOKS_UI", "https://books.zoho.com/app/" + ORG + "#/invoices/")
+RUN_URL = (f"{os.environ.get('GITHUB_SERVER_URL', '')}/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/"
+           f"{os.environ.get('GITHUB_RUN_ID', '')}") if os.environ.get("GITHUB_RUN_ID") else ""
 
 NUM_RE = re.compile(r"#\s*(LB[A-Z]*\s?\d{2}\s?-\s?\d{4,6})")
 LOOSE_RE = re.compile(r"(LB[A-Z]*\s?\d{2}\s?-\s?\d{4,6})")
@@ -89,6 +103,75 @@ def norm_number(s):
     # digits after the dash are sometimes read as letters on a weak scan
     tail = tail.translate(str.maketrans("OIlSBZ", "011582"))
     return f"{head}-{tail}"
+
+
+def read_quantities(png):
+    """Quantities from the Qty column, paired to SKU rows by vertical position.
+    Returns {sku: qty}. Full page OCR often drops the right hand column, so the column is read on its own."""
+    im = Image.open(png)
+    w, h = im.size
+    top = int(h * 0.30)
+    strip = im.crop((int(w * 0.84), top, w, int(h * 0.95)))
+    strip = strip.resize((strip.width * 2, strip.height * 2))
+    spath = png.replace(".png", "-qty.png")
+    strip.save(spath)
+    nums = []
+    tsv = subprocess.run(["tesseract", spath, "-", "--psm", "6", "tsv"], capture_output=True, text=True).stdout
+    for line in tsv.split("\n")[1:]:
+        c = line.split("\t")
+        if len(c) < 12:
+            continue
+        t = c[11].strip().replace(",", ".")
+        if re.fullmatch(r"\d{1,5}\.\d{1,2}", t):
+            nums.append([int(c[7]) // 2 + top, float(t), False])
+    skus = []
+    tsv = subprocess.run(["tesseract", png, "-", "--psm", "3", "tsv"], capture_output=True, text=True).stdout
+    by_line = {}
+    for line in tsv.split("\n")[1:]:
+        c = line.split("\t")
+        if len(c) < 12 or not c[11].strip():
+            continue
+        by_line.setdefault((c[2], c[3], c[4]), []).append((int(c[7]), c[11].strip()))
+    item_rows = []   # (y, name) for lines that look like "<n> <item name> ..."
+    for words in by_line.values():
+        joined = " ".join(t for _, t in words)
+        m = re.search(r"(?:SKU|SkU|5KU|SKV)\s*[:;]?\s*(\S+)", joined)
+        if m:
+            skus.append((words[0][0], squash(m.group(1))))
+        elif re.match(r"^\d{1,2}[.,]?\s+[A-Za-z]", joined) and words[0][0] > top:
+            name = re.sub(r"^\d{1,2}[.,]?\s+", "", joined)
+            name = re.sub(r"\s+\d{1,5}[.,]\d{1,2}\s*$", "", name)       # strip the qty if it was read on the same line
+            item_rows.append((words[0][0], name))
+    out, by_row = {}, []
+    # first by item row (same height as the quantity), then by SKU line (quantity sits ~30px above it)
+    for y, name in item_rows:
+        best = None
+        for n in nums:
+            if n[2] or not (y - 40 <= n[0] <= y + 40):
+                continue
+            if best is None or abs(n[0] - y) < abs(best[0] - y):
+                best = n
+        if best:
+            best[2] = True
+            by_row.append((name, best[1]))
+            # the SKU line directly under this row inherits the quantity
+            under = [sk for sk in skus if y < sk[0] <= y + 110]
+            if under:
+                out[under[0][1]] = best[1]
+    for y, sku in skus:
+        if sku in out:
+            continue
+        best = None
+        for n in nums:
+            if n[2] or not (y - 110 <= n[0] <= y + 15):
+                continue
+            if best is None or abs(n[0] - (y - 30)) < abs(best[0] - (y - 30)):
+                best = n
+        if best:
+            best[2] = True
+            out[sku] = best[1]
+    out["__rows__"] = by_row
+    return out
 
 
 def read_page(png):
@@ -138,7 +221,12 @@ def read_page(png):
             break
     customer = re.split(r"\s+(Fulfillment|Date|Ref|VAT)\b", customer)[0].strip()
     trns = [t for t in TRN_RE.findall(text) if t != OWN_TRN]
-    return {"text": text, "number": num, "customer": customer, "date": date, "trns": trns}
+    try:
+        qty = read_quantities(png)
+    except Exception as e:
+        log(f"  qty column not read: {e}")
+        qty = {}
+    return {"text": text, "number": num, "customer": customer, "date": date, "trns": trns, "qty": qty}
 
 
 # ---------------------------------------------------------------- verification
@@ -184,17 +272,89 @@ def verify(page, inv, strict=False):
     # date: the date printed on the note equals the invoice date
     checks["date"] = bool(page["date"]) and page["date"] == inv.get("date")
 
-    # items: at least half of the invoice lines appear on the page, by SKU or by item name
+    # items. Rules:
+    #   a. every item row printed on the page must be a line of this invoice (SKU and name both agree);
+    #      a row that belongs to no invoice line means the page is NOT this invoice -> FAIL
+    #   b. at least one invoice line must be on the page
+    #   c. invoice lines that are NOT on the page are allowed: a partial delivery. They and any
+    #      quantity shortfall are recorded for the pending-delivery reminder, not treated as a mismatch.
     lines = [li for li in inv.get("line_items", []) if li.get("name") or li.get("sku")]
-    matched = 0
+    rows = page_items(page["text"])
+    qmap = {k: v for k, v in page.get("qty", {}).items() if k != "__rows__"}
+    qrows = page.get("qty", {}).get("__rows__", [])
+    for r in rows:
+        for k, v in qmap.items():
+            if r["sku"] and edit_distance(r["sku"], k) <= 1:
+                r["qty"] = v
+                break
+    # item rows with no SKU line under them (blank SKU in Zoho)
+    for name, q in qrows:
+        if not any(squash(r["name"])[:14] == squash(name)[:14] for r in rows):
+            rows.append({"sku": "", "name": name, "qty": q})
+    text_sq_tokens = set(re.findall(r"[A-Z0-9]{4,}", text_up.replace("-", "").replace(" ", "")))
+    page_lines = [l.strip() for l in page["text"].split("\n") if l.strip()]
+
+    def sku_on_page(sku):
+        return sku in text_sq or any(edit_distance(sku, t) <= 1 for t in text_sq_tokens if abs(len(t) - len(sku)) <= 1)
+
+    def name_on_page(name):
+        name_sq = squash(name)
+        head = name_sq[:14]
+        if len(name_sq) < 6:
+            return False
+        if head in text_sq:
+            return True
+        for l in page_lines:
+            lsq = squash(l)
+            if any(edit_distance(lsq[i:i + len(head)], head) <= 2 for i in range(0, max(1, len(lsq) - len(head) + 1))):
+                return True
+        return False
+
+    problems, present, absent = [], [], []
     for li in lines:
         sku = squash(li.get("sku", ""))
-        name = squash(li.get("name", ""))[:14]
-        if (len(sku) >= 4 and sku in text_sq) or (len(name) >= 6 and name in text_sq):
-            matched += 1
-    need = len(lines) if strict else max(1, (len(lines) + 1) // 2)
-    checks["items"] = bool(lines) and matched >= need
-    items_note = f"{matched}/{len(lines)} lines found"
+        name = li.get("name", "")
+        s_ok = sku_on_page(sku) if len(sku) >= 4 else None
+        n_ok = name_on_page(name)
+        if s_ok is None:
+            found = n_ok
+        else:
+            found = s_ok and n_ok
+            if s_ok and not n_ok:
+                problems.append(f"SKU {li.get('sku')} is on the page but its item name '{name}' is not")
+            elif n_ok and not s_ok and len(rows) <= len(lines):
+                problems.append(f"'{name}' is on the page but its SKU {li.get('sku')} is not")
+        (present if found else absent).append(li)
+        if found:
+            # delivered quantity from the page row that carries this SKU (or name)
+            qty = None
+            for r in rows:
+                if (len(sku) >= 4 and r["sku"] and edit_distance(r["sku"], sku) <= 1) or \
+                        (r["sku"] == "" and edit_distance(squash(r["name"])[:14], squash(name)[:14]) <= 2):
+                    qty = r["qty"]
+                    break
+            li["_delivered"] = qty
+    # rows on the page that match no invoice line at all
+    inv_skus = [squash(li.get("sku", "")) for li in lines if len(squash(li.get("sku", ""))) >= 4]
+    foreign = [r for r in rows if r["sku"] and not any(edit_distance(r["sku"], k) <= 1 for k in inv_skus)]
+    if foreign:
+        problems.append("page has item rows that are not on this invoice: " +
+                        ", ".join(f"SKU {r['sku']}" for r in foreign[:5]))
+    if lines and not present:
+        problems.append("none of the invoice lines are on the page")
+    checks["items"] = bool(lines) and not problems
+    short = [li for li in present if li.get("_delivered") is not None and li["_delivered"] < float(li.get("quantity") or 0)]
+    unread = [li for li in present if li.get("_delivered") is None]
+    items_note = f"{len(present)}/{len(lines)} lines on page"
+    if absent:
+        items_note += f"; {len(absent)} line(s) not on this note (pending)"
+    if short:
+        items_note += f"; {len(short)} line(s) delivered less than invoiced"
+    if unread:
+        items_note += f"; qty not readable on {len(unread)} line(s)"
+    if problems:
+        items_note += "; ITEM MISMATCH: " + " | ".join(problems)
+    inv["_present"], inv["_absent"] = present, absent
 
     # TRN: only judged when the page shows a customer TRN and the invoice has one
     inv_trn = (inv.get("tax_reg_no") or "").strip()
@@ -207,6 +367,41 @@ def verify(page, inv, strict=False):
     ok = all(checks.values())
     note = ", ".join(f"{k}:{'ok' if v else 'FAIL'}" for k, v in checks.items()) + f"; {items_note}; {trn_note}"
     return ok, checks, note
+
+
+QTY_RE = re.compile(r"(\d{1,5})[.,](\d{2})\s*$")
+
+
+def page_items(text):
+    """Item rows printed on the note: [{'sku','name','qty'}]. qty is None when the number was not readable.
+    Layout (Zoho delivery note): '<n> <item name> <origin> <qty>' then 'SKU : <sku> <unit>'."""
+    lines = text.split("\n")
+    rows = []
+    for i, l in enumerate(lines):
+        m = re.search(r"SKU\s*[:;]\s*(\S+)", l, re.IGNORECASE)
+        if not m:
+            continue
+        sku = squash(m.group(1))
+        # the item row is the nearest non-empty line above the SKU line
+        j = i - 1
+        while j >= 0 and not lines[j].strip():
+            j -= 1
+        row = lines[j].strip() if j >= 0 else ""
+        qm = QTY_RE.search(row)
+        qty = None
+        if qm:
+            qty = float(f"{qm.group(1)}.{qm.group(2)}")
+            row = row[:qm.start()].strip()
+        else:
+            # quantity sometimes lands on the SKU line or the line after
+            for cand in (l, lines[i + 1] if i + 1 < len(lines) else ""):
+                qm = QTY_RE.search(cand)
+                if qm:
+                    qty = float(f"{qm.group(1)}.{qm.group(2)}")
+                    break
+        name = re.sub(r"^\d{1,2}\s+", "", row)
+        rows.append({"sku": sku, "name": name, "qty": qty})
+    return rows
 
 
 def edit_distance(a, b):
@@ -294,12 +489,182 @@ class Zoho:
                 return found
             page += 1
 
+    def invoices_between(self, start, end):
+        """Every invoice dated start..end inclusive (all statuses)."""
+        found, page = [], 1
+        while True:
+            code, j = self.call("GET", "/invoices", params={"date_start": start, "date_end": end,
+                                                           "per_page": 200, "page": page})
+            found += j.get("invoices", [])
+            if not j.get("page_context", {}).get("has_more_page"):
+                return found
+            page += 1
+
     def attach(self, invoice_id, pdf_path):
         with open(pdf_path, "rb") as fh:
             code, j = self.call("POST", f"/invoices/{invoice_id}/attachment",
                                 params={"can_send_in_mail": "false"},
                                 files={"attachment": (os.path.basename(pdf_path), fh, "application/pdf")})
         return code, j
+
+
+def images_to_pdf(folder):
+    """Any photo (jpg/png/heic) in the inbox becomes a one page PDF so the engine only sees PDFs."""
+    try:
+        import pillow_heif
+        pillow_heif.register_heif_opener()
+    except ImportError:
+        pass
+    for img in sorted(glob.glob(os.path.join(folder, "*"))):
+        if not re.search(r"\.(jpe?g|png|heic|webp)$", img, re.IGNORECASE):
+            continue
+        try:
+            im = Image.open(img)
+            im = ImageOps.exif_transpose(im).convert("RGB")
+            out = os.path.splitext(img)[0] + ".pdf"
+            im.save(out, "PDF", resolution=200)
+            os.remove(img)
+            log(f"photo {os.path.basename(img)} converted to {os.path.basename(out)}")
+        except Exception as e:
+            log(f"could not convert {img}: {e}")
+
+
+def send_email(subject, body_lines, csv_path):
+    """Daily missing-note email through Resend. Skipped when no key is configured."""
+    if not RESEND_KEY:
+        log("RESEND_API_KEY not set, skipping email")
+        return
+    import base64
+    html = "<pre style='font-family:Arial,sans-serif;font-size:14px'>" + "\n".join(
+        l.replace("&", "&amp;").replace("<", "&lt;") for l in body_lines) + "</pre>"
+    payload = {"from": REPORT_FROM, "to": REPORT_TO, "subject": subject, "html": html,
+               "attachments": [{"filename": os.path.basename(csv_path),
+                                "content": base64.b64encode(open(csv_path, "rb").read()).decode()}]}
+    if REPORT_CC:
+        payload["cc"] = REPORT_CC
+    try:
+        r = requests.post("https://api.resend.com/emails", json=payload,
+                          headers={"Authorization": f"Bearer {RESEND_KEY}"}, timeout=30)
+        log(f"email to {', '.join(REPORT_TO)}: HTTP {r.status_code} {r.text[:120]}")
+    except Exception as e:
+        log(f"email failed: {e}")
+
+
+def load_ledger():
+    if os.path.exists(LEDGER):
+        try:
+            return json.load(open(LEDGER))
+        except Exception:
+            pass
+    return {}
+
+
+def save_ledger(led):
+    with open(LEDGER, "w") as fh:
+        json.dump(led, fh, indent=1, sort_keys=True)
+
+
+def record_delivery(led, inv, source, pages):
+    """Store what this note says was delivered, per invoice line, summed over all notes for the invoice."""
+    key = inv.get("invoice_number", "").upper()
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    e = led.setdefault(key, {"invoice_id": inv["invoice_id"], "customer": inv.get("customer_name", ""),
+                             "date": inv.get("date", ""), "status": inv.get("status", ""),
+                             "notes": [], "lines": {}, "first_attached": now, "last_reminded": "", "resolved": ""})
+    e["status"] = inv.get("status", "")
+    note_id = f"{source}|{pages}"
+    if any(n["id"] == note_id for n in e["notes"]):
+        return e
+    e["notes"].append({"id": note_id, "at": now})
+    for li in inv.get("line_items", []):
+        k = str(li.get("line_item_id") or li.get("sku") or li.get("name"))
+        row = e["lines"].setdefault(k, {"sku": li.get("sku", ""), "name": li.get("name", ""),
+                                        "invoiced": float(li.get("quantity") or 0), "delivered": 0.0, "unreadable": 0})
+        row["invoiced"] = float(li.get("quantity") or 0)
+        if li in inv.get("_present", []):
+            d = li.get("_delivered")
+            if d is None:
+                row["unreadable"] += 1
+            else:
+                row["delivered"] = round(row["delivered"] + d, 2)
+    pending = [r for r in e["lines"].values() if r["delivered"] < r["invoiced"] and not r["unreadable"]]
+    e["resolved"] = "" if pending else now
+    return e
+
+
+def overrides():
+    """Invoice numbers listed in dn-overrides.txt (one per line) are treated as fully delivered.
+    Used when the note was misread, or the balance was settled another way."""
+    path = os.environ.get("DN_OVERRIDES", "dn-overrides.txt")
+    if not os.path.exists(path):
+        return set()
+    return {l.split("#")[0].strip().upper() for l in open(path) if l.split("#")[0].strip()}
+
+
+def pending_reminders(led, today):
+    """Invoices with a shortfall, first note attached REMIND_EVERY+ days ago, not reminded in the last REMIND_EVERY days."""
+    due = []
+    for key, e in sorted(led.items()):
+        if e.get("resolved") or e.get("status") == "void":
+            continue
+        if key in overrides():
+            continue
+        # lines whose quantity could not be read are not chased (they were flagged at attach time)
+        shortfall = [r for r in e["lines"].values() if r["delivered"] < r["invoiced"] and not r["unreadable"]]
+        if not shortfall:
+            continue
+        first = datetime.strptime(e["first_attached"][:10], "%Y-%m-%d").date()
+        if (today - first).days < REMIND_EVERY:
+            continue
+        if e.get("last_reminded"):
+            last = datetime.strptime(e["last_reminded"][:10], "%Y-%m-%d").date()
+            if (today - last).days < REMIND_EVERY:
+                continue
+        due.append((key, e, shortfall))
+    return due
+
+
+def send_short_delivery_email(due, today):
+    lines = [f"Pending deliveries: {len(due)} invoice(s) where the signed delivery note shows less than the invoice",
+             f"Reminder every {REMIND_EVERY} days until the balance is delivered and its note is attached.", "",
+             "For each line: invoiced quantity, quantity on the delivery note(s), balance. Open the invoice link to see the attached note.",
+             "If the note was read wrongly by the system, tell Tarun the invoice number and it will be marked as delivered.", ""]
+    html = ["<p>" + lines[0] + "<br>" + lines[1] + "</p><p>" + lines[3] + "<br>" + lines[4] + "</p>"]
+    for key, e, shortfall in due:
+        url = BOOKS_UI + e["invoice_id"]
+        first = e["first_attached"][:10]
+        age = (today - datetime.strptime(first, "%Y-%m-%d").date()).days
+        lines.append(f"{key}  {e['customer']}  (invoice {e['date']}, note attached {first}, {age} days ago)  {url}")
+        html.append(f"<h3 style='margin:18px 0 4px'><a href='{url}'>{key}</a> {e['customer']}</h3>"
+                    f"<div style='color:#555;font-size:13px'>invoice {e['date']}, first note attached {first} ({age} days ago), "
+                    f"{len(e['notes'])} note(s) attached</div>"
+                    "<table cellpadding='6' style='border-collapse:collapse;font-size:14px;margin-top:6px'>"
+                    "<tr style='background:#eee'><th align='left'>Item</th><th>SKU</th><th>Invoiced</th><th>On note</th><th>Balance</th><th>Read</th></tr>")
+        for r in shortfall:
+            bal = round(r["invoiced"] - r["delivered"], 2)
+            read = "ok"
+            lines.append(f"    {r['name']}  SKU {r['sku']}  invoiced {r['invoiced']:g}  on note {r['delivered']:g}  balance {bal:g}  ({read})")
+            html.append(f"<tr><td>{r['name']}</td><td>{r['sku']}</td><td align='right'>{r['invoiced']:g}</td>"
+                        f"<td align='right'>{r['delivered']:g}</td><td align='right'><b>{bal:g}</b></td><td>{read}</td></tr>")
+        html.append("</table>")
+        lines.append("")
+    html.append("<p style='color:#777;font-size:12px'>Lapiz Blue delivery note system</p>")
+    if not RESEND_KEY:
+        log("RESEND_API_KEY not set, skipping pending-delivery email")
+        print("\n".join(lines))
+        return False
+    payload = {"from": REPORT_FROM, "to": SHORT_TO, "subject": f"Pending deliveries: {len(due)} invoice(s) short on the delivery note ({today.strftime('%d %b %Y')})",
+               "html": "".join(html), "text": "\n".join(lines)}
+    if REPORT_CC:
+        payload["cc"] = REPORT_CC
+    try:
+        r = requests.post("https://api.resend.com/emails", json=payload,
+                          headers={"Authorization": f"Bearer {RESEND_KEY}"}, timeout=30)
+        log(f"pending-delivery email to {', '.join(SHORT_TO)}: HTTP {r.status_code} {r.text[:120]}")
+        return r.status_code < 300
+    except Exception as e:
+        log(f"pending-delivery email failed: {e}")
+        return False
 
 
 # ---------------------------------------------------------------- main
@@ -310,14 +675,15 @@ def main():
     if not ORG:
         raise SystemExit("ZOHO_ORG_ID_DXB is not set")
 
+    images_to_pdf(INBOX)
     pdfs = sorted(glob.glob(os.path.join(INBOX, "*.pdf")) + glob.glob(os.path.join(INBOX, "*.PDF")))
     if ONLY_FILE:
         pdfs = [p for p in pdfs if os.path.basename(p) == ONLY_FILE]
     if not pdfs:
-        log(f"No PDFs found in {INBOX}" + (f" named {ONLY_FILE}" if ONLY_FILE else ""))
-        return
+        log(f"No PDFs found in {INBOX}" + (f" named {ONLY_FILE}" if ONLY_FILE else "") + "; overdue check only")
 
     z = Zoho()
+    led = load_ledger()
     rows = []
     processed = []
     invoice_dates = set()
@@ -364,7 +730,8 @@ def main():
             # merge OCR of all pages in the group for verification
             page = {"text": "\n".join(p["text"] for p in g["pages"]), "number": g["number"],
                     "customer": first["customer"], "date": first["date"],
-                    "trns": sorted({t for p in g["pages"] for t in p["trns"]})}
+                    "trns": sorted({t for p in g["pages"] for t in p["trns"]}),
+                    "qty": {k: v for p in g["pages"] for k, v in p.get("qty", {}).items()}}
             pg_label = ",".join(str(p["page"]) for p in g["pages"])
             num = g["number"]
             row = {"source_pdf": os.path.basename(pdf), "pages": pg_label, "number_on_page": num or "",
@@ -452,6 +819,8 @@ def main():
             corr = f" (number on page read as {num}, corrected to {inv_num})" if corrected else ""
 
             existing = [d.get("file_name", "") for d in (target.get("documents") or [])]
+            if (fname in existing and inv_num not in led) or (fname not in existing and MODE == "live"):
+                record_delivery(led, target, os.path.basename(pdf), pg_label)
             if fname in existing:
                 row["result"] = "ALREADY ATTACHED"
                 row["detail"] = "a file with this name is already on the invoice, skipped" + corr
@@ -480,8 +849,10 @@ def main():
         processed.append(pdf)
 
     # 4. report
+    fields = ["source_pdf", "pages", "number_on_page", "customer_on_page", "date_on_page", "invoice_number",
+              "customer", "invoice_id", "invoice_status", "result", "checks", "detail"]
     with open(f"{OUT}/report.csv", "w", newline="") as fh:
-        wtr = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        wtr = csv.DictWriter(fh, fieldnames=fields)
         wtr.writeheader()
         wtr.writerows(rows)
 
@@ -489,7 +860,10 @@ def main():
     for r in rows:
         counts[r["result"]] = counts.get(r["result"], 0) + 1
     lines = [f"# Delivery note attach report ({MODE} mode)", "",
-             f"Run: {datetime.now().strftime('%Y-%m-%d %H:%M')}   API calls: {z.calls}", "",
+             f"Run: {datetime.now().strftime('%Y-%m-%d %H:%M')}   API calls: {z.calls}", ""]
+    if os.environ.get("SCAN_URL"):
+        lines += [f"Scan sent from the app by {os.environ.get('SCAN_BY') or 'unknown'}: {os.environ['SCAN_URL']}", ""]
+    lines += [
              f"Pages read: {sum(len(r['pages'].split(',')) for r in rows)}   Notes: {len(rows)}", ""]
     for k in ("ATTACHED", "WOULD ATTACH", "ALREADY ATTACHED", "NEEDS CHECK",
               "NUMBER NOT READ", "DUPLICATE PAGE", "ATTACH FAILED"):
@@ -529,6 +903,36 @@ def main():
             wtr.writerow([inv.get("invoice_number"), inv.get("customer_name"), inv.get("status"),
                           inv.get("cf_fulfillment_method", ""), inv.get("salesperson_name", ""), inv.get("date")])
 
+    # 6. overdue: invoices older than OVERDUE_DAYS with still no attachment (since go-live)
+    today = datetime.now().date()
+    cutoff = (today - timedelta(days=OVERDUE_DAYS)).strftime("%Y-%m-%d")
+    overdue, overdue_void = [], []
+    if OVERDUE_FROM <= cutoff:
+        for inv in z.invoices_between(OVERDUE_FROM, cutoff):
+            if inv.get("has_attachment") or inv.get("status") == "draft":
+                continue
+            if inv.get("invoice_number", "").upper() in matched_numbers:
+                continue
+            (overdue_void if inv.get("status") == "void" else overdue).append(inv)
+    overdue.sort(key=lambda i: (i.get("cf_fulfillment_method", ""), i.get("date", ""), i.get("invoice_number", "")))
+    lines.append(f"## NO DELIVERY NOTE FOR {OVERDUE_DAYS}+ DAYS ({len(overdue)}) "
+                 f"(invoices dated {OVERDUE_FROM} to {cutoff}, no attachment)")
+    for inv in overdue:
+        age = (today - datetime.strptime(inv.get("date"), "%Y-%m-%d").date()).days
+        lines.append(f"- {inv.get('invoice_number')} | {inv.get('date')} ({age} days) | {inv.get('customer_name')} | "
+                     f"{inv.get('status')} | {inv.get('cf_fulfillment_method', '')} | {inv.get('salesperson_name', '')}")
+    if overdue_void:
+        lines.append(f"- plus {len(overdue_void)} void invoice(s) with no note: " +
+                     ", ".join(i.get("invoice_number", "") for i in overdue_void))
+    lines.append("")
+    with open(f"{OUT}/overdue.csv", "w", newline="") as fh:
+        wtr = csv.writer(fh)
+        wtr.writerow(["invoice_number", "date", "days_old", "customer", "status", "fulfillment_method", "salesperson"])
+        for inv in overdue + overdue_void:
+            age = (today - datetime.strptime(inv.get("date"), "%Y-%m-%d").date()).days
+            wtr.writerow([inv.get("invoice_number"), inv.get("date"), age, inv.get("customer_name"), inv.get("status"),
+                          inv.get("cf_fulfillment_method", ""), inv.get("salesperson_name", "")])
+
     lines.append("## Every note")
     for r in rows:
         lines.append(f"- p{r['pages']} {r['invoice_number'] or r['number_on_page'] or '(no number)'} | "
@@ -539,8 +943,96 @@ def main():
         json.dump(processed, fh)
     print("\n".join(lines))
 
+    # 7. short message to Cliq, and the overdue list by email
+    post_cliq(rows, counts, missing, overdue, overdue_void, pdfs, cutoff)
+    # 8. pending deliveries: delivery note shows less than the invoice, remind every REMIND_EVERY days
+    due = pending_reminders(led, today)
+    lines_pd = [f"## PENDING DELIVERIES DUE FOR REMINDER ({len(due)})"]
+    for key, e, shortfall in due:
+        for r in shortfall:
+            lines_pd.append(f"- {key} | {e['customer']} | {r['name']} | invoiced {r['invoiced']:g} | on note {r['delivered']:g}")
+    print("\n".join(lines_pd))
+    with open(f"{OUT}/report.md", "a") as fh:
+        fh.write("\n".join(lines_pd) + "\n")
+    if MODE == "live" and due:
+        if send_short_delivery_email(due, today):
+            for key, e, _ in due:
+                e["last_reminded"] = today.strftime("%Y-%m-%d")
+    if MODE == "live":
+        save_ledger(led)
+
+    if MODE == "live" and overdue:
+        body = [f"Delivery notes not attached for {OVERDUE_DAYS} or more days: {len(overdue)} invoice(s)",
+                f"(invoices dated {OVERDUE_FROM} to {cutoff} with no attachment in Zoho Books)", ""]
+        cur = None
+        for inv in overdue:
+            m = inv.get("cf_fulfillment_method", "") or "No fulfillment method"
+            if m != cur:
+                body.append(f"{m}:")
+                cur = m
+            age = (today - datetime.strptime(inv.get("date"), "%Y-%m-%d").date()).days
+            body.append(f"  {inv.get('invoice_number')}  {inv.get('date')}  {age} days  {inv.get('customer_name')}  "
+                        f"{inv.get('status')}  {inv.get('salesperson_name', '')}")
+        if overdue_void:
+            body += ["", f"Void invoices with no note ({len(overdue_void)}): " +
+                     ", ".join(i.get("invoice_number", "") for i in overdue_void)]
+        body += ["", "Please collect the signed delivery note and scan it through the Delivery Notes app.",
+                 "The invoice drops off this list the day its note is attached.", "", "Lapiz Blue delivery note system"]
+        send_email(f"Delivery notes missing {OVERDUE_DAYS}+ days: {len(overdue)} invoices ({today.strftime('%d %b %Y')})",
+                   body, f"{OUT}/overdue.csv")
+
     if any(r["result"] == "ATTACH FAILED" for r in rows):
         sys.exit(2)
+
+
+def post_cliq(rows, counts, missing, overdue, overdue_void, pdfs, cutoff):
+    """One brief message for the counter channel. Full detail stays in the run report."""
+    if not CLIQ_WEBHOOK:
+        log("CLIQ_DN_WEBHOOK not set, skipping Cliq post")
+        return
+    stamp = datetime.now().strftime("%d %b %Y %H:%M")
+    msg = [f"*Delivery notes, {stamp}* ({MODE} run)"]
+    if pdfs:
+        msg.append("Scans: " + ", ".join(os.path.basename(p) for p in pdfs) +
+                   f" ({sum(len(r['pages'].split(',')) for r in rows)} pages)")
+        word = "Attached" if MODE == "live" else "Would attach"
+        msg.append(f"{word}: {counts.get('ATTACHED', 0) + counts.get('WOULD ATTACH', 0)} | "
+                   f"Already there: {counts.get('ALREADY ATTACHED', 0)} | "
+                   f"Need a person: {counts.get('NEEDS CHECK', 0) + counts.get('NUMBER NOT READ', 0)} | "
+                   f"Failed: {counts.get('ATTACH FAILED', 0)}")
+        bad = [r for r in rows if r["result"] in ("NEEDS CHECK", "NUMBER NOT READ", "ATTACH FAILED")]
+        for r in bad[:15]:
+            why = "number not readable" if r["result"] == "NUMBER NOT READ" else \
+                  ", ".join(c for c in r["checks"].split("; ")[0].split(", ") if "FAIL" in c) or r["detail"][:80]
+            if "ITEM MISMATCH:" in r["checks"]:
+                why += " (" + r["checks"].split("ITEM MISMATCH:")[1].split(" | ")[0].split("; TRN")[0].strip()[:70] + ")"
+            msg.append(f"  page {r['pages']}: {r['number_on_page'] or '?'} {r['customer_on_page'][:35]} -> {why}")
+        if len(bad) > 15:
+            msg.append(f"  +{len(bad) - 15} more in the report")
+    else:
+        msg.append("No new scan today.")
+    msg.append(f"*No delivery note for {OVERDUE_DAYS}+ days: {len(overdue)}* (invoices up to {cutoff})")
+    by_method = {}
+    for inv in overdue:
+        by_method.setdefault(inv.get("cf_fulfillment_method", "") or "No method", []).append(inv)
+    for method, invs in by_method.items():
+        msg.append(f"  {method} ({len(invs)}):")
+        for inv in invs[:12]:
+            msg.append(f"    {inv.get('invoice_number')} {inv.get('date')} {inv.get('customer_name', '')[:32]} "
+                       f"({inv.get('salesperson_name', '')})")
+        if len(invs) > 12:
+            msg.append(f"    +{len(invs) - 12} more in the report")
+    if overdue_void:
+        msg.append(f"  Void with no note: {len(overdue_void)} (" +
+                   ", ".join(i.get("invoice_number", "") for i in overdue_void[:8]) + ")")
+    if RUN_URL:
+        msg.append(f"Full report: {RUN_URL}")
+    text = "\n".join(msg)
+    try:
+        r = requests.post(CLIQ_WEBHOOK, json={"text": text}, timeout=30)
+        log(f"Cliq post: HTTP {r.status_code} {r.text[:120]}")
+    except Exception as e:
+        log(f"Cliq post failed: {e}")
 
 
 if __name__ == "__main__":
