@@ -73,7 +73,7 @@ jobs:
           DN_SHORT_TO: ${{ vars.DN_SHORT_TO || 'sumon.a@lapizblue.com' }}
           REMIND_EVERY_DAYS: ${{ vars.REMIND_EVERY_DAYS || '2' }}
           DN_LEDGER: dn-ledger.json
-          DN_REPORT_CC: ${{ vars.DN_REPORT_CC || '' }}
+          DN_REPORT_CC: ${{ vars.DN_REPORT_CC || 'tarun.s@lapizblue.com,adil@lapizblue.com' }}
           DN_REPORT_FROM: ${{ vars.DN_REPORT_FROM || 'Delivery Notes <delivery-notes@lapizblue.com>' }}
           OVERDUE_DAYS: ${{ vars.OVERDUE_DAYS || '2' }}
           OVERDUE_FROM: ${{ vars.OVERDUE_FROM || '2026-10-22' }}
