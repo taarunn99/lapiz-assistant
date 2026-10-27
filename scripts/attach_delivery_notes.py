@@ -63,11 +63,12 @@ OWN_TRN = "100493956500003"   # Lapiz Blue's own TRN, printed on every note, ign
 OVERDUE_DAYS = int(os.environ.get("OVERDUE_DAYS", "2"))          # a note is overdue this many days after the invoice date
 OVERDUE_FROM = os.environ.get("OVERDUE_FROM", "2026-10-22")       # invoices before the system went live are not chased
 CLIQ_WEBHOOK = os.environ.get("CLIQ_DN_WEBHOOK", "").strip()      # Cliq channel post URL (with zapikey); blank = no post
+CLIQ_WEBHOOK = CLIQ_WEBHOOK if (not CLIQ_WEBHOOK or "://" in CLIQ_WEBHOOK) else (("https://" + CLIQ_WEBHOOK.lstrip("/")) if "zapikey=" in CLIQ_WEBHOOK else ("https://cliq.zoho.com/company/719269379/api/v2/channelsbyname/deliverynotes/message?zapikey=" + CLIQ_WEBHOOK))   # accept a full URL or just the token
 RESEND_KEY = os.environ.get("RESEND_API_KEY", "").strip()          # email sender; blank = no email
-REPORT_TO = [x.strip() for x in os.environ.get("DN_REPORT_TO", "dayem.a@lapizblue.com").split(",") if x.strip()]
+REPORT_TO = [x.strip() for x in os.environ.get("DN_REPORT_TO", "sumon.a@lapizblue.com").split(",") if x.strip()]
 REPORT_CC = [x.strip() for x in os.environ.get("DN_REPORT_CC", "").split(",") if x.strip()]
 REPORT_FROM = os.environ.get("DN_REPORT_FROM", "Delivery Notes <delivery-notes@lapizblue.com>")
-SHORT_TO = [x.strip() for x in os.environ.get("DN_SHORT_TO", "vanessa.p@lapizblue.com").split(",") if x.strip()]
+SHORT_TO = [x.strip() for x in os.environ.get("DN_SHORT_TO", "sumon.a@lapizblue.com").split(",") if x.strip()]
 REMIND_EVERY = int(os.environ.get("REMIND_EVERY_DAYS", "2"))     # pending deliveries are re-sent every N days
 LEDGER = os.environ.get("DN_LEDGER", "dn-ledger.json")           # per invoice: invoiced vs delivered, kept in the repo
 BOOKS_UI = os.environ.get("ZOHO_BOOKS_UI", "https://books.zoho.com/app/" + ORG + "#/invoices/")
