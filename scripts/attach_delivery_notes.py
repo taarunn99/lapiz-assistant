@@ -365,12 +365,13 @@ def verify(page, inv, strict=False):
             elif r is None and n_ok and not free_rows:
                 pass   # name present, SKU row missing: treated as not on this note (pending), not a mismatch
         else:
+            # no SKU in Zoho, so the note prints no "SKU :" line and no row is parsed: the item name decides
             r = None
             for cand in rows:
                 if cand["sku"] == "" and edit_distance(squash(cand["name"])[:14], squash(name)[:14]) <= 2:
                     r = cand
                     break
-            found = n_ok and r is not None
+            found = n_ok
         (present if found else absent).append(li)
         if found:
             li["_delivered"] = r.get("qty") if r else None
