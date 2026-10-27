@@ -44,6 +44,7 @@ import re
 import subprocess
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
 import requests
@@ -60,11 +61,19 @@ ACCOUNTS = os.environ.get("ZOHO_ACCOUNTS_URL", "https://accounts.zoho.com").rstr
 API = os.environ.get("ZOHO_API_BASE", "https://www.zohoapis.com/books/v3").rstrip("/")
 ORG = os.environ.get("ZOHO_ORG_ID_DXB", "")
 PACE_SECONDS = float(os.environ.get("PACE_SECONDS", "1.5"))
+OCR_WORKERS = int(os.environ.get("OCR_WORKERS", "4"))              # pages read in parallel (runner has 4 cores)
 OWN_TRN = "100493956500003"   # Lapiz Blue's own TRN, printed on every note, ignored
 OVERDUE_DAYS = int(os.environ.get("OVERDUE_DAYS", "2"))          # a note is overdue this many days after the invoice date
 OVERDUE_FROM = os.environ.get("OVERDUE_FROM", "2026-10-22")       # invoices before the system went live are not chased
-CLIQ_WEBHOOK = os.environ.get("CLIQ_DN_WEBHOOK", "").strip()      # Cliq channel post URL (with zapikey); blank = no post
-CLIQ_WEBHOOK = CLIQ_WEBHOOK if (not CLIQ_WEBHOOK or "://" in CLIQ_WEBHOOK) else (("https://" + CLIQ_WEBHOOK.lstrip("/")) if "zapikey=" in CLIQ_WEBHOOK else ("https://cliq.zoho.com/company/719269379/api/v2/channelsbyname/deliverynotes/message?zapikey=" + CLIQ_WEBHOOK))   # accept a full URL or just the token
+CLIQ_WEBHOOK = os.environ.get("CLIQ_DN_WEBHOOK", "").strip()      # full post URL, or just the webhook token
+CLIQ_COMPANY = os.environ.get("CLIQ_COMPANY_ID", "719269379")
+CLIQ_CHANNEL = os.environ.get("CLIQ_CHANNEL", "deliverynotes")
+if CLIQ_WEBHOOK and "://" not in CLIQ_WEBHOOK:
+    if "zapikey=" in CLIQ_WEBHOOK:
+        CLIQ_WEBHOOK = "https://" + CLIQ_WEBHOOK.lstrip("/")
+    else:   # a bare token was given: build the channel post URL around it
+        CLIQ_WEBHOOK = (f"https://cliq.zoho.com/company/{CLIQ_COMPANY}/api/v2/channelsbyname/"
+                        f"{CLIQ_CHANNEL}/message?zapikey={CLIQ_WEBHOOK}")
 RESEND_KEY = os.environ.get("RESEND_API_KEY", "").strip()          # email sender; blank = no email
 REPORT_TO = [x.strip() for x in os.environ.get("DN_REPORT_TO", "sumon.a@lapizblue.com").split(",") if x.strip()]
 REPORT_CC = [x.strip() for x in os.environ.get("DN_REPORT_CC", "").split(",") if x.strip()]
@@ -299,12 +308,13 @@ def verify(page, inv, strict=False):
     row_skus = [r["sku"] for r in rows if r["sku"]]
 
     def sku_on_page(sku):
-        # exact anywhere, or within one OCR slip of a parsed "SKU : xxx" row, or of any token of the same length
+        # exact anywhere; else within one OCR slip (O/0, I/1, S/5, B/8, Z/2 treated as equal) of a parsed
+        # "SKU : xxx" row or of any token of similar length; a SKU with spaces is matched on its first word
         if sku in text_sq:
             return True
-        if any(edit_distance(sku, k) <= 1 or (len(k) > len(sku) and k.startswith(sku)) for k in row_skus):
+        if any(sku_same(sku, k) for k in row_skus):
             return True
-        return any(edit_distance(sku, t) <= 1 for t in text_sq_tokens if abs(len(t) - len(sku)) <= 1)
+        return any(edit_distance(canon(sku), canon(t)) <= 1 for t in text_sq_tokens if abs(len(t) - len(sku)) <= 1)
 
     def name_on_page(name):
         name_sq = squash(name)
@@ -319,33 +329,53 @@ def verify(page, inv, strict=False):
                 return True
         return False
 
+    # one-to-one assignment of printed rows to invoice lines: exact SKU first, then one-slip SKU,
+    # then (lines with no SKU in Zoho) by item name. A row can satisfy only one line.
     problems, present, absent = [], [], []
+    sku_lines = [li for li in lines if len(squash(li.get("sku", ""))) >= 4]
+    free_rows = [r for r in rows if r["sku"]]
+    assigned = {}
+    for exact in (True, False):
+        for li in sku_lines:
+            if id(li) in assigned:
+                continue
+            k = squash(li["sku"])
+            for r in free_rows:
+                hit = (canon(r["sku"]) == canon(k)) if exact else sku_same(r["sku"], k)
+                if hit:
+                    assigned[id(li)] = r
+                    free_rows.remove(r)
+                    break
     for li in lines:
         sku = squash(li.get("sku", ""))
         name = li.get("name", "")
-        s_ok = sku_on_page(sku) if len(sku) >= 4 else None
         n_ok = name_on_page(name)
-        if s_ok is None:
-            found = n_ok
-        else:
-            found = s_ok and n_ok
-            if s_ok and not n_ok:
+        if len(sku) >= 4:
+            r = assigned.get(id(li))
+            if r is None and sku_on_page(sku) and free_rows == [] and n_ok:
+                # SKU seen in the text but its row was not parsed (OCR broke the SKU line); accept on name
+                r = {"sku": sku, "name": name, "qty": None}
+                for q, v in qmap.items():
+                    if sku_same(q, sku):
+                        r["qty"] = v
+            found = r is not None and n_ok
+            if r is not None and not n_ok:
                 problems.append(f"SKU {li.get('sku')} is on the page but its item name '{name}' is not")
-            elif n_ok and not s_ok and len(rows) <= len(lines):
-                problems.append(f"'{name}' is on the page but its SKU {li.get('sku')} is not")
+            elif r is None and n_ok and not free_rows:
+                pass   # name present, SKU row missing: treated as not on this note (pending), not a mismatch
+        else:
+            r = None
+            for cand in rows:
+                if cand["sku"] == "" and edit_distance(squash(cand["name"])[:14], squash(name)[:14]) <= 2:
+                    r = cand
+                    break
+            found = n_ok and r is not None
         (present if found else absent).append(li)
         if found:
-            # delivered quantity from the page row that carries this SKU (or name)
-            qty = None
-            for r in rows:
-                if (len(sku) >= 4 and r["sku"] and edit_distance(r["sku"], sku) <= 1) or \
-                        (r["sku"] == "" and edit_distance(squash(r["name"])[:14], squash(name)[:14]) <= 2):
-                    qty = r["qty"]
-                    break
-            li["_delivered"] = qty
-    # rows on the page that match no invoice line at all
-    inv_skus = [squash(li.get("sku", "")) for li in lines if len(squash(li.get("sku", ""))) >= 4]
-    foreign = [r for r in rows if r["sku"] and not any(edit_distance(r["sku"], k) <= 1 or r["sku"].startswith(k) for k in inv_skus)]
+            li["_delivered"] = r.get("qty") if r else None
+    # printed rows that match no invoice line at all: the page is not this invoice
+    # (a repeated row of an item that IS on the invoice is not foreign, it is a duplicate print)
+    foreign = [r for r in free_rows if not any(sku_same(r["sku"], squash(li["sku"])) for li in sku_lines)]
     if foreign:
         problems.append("page has item rows that are not on this invoice: " +
                         ", ".join(f"SKU {r['sku']}" for r in foreign[:5]))
@@ -411,6 +441,26 @@ def page_items(text):
         name = re.sub(r"^\d{1,2}\s+", "", row)
         rows.append({"sku": sku, "name": name, "qty": qty})
     return rows
+
+
+CONFUSABLE = str.maketrans("OIL" + "SBZG", "011" + "5826")
+
+
+def canon(s):
+    """SKU in a form where the usual OCR look-alikes compare equal."""
+    return squash(s).translate(CONFUSABLE)
+
+
+def sku_same(a, b):
+    """Two SKUs are the same if, after canonicalising, they are within one edit, or one is a
+    prefix (at least 4 chars) of the other (a SKU with a space is printed cut at the space)."""
+    a, b = canon(a), canon(b)
+    if not a or not b:
+        return False
+    if a == b or edit_distance(a, b) <= 1:
+        return True
+    short, long_ = (a, b) if len(a) <= len(b) else (b, a)
+    return len(short) >= 4 and long_.startswith(short)
 
 
 def edit_distance(a, b):
@@ -795,20 +845,26 @@ def main():
         if len(pngs) != n:
             raise SystemExit(f"{pdf}: rasterised {len(pngs)} pages but PDF has {n}")
 
-        # 1. read every page
-        pages = []
-        for idx, png in enumerate(pngs):
-            p = read_page(png)
+        # 1. read every page (OCR runs OCR_WORKERS pages at a time; a 500 page scan takes minutes, not an hour)
+        log(f"  {n} pages, OCR with {OCR_WORKERS} workers")
+        with ThreadPoolExecutor(max_workers=OCR_WORKERS) as ex:
+            pages = list(ex.map(read_page, pngs))
+        for idx, p in enumerate(pages):
             p["page"] = idx + 1
-            pages.append(p)
+            p["is_first"] = "DELIVERY NOTE" in p["text"].upper().replace("  ", " ")
             log(f"  page {idx + 1:>3}: {p['number'] or 'NUMBER NOT READ'} | {p['customer'][:40]} | {p['date']}")
 
-        # 2. group consecutive pages that carry the same number (multi page note)
+        # 2. group pages into notes. A note can run over 2, 3 or 4 pages:
+        #    - a page with the same number as the previous page continues that note
+        #    - a page with NO number, and no "DELIVERY NOTE" heading, directly after a numbered page
+        #      is a continuation sheet of that note (items spilled over), so it travels with it
         groups = []
         for p in pages:
-            if p["number"] and groups and groups[-1]["number"] == p["number"] \
-                    and groups[-1]["pages"][-1]["page"] == p["page"] - 1:
-                groups[-1]["pages"].append(p)
+            prev = groups[-1] if groups else None
+            same_number = prev and p["number"] and prev["number"] == p["number"]
+            continuation = prev and not p["number"] and prev["number"] and not p["is_first"]
+            if (same_number or continuation) and prev["pages"][-1]["page"] == p["page"] - 1:
+                prev["pages"].append(p)
             else:
                 groups.append({"number": p["number"], "pages": [p]})
 
