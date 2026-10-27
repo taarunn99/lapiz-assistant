@@ -69,8 +69,8 @@ jobs:
           ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
           CLIQ_DN_WEBHOOK: ${{ secrets.CLIQ_DN_WEBHOOK }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          DN_REPORT_TO: ${{ vars.DN_REPORT_TO || 'dayem.a@lapizblue.com' }}
-          DN_SHORT_TO: ${{ vars.DN_SHORT_TO || 'vanessa.p@lapizblue.com' }}
+          DN_REPORT_TO: ${{ vars.DN_REPORT_TO || 'sumon.a@lapizblue.com' }}
+          DN_SHORT_TO: ${{ vars.DN_SHORT_TO || 'sumon.a@lapizblue.com' }}
           REMIND_EVERY_DAYS: ${{ vars.REMIND_EVERY_DAYS || '2' }}
           DN_LEDGER: dn-ledger.json
           DN_REPORT_CC: ${{ vars.DN_REPORT_CC || '' }}
