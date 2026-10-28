@@ -3890,6 +3890,37 @@
   "resolved": "2026-10-27 17:51",
   "status": "paid"
  },
+ "LB26-20221": {
+  "customer": "MR. GABER",
+  "date": "2026-10-23",
+  "first_attached": "2026-10-28 14:59",
+  "invoice_id": "2305879000152533627",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152533628": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "MAPELASTIC SMART /A+B BAGS 30 KG",
+    "sku": "A:167730(20.0kg)+B:168730(10.0kg)",
+    "unreadable": 0
+   },
+   "2305879000152533629": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:59",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|12"
+   }
+  ],
+  "resolved": "2026-10-28 14:59",
+  "status": "paid"
+ },
  "LB26-20222": {
   "customer": "SAQAR AL QUOZ BUILDING MATERIALS TRADING L.L.C",
   "date": "2026-10-23",
@@ -4505,6 +4536,37 @@
   "resolved": "2026-10-27 17:49",
   "status": "sent"
  },
+ "LB26-20293": {
+  "customer": "LUXURY TECHNICAL SERVICES LLC",
+  "date": "2026-10-23",
+  "first_attached": "2026-10-28 14:59",
+  "invoice_id": "2305879000152588707",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152588708": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000152588712": {
+    "delivered": 30.0,
+    "invoiced": 30.0,
+    "name": "Pegoland Dos Plus C2TE Grey 25 kg ( 486 )",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:59",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|11"
+   }
+  ],
+  "resolved": "2026-10-28 14:59",
+  "status": "paid"
+ },
  "LB26-20294": {
   "customer": "MANTIS STRUCTURAL ENGINEERING L.L.C",
   "date": "2026-10-23",
@@ -5072,6 +5134,37 @@
   "resolved": "2026-10-27 17:47",
   "status": "sent"
  },
+ "LB26-20380": {
+  "customer": "NERKAL BUILDING CONTRACTING L.L.C",
+  "date": "2026-10-24",
+  "first_attached": "2026-10-28 14:59",
+  "invoice_id": "2305879000152679839",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152679844": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Kerapoxy Adhesive White unit 10kg",
+    "sku": "2511310",
+    "unreadable": 0
+   },
+   "2305879000152679845": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "Eco Prim Grip Plus bucket 10kg",
+    "sku": "1560110",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:59",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|15"
+   }
+  ],
+  "resolved": "2026-10-28 14:59",
+  "status": "paid"
+ },
  "LB26-20439": {
   "customer": "WANHAR CONTRACTING CO.L.L.C",
   "date": "2026-10-26",
@@ -5142,6 +5235,30 @@
    }
   ],
   "resolved": "2026-10-27 17:15",
+  "status": "paid"
+ },
+ "LB26-20443": {
+  "customer": "NERKAL BUILDING CONTRACTING L.L.C",
+  "date": "2026-10-26",
+  "first_attached": "2026-10-28 15:00",
+  "invoice_id": "2305879000152826065",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152826072": {
+    "delivered": 100.0,
+    "invoiced": 100.0,
+    "name": "Pragma Flex White 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 15:00",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|26"
+   }
+  ],
+  "resolved": "2026-10-28 15:00",
   "status": "paid"
  },
  "LB26-20444": {
@@ -5357,6 +5474,30 @@
   "resolved": "2026-10-27 17:14",
   "status": "paid"
  },
+ "LB26-20454": {
+  "customer": "VENCO IMTIAZ CONTRACTING CO L.L.C",
+  "date": "2026-10-26",
+  "first_attached": "2026-10-28 15:00",
+  "invoice_id": "2305879000152826634",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152826639": {
+    "delivered": 100.0,
+    "invoiced": 100.0,
+    "name": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+    "sku": "60012345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 15:00",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|25"
+   }
+  ],
+  "resolved": "2026-10-28 15:00",
+  "status": "sent"
+ },
  "LB26-20456": {
   "customer": "AL WALEED HOLIDAY HOMES RENTAL LLC",
   "date": "2026-10-26",
@@ -5379,6 +5520,37 @@
    }
   ],
   "resolved": "2026-10-27 17:14",
+  "status": "overdue"
+ },
+ "LB26-20457": {
+  "customer": "LAVISH CRAFTS TECHNICAL SERVICES L.L.C",
+  "date": "2026-10-26",
+  "first_attached": "2026-10-28 14:59",
+  "invoice_id": "2305879000152826734",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152826738": {
+    "delivered": 7.0,
+    "invoiced": 7.0,
+    "name": "Kerapoxy Adhesive White unit 10kg",
+    "sku": "2511310",
+    "unreadable": 0
+   },
+   "2305879000152826739": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:59",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|13"
+   }
+  ],
+  "resolved": "2026-10-28 14:59",
   "status": "overdue"
  },
  "LB26-20458": {
@@ -6038,6 +6210,37 @@
   "resolved": "2026-10-27 17:13",
   "status": "paid"
  },
+ "LB26-20484": {
+  "customer": "CLYD CONSTRUCTIONS",
+  "date": "2026-10-26",
+  "first_attached": "2026-10-28 15:00",
+  "invoice_id": "2305879000152865566",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152865567": {
+    "delivered": 100.0,
+    "invoiced": 100.0,
+    "name": "Adesilex P7 Grey bag 25kg",
+    "sku": "2182125",
+    "unreadable": 0
+   },
+   "2305879000152865568": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 15:00",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|22"
+   }
+  ],
+  "resolved": "2026-10-28 15:00",
+  "status": "paid"
+ },
  "LB26-20485": {
   "customer": "SAIF CHERKI FLOOR TILING",
   "date": "2026-10-26",
@@ -6210,6 +6413,51 @@
   "resolved": "2026-10-27 17:12",
   "status": "sent"
  },
+ "LB26-20492": {
+  "customer": "SSD BUILDING CONTRACTING LLC",
+  "date": "2026-10-26",
+  "first_attached": "2026-10-28 15:00",
+  "invoice_id": "2305879000152867322",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152867323": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Primer G jerrycan 25kg",
+    "sku": "20125",
+    "unreadable": 0
+   },
+   "2305879000152867324": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "MAPELASTIC SMART /A+B BAGS 30 KG",
+    "sku": "A:167730(20.0kg)+B:168730(10.0kg)",
+    "unreadable": 0
+   },
+   "2305879000152867325": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000152867331": {
+    "delivered": 100.0,
+    "invoiced": 100.0,
+    "name": "Pegoland Dos Plus C2TE White 25 kg ( 508 )",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 15:00",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|24"
+   }
+  ],
+  "resolved": "2026-10-28 15:00",
+  "status": "overdue"
+ },
  "LB26-20493": {
   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
   "date": "2026-10-26",
@@ -6232,6 +6480,30 @@
    }
   ],
   "resolved": "2026-10-27 17:12",
+  "status": "sent"
+ },
+ "LB26-20494": {
+  "customer": "TECHNICAL SUPPLIES & SERVICES CO LLC",
+  "date": "2026-10-26",
+  "first_attached": "2026-10-28 14:58",
+  "invoice_id": "2305879000152867438",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152867443": {
+    "delivered": 140.0,
+    "invoiced": 140.0,
+    "name": "Ultralite S2 Flex (N) White bag 15kg",
+    "sku": "2431415",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:58",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|3"
+   }
+  ],
+  "resolved": "2026-10-28 14:58",
   "status": "sent"
  },
  "LB26-20495": {
@@ -6305,6 +6577,37 @@
   ],
   "resolved": "2026-10-27 17:12",
   "status": "void"
+ },
+ "LB26-20500": {
+  "customer": "LAVISH CRAFTS TECHNICAL SERVICES L.L.C",
+  "date": "2026-10-26",
+  "first_attached": "2026-10-28 14:59",
+  "invoice_id": "2305879000152867586",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152867587": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "Kerapoxy Adhesive White unit 10kg",
+    "sku": "2511310",
+    "unreadable": 0
+   },
+   "2305879000152867588": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:59",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|14"
+   }
+  ],
+  "resolved": "2026-10-28 14:59",
+  "status": "overdue"
  },
  "LB26-20502": {
   "customer": "Lansmere BuildinG Contracting L.LC",
@@ -6455,6 +6758,51 @@
    }
   ],
   "resolved": "2026-10-27 17:11",
+  "status": "paid"
+ },
+ "LB26-20509": {
+  "customer": "AYODHYA TECHINCAL SERVICES LLC",
+  "date": "2026-10-26",
+  "first_attached": "2026-10-28 15:00",
+  "invoice_id": "2305879000152867885",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152867886": {
+    "delivered": 30.0,
+    "invoiced": 30.0,
+    "name": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
+    "sku": "1193625",
+    "unreadable": 0
+   },
+   "2305879000152867887": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Adesilex P7 White bag 25kg",
+    "sku": "2182325",
+    "unreadable": 0
+   },
+   "2305879000152867888": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000152867892": {
+    "delivered": 180.0,
+    "invoiced": 180.0,
+    "name": "Pragma Special Grey 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 15:00",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|21"
+   }
+  ],
+  "resolved": "2026-10-28 15:00",
   "status": "paid"
  },
  "LB26-20510": {
@@ -6806,6 +7154,30 @@
   ],
   "resolved": "2026-10-28 09:03",
   "status": "overdue"
+ },
+ "LB26-20527": {
+  "customer": "WANHAR CONTRACTING CO.L.L.C",
+  "date": "2026-10-27",
+  "first_attached": "2026-10-28 15:00",
+  "invoice_id": "2305879000152844334",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152844338": {
+    "delivered": 43.0,
+    "invoiced": 43.0,
+    "name": "LATASCREED PM30 GREY 50KG",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 15:00",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|23"
+   }
+  ],
+  "resolved": "2026-10-28 15:00",
+  "status": "sent"
  },
  "LB26-20528": {
   "customer": "GLIMMER HOLDING LLC",
@@ -7381,6 +7753,37 @@
   "resolved": "2026-10-28 09:01",
   "status": "void"
  },
+ "LB26-20554": {
+  "customer": "PARVEZ AKHTAR",
+  "date": "2026-10-27",
+  "first_attached": "2026-10-28 14:59",
+  "invoice_id": "2305879000152911782",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152911783": {
+    "delivered": 25.0,
+    "invoiced": 25.0,
+    "name": "Nivoplan Grey bag 25kg",
+    "sku": "106125",
+    "unreadable": 0
+   },
+   "2305879000152911888": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:59",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|10"
+   }
+  ],
+  "resolved": "2026-10-28 14:59",
+  "status": "paid"
+ },
  "LB26-20555": {
   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
   "date": "2026-10-27",
@@ -7404,6 +7807,37 @@
   ],
   "resolved": "2026-10-28 09:01",
   "status": "sent"
+ },
+ "LB26-20556": {
+  "customer": "PURE ZONE TECHNICAL SERVICES EST",
+  "date": "2026-10-27",
+  "first_attached": "2026-10-28 14:59",
+  "invoice_id": "2305879000152933032",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152933033": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000152933039": {
+    "delivered": 126.0,
+    "invoiced": 126.0,
+    "name": "H40 Gel White 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:59",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|18"
+   }
+  ],
+  "resolved": "2026-10-28 14:59",
+  "status": "paid"
  },
  "LB26-20558": {
   "customer": "GRATIS BUILDING AND CONSTRUCTION MATERIAL TRADING LLC",
@@ -7538,6 +7972,44 @@
   ],
   "resolved": "2026-10-28 09:00",
   "status": "paid"
+ },
+ "LB26-20564": {
+  "customer": "BRSG FIT OUT TECHNICAL SERVICES L.L.C",
+  "date": "2026-10-27",
+  "first_attached": "2026-10-28 14:59",
+  "invoice_id": "2305879000152933343",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152933344": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy 100 unit 5kg",
+    "sku": "4510005",
+    "unreadable": 0
+   },
+   "2305879000152933345": {
+    "delivered": 0.0,
+    "invoiced": 4.0,
+    "name": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
+    "sku": "5KB010303",
+    "unreadable": 1
+   },
+   "2305879000152933346": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:59",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|9"
+   }
+  ],
+  "resolved": "2026-10-28 14:59",
+  "status": "overdue"
  },
  "LB26-20565": {
   "customer": "ATABIR GENERAL TRADING L.L.C",
@@ -7879,6 +8351,58 @@
   "resolved": "2026-10-28 08:59",
   "status": "paid"
  },
+ "LB26-20580": {
+  "customer": "BRSG FIT OUT TECHNICAL SERVICES L.L.C",
+  "date": "2026-10-27",
+  "first_attached": "2026-10-28 14:59",
+  "invoice_id": "2305879000152933494",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152933495": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy 100 unit 5kg",
+    "sku": "4510005",
+    "unreadable": 0
+   },
+   "2305879000152933496": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
+    "sku": "5KB010303",
+    "unreadable": 0
+   },
+   "2305879000152933497": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy 114 unit 5kg",
+    "sku": "4511405",
+    "unreadable": 0
+   },
+   "2305879000152933498": {
+    "delivered": 4.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000152933507": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy 130 unit 10kg",
+    "sku": "4513010",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:59",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|8"
+   }
+  ],
+  "resolved": "2026-10-28 14:59",
+  "status": "overdue"
+ },
  "LB26-20583": {
   "customer": "EMPRAL SKY BUILDING MATERIALS TRADING LLC",
   "date": "2026-10-27",
@@ -7902,6 +8426,30 @@
   ],
   "resolved": "2026-10-28 08:59",
   "status": "paid"
+ },
+ "LB26-20584": {
+  "customer": "Focus Tech LLC",
+  "date": "2026-10-27",
+  "first_attached": "2026-10-28 14:58",
+  "invoice_id": "2305879000152933617",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152933621": {
+    "delivered": 15.0,
+    "invoiced": 15.0,
+    "name": "Spatter Dash-MC SDM212-50kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:58",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|4"
+   }
+  ],
+  "resolved": "2026-10-28 14:58",
+  "status": "overdue"
  },
  "LB26-20586": {
   "customer": "Mr Saleem",
@@ -8699,6 +9247,61 @@
    }
   ],
   "resolved": "",
+  "status": "sent"
+ },
+ "LB26-20644": {
+  "customer": "ADVANCE VICTORY CONTRACTING LLC",
+  "date": "2026-10-28",
+  "first_attached": "2026-10-28 14:58",
+  "invoice_id": "2305879000152958586",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152958590": {
+    "delivered": 100.0,
+    "invoiced": 100.0,
+    "name": "Ultraplan Trade bag 25kg",
+    "sku": "149425",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 14:58",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|1"
+   }
+  ],
+  "resolved": "2026-10-28 14:58",
+  "status": "sent"
+ },
+ "LB26-20689": {
+  "customer": "ARTEMODE TECHNICAL SERVICES",
+  "date": "2026-10-28",
+  "first_attached": "2026-10-28 15:00",
+  "invoice_id": "2305879000153062051",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153062054": {
+    "delivered": 63.0,
+    "invoiced": 63.0,
+    "name": "Keraflex Grey bag 25kg",
+    "sku": "119125",
+    "unreadable": 0
+   },
+   "2305879000153062055": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 15:00",
+    "id": "2026-10-28-1457-1-DELIVERY NOTE DALIY.pdf|27"
+   }
+  ],
+  "resolved": "2026-10-28 15:00",
   "status": "sent"
  },
  "LBSJ26-01740": {
