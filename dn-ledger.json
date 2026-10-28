@@ -3006,6 +3006,37 @@
   "resolved": "2026-10-28 15:07",
   "status": "sent"
  },
+ "LB26-17892": {
+  "customer": "ALI HUMAIDI PAINTS TRADING LLC",
+  "date": "2026-09-23",
+  "first_attached": "2026-10-28 16:43",
+  "invoice_id": "2305879000148421553",
+  "last_reminded": "",
+  "lines": {
+   "2305879000148421557": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DS INSPIRE XT MATT BASE A 16.5L",
+    "sku": "5313187",
+    "unreadable": 0
+   },
+   "2305879000148421561": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "DS INSPIRE XT MATT BASE B 4L",
+    "sku": "5313191",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 16:43",
+    "id": "2026-10-28-1459-1-23 SEP 2026 DN.pdf|45"
+   }
+  ],
+  "resolved": "2026-10-28 16:43",
+  "status": "paid"
+ },
  "LB26-17893": {
   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
   "date": "2026-09-23",
@@ -14235,6 +14266,54 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40687181562",
    "why": "name:FAIL, trn:FAIL: none of the invoice lines are on the page"
+  },
+  {
+   "at": "2026-10-28 16:43",
+   "customer": "MANZOOR",
+   "date": "2026-09-23",
+   "detail": "name:ok, date:ok, items:FAIL; 1/2 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: page has item rows that are not on this invoice: SKU SMOOTHP1802; TRN not checked; searched 1 same-day invoice(s) for this customer, none pass all checks [LB26-17837: name:ok, date:ok, items:FAIL; 1",
+   "file": "2026-10-28-1459-1-23 SEP 2026 DN.pdf",
+   "number": "LB26-17837",
+   "page": "1",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40689476032",
+   "why": "items:FAIL: page has item rows that are not on this invoice: SKU SMOOTHP1802"
+  },
+  {
+   "at": "2026-10-28 16:43",
+   "customer": "ULTIMA PROJECTS CONTRACTING L.L.C",
+   "date": "2026-09-23",
+   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN match; searched 3 same-day invoice(s) for this customer, none pass all checks [LB26-17881: name:ok, date:ok, items:FAIL, trn:FAIL; 0/2 lines on",
+   "file": "2026-10-28-1459-1-23 SEP 2026 DN.pdf",
+   "number": "LB26-17876",
+   "page": "31",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40689476032",
+   "why": "items:FAIL: none of the invoice lines are on the page"
+  },
+  {
+   "at": "2026-10-28 16:43",
+   "customer": "MANZOOR",
+   "date": "2026-09-23",
+   "detail": "name:ok, date:ok, items:FAIL; 1/2 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: page has item rows that are not on this invoice: SKU SMOOTHP1802; TRN not checked; searched 1 same-day invoice(s) for this customer, none pass all checks [LB26-17837: name:ok, date:ok, items:FAIL; 1",
+   "file": "2026-10-28-1459-1-23 SEP 2026 DN.pdf",
+   "number": "LB26-17837",
+   "page": "48",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40689476032",
+   "why": "items:FAIL: page has item rows that are not on this invoice: SKU SMOOTHP1802"
+  },
+  {
+   "at": "2026-10-28 16:43",
+   "customer": "ULTIMA PROJECTS CONTRACTING L.L.C",
+   "date": "2026-09-23",
+   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN match; searched 3 same-day invoice(s) for this customer, none pass all checks [LB26-17881: name:ok, date:ok, items:FAIL, trn:FAIL; 0/2 lines on",
+   "file": "2026-10-28-1459-1-23 SEP 2026 DN.pdf",
+   "number": "LB26-17876",
+   "page": "78",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40689476032",
+   "why": "items:FAIL: none of the invoice lines are on the page"
   }
  ],
  "_last_email": "",
@@ -14286,6 +14365,18 @@
    "held": 0,
    "pages": 82,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40687904881"
+  },
+  {
+   "already": 44,
+   "at": "2026-10-28 16:43",
+   "attached": 1,
+   "by": "Re-check (Tarun)",
+   "files": [
+    "2026-10-28-1459-1-23 SEP 2026 DN.pdf"
+   ],
+   "held": 4,
+   "pages": 94,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40689476032"
   }
  ]
 }
