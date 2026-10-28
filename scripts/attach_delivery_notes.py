@@ -1158,6 +1158,8 @@ def main():
                     why += ": " + r["checks"].split("ITEM MISMATCH:")[1].split(" | ")[0].split("; TRN")[0].split("; searched")[0].strip()[:120]
                 elif "name:FAIL" in why:
                     why += ": name on page does not match the invoice's customer"
+                elif r["checks"].startswith("no invoice numbered"):
+                    why = r["checks"].split(";")[0]
                 pdf_url = publish_held_page(r.get("held_pdf", ""), r["source_pdf"], r["pages"]) if r.get("held_pdf") else ""
                 held.append({"at": now_s, "file": r["source_pdf"], "page": r["pages"], "number": r["number_on_page"],
                              "customer": r["customer_on_page"], "date": r["date_on_page"], "why": why,
