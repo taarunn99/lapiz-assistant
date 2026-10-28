@@ -84,7 +84,9 @@ jobs:
           INBOX: dn-inbox
           OUT: out
           OCR_WORKERS: "4"
-        run: python scripts/attach_delivery_notes.py 2>&1 | tee out_log.txt
+        run: |
+          set -o pipefail
+          python scripts/attach_delivery_notes.py 2>&1 | tee out_log.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
