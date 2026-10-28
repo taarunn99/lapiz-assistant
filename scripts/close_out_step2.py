@@ -3,6 +3,7 @@
 v3 changes: counts quantity already returned; Sharjah location on returns; ships invoiced-not-shipped lines through the backfill (heal on);
 voids drop ships that have no invoice; when Zoho will not reduce a line, closes the order with a zero value invoice plus a credit note
 against it (ZERO_CLOSE=1, default on).
+v3.21 (28 Oct 2026): VOIDRET mode, returns automation shipments whose invoice was voided and dissociated (SO26-08448).
 v3.20 (24 Oct 2026, 16:20): SHIPRET ships packages that already existed but were never shipped before making a new one.
 v3.19 (24 Oct 2026, 15:40): SHIPRET skips orders that are not fully invoiced (they would stay open anyway) and honours the skip file.
 v3.18 (24 Oct 2026, 14:45): zero invoice path OFF by default; sales returns fall back to the order header location when the line location is inactive (SOSJ26-00276).
@@ -783,6 +784,92 @@ def ship_and_return(only_so=None):
                 a = Z.post(f"/items/{iid}/inactive"); log(f"   item {nm[:30]} set back to inactive: {'ok' if a.get('code') == 0 else 'FAILED'}")
             if unticked: restore(cid, so["customer_name"])
     log(f"ship+return: {n} orders, {units:g} units" + ("" if MODE == "live" else " (dry, nothing changed)"))
+
+def void_returns(only_so=None, since="2026-10-06"):
+    """v3.21 (28 Oct 2026, Adil's SO26-08448 case): the live automation ships when an invoice is saved. When that invoice is
+    later VOIDED, Zoho also dissociates it from the sales order, and the automation's void branch cannot find the order any
+    more, so the shipment stays and no sales return is made. This finds every automation package (note LB-STOCKSYNC inv:<id>)
+    whose invoice is now void, checks the order line by line, and returns + receives what left the warehouse on paper only.
+    Creates sales returns and receives only. Nothing else is touched."""
+    page = 1; pk_rows = []
+    while True:
+        j = Z.get("/packages", date_start=since, per_page=200, page=page, sort_column="date", sort_order="A")
+        if j.get("code") != 0: log(f"package list failed: {j.get('message')}"); break
+        pk_rows += j.get("packages", [])
+        if not j.get("page_context", {}).get("has_more_page"): break
+        page += 1
+    log(f"void returns: {len(pk_rows)} packages dated {since} or later")
+    by_so = {}; inv_cache = {}
+    for pk in pk_rows:
+        d = Z.get(f"/packages/{pk['package_id']}").get("package", {})
+        n = d.get("notes") or ""
+        if "LB-STOCKSYNC" not in n or "inv:" not in n: continue
+        inv_id = n.split("inv:", 1)[1].split()[0].strip()
+        if inv_id not in inv_cache:
+            iv = bf.get_invoice(inv_id) or {}
+            inv_cache[inv_id] = (iv.get("status"), iv.get("invoice_number"))
+        st, inv_no = inv_cache[inv_id]
+        if st != "void": continue
+        so_id = str(d.get("salesorder_id") or pk.get("salesorder_id") or "")
+        if not so_id: continue
+        e = by_so.setdefault(so_id, {"invs": set(), "pk_qty": {}, "pks": []})
+        e["invs"].add(inv_no or inv_id); e["pks"].append(d.get("package_number"))
+        for li in d.get("line_items", []):
+            key = str(li.get("so_line_item_id") or li.get("salesorder_item_id") or li.get("line_item_id"))
+            e["pk_qty"][key] = e["pk_qty"].get(key, 0.0) + float(li.get("quantity") or 0)
+    log(f"void returns: {len(by_so)} sales orders have an automation shipment whose invoice was voided")
+    n_need = 0; units = 0.0
+    for so_id, e in by_so.items():
+        so = Z.get(f"/salesorders/{so_id}").get("salesorder", {})
+        if not so: continue
+        so_no = so["salesorder_number"]
+        if only_so and so_no not in only_so: continue
+        voids = void_qty_by_item(so); rets = []; info = []
+        for l in so.get("line_items", []):
+            if l.get("item_type") != "inventory": continue
+            qi = float(l.get("quantity_invoiced") or 0); v = min(voids.get(l["item_id"], 0), qi); voids[l["item_id"]] = voids.get(l["item_id"], 0) - v
+            live = qi - v
+            out = float(l.get("quantity_shipped") or 0) + float(l.get("quantity_manuallyfulfilled") or 0) - float(l.get("quantity_returned") or 0)
+            gap = out - live
+            # only the quantity our own voided-invoice packages put out, never a hand made shipment
+            cap = e["pk_qty"].get(str(l["line_item_id"]), 0.0)
+            gap = min(gap, cap)
+            if gap > 1e-6:
+                rets.append((l, gap)); info.append(f"{l['name'][:25]}: shipped {out:g} after returns, invoiced {live:g} (voided {v:g}), return {gap:g}")
+        if not rets:
+            log(f"{so_no} {so['date']} {so['customer_name'][:30]}: voided {', '.join(sorted(e['invs']))}, already balanced, nothing to do"); continue
+        n_need += 1; units += sum(q for _, q in rets)
+        log(f"{so_no} {so['date']} {so['customer_name'][:30]} [{so.get('status')}/{so.get('shipped_status')}] voided {', '.join(sorted(e['invs']))}, packages {', '.join(e['pks'])} | " + " / ".join(info))
+        if MODE != "live": continue
+        cid = so["customer_id"]; flag, _ = read_flag(cid); unticked = False; relocated = []
+        try:
+            if flag:
+                ok, msg = set_flag(cid, False)
+                if not ok or read_flag(cid)[0]: log(f"   could not untick BLACKLISTED ({msg}); skipped"); refused.append([so_no, "untick failed"]); continue
+                unticked = True; log("   BLACKLISTED unticked")
+            note = f"Stock sync 28 Oct 2026: invoice {', '.join(sorted(e['invs']))} was voided after the automation had packed and shipped it; goods never left, returned to stock"
+            body = {"salesorder_id": so_id, "date": TODAY, "location_id": so.get("location_id"), "reason": note,
+                    "line_items": [{"salesorder_item_id": l["line_item_id"], "item_id": l["item_id"], "quantity": q, "rate": l.get("rate", 0), "location_id": l.get("location_id") or so.get("location_id")} for l, q in rets]}
+            body["line_items"] = [{k: v for k, v in li.items() if v not in (None, "")} for li in body["line_items"]]
+            r = post_return(body, so, relocated)
+            if r.get("code") != 0: log(f"   sales return FAILED: {r.get('message')}"); refused.append([so_no, "return: " + str(r.get("message"))]); continue
+            sr = r["salesreturn"]; log(f"   sales return {sr['salesreturn_number']} created, {sum(q for _, q in rets):g} units")
+            rl = [{"line_item_id": li["line_item_id"], "quantity": li["quantity"]} for li in sr.get("line_items", [])]
+            r2 = Z.post("/salesreturnreceives", {"date": TODAY, "line_items": rl, "notes": note}, salesreturn_id=sr["salesreturn_id"])
+            if r2.get("code") != 0: log(f"   receive FAILED: {r2.get('message')} ({sr['salesreturn_number']} left unreceived)"); refused.append([so_no, "receive: " + str(r2.get("message"))]); continue
+            log(f"   received: physical stock up by {sum(q for _, q in rets):g}")
+            done.append({"so": so_no, "action": "void return+receive", "units": sum(q for _, q in rets), "rma": sr["salesreturn_number"], "invoices": sorted(e["invs"])})
+        finally:
+            for lid in relocated:
+                a = Z.post(f"/settings/locations/{lid}/inactive"); log(f"   location {lid} set back to inactive: {'ok' if a.get('code') == 0 else 'FAILED'}")
+            if unticked: restore(cid, so["customer_name"])
+    log(f"void returns: {n_need} orders need a return, {units:g} units" + ("" if MODE == "live" else " (dry, nothing changed)"))
+
+if ONLY == {"VOIDRET"} or (ONLY and all(s.startswith("VOIDRET:") for s in ONLY)):
+    void_returns(None if ONLY == {"VOIDRET"} else {s.split(":", 1)[1] for s in ONLY})
+    json.dump({"mode": MODE, "voidret": True, "done": done, "refused": refused, "unrestored": unrestored, "calls": Z.calls}, open(f"{OUT}/closeout_done.json", "w"), indent=1)
+    log(f"voidret finished: {len(done)} returns made, {len(refused)} refused, calls {Z.calls}, customers left unblacklisted: {len(unrestored)}")
+    sys.exit(1 if unrestored else 0)
 
 if ONLY == {"SHIPRET"} or (ONLY and all(s.startswith("SHIPRET:") for s in ONLY)):
     ship_and_return(None if ONLY == {"SHIPRET"} else {s.split(":", 1)[1] for s in ONLY})
