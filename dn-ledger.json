@@ -12449,6 +12449,30 @@
   "resolved": "2026-10-28 09:01",
   "status": "paid"
  },
+ "LB26-20549": {
+  "customer": "Ali Suq Portal LLC",
+  "date": "2026-10-27",
+  "first_attached": "2026-10-28 16:35",
+  "invoice_id": "2305879000152912084",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152912091": {
+    "delivered": 14.0,
+    "invoiced": 14.0,
+    "name": "Aquaflex Roof HR bucket 20kg",
+    "sku": "3L218120",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 16:35",
+    "id": "2026-10-28-0855-1-27 OCT 2026 DN.pdf|53"
+   }
+  ],
+  "resolved": "2026-10-28 16:35",
+  "status": "sent"
+ },
  "LB26-20551": {
   "customer": "NASIM MUHAMMAD BUILDING MATERIALS TRADING LLC",
   "date": "2026-10-27",
@@ -14250,6 +14274,18 @@
    "held": 1,
    "pages": 70,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40687181562"
+  },
+  {
+   "already": 81,
+   "at": "2026-10-28 16:37",
+   "attached": 1,
+   "by": "Re-check (Tarun)",
+   "files": [
+    "2026-10-28-0855-1-27 OCT 2026 DN.pdf"
+   ],
+   "held": 0,
+   "pages": 82,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40687904881"
   }
  ]
 }
