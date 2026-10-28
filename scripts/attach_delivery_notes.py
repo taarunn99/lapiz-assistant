@@ -1176,7 +1176,7 @@ def main():
     fields = ["source_pdf", "pages", "number_on_page", "customer_on_page", "date_on_page", "invoice_number",
               "customer", "invoice_id", "invoice_status", "result", "checks", "detail"]
     with open(f"{OUT}/report.csv", "w", newline="") as fh:
-        wtr = csv.DictWriter(fh, fieldnames=fields)
+        wtr = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
         wtr.writeheader()
         wtr.writerows(rows)
 
