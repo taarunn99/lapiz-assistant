@@ -1134,13 +1134,14 @@ def post_cliq(rows, counts, missing, overdue, overdue_void, pdfs, cutoff):
                    f" ({sum(len(r['pages'].split(',')) for r in rows)} pages)")
         word = "Attached" if MODE == "live" else "Would attach"
         msg.append(f"{word}: {counts.get('ATTACHED', 0) + counts.get('WOULD ATTACH', 0)} | "
-                   f"Already there: {counts.get('ALREADY ATTACHED', 0)} | "
+                   f"Already on the invoice: {counts.get('ALREADY ATTACHED', 0)} | "
                    f"Need a person: {counts.get('NEEDS CHECK', 0) + counts.get('NUMBER NOT READ', 0)} | "
                    f"Failed: {counts.get('ATTACH FAILED', 0)}")
         dup = [r for r in rows if r["result"] == "ALREADY ATTACHED"]
         if dup:
             # the note was already on the invoice (same scan sent twice, or a page scanned twice): nothing uploaded
-            msg.append(f"Already on the invoice, skipped ({len(dup)}): " +
+            msg.append(f"Same delivery note sent twice ({len(dup)}): the invoice already has this note, "
+                       f"so the repeat was not attached, only one copy stays on the invoice: " +
                        ", ".join(f"p{r['pages']} {r['invoice_number']}" for r in dup[:20]) +
                        (f" +{len(dup) - 20} more in the report" if len(dup) > 20 else ""))
         bad = [r for r in rows if r["result"] in ("NEEDS CHECK", "NUMBER NOT READ", "ATTACH FAILED")]
