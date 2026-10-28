@@ -3,9 +3,9 @@ name: Attach delivery notes
 # Three ways this runs:
 #   1. The Delivery Notes app: someone taps "Attach to invoices". The app sends the scan's download
 #      link here (repository_dispatch, event dn-scan). Runs live immediately.
-#   2. Every day at 08:07 and 18:17 Dubai: processes anything left in dn-inbox, the 2 day overdue check
-#      (invoices with no note, emailed to Suman), and the pending-delivery reminder (note shows less than
-#      the invoice, emailed to Vanessa every 2 days until the balance is delivered). Posts a brief to Cliq.
+#   2. Every day at 08:10 Dubai: the ONE daily email (to Suman, CC Tarun and Adil): every scan since the
+#      previous email, pages that still need a person, invoices delivered short (reminded every 2 days),
+#      invoices with no note for 2+ days. App runs attach silently; nothing else sends mail or Cliq.
 #   3. Run workflow button, for a manual dry or live run.
 #
 # Every page is verified against the invoice (customer, date, every item by SKU and name, TRN)
@@ -15,8 +15,7 @@ on:
   repository_dispatch:
     types: [dn-scan]
   schedule:
-    - cron: "7 4 * * *"       # 08:07 Dubai: pending-delivery reminders to Vanessa, overdue list to Suman
-    - cron: "17 14 * * *"     # 18:17 Dubai: end of day attach of anything left in dn-inbox
+    - cron: "10 4 * * *"      # 08:10 Dubai: the one daily email
   workflow_dispatch:
     inputs:
       mode:
@@ -67,7 +66,7 @@ jobs:
           ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
           ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
           ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
-          CLIQ_DN_WEBHOOK: ${{ secrets.CLIQ_DN_WEBHOOK }}
+          DN_SEND_EMAIL: ${{ github.event_name == 'schedule' }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DN_REPORT_TO: ${{ vars.DN_REPORT_TO || 'sumon.a@lapizblue.com' }}
           DN_SHORT_TO: ${{ vars.DN_SHORT_TO || 'sumon.a@lapizblue.com' }}
