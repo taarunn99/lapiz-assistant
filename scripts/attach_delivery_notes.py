@@ -925,7 +925,7 @@ def main():
                     _, c, _ = verify(page, probe)
                     if c["name"]:
                         cands.append(inv)
-                passing = []
+                passing, failed = [], []
                 for inv in cands[:8]:
                     cnum = inv.get("invoice_number", "").upper()
                     if num and edit_distance(num, cnum) > 2:
@@ -934,6 +934,8 @@ def main():
                     ok, checks, n2 = verify(page, full, strict=True)
                     if ok:
                         passing.append((full, n2 + " (strict)"))
+                    else:
+                        failed.append(f"{cnum}: {n2}")
                 if len(passing) == 1:
                     target, note = passing[0]
                     corrected = (num != target.get("invoice_number", "").upper())
@@ -942,6 +944,8 @@ def main():
                             ", ".join(p[0].get("invoice_number", "") for p in passing)
                 else:
                     note += f"; searched {len(cands)} same-day invoice(s) for this customer, none pass all checks"
+                    if failed:
+                        note += " [" + " | ".join(failed) + "]"
 
             if target is None:
                 fname = f"{base}-page-{first['page']}.pdf"
