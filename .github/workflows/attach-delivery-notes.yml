@@ -67,6 +67,7 @@ jobs:
           ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
           ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
           DN_SEND_EMAIL: ${{ github.event_name == 'schedule' }}
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DN_REPORT_TO: ${{ vars.DN_REPORT_TO || 'sumon.a@lapizblue.com' }}
           DN_SHORT_TO: ${{ vars.DN_SHORT_TO || 'sumon.a@lapizblue.com' }}
