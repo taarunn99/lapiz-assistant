@@ -76,6 +76,8 @@ if CLIQ_WEBHOOK and "://" not in CLIQ_WEBHOOK:
         CLIQ_WEBHOOK = (f"https://cliq.zoho.com/company/{CLIQ_COMPANY}/api/v2/channelsbyname/"
                         f"{CLIQ_CHANNEL}/message?zapikey={CLIQ_WEBHOOK}")
 RESEND_KEY = os.environ.get("RESEND_API_KEY", "").strip()          # email sender; blank = no email
+SEND_EMAIL = os.environ.get("DN_SEND_EMAIL", "").strip().lower() in ("1", "true", "yes")   # only the 08:10 run emails
+SCAN_BY = os.environ.get("SCAN_BY", "").strip()
 REPORT_TO = [x.strip() for x in os.environ.get("DN_REPORT_TO", "sumon.a@lapizblue.com").split(",") if x.strip()]
 REPORT_CC = [x.strip() for x in os.environ.get("DN_REPORT_CC", "").split(",") if x.strip()]
 REPORT_FROM = os.environ.get("DN_REPORT_FROM", "Delivery Notes <delivery-notes@lapizblue.com>")
@@ -594,14 +596,15 @@ def esc(s):
     return str(s if s is not None else "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def build_daily_email(rows, counts, due, overdue, overdue_void, pdfs, cutoff, today):
-    """One HTML email in the house style (dark card, lavender band, stat tiles, one card per document)."""
+def build_daily_email(day_runs, held, due, overdue, overdue_void, cutoff, today):
+    """The one daily email, house style (dark card, lavender band, stat tiles, one card per document).
+    day_runs: scans processed since the previous email. held: pages still waiting for a person."""
     BG, CARD, BAND, TEXT, MUTED, LINE = "#1c1c1e", "#242426", "#b7bdf5", "#f2f2f4", "#9a9aa3", "#3a3a3e"
     RED, GREEN, PURPLE_BG, PURPLE = "#ff8a6b", "#7bd88f", "#2e2a4a", "#c9c3ff"
     day = today.strftime("%A, %d %b %Y")
     pending_lines = sum(len(sf) for _, _, sf in due)
-    attached = counts.get("ATTACHED", 0) + counts.get("WOULD ATTACH", 0)
-    needs = counts.get("NEEDS CHECK", 0) + counts.get("NUMBER NOT READ", 0) + counts.get("ATTACH FAILED", 0)
+    attached = sum(r["attached"] for r in day_runs)
+    needs = len(held)
 
     def tile(num, label, hot=False):
         return (f"<td width='33%' style='padding:6px'><div style='background:{'#3a2a28' if hot else '#2a2a2d'};border-radius:12px;"
@@ -624,8 +627,40 @@ def build_daily_email(rows, counts, due, overdue, overdue_void, pdfs, cutoff, to
          "<table width='100%' cellspacing='0' cellpadding='0' style='color:{TEXT}'><tr>"
          + tile(len(overdue), f"invoices with no delivery note for {OVERDUE_DAYS}+ days", hot=bool(overdue))
          + tile(len(due), "invoices delivered less than invoiced", hot=bool(due))
-         + tile(attached, "notes attached in the last run" if pdfs else "notes attached today (no scan)")
+         + tile(attached, f"notes attached since the last report ({len(day_runs)} scan{'s' if len(day_runs) != 1 else ''})")
          + "</tr></table>"]
+
+    # ---- section 0: what was scanned since the last email, and what still needs a person
+    h.append(f"<div style='margin:26px 6px 10px;font-size:20px;font-weight:600'><span style='color:{PURPLE};font-size:14px'>&#9679;</span> "
+             f"Scans since the last report <span style='font-size:14px;color:{MUTED};font-weight:400'>{len(day_runs)}</span></div>")
+    if not day_runs:
+        h.append(f"<div style='margin:0 6px 10px;color:{MUTED};font-size:14px'>No scan was sent since the last report.</div>")
+    else:
+        h.append(f"<div style='border:1px solid {LINE};border-radius:14px;margin:0 6px 10px;overflow:hidden'><table width='100%' cellspacing='0' cellpadding='0' style='color:{TEXT}'><tr>"
+                 + th("When") + th("File") + th("Sent by") + th("Pages", "right") + th("Attached", "right") + th("Already on invoice", "right") + th("Need a person", "right") + "</tr>")
+        for r in day_runs:
+            h.append(f"<tr style='font-size:14px;border-top:1px solid {LINE}'><td style='padding:10px 12px;color:{MUTED}'>{esc(r['at'][5:])}</td>"
+                     f"<td style='padding:10px 12px'>{esc(', '.join(r['files']))[:60]}</td><td style='padding:10px 12px'>{esc(r['by'])}</td>"
+                     f"<td style='padding:10px 12px;text-align:right'>{r['pages']}</td><td style='padding:10px 12px;text-align:right'>{r['attached']}</td>"
+                     f"<td style='padding:10px 12px;text-align:right;color:{MUTED}'>{r['already']}</td>"
+                     f"<td style='padding:10px 12px;text-align:right;color:{RED if r['held'] else TEXT}'>{r['held']}</td></tr>")
+        h.append("</table></div>")
+    h.append(f"<div style='margin:22px 6px 10px;font-size:20px;font-weight:600'><span style='color:{RED if held else PURPLE};font-size:14px'>&#9679;</span> "
+             f"Pages that need a person <span style='font-size:14px;color:{MUTED};font-weight:400'>{len(held)}</span></div>")
+    if not held:
+        h.append(f"<div style='margin:0 6px 10px;color:{MUTED};font-size:14px'>None. Every scanned page was matched and attached.</div>")
+    else:
+        h.append(f"<div style='margin:0 6px 8px;color:{MUTED};font-size:13px'>These pages were NOT attached. Open the scan, find the page, check the invoice and attach it in Zoho by hand. "
+                 f"A page drops off this list once its invoice has a note.</div>"
+                 f"<div style='border:1px solid {LINE};border-radius:14px;margin:0 6px 10px;overflow:hidden'><table width='100%' cellspacing='0' cellpadding='0' style='color:{TEXT}'><tr>"
+                 + th("Scan") + th("Page") + th("Number on page") + th("Customer on page") + th("Date") + th("Why") + "</tr>")
+        for x in held:
+            h.append(f"<tr style='font-size:14px;border-top:1px solid {LINE}'><td style='padding:10px 12px;color:{MUTED}'>"
+                     + (f"<a href='{x['url']}' style='color:{PURPLE}'>{esc(x['file'][:34])}</a>" if x.get('url') else esc(x['file'][:34])) +
+                     f"</td><td style='padding:10px 12px'>{esc(x['page'])}</td><td style='padding:10px 12px;font-weight:600'>{esc(x['number'] or '(not readable)')}</td>"
+                     f"<td style='padding:10px 12px'>{esc(x['customer'][:40])}</td><td style='padding:10px 12px;color:{MUTED}'>{esc(x.get('date', ''))}</td>"
+                     f"<td style='padding:10px 12px;color:{RED}'>{esc(x['why'])}</td></tr>")
+        h.append("</table></div>")
 
     # ---- section 1: delivered less than invoiced
     h.append(f"<div style='margin:26px 6px 10px;font-size:20px;font-weight:600'><span style='color:{PURPLE};font-size:14px'>&#9679;</span> "
@@ -684,26 +719,8 @@ def build_daily_email(rows, counts, due, overdue, overdue_void, pdfs, cutoff, to
         h.append(f"<div style='margin:10px 6px;font-size:13px;color:{MUTED}'>Void invoices with no note, not chased: {len(overdue_void)} "
                  f"({esc(', '.join(i.get('invoice_number', '') for i in overdue_void[:12]))}{', ...' if len(overdue_void) > 12 else ''})</div>")
 
-    # ---- section 3: last attach run
-    if pdfs:
-        bad = [r for r in rows if r["result"] in ("NEEDS CHECK", "NUMBER NOT READ", "ATTACH FAILED")]
-        h.append(f"<div style='margin:30px 6px 10px;font-size:20px;font-weight:600'><span style='color:{PURPLE};font-size:14px'>&#9679;</span> "
-                 f"Last scan <span style='font-size:14px;color:{MUTED};font-weight:400'>{esc(', '.join(os.path.basename(p) for p in pdfs))}</span></div>"
-                 f"<div style='margin:0 6px;font-size:15px'>Attached {attached} · already there {counts.get('ALREADY ATTACHED', 0)} · "
-                 f"<span style='color:{RED if needs else TEXT}'>need a person {needs}</span></div>")
-        if bad:
-            h.append(f"<div style='border:1px solid {LINE};border-radius:14px;margin:10px 6px;overflow:hidden'><table width='100%' cellspacing='0' cellpadding='0' style='color:{TEXT}'><tr>"
-                     + th("Page") + th("Number on page") + th("Customer on page") + th("Why") + "</tr>")
-            for r in bad:
-                why = "number not readable" if r["result"] == "NUMBER NOT READ" else \
-                    ", ".join(c for c in r["checks"].split("; ")[0].split(", ") if "FAIL" in c) or r["detail"][:80]
-                h.append(f"<tr style='font-size:14px;border-top:1px solid {LINE}'><td style='padding:10px 12px'>{esc(r['pages'])}</td>"
-                         f"<td style='padding:10px 12px'>{esc(r['number_on_page'])}</td><td style='padding:10px 12px'>{esc(r['customer_on_page'][:40])}</td>"
-                         f"<td style='padding:10px 12px;color:{RED}'>{esc(why)}</td></tr>")
-            h.append("</table></div>")
-
     h.append(f"<div style='margin:28px 6px 4px;font-size:12px;color:{MUTED}'>Sent automatically by the Lapiz Blue delivery note system. "
-             f"Scan signed notes through the Delivery Notes app; an invoice drops off these lists the day its note is attached."
+             f"One email a day at 08:10. Scan signed notes through the Delivery Notes app; an invoice drops off these lists the day its note is attached."
              + (f" <a href='{RUN_URL}' style='color:{PURPLE}'>Full report</a>" if RUN_URL else "") + "</div>")
     h.append("</div></div></div>")
     return "".join(h)
@@ -789,6 +806,8 @@ def pending_reminders(led, today):
     """Invoices with a shortfall, first note attached REMIND_EVERY+ days ago, not reminded in the last REMIND_EVERY days."""
     due = []
     for key, e in sorted(led.items()):
+        if key.startswith("_") or not isinstance(e, dict) or "lines" not in e:
+            continue
         if e.get("resolved") or e.get("status") == "void":
             continue
         if key in overrides():
@@ -1094,8 +1113,27 @@ def main():
         json.dump(processed, fh)
     print("\n".join(lines))
 
-    # 7. short message to Cliq
-    post_cliq(rows, counts, missing, overdue, overdue_void, pdfs, cutoff)
+    # 7. remember this scan and its held pages, so the one daily email can report every scan of the day
+    now_s = datetime.now(DUBAI).strftime("%Y-%m-%d %H:%M")
+    if pdfs and MODE == "live":
+        runs = led.setdefault("_runs", [])
+        runs.append({"at": now_s, "files": [os.path.basename(p) for p in pdfs], "by": SCAN_BY or "manual run",
+                     "pages": sum(len(r["pages"].split(",")) for r in rows),
+                     "attached": counts.get("ATTACHED", 0), "already": counts.get("ALREADY ATTACHED", 0),
+                     "held": counts.get("NEEDS CHECK", 0) + counts.get("NUMBER NOT READ", 0) + counts.get("ATTACH FAILED", 0),
+                     "url": RUN_URL})
+        held = led.setdefault("_held", [])
+        for r in rows:
+            if r["result"] in ("NEEDS CHECK", "NUMBER NOT READ", "ATTACH FAILED"):
+                why = "number not readable" if r["result"] == "NUMBER NOT READ" else \
+                    ", ".join(c for c in r["checks"].split("; ")[0].split(", ") if "FAIL" in c) or r["detail"][:80]
+                held.append({"at": now_s, "file": r["source_pdf"], "page": r["pages"], "number": r["number_on_page"],
+                             "customer": r["customer_on_page"], "date": r["date_on_page"], "why": why,
+                             "detail": r["detail"][:200], "url": RUN_URL})
+        # a held page is cleared once its invoice has a note (attached in this run, or by hand before a re-scan)
+        done = {r["invoice_number"] for r in rows if r["result"] in ("ATTACHED", "ALREADY ATTACHED")}
+        led["_held"] = [h for h in held if not (h["number"] and h["number"] in done)
+                        and (today - datetime.strptime(h["at"][:10], "%Y-%m-%d").date()).days <= 14]
     # 8. pending deliveries: delivery note shows less than the invoice, remind every REMIND_EVERY days
     due = pending_reminders(led, today)
     lines_pd = [f"## PENDING DELIVERIES DUE FOR REMINDER ({len(due)})"]
@@ -1105,16 +1143,24 @@ def main():
     print("\n".join(lines_pd))
     with open(f"{OUT}/report.md", "a") as fh:
         fh.write("\n".join(lines_pd) + "\n")
-    # 9. one daily email in the house style, with both lists and the last scan result
-    html = build_daily_email(rows, counts, due, overdue, overdue_void, pdfs, cutoff, today)
+    # 9. ONE email a day, from the 08:10 scheduled run only: every scan since the last email, every page that
+    #    still needs a person, invoices delivered short, invoices with no note for 2+ days
+    since = led.get("_last_email", "")
+    day_runs = [r for r in led.get("_runs", []) if r["at"] > since]
+    held_now = led.get("_held", [])
+    html = build_daily_email(day_runs, held_now, due, overdue, overdue_void, cutoff, today)
     with open(f"{OUT}/daily_email.html", "w") as fh:
         fh.write(html)
-    if MODE == "live" and (due or overdue or pdfs):
-        subject = (f"Delivery notes {today.strftime('%d %b')}: {len(overdue)} with no note, "
-                   f"{len(due)} delivered short" + (f", {counts.get('ATTACHED', 0)} attached" if pdfs else ""))
+    if MODE == "live" and SEND_EMAIL:
+        subject = (f"Delivery notes {today.strftime('%d %b')}: {sum(r['attached'] for r in day_runs)} attached, "
+                   f"{len(held_now)} need a person, {len(overdue)} with no note, {len(due)} delivered short")
         if send_daily_email(html, subject, [f"{OUT}/overdue.csv"]):
             for key, e, _ in due:
                 e["last_reminded"] = today.strftime("%Y-%m-%d")
+            led["_last_email"] = now_s
+            led["_runs"] = [r for r in led.get("_runs", []) if r["at"] > since][-200:]
+    elif MODE == "live":
+        log("not the 08:10 run, email not sent (DN_SEND_EMAIL not set)")
     if MODE == "live":
         save_ledger(led)
 
