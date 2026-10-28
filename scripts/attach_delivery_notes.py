@@ -78,6 +78,7 @@ if CLIQ_WEBHOOK and "://" not in CLIQ_WEBHOOK:
 RESEND_KEY = os.environ.get("RESEND_API_KEY", "").strip()          # email sender; blank = no email
 SEND_EMAIL = os.environ.get("DN_SEND_EMAIL", "").strip().lower() in ("1", "true", "yes")   # only the 08:10 run emails
 SCAN_BY = os.environ.get("SCAN_BY", "").strip()
+BLOB_TOKEN = os.environ.get("BLOB_READ_WRITE_TOKEN", "").strip()   # app file store; held pages are published there for download
 REPORT_TO = [x.strip() for x in os.environ.get("DN_REPORT_TO", "sumon.a@lapizblue.com").split(",") if x.strip()]
 REPORT_CC = [x.strip() for x in os.environ.get("DN_REPORT_CC", "").split(",") if x.strip()]
 REPORT_FROM = os.environ.get("DN_REPORT_FROM", "Delivery Notes <delivery-notes@lapizblue.com>")
@@ -279,9 +280,13 @@ def verify(page, inv, strict=False):
     name_toks = name_tokens(inv.get("customer_name", ""))
     hit = 0
     for t in name_toks:
-        if t in text_tokens or difflib.get_close_matches(t, text_tokens, n=1, cutoff=0.85):
+        if t in text_tokens or difflib.get_close_matches(t, text_tokens, n=1, cutoff=0.85 if len(t) > 3 else 0.75):
             hit += 1
     checks["name"] = bool(name_toks) and hit == len(name_toks)
+    if name_toks and not checks["name"] and len(name_toks) >= 3 and hit >= len(name_toks) - 1:
+        # one short word slipped in OCR ("AL]" for "ALI"): accept if the whole printed name still agrees
+        whole = difflib.SequenceMatcher(None, squash(page.get("customer", "")), squash(inv.get("customer_name", ""))).ratio()
+        checks["name"] = whole >= 0.88
 
     # date: the date printed on the note equals the invoice date
     checks["date"] = bool(page["date"]) and page["date"] == inv.get("date")
@@ -653,11 +658,13 @@ def build_daily_email(day_runs, held, due, overdue, overdue_void, cutoff, today)
         h.append(f"<div style='margin:0 6px 8px;color:{MUTED};font-size:13px'>These pages were NOT attached. Open the scan, find the page, check the invoice and attach it in Zoho by hand. "
                  f"A page drops off this list once its invoice has a note.</div>"
                  f"<div style='border:1px solid {LINE};border-radius:14px;margin:0 6px 10px;overflow:hidden'><table width='100%' cellspacing='0' cellpadding='0' style='color:{TEXT}'><tr>"
-                 + th("Scan") + th("Page") + th("Number on page") + th("Customer on page") + th("Date") + th("Why") + "</tr>")
+                 + th("Page PDF") + th("Number on page") + th("Customer on page") + th("Date") + th("Why") + "</tr>")
         for x in held:
-            h.append(f"<tr style='font-size:14px;border-top:1px solid {LINE}'><td style='padding:10px 12px;color:{MUTED}'>"
-                     + (f"<a href='{x['url']}' style='color:{PURPLE}'>{esc(x['file'][:34])}</a>" if x.get('url') else esc(x['file'][:34])) +
-                     f"</td><td style='padding:10px 12px'>{esc(x['page'])}</td><td style='padding:10px 12px;font-weight:600'>{esc(x['number'] or '(not readable)')}</td>"
+            link = (f"<a href='{x['pdf']}' style='color:{PURPLE};font-weight:600'>Download page {esc(x['page'])}</a>" if x.get("pdf")
+                    else (f"<a href='{x['url']}' style='color:{PURPLE}'>run report, page {esc(x['page'])}</a>" if x.get("url") else f"page {esc(x['page'])}"))
+            h.append(f"<tr style='font-size:14px;border-top:1px solid {LINE}'><td style='padding:10px 12px'>{link}"
+                     f"<div style='font-size:11px;color:{MUTED}'>{esc(x['file'][:40])}</div></td>"
+                     f"<td style='padding:10px 12px;font-weight:600'>{esc(x['number'] or '(not readable)')}</td>"
                      f"<td style='padding:10px 12px'>{esc(x['customer'][:40])}</td><td style='padding:10px 12px;color:{MUTED}'>{esc(x.get('date', ''))}</td>"
                      f"<td style='padding:10px 12px;color:{RED}'>{esc(x['why'])}</td></tr>")
         h.append("</table></div>")
@@ -749,6 +756,25 @@ def send_daily_email(html, subject, attachments):
     except Exception as e:
         log(f"email failed: {e}")
         return False
+
+
+def publish_held_page(path, scan_name, page_label):
+    """Put one held page (its own small PDF) in the app's file store so a person can download and attach it.
+    Returns the public, unguessable download URL, or "" when the store token is not configured."""
+    if not BLOB_TOKEN or not os.path.exists(path):
+        return ""
+    safe = re.sub(r"[^A-Za-z0-9._-]+", "_", scan_name.rsplit(".", 1)[0])[:60]
+    key = f"held/{datetime.now(DUBAI).strftime('%Y-%m-%d')}/{safe}-page-{page_label.replace(',', '_')}.pdf"
+    try:
+        r = requests.put(f"https://blob.vercel-storage.com/{key}", data=open(path, "rb").read(),
+                         headers={"Authorization": f"Bearer {BLOB_TOKEN}", "x-api-version": "7",
+                                  "x-content-type": "application/pdf", "x-add-random-suffix": "1"}, timeout=60)
+        if r.status_code < 300:
+            return r.json().get("url", "")
+        log(f"held page upload failed: HTTP {r.status_code} {r.text[:100]}")
+    except Exception as e:
+        log(f"held page upload failed: {e}")
+    return ""
 
 
 def load_ledger():
@@ -973,6 +999,7 @@ def main():
                 row["result"] = "NEEDS CHECK" if num else "NUMBER NOT READ"
                 row["checks"] = note
                 row["detail"] = f"saved as {outp}; a person must attach this one"
+                row["held_pdf"] = outp
                 rows.append(row)
                 log(f"  page {pg_label}: {row['result']} ({note})")
                 continue
@@ -1127,9 +1154,14 @@ def main():
             if r["result"] in ("NEEDS CHECK", "NUMBER NOT READ", "ATTACH FAILED"):
                 why = "number not readable" if r["result"] == "NUMBER NOT READ" else \
                     ", ".join(c for c in r["checks"].split("; ")[0].split(", ") if "FAIL" in c) or r["detail"][:80]
+                if "ITEM MISMATCH:" in r["checks"]:
+                    why += ": " + r["checks"].split("ITEM MISMATCH:")[1].split(" | ")[0].split("; TRN")[0].split("; searched")[0].strip()[:120]
+                elif "name:FAIL" in why:
+                    why += ": name on page does not match the invoice's customer"
+                pdf_url = publish_held_page(r.get("held_pdf", ""), r["source_pdf"], r["pages"]) if r.get("held_pdf") else ""
                 held.append({"at": now_s, "file": r["source_pdf"], "page": r["pages"], "number": r["number_on_page"],
                              "customer": r["customer_on_page"], "date": r["date_on_page"], "why": why,
-                             "detail": r["detail"][:200], "url": RUN_URL})
+                             "detail": r["checks"][:300], "url": RUN_URL, "pdf": pdf_url})
         # a held page is cleared once its invoice has a note (attached in this run, or by hand before a re-scan)
         done = {r["invoice_number"] for r in rows if r["result"] in ("ATTACHED", "ALREADY ATTACHED")}
         led["_held"] = [h for h in held if not (h["number"] and h["number"] in done)
