@@ -90,6 +90,9 @@ RUN_URL = (f"{os.environ.get('GITHUB_SERVER_URL', '')}/{os.environ.get('GITHUB_R
            f"{os.environ.get('GITHUB_RUN_ID', '')}") if os.environ.get("GITHUB_RUN_ID") else ""
 
 NUM_RE = re.compile(r"#\s*(LB[A-Z]*\s?\d{2}\s?-\s?\d{4,6})")
+CN_RE = re.compile(r"#\s*(CN[A-Z]*\s?\d{2}\s?-\s?\d{4,6})")
+CN_LOOSE_RE = re.compile(r"(CN[A-Z]*\s?\d{2}\s?-\s?\d{4,6})")
+CREDIT_DATE_RE = re.compile(r"Credit\s*Date\s*:?\s*(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(20\d{2})", re.IGNORECASE)
 LOOSE_RE = re.compile(r"(LB[A-Z]*\s?\d{2}\s?-\s?\d{4,6})")
 DATE_RE = re.compile(r"\b(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(20\d{2})\b", re.IGNORECASE)
 TRN_RE = re.compile(r"\b(1\d{14})\b")
@@ -193,6 +196,44 @@ def read_page(png):
     """OCR one page. Returns dict with number, customer line, date, trns, and the raw text."""
     text = ocr_text(png, "3")
     num = None
+    # a credit note page (Zoho "Credit Note" printout, "# CN26-00470") is handled on its own: it is
+    # attached to the credit note in Zoho, never confused with the delivery note before it
+    is_cn = bool(re.search(r"CREDIT\s*NOTE", text, re.IGNORECASE)) and not re.search(r"DELIVERY\s*NOTE", text, re.IGNORECASE)
+    if is_cn:
+        m = CN_RE.search(text)
+        if not m:
+            im = Image.open(png)
+            w, h = im.size
+            crop = im.crop((int(w * 0.55), int(h * 0.10), w, int(h * 0.20)))
+            crop = ImageOps.grayscale(crop).resize((crop.width * 3, crop.height * 3))
+            crop = crop.point(lambda x: 0 if x < 150 else 255)
+            cpath = png.replace(".png", "-band.png")
+            crop.save(cpath)
+            for psm in ("6", "11"):
+                m = CN_LOOSE_RE.search(ocr_text(cpath, psm, "#CN0123456789- "))
+                if m:
+                    break
+        if m:
+            num = norm_number(m.group(1))
+        date = None
+        dm = CREDIT_DATE_RE.search(text) or DATE_RE.search(text)
+        if dm:
+            try:
+                date = datetime.strptime(f"{dm.group(1)} {dm.group(2)} {dm.group(3)}", "%d %b %Y").strftime("%Y-%m-%d")
+            except ValueError:
+                date = None
+        customer = ""
+        lines = text.split("\n")
+        for i, l in enumerate(lines):
+            if re.search(r"Bill\s*To", l, re.IGNORECASE):
+                after = [x.strip() for x in lines[i + 1:i + 4] if x.strip()]
+                customer = after[0] if after else ""
+                break
+        customer = re.split(r"\s+(Credit|Invoice|Date|Ref|VAT)\b", customer)[0].strip()
+        ref = LOOSE_RE.search(text)
+        trns = [t for t in TRN_RE.findall(text) if t != OWN_TRN]
+        return {"text": text, "number": num, "customer": customer, "date": date, "trns": trns, "qty": {},
+                "kind": "cn", "ref_invoice": norm_number(ref.group(1)) if ref else ""}
     m = NUM_RE.search(text)
     if m:
         num = norm_number(m.group(1))
@@ -241,7 +282,7 @@ def read_page(png):
     except Exception as e:
         log(f"  qty column not read: {e}")
         qty = {}
-    return {"text": text, "number": num, "customer": customer, "date": date, "trns": trns, "qty": qty}
+    return {"text": text, "number": num, "customer": customer, "date": date, "trns": trns, "qty": qty, "kind": "dn"}
 
 
 # ---------------------------------------------------------------- verification
@@ -384,7 +425,7 @@ def verify(page, inv, strict=False):
             li["_delivered"] = r.get("qty") if r else None
     # printed rows that match no invoice line at all: the page is not this invoice
     # (a repeated row of an item that IS on the invoice is not foreign, it is a duplicate print)
-    foreign = [r for r in free_rows if not any(sku_same(r["sku"], squash(li["sku"])) for li in sku_lines)]
+    foreign = [r for r in free_rows if not any(sku_same(r["sku"], squash(li["sku"])) for li in sku_lines)] if sku_lines else []
     if foreign:
         problems.append("page has item rows that are not on this invoice: " +
                         ", ".join(f"SKU {r['sku']}" for r in foreign[:5]))
@@ -546,6 +587,26 @@ class Zoho:
             code, j = self.call("GET", f"/invoices/{invoice_id}")
             self._full[invoice_id] = j.get("invoice", {})
         return self._full[invoice_id]
+
+    def find_creditnote(self, number):
+        code, j = self.call("GET", "/creditnotes", params={"creditnote_number": number})
+        cns = [c for c in j.get("creditnotes", []) if c.get("creditnote_number", "").upper() == number]
+        return cns[0] if cns else None
+
+    def full_creditnote(self, creditnote_id):
+        """Full credit note with line items and attachments (cached)."""
+        key = "cn:" + creditnote_id
+        if key not in self._full:
+            code, j = self.call("GET", f"/creditnotes/{creditnote_id}")
+            self._full[key] = j.get("creditnote", {})
+        return self._full[key]
+
+    def attach_creditnote(self, creditnote_id, pdf_path):
+        with open(pdf_path, "rb") as fh:
+            code, j = self.call("POST", f"/creditnotes/{creditnote_id}/attachment",
+                                params={"can_send_in_mail": "false"},
+                                files={"attachment": (os.path.basename(pdf_path), fh, "application/pdf")})
+        return code, j
 
     def invoices_on_date(self, ymd):
         """Every invoice dated ymd (all statuses, void included)."""
@@ -898,7 +959,7 @@ def main():
             pages = list(ex.map(read_page, pngs))
         for idx, p in enumerate(pages):
             p["page"] = idx + 1
-            p["is_first"] = "DELIVERY NOTE" in p["text"].upper().replace("  ", " ")
+            p["is_first"] = bool(re.search(r"DELIVERY\s*NOTE|CREDIT\s*NOTE", p["text"], re.IGNORECASE))
             log(f"  page {idx + 1:>3}: {p['number'] or 'NUMBER NOT READ'} | {p['customer'][:40]} | {p['date']}")
 
         # 2. group pages into notes. A note can run over 2, 3 or 4 pages:
@@ -908,8 +969,11 @@ def main():
         groups = []
         for p in pages:
             prev = groups[-1] if groups else None
-            same_number = prev and p["number"] and prev["number"] == p["number"]
-            continuation = prev and not p["number"] and prev["number"] and not p["is_first"]
+            same_number = prev and p["number"] and prev["number"] == p["number"] and p.get("kind") == prev["pages"][0].get("kind")
+            same_customer = prev and (not p["customer"] or difflib.SequenceMatcher(
+                None, squash(p["customer"]), squash(prev["pages"][0]["customer"])).ratio() >= 0.8)
+            continuation = (prev and not p["number"] and prev["number"] and not p["is_first"] and same_customer
+                            and p.get("kind", "dn") == prev["pages"][0].get("kind", "dn"))
             if (same_number or continuation) and prev["pages"][-1]["page"] == p["page"] - 1:
                 prev["pages"].append(p)
             else:
@@ -939,6 +1003,69 @@ def main():
                 with open(outp, "wb") as fh:
                     w.write(fh)
                 return outp
+
+            if first.get("kind") == "cn":
+                # ---- credit note page: verify against the credit note in Zoho and attach it there
+                row["kind"] = "credit note"
+                target, note = None, ""
+                if num and num in seen_in_this_file:
+                    row["result"] = "DUPLICATE PAGE"
+                    row["detail"] = f"same number already on page(s) {seen_in_this_file[num]} of this file"
+                    rows.append(row)
+                    continue
+                if num:
+                    cn = z.find_creditnote(num)
+                    if cn:
+                        full = z.full_creditnote(cn["creditnote_id"])
+                        ok, checks, note = verify(page, full)
+                        if ok:
+                            target = full
+                        else:
+                            log(f"  {num}: named credit note FAILS verification ({note})")
+                    else:
+                        note = f"no credit note numbered {num}"
+                else:
+                    note = "credit note number not readable"
+                if target is None:
+                    fname = f"{base}-page-{first['page']}.pdf"
+                    outp = save("needs-check" if num else "unmatched", fname)
+                    row["result"] = "NEEDS CHECK" if num else "NUMBER NOT READ"
+                    row["checks"] = note
+                    row["detail"] = f"credit note; saved as {outp}; a person must attach this one"
+                    row["held_pdf"] = outp
+                    rows.append(row)
+                    log(f"  page {pg_label}: {row['result']} (credit note; {note})")
+                    continue
+                cn_num = target.get("creditnote_number", "").upper()
+                row.update({"invoice_number": cn_num, "customer": target.get("customer_name", ""),
+                            "invoice_id": target["creditnote_id"], "invoice_status": target.get("status", ""),
+                            "checks": "credit note; " + note})
+                seen_in_this_file[cn_num] = pg_label
+                fname = f"CN-{cn_num}.pdf"
+                outp = save("split", fname)
+                existing = [d.get("file_name", "") for d in (target.get("documents") or [])]
+                cn_done = led.setdefault("_cn_attached", [])
+                if fname in existing or cn_num in cn_done:
+                    row["result"] = "ALREADY ATTACHED"
+                    row["detail"] = "a file with this name is already on the credit note, skipped"
+                    log(f"  {cn_num}: credit note already attached, skipped")
+                elif MODE == "dry":
+                    row["result"] = "WOULD ATTACH"
+                    row["detail"] = "dry run; credit note verified"
+                    log(f"  {cn_num}: credit note verified, would attach")
+                else:
+                    code, j = z.attach_creditnote(target["creditnote_id"], outp)
+                    if j.get("code") == 0:
+                        row["result"] = "ATTACHED"
+                        row["detail"] = "credit note: " + (j.get("message", "") or "attached")
+                        cn_done.append(cn_num)
+                        log(f"  {cn_num}: credit note attached")
+                    else:
+                        row["result"] = "ATTACH FAILED"
+                        row["detail"] = f"credit note: HTTP {code} code {j.get('code')}: {j.get('message')}"
+                        log(f"  {cn_num}: credit note ATTACH FAILED {row['detail']}")
+                rows.append(row)
+                continue
 
             if num and num in seen_in_this_file:
                 row["result"] = "DUPLICATE PAGE"
