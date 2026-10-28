@@ -29,9 +29,8 @@ on:
         required: false
         default: ""
 
-concurrency:
-  group: attach-delivery-notes
-  cancel-in-progress: false
+# No concurrency group on purpose: several scans sent together run in parallel. The save step merges
+# each run's record onto main, and the engine backs off when Zoho rate limits.
 
 permissions:
   contents: write
