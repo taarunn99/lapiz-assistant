@@ -3061,6 +3061,37 @@
   "resolved": "2026-10-28 15:07",
   "status": "paid"
  },
+ "LB26-17896": {
+  "customer": "INTERSAN INTERIOR DECORATION L.L.C",
+  "date": "2026-09-24",
+  "first_attached": "2026-10-28 16:23",
+  "invoice_id": "2305879000148352045",
+  "last_reminded": "",
+  "lines": {
+   "2305879000148352046": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Ultralite S2 Flex (N) White bag 15kg",
+    "sku": "2431415",
+    "unreadable": 0
+   },
+   "2305879000148352134": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 137 ALU bag 5kg (box of 4)",
+    "sku": "6013745A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 16:23",
+    "id": "2026-10-28-1524-1-24 SEP 2026 DN.pdf|66"
+   }
+  ],
+  "resolved": "2026-10-28 16:23",
+  "status": "sent"
+ },
  "LB26-17897": {
   "customer": "AL SIRAT CONTRACTING LLC",
   "date": "2026-09-24",
@@ -12271,6 +12302,7 @@
   "resolved": "2026-10-28 08:58",
   "status": "overdue"
  },
+ "_cn_attached": [],
  "_held": [
   {
    "at": "2026-10-28 15:31",
@@ -12304,19 +12336,9 @@
    "page": "48",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40679681285",
    "why": "items:FAIL"
-  },
-  {
-   "at": "2026-10-28 15:31",
-   "customer": "INTERSAN INTERIOR DECORATION L.L.C .",
-   "date": "2026-09-24",
-   "detail": "saved as out/needs-check/2026-10-28-1524-1-24 SEP 2026 DN-page-66.pdf; a person must attach this one",
-   "file": "2026-10-28-1524-1-24 SEP 2026 DN.pdf",
-   "number": "LB26-17896",
-   "page": "66,67,68",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40679681285",
-   "why": "items:FAIL"
   }
  ],
+ "_last_email": "",
  "_runs": [
   {
    "already": 0,
@@ -12329,6 +12351,18 @@
    "held": 4,
    "pages": 68,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40679681285"
+  },
+  {
+   "already": 64,
+   "at": "2026-10-28 16:23",
+   "attached": 0,
+   "by": "Re-check (Tarun)",
+   "files": [
+    "2026-10-28-1524-1-24 SEP 2026 DN.pdf"
+   ],
+   "held": 3,
+   "pages": 68,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40686621104"
   }
  ]
 }
