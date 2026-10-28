@@ -37,13 +37,14 @@ def main(base_p, local_p, remote_p, out_p):
     # _held: start from remote, add what this run added, drop what this run cleared
     def hkey(h):
         return (h.get("file", ""), h.get("page", ""))
-    base_h = {hkey(h) for h in base.get("_held", [])}
+    base_hd = {hkey(h): h for h in base.get("_held", [])}
+    base_h = set(base_hd)
     local_h = {hkey(h): h for h in local.get("_held", [])}
     cleared = base_h - set(local_h)
     held = {hkey(h): h for h in remote.get("_held", []) if hkey(h) not in cleared}
     for k, h in local_h.items():
-        if k not in base_h:
-            held[k] = h
+        if k not in base_h or h != base_hd.get(k):
+            held[k] = h          # new in this run, or re-judged by this run: this run's version wins
     out["_held"] = sorted(held.values(), key=lambda h: h.get("at", ""))
     # credit notes attached: union
     out["_cn_attached"] = sorted(set(remote.get("_cn_attached", [])) | set(local.get("_cn_attached", [])))
