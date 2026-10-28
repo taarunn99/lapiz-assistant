@@ -99,15 +99,17 @@ jobs:
             out/needs-check
             out_log.txt
           retention-days: 90
-      - name: Move processed scans to dn-done (live only)
+      - name: Save the ledger and tidy the inbox (live only)
         if: always() && (github.event_name != 'workflow_dispatch' || inputs.mode == 'live')
         run: |
-          mkdir -p "dn-done/$(date -u +%Y-%m)"
+          set -e
+          mkdir -p "dn-done/$(date -u +%Y-%m)" /tmp/keep/done
+          # what this run produced, kept aside so it survives the reset below
+          cp dn-ledger.json /tmp/keep/local-ledger.json 2>/dev/null || echo '{}' > /tmp/keep/local-ledger.json
+          git show HEAD:dn-ledger.json > /tmp/keep/base-ledger.json 2>/dev/null || echo '{}' > /tmp/keep/base-ledger.json
           python3 - <<'EOF'
           import json, os, shutil, datetime
           done = f"dn-done/{datetime.datetime.utcnow().strftime('%Y-%m')}"
-          # scans sent by the app already live in the app's file store (their link is in the report),
-          # so they are deleted here instead of being kept in git
           from_app = "${{ github.event_name }}" == "repository_dispatch"
           if from_app:
               # whatever happened to the run (done, failed, cancelled), the downloaded scan never goes into git
@@ -121,10 +123,23 @@ jobs:
           if os.path.exists("out/report.md"):
               shutil.copy("out/report.md", os.path.join(done, "report-" + datetime.datetime.utcnow().strftime('%Y-%m-%d-%H%M') + ".md"))
           EOF
+          cp -r dn-done/. /tmp/keep/done/
+          ls dn-inbox > /tmp/keep/inbox-now.txt
           git config user.name "dn-attach-bot"
           git config user.email "dn-attach-bot@users.noreply.github.com"
-          git add dn-inbox dn-done dn-ledger.json || true
-          if git diff --cached --quiet; then echo "nothing to move"; exit 0; fi
-          git commit -m "Delivery notes $(date -u '+%Y-%m-%d %H:%M')" || exit 0
-          git pull --rebase origin main || true
-          git push origin HEAD:main || echo "push failed, report is in the run artifact"
+          # several scans can run at the same time; every save merges onto whatever is on main right now
+          for attempt in 1 2 3 4 5 6; do
+            git fetch -q origin main
+            git show origin/main:dn-ledger.json > /tmp/keep/remote-ledger.json 2>/dev/null || echo '{}' > /tmp/keep/remote-ledger.json
+            python3 scripts/merge_ledger.py /tmp/keep/base-ledger.json /tmp/keep/local-ledger.json /tmp/keep/remote-ledger.json /tmp/keep/merged-ledger.json
+            git reset -q --hard origin/main
+            cp /tmp/keep/merged-ledger.json dn-ledger.json
+            cp -r /tmp/keep/done/. dn-done/
+            ls dn-inbox | while read -r f; do grep -qxF "$f" /tmp/keep/inbox-now.txt || rm -f "dn-inbox/$f"; done
+            git add dn-inbox dn-done dn-ledger.json
+            if git diff --cached --quiet; then echo "nothing to save"; exit 0; fi
+            git commit -q -m "Delivery notes $(date -u '+%Y-%m-%d %H:%M')"
+            if git push -q origin HEAD:main; then echo "saved (attempt $attempt)"; exit 0; fi
+            echo "main moved while saving, merging again ($attempt)"; sleep $((attempt * 7))
+          done
+          echo "could not save the ledger after 6 attempts; report is in the run artifact"
