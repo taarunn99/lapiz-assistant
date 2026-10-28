@@ -1,17 +1,27 @@
 {
- "generated": "27 Oct 2026 13:18",
+ "generated": "28 Oct 2026 13:59",
  "window_days": 2,
- "checked_sos": 134,
- "lines": 261,
- "clean_sos": 127,
+ "checked_sos": 232,
+ "lines": 456,
+ "clean_sos": 219,
  "bad_sos": [
+  "SO26-06686",
   "SO26-07659",
-  "SO26-08279",
   "SO26-08306",
   "SO26-08424",
-  "SO26-08448"
+  "SO26-08448",
+  "SOSJ26-00591"
  ],
  "problems": [
+  {
+   "so": "SO26-06686",
+   "customer": "HAMMER F I L CONTRACTING L.L.C",
+   "item": "Keraflex Maxi S1 (N) Zero White bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "20",
+   "shipped": "2",
+   "why": "invoice LB26-16131 updated, sales order updated"
+  },
   {
    "so": "SO26-07659",
    "customer": "WANHAR CONTRACTING CO.L.L.C",
@@ -20,15 +30,6 @@
    "invoiced": "100",
    "shipped": "130",
    "why": "invoice LB26-19088 updated, sales order updated"
-  },
-  {
-   "so": "SO26-08279",
-   "customer": "AZIZI GRC PRODUCTS MANUFACTURING L.L.C",
-   "item": "DM Dulux Acrylic Primer Plast 18L",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "50",
-   "shipped": "100",
-   "why": "invoice LB26-20471 updated, sales order updated"
   },
   {
    "so": "SO26-08306",
@@ -110,6 +111,15 @@
    "invoiced": "0",
    "shipped": "20",
    "why": "sales order updated"
+  },
+  {
+   "so": "SOSJ26-00591",
+   "customer": "JESR AL SEYOUH BLDG.MAT. TRADING",
+   "item": "BIOGEL EXTREME A+B",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "20",
+   "shipped": "0",
+   "why": "invoice LBSJ26-01777 updated, sales order updated"
   }
  ],
  "alerts": [
@@ -119,5 +129,5 @@
    "when": "2026-10-08"
   }
  ],
- "calls": 432
+ "calls": 752
 }
