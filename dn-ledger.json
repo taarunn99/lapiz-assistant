@@ -1355,6 +1355,30 @@
   "resolved": "2026-10-28 14:22",
   "status": "paid"
  },
+ "LB26-17672": {
+  "customer": "MANOJ KUMWAT FLOOR AND WALL TILING FIXING EST",
+  "date": "2026-09-21",
+  "first_attached": "2026-10-28 16:43",
+  "invoice_id": "2305879000148201290",
+  "last_reminded": "",
+  "lines": {
+   "2305879000148201294": {
+    "delivered": 15.0,
+    "invoiced": 15.0,
+    "name": "Pegoland Dos C2T White 25 kg ( 557 )",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-10-28 16:43",
+    "id": "2026-10-28-1416-1-21 Sept 2026 DN.pdf|62"
+   }
+  ],
+  "resolved": "2026-10-28 16:43",
+  "status": "paid"
+ },
  "LB26-17673": {
   "customer": "IFG INTERNATIONAL FOUNDATION GROUP LLC",
   "date": "2026-09-21",
@@ -19678,6 +19702,7 @@
   "status": "overdue"
  },
  "_cn_attached": [
+  "CN26-00454",
   "CN26-00477",
   "CN26-00478"
  ],
@@ -19894,6 +19919,18 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40689475930",
    "why": "name:FAIL: page has item rows that are not on this invoice: SKU A167730200KGB1687301"
+  },
+  {
+   "at": "2026-10-28 16:44",
+   "customer": "TRUEFINISH FLOOR AND WALL TILING WORKS L.L.C",
+   "date": "2026-09-21",
+   "detail": "name:ok, date:ok, items:FAIL; 3/5 lines on page; 2 line(s) not on this note (pending); ITEM MISMATCH: page has item rows that are not on this invoice: SKU SMOOTHP1802; TRN not checked; searched 5 same-day invoice(s) for this customer, none pass all checks [LB26-17694: name:ok, date:ok, items:FAIL, t",
+   "file": "2026-10-28-1416-1-21 Sept 2026 DN.pdf",
+   "number": "LB26-17617",
+   "page": "13",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40689475871",
+   "why": "items:FAIL: page has item rows that are not on this invoice: SKU SMOOTHP1802"
   }
  ],
  "_last_email": "",
@@ -19969,6 +20006,18 @@
    "held": 4,
    "pages": 94,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40689476032"
+  },
+  {
+   "already": 69,
+   "at": "2026-10-28 16:44",
+   "attached": 2,
+   "by": "Re-check (Tarun)",
+   "files": [
+    "2026-10-28-1416-1-21 Sept 2026 DN.pdf"
+   ],
+   "held": 2,
+   "pages": 74,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/40689475871"
   },
   {
    "already": 62,
