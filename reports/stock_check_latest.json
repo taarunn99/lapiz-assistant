@@ -1,18 +1,38 @@
 {
- "generated": "28 Oct 2026 13:59",
+ "generated": "29 Oct 2026 14:22",
  "window_days": 2,
- "checked_sos": 232,
- "lines": 456,
- "clean_sos": 219,
+ "checked_sos": 397,
+ "lines": 777,
+ "clean_sos": 382,
  "bad_sos": [
+  "SO26-05720",
+  "SO26-06175",
   "SO26-06686",
-  "SO26-07659",
+  "SO26-07308",
+  "SO26-08279",
   "SO26-08306",
-  "SO26-08424",
-  "SO26-08448",
+  "SO26-08484",
   "SOSJ26-00591"
  ],
  "problems": [
+  {
+   "so": "SO26-05720",
+   "customer": "WESPORTS FIELDS AND ENGINEERING L.L.C",
+   "item": "Primer SN A+B 20 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "8",
+   "shipped": "6",
+   "why": "invoice LB26-13621 updated"
+  },
+  {
+   "so": "SO26-06175",
+   "customer": "INTEGRAL CUSTOM MADE TECHNICAL SERVICES L.L.C",
+   "item": "Ultracolor Plus 137 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-16172 updated, sales order updated"
+  },
   {
    "so": "SO26-06686",
    "customer": "HAMMER F I L CONTRACTING L.L.C",
@@ -23,13 +43,22 @@
    "why": "invoice LB26-16131 updated, sales order updated"
   },
   {
-   "so": "SO26-07659",
-   "customer": "WANHAR CONTRACTING CO.L.L.C",
-   "item": "VETOTOP EC 498(A+B) 15L",
+   "so": "SO26-07308",
+   "customer": "GRIPMIX FOR BUILDING & CONSTRUCTION MATERIALS TRADING CO. L.L.C",
+   "item": "Adesilex PG2 TG unit 6kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "100",
-   "shipped": "130",
-   "why": "invoice LB26-19088 updated, sales order updated"
+   "invoiced": "5",
+   "shipped": "3",
+   "why": "invoice LB26-17736 updated, invoice LB26-17877 updated"
+  },
+  {
+   "so": "SO26-08279",
+   "customer": "AZIZI GRC PRODUCTS MANUFACTURING L.L.C",
+   "item": "DM Dulux Acrylic Primer Plast 18L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "50",
+   "shipped": "100",
+   "why": "invoice LB26-20709 updated, sales order updated"
   },
   {
    "so": "SO26-08306",
@@ -38,79 +67,16 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "140",
    "shipped": "280",
-   "why": "invoice LB26-20494 updated, sales order updated"
+   "why": "invoice LB26-20494 updated"
   },
   {
-   "so": "SO26-08424",
-   "customer": "AYODHYA TECHINCAL SERVICES LLC",
-   "item": "Pragma Special Grey 25kg",
+   "so": "SO26-08484",
+   "customer": "EXCLUSIVE SWIMMING POOLS",
+   "item": "LINEAR SPACER 2MM",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "120",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-08424",
-   "customer": "AYODHYA TECHINCAL SERVICES LLC",
-   "item": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "30",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-08424",
-   "customer": "AYODHYA TECHINCAL SERVICES LLC",
-   "item": "Adesilex P7 White bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "20",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-08424",
-   "customer": "AYODHYA TECHINCAL SERVICES LLC",
-   "item": "Kerabond Plus Grey bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "50",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-08448",
-   "customer": "DMDC CONTRACTING LLC",
-   "item": "9\"x1.75\" Cage Frame - Roll Roy",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "3",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-08448",
-   "customer": "DMDC CONTRACTING LLC",
-   "item": "9\"x1.75\" Cage Refill - Nylon Blue Stripe (14mm pile) - Roll Roy",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "5",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-08448",
-   "customer": "DMDC CONTRACTING LLC",
-   "item": "MINI FRAME 4\" Radiator - Long - Roll Roy",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "10",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-08448",
-   "customer": "DMDC CONTRACTING LLC",
-   "item": "4\" Radiator Refill - Velours - Roll Roy",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "20",
-   "why": "sales order updated"
+   "invoiced": "10",
+   "shipped": "0",
+   "why": "invoice LB26-20654 updated, sales order updated"
   },
   {
    "so": "SOSJ26-00591",
@@ -119,15 +85,9 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "20",
    "shipped": "0",
-   "why": "invoice LBSJ26-01777 updated, sales order updated"
+   "why": "invoice LBSJ26-01777 updated"
   }
  ],
- "alerts": [
-  {
-   "so": "SO26-07659",
-   "text": "LB-STOCKSYNC ALERT (LB26-19088): partly covered by another package already: VETOTOP EC 498(A+B) 15L invoice qty 100.0 but only 70.0 left to pack; ",
-   "when": "2026-10-08"
-  }
- ],
- "calls": 752
+ "alerts": [],
+ "calls": 1472
 }
