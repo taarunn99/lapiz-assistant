@@ -1979,7 +1979,7 @@
   "date": "2026-09-22",
   "first_attached": "2026-10-28 16:40",
   "invoice_id": "2305879000148251216",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000148251218": {
     "delivered": 1.0,
@@ -2041,7 +2041,7 @@
   "date": "2026-09-22",
   "first_attached": "2026-10-28 16:40",
   "invoice_id": "2305879000148249401",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000148249402": {
     "delivered": 3.0,
@@ -2326,7 +2326,7 @@
   "date": "2026-09-22",
   "first_attached": "2026-10-28 16:41",
   "invoice_id": "2305879000148251825",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000148251831": {
     "delivered": 2.0,
@@ -6475,7 +6475,7 @@
   "date": "2026-09-24",
   "first_attached": "2026-10-28 15:26",
   "invoice_id": "2305879000148505092",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000148505099": {
     "delivered": 10.0,
@@ -8576,7 +8576,7 @@
   "date": "2026-09-26",
   "first_attached": "2026-10-28 16:43",
   "invoice_id": "2305879000148634455",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000148634457": {
     "delivered": 1.0,
@@ -9404,7 +9404,7 @@
   "date": "2026-09-26",
   "first_attached": "2026-10-28 16:41",
   "invoice_id": "2305879000148694740",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000148694744": {
     "delivered": 3.0,
@@ -9546,7 +9546,7 @@
   "date": "2026-09-26",
   "first_attached": "2026-10-28 16:41",
   "invoice_id": "2305879000148694942",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000148694946": {
     "delivered": 16.0,
@@ -9972,7 +9972,7 @@
   "date": "2026-09-26",
   "first_attached": "2026-10-28 16:41",
   "invoice_id": "2305879000148651064",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000148651068": {
     "delivered": 1.0,
@@ -26304,7 +26304,7 @@
   "date": "2026-10-27",
   "first_attached": "2026-10-28 09:00",
   "invoice_id": "2305879000152979383",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000152979387": {
     "delivered": 2.0,
@@ -27191,7 +27191,7 @@
   "date": "2026-10-27",
   "first_attached": "2026-10-28 08:57",
   "invoice_id": "2305879000153000442",
-  "last_reminded": "",
+  "last_reminded": "2026-10-30",
   "lines": {
    "2305879000153000446": {
     "delivered": 8.0,
@@ -32195,7 +32195,7 @@
    "why": "name:FAIL: name on page does not match the invoice's customer"
   }
  ],
- "_last_email": "2026-10-29 14:51",
+ "_last_email": "2026-10-30 14:49",
  "_runs": [
   {
    "already": 0,
