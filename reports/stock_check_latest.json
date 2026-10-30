@@ -1,20 +1,348 @@
 {
- "generated": "29 Oct 2026 14:22",
+ "generated": "30 Oct 2026 14:25",
  "window_days": 2,
- "checked_sos": 397,
- "lines": 777,
- "clean_sos": 382,
+ "checked_sos": 528,
+ "lines": 1144,
+ "clean_sos": 501,
  "bad_sos": [
+  "SO24-00482",
+  "SO24-01298",
+  "SO24-01681",
+  "SO24-02337",
+  "SO24-05291",
+  "SO25-00374",
+  "SO25-00456",
+  "SO25-03463",
+  "SO25-03945",
+  "SO25-05982",
   "SO26-05720",
   "SO26-06175",
-  "SO26-06686",
   "SO26-07308",
+  "SO26-07312",
+  "SO26-07675",
+  "SO26-07913",
   "SO26-08279",
   "SO26-08306",
   "SO26-08484",
-  "SOSJ26-00591"
+  "SO26-08499",
+  "SO26-08549"
  ],
  "problems": [
+  {
+   "so": "SO24-00482",
+   "customer": "CLYD CONSTRUCTIONS",
+   "item": "KERAFLEX MAXI S1 N WHITE BAGS 25 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "50",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO24-00482",
+   "customer": "CLYD CONSTRUCTIONS",
+   "item": "BOLT 30X70",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO24-01298",
+   "customer": "DESERT DELIGHT IRRIGATION EQUIPMENT TRADING LLC",
+   "item": "KERAFLEX MAXI S1 ZERO GREY  BAGS 25 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "63",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO24-01681",
+   "customer": "IQRAA BUILDING MATERIALS LLC",
+   "item": "KERAFLEX MAXI S1 ZERO WHITE  BAGS 25 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "5",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO24-02337",
+   "customer": "SMOOTH SOLUTION BUILDING MATERIAL TRADING LLC - EMIRATES GLASS",
+   "item": "Ultracolor Plus 100 ALU bag 5 kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "20",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO24-02337",
+   "customer": "SMOOTH SOLUTION BUILDING MATERIAL TRADING LLC - EMIRATES GLASS",
+   "item": "Ultracolor Plus 130 ALU bag 5 kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "12",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO24-05291",
+   "customer": "SECRET GARDENS LLC",
+   "item": "Ultracolor Plus 100 ALU bag 5 kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "3",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-00374",
+   "customer": "DIVISION 9 INTERIOR DESIGN LLC",
+   "item": "Ultracolor Plus 123 ALU bag 5 kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-00456",
+   "customer": "RAJASTHAN SUN TECHNICAL WORKS L.L.C",
+   "item": "NEW LEVELING CAP WEDGES 250PCS PER PACK 90X22X17MM",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "KERAFLEX MAXI S1 ZERO GREY BAGS 25 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "252",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "ULTRACOLOR PLUS 100 ALU BOXES 4X5 K",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "125",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "ULTRACOLOR PLUS 143 ALU scatole 4x5 kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "16",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "Professional Trowel With Smooth Soft Grip Handle, Carbon Steel Blade 280x115mm, 10mm square notch PP 320C +Black TPR with logo and size engraved",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "7",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "CROSS LINE LASER RED BEAM-RANGE 15-50M-CARRY CASE WITH ALCALINE BATTERIES&CEILING BRACKET",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "Masking Tape 2\" 1 pc ( 24/CTN)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "72",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "Tile Spirit Level,manufactured in reliable,resistant aluminium, machined base up to measures of 120cm to ensure constant accuracy",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "2",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "New Leveling Cap Wedges 1000pcs per pack",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "TILES SPACER 2MM",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "100",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "New Leveling Cap Wedges 100pcs per pack 97x22x27mm 432C",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "2",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "SPONGE\u00a016X12XH7CM\u00a0SWEEPEX\u00a0WITH\u00a0NYLON - RAIMONDI",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "3",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "Epoxy Joint Float (240x95 mm), Plastic handle with special rubber",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "2",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "MASTERPIUMA 125X125 \"BP\" - CLASSIC",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "MASTERPIUMA 63X63 \"BP\" - CLASSIC",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "ECO PRIM GRIP PLUS BUCKETS 10 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "KERAFLEX MAXI S1 ZERO WHITE BAGS 25 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "ECO PRIM GRIP PLUS BUCKETS 10 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "KERAFLEX MAXI S1 ZERO WHITE BAGS 25 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "Double suction cup?aluminum alloy\nbase\nSize: 5\"",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "10",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03463",
+   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
+   "item": "ELECTRIC MIXER 1800W, 65L?17GAL?EURO PLUG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "2",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03945",
+   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
+   "item": "PROFESSIONAL SUCTION CUP E-POWERSKU: E-POWER",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "2",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03945",
+   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
+   "item": "PRECISION GON.SQUARE X LONG CUT AND BASEBOARD",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03945",
+   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
+   "item": "DIAMOND BLADES SOFT GLAZED CERAMIC D.250 PERFETTO",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03945",
+   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
+   "item": "MONTOLITE SQUADRO",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-03945",
+   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
+   "item": "DRESSING STICK WITH DOUBLE GRAIN395-2U",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-05982",
+   "customer": "SEVEN COLOURS GENERAL CONTRACTING & MAINTENANCE",
+   "item": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "12",
+   "why": "sales order updated"
+  },
   {
    "so": "SO26-05720",
    "customer": "WESPORTS FIELDS AND ENGINEERING L.L.C",
@@ -34,15 +362,6 @@
    "why": "invoice LB26-16172 updated, sales order updated"
   },
   {
-   "so": "SO26-06686",
-   "customer": "HAMMER F I L CONTRACTING L.L.C",
-   "item": "Keraflex Maxi S1 (N) Zero White bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "20",
-   "shipped": "2",
-   "why": "invoice LB26-16131 updated, sales order updated"
-  },
-  {
    "so": "SO26-07308",
    "customer": "GRIPMIX FOR BUILDING & CONSTRUCTION MATERIALS TRADING CO. L.L.C",
    "item": "Adesilex PG2 TG unit 6kg",
@@ -50,6 +369,42 @@
    "invoiced": "5",
    "shipped": "3",
    "why": "invoice LB26-17736 updated, invoice LB26-17877 updated"
+  },
+  {
+   "so": "SO26-07312",
+   "customer": "LUXLAND LANDSCAPING L.L.C",
+   "item": "SPPG OLIVE GREEN 5.2 KG (A+B+C)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "50",
+   "shipped": "40",
+   "why": "invoice LB26-17732 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07675",
+   "customer": "MODERN BUILDING MATERIALS LLC",
+   "item": "Topcem Pronto bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "40",
+   "shipped": "36",
+   "why": "invoice LB26-18559 updated"
+  },
+  {
+   "so": "SO26-07675",
+   "customer": "MODERN BUILDING MATERIALS LLC",
+   "item": "Planicrete jerrycan 5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "2",
+   "shipped": "1",
+   "why": "invoice LB26-18559 updated"
+  },
+  {
+   "so": "SO26-07913",
+   "customer": "ALJA INVESTMENTS LIMITED",
+   "item": "Mapelastic Aquadefense Zero bucket 15kg",
+   "issue": "packed 11 but shipped 8",
+   "invoiced": "8",
+   "shipped": "8",
+   "why": "invoice LB26-20857 updated, sales order updated"
   },
   {
    "so": "SO26-08279",
@@ -79,15 +434,75 @@
    "why": "invoice LB26-20654 updated, sales order updated"
   },
   {
-   "so": "SOSJ26-00591",
-   "customer": "JESR AL SEYOUH BLDG.MAT. TRADING",
-   "item": "BIOGEL EXTREME A+B",
+   "so": "SO26-08499",
+   "customer": "ADVANCE VICTORY CONTRACTING LLC",
+   "item": "Sponge Float (140x280 mm), Plastic handle, used for tile cleaning, plaster smoothing, decorative...",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "20",
+   "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LBSJ26-01777 updated"
+   "why": "invoice LB26-20710 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08549",
+   "customer": "EXCLUSIVE SWIMMING POOLS",
+   "item": "DM Dulux Wall Primer Plast 18L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-20861 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08549",
+   "customer": "EXCLUSIVE SWIMMING POOLS",
+   "item": "DM DULUX TRADE MATT OFF WHITE 20KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-20861 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08549",
+   "customer": "EXCLUSIVE SWIMMING POOLS",
+   "item": "Primer SN A+B 20 KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-20861 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08549",
+   "customer": "EXCLUSIVE SWIMMING POOLS",
+   "item": "DM Dulux Stucco Plast 3.6L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-20861 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08549",
+   "customer": "EXCLUSIVE SWIMMING POOLS",
+   "item": "9\"x1.75\" Cage Refill - Polyester Blue (10mm pile) - Roll Roy",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "3",
+   "shipped": "0",
+   "why": "invoice LB26-20861 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08549",
+   "customer": "EXCLUSIVE SWIMMING POOLS",
+   "item": "9\"x1.75\" Cage Frame - Roll Roy",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "3",
+   "shipped": "0",
+   "why": "invoice LB26-20861 updated, sales order updated"
   }
  ],
- "alerts": [],
- "calls": 1472
+ "alerts": [
+  {
+   "so": "SO26-08549",
+   "text": "LB-STOCKSYNC ALERT (LB26-20858 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
+   "when": "2026-10-30"
+  }
+ ],
+ "calls": 1708
 }
