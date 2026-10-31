@@ -1,100 +1,30 @@
 {
- "generated": "30 Oct 2026 14:25",
+ "generated": "31 Oct 2026 13:55",
  "window_days": 2,
- "checked_sos": 528,
- "lines": 1144,
- "clean_sos": 501,
+ "checked_sos": 537,
+ "lines": 1118,
+ "clean_sos": 518,
  "bad_sos": [
   "SO24-00482",
-  "SO24-01298",
-  "SO24-01681",
-  "SO24-02337",
-  "SO24-05291",
-  "SO25-00374",
   "SO25-00456",
+  "SO25-00715",
+  "SO25-02864",
   "SO25-03463",
   "SO25-03945",
-  "SO25-05982",
-  "SO26-05720",
-  "SO26-06175",
-  "SO26-07308",
+  "SO25-03966",
   "SO26-07312",
   "SO26-07675",
   "SO26-07913",
-  "SO26-08279",
-  "SO26-08306",
   "SO26-08484",
   "SO26-08499",
+  "SO26-08508",
   "SO26-08549"
  ],
  "problems": [
   {
    "so": "SO24-00482",
    "customer": "CLYD CONSTRUCTIONS",
-   "item": "KERAFLEX MAXI S1 N WHITE BAGS 25 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "50",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO24-00482",
-   "customer": "CLYD CONSTRUCTIONS",
    "item": "BOLT 30X70",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO24-01298",
-   "customer": "DESERT DELIGHT IRRIGATION EQUIPMENT TRADING LLC",
-   "item": "KERAFLEX MAXI S1 ZERO GREY  BAGS 25 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "63",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO24-01681",
-   "customer": "IQRAA BUILDING MATERIALS LLC",
-   "item": "KERAFLEX MAXI S1 ZERO WHITE  BAGS 25 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "5",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO24-02337",
-   "customer": "SMOOTH SOLUTION BUILDING MATERIAL TRADING LLC - EMIRATES GLASS",
-   "item": "Ultracolor Plus 100 ALU bag 5 kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "20",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO24-02337",
-   "customer": "SMOOTH SOLUTION BUILDING MATERIAL TRADING LLC - EMIRATES GLASS",
-   "item": "Ultracolor Plus 130 ALU bag 5 kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "12",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO24-05291",
-   "customer": "SECRET GARDENS LLC",
-   "item": "Ultracolor Plus 100 ALU bag 5 kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "3",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-00374",
-   "customer": "DIVISION 9 INTERIOR DESIGN LLC",
-   "item": "Ultracolor Plus 123 ALU bag 5 kg (box of 4)",
    "issue": "invoiced and shipped do not match",
    "invoiced": "0",
    "shipped": "1",
@@ -110,21 +40,21 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "KERAFLEX MAXI S1 ZERO GREY BAGS 25 KG",
+   "so": "SO25-00715",
+   "customer": "MINTCONCRETE TECHNICAL SERVICES",
+   "item": "PRIMER MF /A+B BUCKETS 4 KG",
    "issue": "invoiced and shipped do not match",
    "invoiced": "0",
-   "shipped": "252",
+   "shipped": "2",
    "why": "sales order updated"
   },
   {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "ULTRACOLOR PLUS 100 ALU BOXES 4X5 K",
+   "so": "SO25-02864",
+   "customer": "MAHACONS BUILDING & CONSTRUCTION MATERIALS TRADING LLC",
+   "item": "Sphera Star T Cream - Homogeneous vinyl",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "125",
+   "invoiced": "50",
+   "shipped": "40",
    "why": "sales order updated"
   },
   {
@@ -238,42 +168,6 @@
   {
    "so": "SO25-03463",
    "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "ECO PRIM GRIP PLUS BUCKETS 10 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "KERAFLEX MAXI S1 ZERO WHITE BAGS 25 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "ECO PRIM GRIP PLUS BUCKETS 10 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "KERAFLEX MAXI S1 ZERO WHITE BAGS 25 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
    "item": "Double suction cup?aluminum alloy\nbase\nSize: 5\"",
    "issue": "invoiced and shipped do not match",
    "invoiced": "0",
@@ -335,40 +229,13 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO25-05982",
-   "customer": "SEVEN COLOURS GENERAL CONTRACTING & MAINTENANCE",
-   "item": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+   "so": "SO25-03966",
+   "customer": "MAHACONS BUILDING & CONSTRUCTION MATERIALS TRADING LLC",
+   "item": "Sphera Star T Cream - Homogeneous vinyl",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "12",
+   "invoiced": "68",
+   "shipped": "40",
    "why": "sales order updated"
-  },
-  {
-   "so": "SO26-05720",
-   "customer": "WESPORTS FIELDS AND ENGINEERING L.L.C",
-   "item": "Primer SN A+B 20 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "8",
-   "shipped": "6",
-   "why": "invoice LB26-13621 updated"
-  },
-  {
-   "so": "SO26-06175",
-   "customer": "INTEGRAL CUSTOM MADE TECHNICAL SERVICES L.L.C",
-   "item": "Ultracolor Plus 137 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-16172 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07308",
-   "customer": "GRIPMIX FOR BUILDING & CONSTRUCTION MATERIALS TRADING CO. L.L.C",
-   "item": "Adesilex PG2 TG unit 6kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
-   "shipped": "3",
-   "why": "invoice LB26-17736 updated, invoice LB26-17877 updated"
   },
   {
    "so": "SO26-07312",
@@ -407,31 +274,13 @@
    "why": "invoice LB26-20857 updated, sales order updated"
   },
   {
-   "so": "SO26-08279",
-   "customer": "AZIZI GRC PRODUCTS MANUFACTURING L.L.C",
-   "item": "DM Dulux Acrylic Primer Plast 18L",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "50",
-   "shipped": "100",
-   "why": "invoice LB26-20709 updated, sales order updated"
-  },
-  {
-   "so": "SO26-08306",
-   "customer": "TECHNICAL SUPPLIES & SERVICES CO LLC",
-   "item": "Ultralite S2 Flex (N) White bag 15kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "140",
-   "shipped": "280",
-   "why": "invoice LB26-20494 updated"
-  },
-  {
    "so": "SO26-08484",
    "customer": "EXCLUSIVE SWIMMING POOLS",
    "item": "LINEAR SPACER 2MM",
    "issue": "invoiced and shipped do not match",
    "invoiced": "10",
    "shipped": "0",
-   "why": "invoice LB26-20654 updated, sales order updated"
+   "why": "invoice LB26-20654 updated"
   },
   {
    "so": "SO26-08499",
@@ -443,13 +292,22 @@
    "why": "invoice LB26-20710 updated, sales order updated"
   },
   {
+   "so": "SO26-08508",
+   "customer": "WOODMANS MEDITECH LLC",
+   "item": "SPPG MARBLE BEIGE 5.2 KG (A+B+C)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
+   "shipped": "1",
+   "why": "invoice LB26-20805 updated, invoice LB26-20931 updated, sales order updated"
+  },
+  {
    "so": "SO26-08549",
    "customer": "EXCLUSIVE SWIMMING POOLS",
    "item": "DM Dulux Wall Primer Plast 18L",
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, sales order updated"
+   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -458,7 +316,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, sales order updated"
+   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -467,7 +325,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, sales order updated"
+   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -476,7 +334,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, sales order updated"
+   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -485,7 +343,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "3",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, sales order updated"
+   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -494,7 +352,16 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "3",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, sales order updated"
+   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08549",
+   "customer": "EXCLUSIVE SWIMMING POOLS",
+   "item": "PUTTY SCRAPER; ONE PIECE DESIGN WITH SOFT COVER; #420 STAINLESS STEEL; FINE POLISHED SOFT BLADE 6\"",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
   }
  ],
  "alerts": [
@@ -504,5 +371,5 @@
    "when": "2026-10-30"
   }
  ],
- "calls": 1708
+ "calls": 1657
 }
