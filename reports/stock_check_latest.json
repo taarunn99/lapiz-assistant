@@ -1,22 +1,20 @@
 {
- "generated": "31 Oct 2026 13:55",
+ "generated": "01 Nov 2026 14:46",
  "window_days": 2,
- "checked_sos": 537,
- "lines": 1118,
- "clean_sos": 518,
+ "checked_sos": 298,
+ "lines": 568,
+ "clean_sos": 283,
  "bad_sos": [
   "SO24-00482",
-  "SO25-00456",
   "SO25-00715",
   "SO25-02864",
   "SO25-03463",
-  "SO25-03945",
   "SO25-03966",
-  "SO26-07312",
-  "SO26-07675",
+  "SO26-03183",
+  "SO26-06686",
+  "SO26-06908",
   "SO26-07913",
-  "SO26-08484",
-  "SO26-08499",
+  "SO26-07931",
   "SO26-08508",
   "SO26-08549"
  ],
@@ -25,15 +23,6 @@
    "so": "SO24-00482",
    "customer": "CLYD CONSTRUCTIONS",
    "item": "BOLT 30X70",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-00456",
-   "customer": "RAJASTHAN SUN TECHNICAL WORKS L.L.C",
-   "item": "NEW LEVELING CAP WEDGES 250PCS PER PACK 90X22X17MM",
    "issue": "invoiced and shipped do not match",
    "invoiced": "0",
    "shipped": "1",
@@ -184,51 +173,6 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO25-03945",
-   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
-   "item": "PROFESSIONAL SUCTION CUP E-POWERSKU: E-POWER",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "2",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03945",
-   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
-   "item": "PRECISION GON.SQUARE X LONG CUT AND BASEBOARD",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03945",
-   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
-   "item": "DIAMOND BLADES SOFT GLAZED CERAMIC D.250 PERFETTO",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03945",
-   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
-   "item": "MONTOLITE SQUADRO",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03945",
-   "customer": "JMS RENOVATIONS TECHNICAL SERVICES L.L.C",
-   "item": "DRESSING STICK WITH DOUBLE GRAIN395-2U",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
    "so": "SO25-03966",
    "customer": "MAHACONS BUILDING & CONSTRUCTION MATERIALS TRADING LLC",
    "item": "Sphera Star T Cream - Homogeneous vinyl",
@@ -238,31 +182,40 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO26-07312",
-   "customer": "LUXLAND LANDSCAPING L.L.C",
-   "item": "SPPG OLIVE GREEN 5.2 KG (A+B+C)",
+   "so": "SO26-03183",
+   "customer": "INNOVO SOLUTIONS TRADING L.L.C",
+   "item": "Ultrabond Eco P909 2K unit 10kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "50",
-   "shipped": "40",
-   "why": "invoice LB26-17732 updated, sales order updated"
+   "invoiced": "5",
+   "shipped": "0",
+   "why": "invoice LB26-07034 updated, sales order updated"
   },
   {
-   "so": "SO26-07675",
-   "customer": "MODERN BUILDING MATERIALS LLC",
-   "item": "Topcem Pronto bag 25kg",
+   "so": "SO26-06686",
+   "customer": "HAMMER F I L CONTRACTING L.L.C",
+   "item": "Keraflex Maxi S1 (N) Zero White bag 25kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "40",
-   "shipped": "36",
-   "why": "invoice LB26-18559 updated"
+   "invoiced": "20",
+   "shipped": "2",
+   "why": "invoice LB26-16131 updated"
   },
   {
-   "so": "SO26-07675",
-   "customer": "MODERN BUILDING MATERIALS LLC",
-   "item": "Planicrete jerrycan 5kg",
+   "so": "SO26-06908",
+   "customer": "Innovation Systems Group FZE",
+   "item": "Ultrabond Eco P909 2K unit 10kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "1",
-   "why": "invoice LB26-18559 updated"
+   "invoiced": "16",
+   "shipped": "11",
+   "why": "invoice LB26-16746 updated, sales order updated"
+  },
+  {
+   "so": "SO26-06908",
+   "customer": "Innovation Systems Group FZE",
+   "item": "Ultracare HD Cleaner jerrycan 5lt /5.5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-16746 updated, sales order updated"
   },
   {
    "so": "SO26-07913",
@@ -271,25 +224,16 @@
    "issue": "packed 11 but shipped 8",
    "invoiced": "8",
    "shipped": "8",
-   "why": "invoice LB26-20857 updated, sales order updated"
+   "why": "invoice LB26-20857 updated"
   },
   {
-   "so": "SO26-08484",
-   "customer": "EXCLUSIVE SWIMMING POOLS",
-   "item": "LINEAR SPACER 2MM",
+   "so": "SO26-07931",
+   "customer": "ROYAL APEX BUILDING MATERIALS TRADING LLC",
+   "item": "Mapelastic Aquadefense Zero bucket 15kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "10",
-   "shipped": "0",
-   "why": "invoice LB26-20654 updated"
-  },
-  {
-   "so": "SO26-08499",
-   "customer": "ADVANCE VICTORY CONTRACTING LLC",
-   "item": "Sponge Float (140x280 mm), Plastic handle, used for tile cleaning, plaster smoothing, decorative...",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "invoice LB26-20710 updated, sales order updated"
+   "invoiced": "18",
+   "shipped": "13",
+   "why": "invoice LB26-19126 updated, sales order updated"
   },
   {
    "so": "SO26-08508",
@@ -298,7 +242,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "5",
    "shipped": "1",
-   "why": "invoice LB26-20805 updated, invoice LB26-20931 updated, sales order updated"
+   "why": "invoice LB26-20931 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -371,5 +315,5 @@
    "when": "2026-10-30"
   }
  ],
- "calls": 1657
+ "calls": 941
 }
