@@ -1,60 +1,23 @@
 {
- "generated": "01 Nov 2026 14:46",
+ "generated": "02 Nov 2026 15:39",
  "window_days": 2,
- "checked_sos": 298,
- "lines": 568,
- "clean_sos": 283,
+ "checked_sos": 290,
+ "lines": 557,
+ "clean_sos": 278,
  "bad_sos": [
-  "SO24-00482",
-  "SO25-00715",
-  "SO25-02864",
   "SO25-03463",
-  "SO25-03966",
+  "SO25-08194",
   "SO26-03183",
+  "SO26-05140",
   "SO26-06686",
   "SO26-06908",
   "SO26-07913",
   "SO26-07931",
   "SO26-08508",
-  "SO26-08549"
+  "SO26-08549",
+  "SOSJ26-00585"
  ],
  "problems": [
-  {
-   "so": "SO24-00482",
-   "customer": "CLYD CONSTRUCTIONS",
-   "item": "BOLT 30X70",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-00715",
-   "customer": "MINTCONCRETE TECHNICAL SERVICES",
-   "item": "PRIMER MF /A+B BUCKETS 4 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "2",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-02864",
-   "customer": "MAHACONS BUILDING & CONSTRUCTION MATERIALS TRADING LLC",
-   "item": "Sphera Star T Cream - Homogeneous vinyl",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "50",
-   "shipped": "40",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "ULTRACOLOR PLUS 143 ALU scatole 4x5 kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "16",
-   "why": "sales order updated"
-  },
   {
    "so": "SO25-03463",
    "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
@@ -62,24 +25,6 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "0",
    "shipped": "7",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "CROSS LINE LASER RED BEAM-RANGE 15-50M-CARRY CASE WITH ALCALINE BATTERIES&CEILING BRACKET",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "Masking Tape 2\" 1 pc ( 24/CTN)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "72",
    "why": "sales order updated"
   },
   {
@@ -103,69 +48,6 @@
   {
    "so": "SO25-03463",
    "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "TILES SPACER 2MM",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "100",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "New Leveling Cap Wedges 100pcs per pack 97x22x27mm 432C",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "2",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "SPONGE\u00a016X12XH7CM\u00a0SWEEPEX\u00a0WITH\u00a0NYLON - RAIMONDI",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "3",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "Epoxy Joint Float (240x95 mm), Plastic handle with special rubber",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "2",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "MASTERPIUMA 125X125 \"BP\" - CLASSIC",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "MASTERPIUMA 63X63 \"BP\" - CLASSIC",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "Double suction cup?aluminum alloy\nbase\nSize: 5\"",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "10",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
    "item": "ELECTRIC MIXER 1800W, 65L?17GAL?EURO PLUG",
    "issue": "invoiced and shipped do not match",
    "invoiced": "0",
@@ -173,12 +55,21 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO25-03966",
-   "customer": "MAHACONS BUILDING & CONSTRUCTION MATERIALS TRADING LLC",
-   "item": "Sphera Star T Cream - Homogeneous vinyl",
+   "so": "SO25-08194",
+   "customer": "SSD BUILDING CONTRACTING LLC",
+   "item": "Ultraplan Eco 20 bag 23kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "68",
-   "shipped": "40",
+   "invoiced": "100",
+   "shipped": "80",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-08194",
+   "customer": "SSD BUILDING CONTRACTING LLC",
+   "item": "WIRE NAIL 1\"",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "2",
+   "shipped": "0",
    "why": "sales order updated"
   },
   {
@@ -189,6 +80,15 @@
    "invoiced": "5",
    "shipped": "0",
    "why": "invoice LB26-07034 updated, sales order updated"
+  },
+  {
+   "so": "SO26-05140",
+   "customer": "NAJMAT AL QAMAR BUILDING MATERIALS TRADING LLC",
+   "item": "Eco Prim Grip Plus bucket 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "10",
+   "shipped": "0",
+   "why": "invoice LB26-12075 updated, sales order updated"
   },
   {
    "so": "SO26-06686",
@@ -224,7 +124,7 @@
    "issue": "packed 11 but shipped 8",
    "invoiced": "8",
    "shipped": "8",
-   "why": "invoice LB26-20857 updated"
+   "why": "invoice LB26-19198 updated"
   },
   {
    "so": "SO26-07931",
@@ -233,7 +133,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "18",
    "shipped": "13",
-   "why": "invoice LB26-19126 updated, sales order updated"
+   "why": "invoice LB26-19126 updated"
   },
   {
    "so": "SO26-08508",
@@ -242,7 +142,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "5",
    "shipped": "1",
-   "why": "invoice LB26-20931 updated, sales order updated"
+   "why": "invoice LB26-20931 updated"
   },
   {
    "so": "SO26-08549",
@@ -251,7 +151,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
+   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -260,7 +160,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
+   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -269,7 +169,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
+   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -278,7 +178,16 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
+   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08549",
+   "customer": "EXCLUSIVE SWIMMING POOLS",
+   "item": "Ultracolor Plus 176 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "4",
+   "shipped": "1",
+   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -287,7 +196,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "3",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
+   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -296,7 +205,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "3",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
+   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
   },
   {
    "so": "SO26-08549",
@@ -305,7 +214,16 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20861 updated, invoice LB26-20945 updated, sales order updated"
+   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+  },
+  {
+   "so": "SOSJ26-00585",
+   "customer": "BLDG CO.-BEST-L.L.C - SOLE PROPRIETORSHIP",
+   "item": "Adesilex P7 Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1134",
+   "shipped": "0",
+   "why": "invoice LBSJ26-01810 updated"
   }
  ],
  "alerts": [
@@ -315,5 +233,5 @@
    "when": "2026-10-30"
   }
  ],
- "calls": 941
+ "calls": 837
 }
