@@ -59302,162 +59302,6 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605877880",
    "why": "no invoice numbered LBAD26-05602"
-  },
-  {
-   "at": "2026-11-03 12:52",
-   "customer": "BARTAWI GENERAL CONTRACTING",
-   "date": "2026-10-16",
-   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 2/3 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: SKU 1501425 is on the page but its item name 'Mapegrout ME05 bag 25kg' is not; TRN match; searched 2 same-day invoice(s) for this customer, none pass all checks [LB26-19739: name:ok, date:ok",
-   "file": "2026-11-03-1247-2-16 OCT 2026 DN.pdf",
-   "number": "LB26-19739",
-   "page": "23",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605877880",
-   "why": "items:FAIL: SKU 1501425 is on the page but its item name 'Mapegrout ME05 bag 25kg' is not"
-  },
-  {
-   "at": "2026-11-03 12:52",
-   "customer": "ZIA ASHRA",
-   "date": "2026-10-16",
-   "detail": "name:ok, date:ok, items:FAIL; 2/2 lines on page; ITEM MISMATCH: page has item rows that are not on this invoice: SKU 1712850109KM; TRN not checked; searched 1 same-day invoice(s) for this customer, none pass all checks [LB26-19737: name:ok, date:ok, items:FAIL; 2/2 lines on page; ITEM MISMATCH: page",
-   "file": "2026-11-03-1247-2-16 OCT 2026 DN.pdf",
-   "number": "LB26-19737",
-   "page": "25,26",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605877880",
-   "why": "items:FAIL: page has item rows that are not on this invoice: SKU 1712850109KM"
-  },
-  {
-   "at": "2026-11-03 12:52",
-   "customer": "KARST LANDSCAPES L.L.C",
-   "date": "",
-   "detail": "name:ok, date:FAIL, items:ok, trn:ok; 1/1 lines on page; TRN match",
-   "file": "2026-11-03-1247-2-16 OCT 2026 DN.pdf",
-   "number": "LB26-19700",
-   "page": "48",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605877880",
-   "why": "date:FAIL"
-  },
-  {
-   "at": "2026-11-03 12:53",
-   "customer": "ALLFIX STAR TECHNICAL SERVICES L.L.C ito Pe aepore",
-   "date": "",
-   "detail": "name:ok, date:FAIL, items:ok, trn:ok; 1/1 lines on page; TRN match",
-   "file": "2026-11-03-1247-1-15 OCT 2026 DN.pdf",
-   "number": "LB26-19689",
-   "page": "3",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605869791",
-   "why": "date:FAIL"
-  },
-  {
-   "at": "2026-11-03 12:53",
-   "customer": "DMDC CONTRACTING LLC",
-   "date": "",
-   "detail": "name:ok, date:FAIL, items:ok, trn:ok; 1/1 lines on page; TRN match",
-   "file": "2026-11-03-1247-1-15 OCT 2026 DN.pdf",
-   "number": "LB26-19673",
-   "page": "15",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605869791",
-   "why": "date:FAIL"
-  },
-  {
-   "at": "2026-11-03 12:53",
-   "customer": "TOTO TRADING LLC",
-   "date": "",
-   "detail": "name:ok, date:FAIL, items:ok, trn:ok; 1/1 lines on page; TRN match",
-   "file": "2026-11-03-1247-1-15 OCT 2026 DN.pdf",
-   "number": "LB26-19669",
-   "page": "19",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605869791",
-   "why": "date:FAIL"
-  },
-  {
-   "at": "2026-11-03 12:53",
-   "customer": "PROBE INTERIORS LLC",
-   "date": "",
-   "detail": "name:ok, date:FAIL, items:ok; 1/1 lines on page; TRN not checked",
-   "file": "2026-11-03-1247-1-15 OCT 2026 DN.pdf",
-   "number": "LB26-19668",
-   "page": "20",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605869791",
-   "why": "date:FAIL"
-  },
-  {
-   "at": "2026-11-03 12:53",
-   "customer": "{MMEDIATE HOME REPAIRS",
-   "date": "",
-   "detail": "name:ok, date:FAIL, items:ok; 2/2 lines on page; TRN not checked",
-   "file": "2026-11-03-1247-1-15 OCT 2026 DN.pdf",
-   "number": "LBSJ26-01662",
-   "page": "21",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605869791",
-   "why": "date:FAIL"
-  },
-  {
-   "at": "2026-11-03 12:54",
-   "customer": "ROYAL APEX BUILDING MATERIALS TRADING LLC",
-   "date": "",
-   "detail": "name:ok, date:FAIL, items:ok, trn:ok; 1/1 lines on page; TRN match",
-   "file": "2026-11-03-1247-4-19 oct 2026 dn.pdf",
-   "number": "LB26-19926",
-   "page": "15",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605887725",
-   "why": "date:FAIL"
-  },
-  {
-   "at": "2026-11-03 12:54",
-   "customer": "AST PLUS TECHNICAL SERVICES LLC",
-   "date": "2026-10-19",
-   "detail": "name:ok, date:ok, items:ok, trn:FAIL; 1/1 lines on page; TRN on page ['100567602600003'] != invoice 105050551800003; searched 2 same-day invoice(s) for this customer, none pass all checks [LB26-19925: name:ok, date:ok, items:ok, trn:FAIL; 1/1 lines on page; TRN on page ['100567602600003'] != invoice",
-   "file": "2026-11-03-1247-4-19 oct 2026 dn.pdf",
-   "number": "LB26-19925",
-   "page": "16",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605887725",
-   "why": "trn:FAIL: page has item rows that are not on this invoice: SKU 5301701"
-  },
-  {
-   "at": "2026-11-03 12:54",
-   "customer": "ARCH VIEW CONTRACTING L.L.C",
-   "date": "",
-   "detail": "name:ok, date:FAIL, items:ok, trn:ok; 3/3 lines on page; TRN match",
-   "file": "2026-11-03-1247-3-17 OCT 2026 DN.pdf",
-   "number": "LB26-19844",
-   "page": "10",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605882134",
-   "why": "date:FAIL"
-  },
-  {
-   "at": "2026-11-03 12:54",
-   "customer": "IKSAA INTERIOR DECORATION LLC .",
-   "date": "2026-10-17",
-   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 2/2 lines on page; ITEM MISMATCH: page has item rows that are not on this invoice: SKU 4513205; TRN match; searched 2 same-day invoice(s) for this customer, none pass all checks [LB26-19831: name:ok, date:ok, items:FAIL, trn:ok; 2/2 lines on page; ITEM MISMATCH:",
-   "file": "2026-11-03-1247-3-17 OCT 2026 DN.pdf",
-   "number": "LB26-19831",
-   "page": "20",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605882134",
-   "why": "items:FAIL: page has item rows that are not on this invoice: SKU 4513205"
-  },
-  {
-   "at": "2026-11-03 12:54",
-   "customer": "MATERIALS TRADING L!",
-   "date": "2026-10-17",
-   "detail": "name:FAIL, date:ok, items:ok, trn:ok; 1/1 lines on page; TRN match; searched 1 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-03-1247-3-17 OCT 2026 DN.pdf",
-   "number": "LB26-19796",
-   "page": "50",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605882134",
-   "why": "name:FAIL: name on page does not match the invoice's customer"
   }
  ],
  "_last_email": "2026-11-02 16:16",
@@ -59845,6 +59689,18 @@
    "held": 2,
    "pages": 67,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41605887725"
+  },
+  {
+   "already": 53,
+   "at": "2026-11-03 14:02",
+   "attached": 0,
+   "by": "Ryan",
+   "files": [
+    "2026-11-03-1357-5-24 OCT 2026 DN.pdf"
+   ],
+   "held": 1,
+   "pages": 54,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41615203116"
   }
  ]
 }
