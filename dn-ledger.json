@@ -58262,6 +58262,37 @@
   "resolved": "2026-10-31 08:44",
   "status": "sent"
  },
+ "LB26-20834": {
+  "customer": "PARVEZ AKHTAR",
+  "date": "2026-10-30",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153308435",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153308436": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Nivoplan Grey bag 25kg",
+    "sku": "106125",
+    "unreadable": 0
+   },
+   "2305879000153308437": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|8"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "paid"
+ },
  "LB26-20835": {
   "customer": "AL TURATH AL ASEEL CONTRACTING LLC",
   "date": "2026-10-30",
@@ -59584,6 +59615,30 @@
   "resolved": "2026-10-31 08:41",
   "status": "sent"
  },
+ "LB26-20893": {
+  "customer": "CASA VOGUE DESIGN LLC",
+  "date": "2026-10-30",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153409759",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153409763": {
+    "delivered": 50.0,
+    "invoiced": 50.0,
+    "name": "Ultrabond Eco V4SP bucket 14kg/30.865lb",
+    "sku": "67214",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|7"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "paid"
+ },
  "LB26-20894": {
   "customer": "ALGEBRA CONTRACTING L.L.C",
   "date": "2026-10-30",
@@ -59990,6 +60045,68 @@
   "resolved": "2026-11-02 09:32",
   "status": "paid"
  },
+ "LB26-20915": {
+  "customer": "NANBA INTERIOR DECORATION LLC",
+  "date": "2026-10-31",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153673147",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153673151": {
+    "delivered": 0.0,
+    "invoiced": 200.0,
+    "name": "Adesilex P7 Grey bag 25kg",
+    "sku": "2182125",
+    "unreadable": 1
+   },
+   "2305879000153673152": {
+    "delivered": 0.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|15"
+   }
+  ],
+  "resolved": "",
+  "status": "paid"
+ },
+ "LB26-20916": {
+  "customer": "HILLCREST TECNICAL WORK",
+  "date": "2026-10-31",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153673322",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153673326": {
+    "delivered": 126.0,
+    "invoiced": 126.0,
+    "name": "Adesilex P7 Grey bag 25kg",
+    "sku": "2182125",
+    "unreadable": 0
+   },
+   "2305879000153673327": {
+    "delivered": 0.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 1
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|16"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "overdue"
+ },
  "LB26-20917": {
   "customer": "TOTO TRADING LLC",
   "date": "2026-10-31",
@@ -60050,6 +60167,37 @@
    }
   ],
   "resolved": "2026-11-02 09:32",
+  "status": "sent"
+ },
+ "LB26-20919": {
+  "customer": "PURE VISTA TECHNICAL SERVICES",
+  "date": "2026-10-31",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153673425",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153673433": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "BIOGEL EXTREME A+B",
+    "sku": "13652",
+    "unreadable": 0
+   },
+   "2305879000153673434": {
+    "delivered": 240.0,
+    "invoiced": 240.0,
+    "name": "H40 Icon Grey 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|6"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
   "status": "sent"
  },
  "LB26-20920": {
@@ -60519,6 +60667,37 @@
   "resolved": "2026-11-02 09:30",
   "status": "sent"
  },
+ "LB26-20942": {
+  "customer": "ATELIER SKY FITOUT (FZE)",
+  "date": "2026-10-31",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153694296",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153694297": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153694303": {
+    "delivered": 15.0,
+    "invoiced": 15.0,
+    "name": "Pragma Flex White 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|12"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "paid"
+ },
  "LB26-20943": {
   "customer": "ARCO ZEST BUILDING MATERIALS TRADING LLC",
   "date": "2026-10-31",
@@ -60746,6 +60925,30 @@
   "resolved": "2026-11-02 09:30",
   "status": "sent"
  },
+ "LB26-20953": {
+  "customer": "MNG ZEMTAS SOIL & FOUNDATION ENGINEERING CONSTRUCTION CO INC",
+  "date": "2026-10-31",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153673764",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153673769": {
+    "delivered": 252.0,
+    "invoiced": 252.0,
+    "name": "Mapegrout ME05 bag 25kg",
+    "sku": "1501425",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|9"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "sent"
+ },
  "LB26-20954": {
   "customer": "SILVER SAW CARPENTRY WORKS LLC",
   "date": "2026-10-31",
@@ -60932,6 +61135,30 @@
   "resolved": "2026-11-02 09:29",
   "status": "paid"
  },
+ "LB26-20960": {
+  "customer": "BUILDBRIX BUILDING CONTRACTING L.L.C",
+  "date": "2026-10-31",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153673975",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153673983": {
+    "delivered": 100.0,
+    "invoiced": 100.0,
+    "name": "H40 Icon White 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|17"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "sent"
+ },
  "LB26-20961": {
   "customer": "OLEASOL TECHNICAL SERVICES",
   "date": "2026-10-31",
@@ -60986,6 +61213,37 @@
   ],
   "resolved": "2026-11-02 09:29",
   "status": "sent"
+ },
+ "LB26-20963": {
+  "customer": "PARVEZ AKHTAR",
+  "date": "2026-10-31",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153705104",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153705109": {
+    "delivered": 0.0,
+    "invoiced": 7.0,
+    "name": "Nivoplan Grey bag 25kg",
+    "sku": "106125",
+    "unreadable": 1
+   },
+   "2305879000153705110": {
+    "delivered": 0.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 1
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|10"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "paid"
  },
  "LB26-20964": {
   "customer": "ARCO ZEST BUILDING MATERIALS TRADING LLC",
@@ -61753,6 +62011,37 @@
   "resolved": "2026-11-03 09:18",
   "status": "sent"
  },
+ "LB26-20998": {
+  "customer": "GOLDEN GLOW SWIMMING POOLS INSTALLATION CO L.L.C",
+  "date": "2026-11-02",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153667455",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153667459": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153667463": {
+    "delivered": 40.0,
+    "invoiced": 40.0,
+    "name": "Pragma Special White25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|18"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "overdue"
+ },
  "LB26-20999": {
   "customer": "DESERT DELIGHT IRRIGATION EQUIPMENT TRADING LLC",
   "date": "2026-11-02",
@@ -61917,6 +62206,65 @@
   ],
   "resolved": "2026-11-03 09:18",
   "status": "overdue"
+ },
+ "LB26-21006": {
+  "customer": "ATELIER SKY FITOUT (FZE)",
+  "date": "2026-11-02",
+  "first_attached": "2026-11-03 16:35",
+  "invoice_id": "2305879000153669338",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153669342": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "LINEAR SPACER 2MM",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153669343": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "GYPSUM JOINT COMPOUND - TERRACOMAXI 28 KG",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153669344": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DM Dulux Stucco Plast White\u00a030Kg",
+    "sku": "6458183",
+    "unreadable": 0
+   },
+   "2305879000153669345": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153669349": {
+    "delivered": 25.0,
+    "invoiced": 25.0,
+    "name": "Pragma Special White25kg",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153669350": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Tile leveling wedge, 100pcs/bag",
+    "sku": "TQWE100",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:35",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|19"
+   }
+  ],
+  "resolved": "2026-11-03 16:35",
+  "status": "paid"
  },
  "LB26-21007": {
   "customer": "TOTAL HOME WORX",
@@ -63040,6 +63388,116 @@
   "resolved": "2026-11-03 09:15",
   "status": "sent"
  },
+ "LB26-21066": {
+  "customer": "GOLDEN GLOW SWIMMING POOLS INSTALLATION CO L.L.C",
+  "date": "2026-11-03",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153763685",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153763686": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153763690": {
+    "delivered": 60.0,
+    "invoiced": 60.0,
+    "name": "Pragma Special White25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|5"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "sent"
+ },
+ "LB26-21080": {
+  "customer": "VENCO IMTIAZ CONTRACTING CO L.L.C",
+  "date": "2026-11-03",
+  "first_attached": "2026-11-03 16:33",
+  "invoice_id": "2305879000153850431",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153850436": {
+    "delivered": 40.0,
+    "invoiced": 40.0,
+    "name": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
+    "sku": "5KB010303",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:33",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|2"
+   }
+  ],
+  "resolved": "2026-11-03 16:33",
+  "status": "sent"
+ },
+ "LB26-21082": {
+  "customer": "VENCO IMTIAZ CONTRACTING CO L.L.C",
+  "date": "2026-11-03",
+  "first_attached": "2026-11-03 16:33",
+  "invoice_id": "2305879000153850563",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153850568": {
+    "delivered": 288.0,
+    "invoiced": 288.0,
+    "name": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+    "sku": "60012345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:33",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|1"
+   }
+  ],
+  "resolved": "2026-11-03 16:33",
+  "status": "sent"
+ },
+ "LB26-21101": {
+  "customer": "MUDABBIR JALIL BUILDING CONTRACTING L.L.C.",
+  "date": "2026-11-03",
+  "first_attached": "2026-11-03 16:33",
+  "invoice_id": "2305879000153887136",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153887137": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153887141": {
+    "delivered": 50.0,
+    "invoiced": 50.0,
+    "name": "Pragma Flex Grey 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:33",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|3"
+   }
+  ],
+  "resolved": "2026-11-03 16:33",
+  "status": "sent"
+ },
  "LBSJ26-01661": {
   "customer": "CARRARA MID-EAST INDUSTRIAL CO",
   "date": "2026-10-14",
@@ -63232,6 +63690,68 @@
   ],
   "resolved": "2026-10-30 10:24",
   "status": "paid"
+ },
+ "LBSJ26-01820": {
+  "customer": "CONCEPTOR BUILDING CONTRACTING L.L.C",
+  "date": "2026-10-31",
+  "first_attached": "2026-11-03 16:34",
+  "invoice_id": "2305879000153656777",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153656778": {
+    "delivered": 50.0,
+    "invoiced": 50.0,
+    "name": "Adesilex P7 Grey bag 25kg",
+    "sku": "2182125",
+    "unreadable": 0
+   },
+   "2305879000153656779": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:34",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|11"
+   }
+  ],
+  "resolved": "2026-11-03 16:34",
+  "status": "paid"
+ },
+ "LBSJ26-01831": {
+  "customer": "SUN AND SAND BUILDING CONTRACTING L.L.C.",
+  "date": "2026-11-02",
+  "first_attached": "2026-11-03 16:33",
+  "invoice_id": "2305879000153740268",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153740269": {
+    "delivered": 40.0,
+    "invoiced": 40.0,
+    "name": "CONBEXTRA GP FOSROC",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153740270": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-03 16:33",
+    "id": "2026-11-03-1633-1-Document_261103_162939 _1_.pdf|4"
+   }
+  ],
+  "resolved": "2026-11-03 16:33",
+  "status": "overdue"
  },
  "_cn_attached": [
   "CN26-00454",
@@ -63691,6 +64211,18 @@
    "held": 0,
    "pages": 69,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41615191067"
+  },
+  {
+   "already": 2,
+   "at": "2026-11-03 16:35",
+   "attached": 17,
+   "by": "sumon",
+   "files": [
+    "2026-11-03-1633-1-Document_261103_162939 _1_.pdf"
+   ],
+   "held": 0,
+   "pages": 19,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41636669452"
   }
  ]
 }
