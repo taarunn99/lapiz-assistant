@@ -23,6 +23,12 @@ on:
         description: "Test only: stop after this many invoices with files (0 = all)"
         required: false
         default: "0"
+      simple:
+        description: "simple = only the list of invoices with NO file attached at all (20 seconds, no OCR); full = read every attached note"
+        required: true
+        default: full
+        type: choice
+        options: [full, simple]
 
 permissions:
   contents: read
@@ -52,6 +58,7 @@ jobs:
           AUDIT_TO: ${{ inputs.date_to }}
           AUDIT_TO_EMAIL: ${{ inputs.email_to }}
           AUDIT_LIMIT: ${{ inputs.limit }}
+          AUDIT_SIMPLE: ${{ inputs.simple == 'simple' }}
           MODE: dry
           OUT: audit/engine-out
           OCR_WORKERS: "4"

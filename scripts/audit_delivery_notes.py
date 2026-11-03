@@ -45,6 +45,7 @@ AUDIT_FROM = os.environ.get("AUDIT_FROM", "2026-10-01").strip()
 AUDIT_TO = os.environ.get("AUDIT_TO", "").strip() or datetime.now(DUBAI).strftime("%Y-%m-%d")
 AUDIT_EMAIL = [x.strip() for x in os.environ.get("AUDIT_TO_EMAIL", "tarun.s@lapizblue.com").split(",") if x.strip()]
 LIMIT = int(os.environ.get("AUDIT_LIMIT", "0") or 0)
+SIMPLE = os.environ.get("AUDIT_SIMPLE", "").strip().lower() in ("1", "true", "yes")   # only list invoices with no file at all, no OCR
 WORKERS = int(os.environ.get("OCR_WORKERS", "4"))
 OUT = "audit"
 DOCS = f"{OUT}/docs"
@@ -320,6 +321,10 @@ def main():
     no_file = [i for i in live if not i.get("has_attachment") and not i.get("documents")]
     with_file = [i for i in live if i not in no_file]
     log(f"{len(void)} void (no note needed), {len(no_file)} with no file attached, {len(with_file)} with files to read")
+    if SIMPLE:
+        write_simple(no_file, void, len(live))
+        log(f"done (simple list). Zoho calls: {z.calls}")
+        return
 
     results, done = [], 0
     for n, row in enumerate(with_file, 1):
@@ -348,6 +353,50 @@ def main():
 
 def link(inv_id):
     return BOOKS + inv_id if inv_id else ""
+
+
+def write_simple(no_file, void, total_live):
+    """The simple list: invoices (not void, not draft) with no file attached at all. One sheet, emailed."""
+    rows = [[i.get("invoice_number"), i.get("date"), i.get("customer_name"), i.get("salesperson_name", ""),
+             i.get("cf_fulfillment_method", ""), i.get("status"), i.get("total"), link(i.get("invoice_id"))]
+            for i in sorted(no_file, key=lambda i: (i.get("date", ""), i.get("invoice_number", "")))]
+    head = ["Invoice", "Date", "Customer", "Salesperson", "Fulfillment", "Status", "Total AED", "Link"]
+    with open(f"{OUT}/no-delivery-note.csv", "w", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(head)
+        w.writerows(rows)
+    for r in rows:
+        log(f"  no note: {r[0]} {r[1]} {r[2]} ({r[4]}, {r[3]})")
+    xlsx = f"{OUT}/invoices-with-no-delivery-note-{AUDIT_FROM}-to-{AUDIT_TO}.xlsx"
+    try:
+        from openpyxl import Workbook
+        from openpyxl.styles import Font, PatternFill
+        from openpyxl.utils import get_column_letter
+        wb = Workbook()
+        s = wb.active
+        s.title = "No delivery note"
+        s.append(head)
+        for r in rows:
+            s.append(r)
+        for c in s[1]:
+            c.font = Font(bold=True, color="FFFFFF")
+            c.fill = PatternFill("solid", fgColor="1D4ED8")
+        s.freeze_panes = "A2"
+        s.auto_filter.ref = s.dimensions
+        for col in range(1, s.max_column + 1):
+            width = max((len(str(s.cell(row=r, column=col).value or "")) for r in range(1, min(s.max_row, 300) + 1)), default=8)
+            s.column_dimensions[get_column_letter(col)].width = min(max(10, width + 2), 60)
+        wb.save(xlsx)
+    except Exception as e:
+        log(f"excel not written: {e}")
+        xlsx = f"{OUT}/no-delivery-note.csv"
+    subject = f"Invoices with no delivery note attached, {AUDIT_FROM} to {AUDIT_TO}: {len(no_file)} of {total_live}"
+    html = ("<div style='font-family:Arial,sans-serif;font-size:14px'>"
+            f"<p><b>{len(no_file)}</b> invoices dated {AUDIT_FROM} to {AUDIT_TO} (Dubai) have no file attached at all, "
+            f"out of {total_live} invoices that are not void or draft ({len(void)} void left out).</p>"
+            "<p>The list is in the attached Excel: invoice, date, customer, salesperson, fulfillment method, status, total, Zoho link.</p></div>")
+    dn.REPORT_TO, dn.REPORT_CC = AUDIT_EMAIL, []
+    dn.send_daily_email(html, subject, [xlsx])
 
 
 def write_outputs(results, no_file, void, total_with_file, partial):
