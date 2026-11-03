@@ -204,7 +204,8 @@ def audit_invoice(z, inv_list_row):
              and float(li.get("quantity") or 0) > 0 and li.get("product_type", "goods") != "service"]
     docs = inv.get("documents") or []
     res = {"invoice": number, "invoice_id": inv_id, "date": inv.get("date", ""), "customer": inv.get("customer_name", ""),
-           "status": inv.get("status", ""), "files": [d.get("file_name", "") for d in docs], "pages": 0, "dn_pages": 0,
+           "status": inv.get("status", ""), "fulfillment": inv.get("cf_fulfillment_method", ""),
+           "salesperson": inv.get("salesperson_name", ""), "files": [d.get("file_name", "") for d in docs], "pages": 0, "dn_pages": 0,
            "lines": [], "result": "", "why": "", "numbers_seen": []}
     if not docs:
         res["result"] = "no attachment"
@@ -284,9 +285,15 @@ def audit_invoice(z, inv_list_row):
         res["result"] = "covered"
     elif missing and len(missing) == len(lines):
         res["result"] = "check by hand"
-        res["why"] = ("a delivery note is attached but none of the invoice items could be found on it; "
-                      + (f"note number read on the page: {', '.join(sorted(set(res['numbers_seen'])))}; " if res["numbers_seen"] else "number on the page not readable; ")
-                      + "either the wrong note is attached, or the scan is too faint")
+        if any_number and any_customer:
+            res["why"] = ("the attached note carries this invoice number and customer, but none of the invoice items as they are now in Zoho "
+                          "are on it; the invoice was probably edited after the note was printed, or the scan is too faint to read the items")
+        elif res["numbers_seen"]:
+            res["why"] = (f"the attached note reads as number {', '.join(sorted(set(res['numbers_seen'])))}, not this invoice, "
+                          "and none of this invoice's items are on it; probably the wrong note is attached")
+        else:
+            res["why"] = ("a file is attached but the invoice number on it is not readable and none of the invoice items were found; "
+                          "the scan is too faint or it is not a delivery note")
     elif missing:
         res["result"] = "partial"
     else:
@@ -324,6 +331,7 @@ def main():
         except Exception as e:
             r = {"invoice": row.get("invoice_number"), "invoice_id": row.get("invoice_id"), "date": row.get("date", ""),
                  "customer": row.get("customer_name", ""), "status": row.get("status", ""), "files": [], "pages": 0,
+                 "fulfillment": row.get("cf_fulfillment_method", ""), "salesperson": row.get("salesperson_name", ""),
                  "dn_pages": 0, "lines": [], "result": "check by hand", "why": f"error while reading: {e}", "numbers_seen": []}
         results.append(r)
         done += 1
@@ -354,35 +362,36 @@ def write_outputs(results, no_file, void, total_with_file, partial):
                         i.get("cf_fulfillment_method", ""), i.get("status"), i.get("total"), link(i.get("invoice_id"))])
     with open(f"{OUT}/items-with-no-note.csv", "w", newline="") as fh:
         w = csv.writer(fh)
-        w.writerow(["Invoice", "Date", "Customer", "Item", "SKU", "Invoiced qty", "Qty on attached notes", "Missing qty",
-                    "Files attached", "Note numbers read on the pages", "Link"])
+        w.writerow(["Invoice", "Date", "Customer", "Fulfillment", "Salesperson", "Item", "SKU", "Invoiced qty", "Qty on attached notes",
+                    "Missing qty", "Files attached", "Note numbers read on the pages", "Link"])
         for r in results:
             if r["result"] != "partial":
                 continue
             for m in r["lines"]["missing"]:
-                w.writerow([r["invoice"], r["date"], r["customer"], m["item"], m["sku"], m["invoiced"], 0, m["invoiced"],
-                            "; ".join(r["files"]), ", ".join(sorted(set(r["numbers_seen"]))), link(r["invoice_id"])])
+                w.writerow([r["invoice"], r["date"], r["customer"], r["fulfillment"], r["salesperson"], m["item"], m["sku"], m["invoiced"], 0,
+                            m["invoiced"], "; ".join(r["files"]), ", ".join(sorted(set(r["numbers_seen"]))), link(r["invoice_id"])])
     with open(f"{OUT}/delivered-short.csv", "w", newline="") as fh:
         w = csv.writer(fh)
-        w.writerow(["Invoice", "Date", "Customer", "Item", "SKU", "Invoiced qty", "Qty on attached notes", "Balance", "Link"])
+        w.writerow(["Invoice", "Date", "Customer", "Fulfillment", "Salesperson", "Item", "SKU", "Invoiced qty", "Qty on attached notes", "Balance", "Link"])
         for r in results:
             if r["result"] not in ("partial", "short"):
                 continue
             for m in r["lines"]["short"]:
-                w.writerow([r["invoice"], r["date"], r["customer"], m["item"], m["sku"], m["invoiced"], m["on_notes"],
-                            round(m["invoiced"] - m["on_notes"], 2), link(r["invoice_id"])])
+                w.writerow([r["invoice"], r["date"], r["customer"], r["fulfillment"], r["salesperson"], m["item"], m["sku"], m["invoiced"],
+                            m["on_notes"], round(m["invoiced"] - m["on_notes"], 2), link(r["invoice_id"])])
     with open(f"{OUT}/check-by-hand.csv", "w", newline="") as fh:
         w = csv.writer(fh)
-        w.writerow(["Invoice", "Date", "Customer", "Files attached", "Pages", "Why", "Link"])
+        w.writerow(["Invoice", "Date", "Customer", "Fulfillment", "Salesperson", "Files attached", "Pages", "Why", "Link"])
         for r in results:
             if r["result"] == "check by hand":
-                w.writerow([r["invoice"], r["date"], r["customer"], "; ".join(r["files"]), r["pages"], r["why"], link(r["invoice_id"])])
+                w.writerow([r["invoice"], r["date"], r["customer"], r["fulfillment"], r["salesperson"], "; ".join(r["files"]), r["pages"],
+                            r["why"], link(r["invoice_id"])])
     with open(f"{OUT}/all-invoices.csv", "w", newline="") as fh:
         w = csv.writer(fh)
-        w.writerow(["Invoice", "Date", "Customer", "Status", "Files", "Pages", "Result", "Lines", "Lines on notes", "Lines missing", "Note"])
+        w.writerow(["Invoice", "Date", "Customer", "Fulfillment", "Status", "Files", "Pages", "Result", "Lines", "Lines on notes", "Lines missing", "Note"])
         for r in results:
             ln = r["lines"] if isinstance(r["lines"], dict) else {"missing": [], "short": [], "covered": []}
-            w.writerow([r["invoice"], r["date"], r["customer"], r["status"], len(r["files"]), r["pages"], r["result"],
+            w.writerow([r["invoice"], r["date"], r["customer"], r["fulfillment"], r["status"], len(r["files"]), r["pages"], r["result"],
                         sum(len(v) for v in ln.values()), len(ln["covered"]) + len(ln["short"]), len(ln["missing"]), r["why"]])
     # Excel
     try:
