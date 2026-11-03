@@ -85,6 +85,7 @@ REPORT_FROM = os.environ.get("DN_REPORT_FROM", "Delivery Notes <delivery-notes@l
 SHORT_TO = [x.strip() for x in os.environ.get("DN_SHORT_TO", "sumon.a@lapizblue.com").split(",") if x.strip()]
 REMIND_EVERY = int(os.environ.get("REMIND_EVERY_DAYS", "2"))     # pending deliveries are re-sent every N days
 LEDGER = os.environ.get("DN_LEDGER", "dn-ledger.json")           # per invoice: invoiced vs delivered, kept in the repo
+DISMISSED = os.environ.get("DN_DISMISSED", "dn-dismissed.json")  # held pages ticked off in the app (written by the app)
 BOOKS_UI = os.environ.get("ZOHO_BOOKS_UI", "https://books.zoho.com/app/" + ORG + "#/invoices/")
 RUN_URL = (f"{os.environ.get('GITHUB_SERVER_URL', '')}/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/"
            f"{os.environ.get('GITHUB_RUN_ID', '')}") if os.environ.get("GITHUB_RUN_ID") else ""
@@ -1291,10 +1292,40 @@ def main():
                 held.append({"at": now_s, "file": r["source_pdf"], "page": r["pages"], "number": r["number_on_page"],
                              "customer": r["customer_on_page"], "date": r["date_on_page"], "why": why,
                              "detail": r["checks"][:300], "url": RUN_URL, "pdf": pdf_url})
-        # a held page is cleared once its invoice has a note (attached in this run, or by hand before a re-scan)
+        # a held page is cleared once its invoice has a note (attached in this run)
         done = {r["invoice_number"] for r in rows if r["result"] in ("ATTACHED", "ALREADY ATTACHED")}
-        led["_held"] = [h for h in held if not (h["number"] and h["number"] in done)
-                        and (today - datetime.strptime(h["at"][:10], "%Y-%m-%d").date()).days <= 14]
+        led["_held"] = [h for h in held if not (h["number"] and h["number"] in done)]
+    # 7b. every run: drop held pages that were ticked off in the app (dn-dismissed.json), whose invoice or
+    #     credit note now carries a file (attached by hand), or that are older than 30 days
+    dismissed = set()
+    try:
+        if os.path.exists(DISMISSED):
+            dismissed = {(d.get("file", ""), d.get("page", "")) for d in json.load(open(DISMISSED))}
+    except Exception as e:
+        log(f"dn-dismissed.json not readable: {e}")
+    kept, dropped = [], []
+    for h in led.get("_held", []):
+        key = (h.get("file", ""), h.get("page", ""))
+        age = (today - datetime.strptime(h["at"][:10], "%Y-%m-%d").date()).days
+        if key in dismissed:
+            dropped.append(f"{h.get('number') or 'p' + h.get('page', '')}: ticked off in the app")
+            continue
+        if age > 30:
+            dropped.append(f"{h.get('number') or 'p' + h.get('page', '')}: older than 30 days")
+            continue
+        num = (h.get("number") or "").upper()
+        if num:
+            try:
+                doc = z.find_creditnote(num) if num.startswith("CN") else z.find_invoice(num)
+            except Exception:
+                doc = None
+            if doc and (doc.get("has_attachment") or doc.get("documents")):
+                dropped.append(f"{num}: now has a file in Zoho")
+                continue
+        kept.append(h)
+    led["_held"] = kept
+    for d in dropped:
+        log(f"  held page cleared, {d}")
     # 8. pending deliveries: delivery note shows less than the invoice, remind every REMIND_EVERY days
     due = pending_reminders(led, today)
     lines_pd = [f"## PENDING DELIVERIES DUE FOR REMINDER ({len(due)})"]
