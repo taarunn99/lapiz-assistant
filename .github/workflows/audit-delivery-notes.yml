@@ -1,0 +1,70 @@
+name: Audit delivery notes (backlog check)
+
+# One-off, read-only check: which invoices have no delivery note attached, and which invoice lines are
+# on none of the attached notes. Nothing is attached or changed in Zoho. The result (one Excel) is
+# emailed to the address given and kept as the run artifact. Run it from the "Run workflow" button.
+
+on:
+  workflow_dispatch:
+    inputs:
+      date_from:
+        description: "First invoice date to check (yyyy-mm-dd)"
+        required: true
+        default: "2026-10-01"
+      date_to:
+        description: "Last invoice date to check (yyyy-mm-dd, blank = today)"
+        required: false
+        default: ""
+      email_to:
+        description: "Send the Excel to (comma separated)"
+        required: true
+        default: "tarun.s@lapizblue.com"
+      limit:
+        description: "Test only: stop after this many invoices with files (0 = all)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Install OCR tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr poppler-utils
+          pip install requests pypdf pillow pillow-heif openpyxl
+      - name: Run the audit
+        env:
+          ZOHO_CLIENT_ID: ${{ secrets.ZOHO_CLIENT_ID }}
+          ZOHO_CLIENT_SECRET: ${{ secrets.ZOHO_CLIENT_SECRET }}
+          ZOHO_REFRESH_TOKEN: ${{ secrets.ZOHO_REFRESH_TOKEN }}
+          ZOHO_ORG_ID_DXB: ${{ secrets.ZOHO_ORG_ID_DXB }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DN_REPORT_FROM: ${{ vars.DN_REPORT_FROM || 'Delivery Notes <delivery-notes@lapizblue.com>' }}
+          AUDIT_FROM: ${{ inputs.date_from }}
+          AUDIT_TO: ${{ inputs.date_to }}
+          AUDIT_TO_EMAIL: ${{ inputs.email_to }}
+          AUDIT_LIMIT: ${{ inputs.limit }}
+          MODE: dry
+          OUT: audit/engine-out
+          OCR_WORKERS: "4"
+          PACE_SECONDS: "0.7"
+        run: |
+          set -o pipefail
+          python scripts/audit_delivery_notes.py 2>&1 | tee audit_log.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: delivery-note-audit
+          path: |
+            audit/*.xlsx
+            audit/*.csv
+            audit_log.txt
+          retention-days: 90
