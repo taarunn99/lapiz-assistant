@@ -1,20 +1,30 @@
 {
- "generated": "02 Nov 2026 15:39",
+ "generated": "03 Nov 2026 15:17",
  "window_days": 2,
- "checked_sos": 290,
- "lines": 557,
- "clean_sos": 278,
+ "checked_sos": 613,
+ "lines": 1270,
+ "clean_sos": 588,
  "bad_sos": [
   "SO25-03463",
   "SO25-08194",
-  "SO26-03183",
   "SO26-05140",
-  "SO26-06686",
-  "SO26-06908",
+  "SO26-05382",
+  "SO26-07043",
+  "SO26-07083",
+  "SO26-07130",
+  "SO26-07131",
+  "SO26-07173",
   "SO26-07913",
   "SO26-07931",
+  "SO26-08046",
+  "SO26-08102",
+  "SO26-08216",
+  "SO26-08228",
+  "SO26-08245",
+  "SO26-08375",
   "SO26-08508",
   "SO26-08549",
+  "SO26-08616",
   "SOSJ26-00585"
  ],
  "problems": [
@@ -73,15 +83,6 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO26-03183",
-   "customer": "INNOVO SOLUTIONS TRADING L.L.C",
-   "item": "Ultrabond Eco P909 2K unit 10kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
-   "shipped": "0",
-   "why": "invoice LB26-07034 updated, sales order updated"
-  },
-  {
    "so": "SO26-05140",
    "customer": "NAJMAT AL QAMAR BUILDING MATERIALS TRADING LLC",
    "item": "Eco Prim Grip Plus bucket 10kg",
@@ -91,31 +92,661 @@
    "why": "invoice LB26-12075 updated, sales order updated"
   },
   {
-   "so": "SO26-06686",
-   "customer": "HAMMER F I L CONTRACTING L.L.C",
-   "item": "Keraflex Maxi S1 (N) Zero White bag 25kg",
+   "so": "SO26-05382",
+   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
+   "item": "Ultracolor Plus 136 ALU bag 5kg (box of 4)",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "20",
-   "shipped": "2",
-   "why": "invoice LB26-16131 updated"
+   "invoiced": "8",
+   "shipped": "0",
+   "why": "invoice LB26-12743 updated, sales order updated"
   },
   {
-   "so": "SO26-06908",
-   "customer": "Innovation Systems Group FZE",
-   "item": "Ultrabond Eco P909 2K unit 10kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "16",
-   "shipped": "11",
-   "why": "invoice LB26-16746 updated, sales order updated"
-  },
-  {
-   "so": "SO26-06908",
-   "customer": "Innovation Systems Group FZE",
-   "item": "Ultracare HD Cleaner jerrycan 5lt /5.5kg",
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 120x74mm",
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-16746 updated, sales order updated"
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 70x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 75x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 65x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 60x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 55x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 50x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 45x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 40x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 35x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 32x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 30x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 28x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 25x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 22x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Dual Color Brazed Diamond Dry Drill Bit, M14 thread without wax inside 20x74mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 18mmx64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 16mmx64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 14mmx64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 12x64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 10x64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 8x64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Brazed Diamond Dry Drill Bit, M14 thread with wax inside 6x64mm",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "2\" BLUE TIP BRUSH - WHITE BRISTLE",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "0",
+   "shipped": "1",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "ANGLE GRINDER M14 CONNECTION,VARIABLE SPEED 1200W.",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "1200WATT PRO. MIXER ECONOMIC MODEL,230V/50HZ",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "MINI ANGLE GRINDER - PLUS,  VOLTAGE 230V 50Hz. SIX SPEEDS,   5000RPM~15000RPM",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "1x360GREEN Laser Line Accuracy: H/V Line 3mm/10m",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07043",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "TRIPOD FOR LASER LEVEL",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17262 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07083",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Mapesil AC Zero 100 crt 310ml (box of 12)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "12",
+   "shipped": "0",
+   "why": "invoice LB26-17240 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07083",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Mapesil AC Zero 110 crt 310ml (box of 12)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "12",
+   "shipped": "0",
+   "why": "invoice LB26-17240 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07083",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Mapesil AC Zero 113 crt 310ml (box of 12)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "12",
+   "shipped": "0",
+   "why": "invoice LB26-17240 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07083",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Mapesil AC Zero 120 crt 310ml (box of 12)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17240 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracolor Plus 114 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracolor Plus 119 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracolor Plus 120 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracolor Plus 131 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracolor Plus 133 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracolor Plus 136 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracolor Plus 142 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 100 unit 5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 100 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 110 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 110 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 111 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 112 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 113  units 10 kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 113 unit 5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 114 unit 5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy Easy Design 0119 London Grey unit 3kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 120 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 120 unit 5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 130 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 131 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 131 unit 5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy 132 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07130",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Kerapoxy Easy Design 0137 Caribbean unit 3kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17237 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Mapeset Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Adesilex P7 Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Adesilex P9 Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Adesilex P9 White bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Adesilex P10 bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Keraflex Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Keraflex White bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Keraflex Maxi S1 (N) Zero White bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultralite S2 Flex (N) Grey bag 15kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07131",
+   "customer": "SCREWFIX BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultralite S2 Flex (N) White bag 15kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "invoice LB26-17239 updated, sales order updated"
+  },
+  {
+   "so": "SO26-07173",
+   "customer": "SENERGY TECHNICAL SERVICES",
+   "item": "DS INSPIRE MATT WHITE 18L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
+   "shipped": "0",
+   "why": "invoice LB26-19763 updated"
   },
   {
    "so": "SO26-07913",
@@ -124,7 +755,7 @@
    "issue": "packed 11 but shipped 8",
    "invoiced": "8",
    "shipped": "8",
-   "why": "invoice LB26-19198 updated"
+   "why": "invoice LB26-19198 updated, invoice LB26-19790 updated"
   },
   {
    "so": "SO26-07931",
@@ -134,6 +765,87 @@
    "invoiced": "18",
    "shipped": "13",
    "why": "invoice LB26-19126 updated"
+  },
+  {
+   "so": "SO26-08046",
+   "customer": "SION STAR BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultralite S2 Flex (N) White bag 15kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "12",
+   "shipped": "11",
+   "why": "invoice LB26-19476 updated"
+  },
+  {
+   "so": "SO26-08102",
+   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
+   "item": "Ultracare Kerapoxy Cleaner jerrycan 5lt /5.5kg",
+   "issue": "packed 4 but shipped 2",
+   "invoiced": "2",
+   "shipped": "2",
+   "why": "invoice LB26-19564 updated"
+  },
+  {
+   "so": "SO26-08216",
+   "customer": "SEVEN COLORS BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultracare Kerapoxy Cleaner Spray bottle 0.75lt (box of 6)",
+   "issue": "packed 20 but shipped 10",
+   "invoiced": "10",
+   "shipped": "10",
+   "why": "invoice LB26-19849 updated"
+  },
+  {
+   "so": "SO26-08228",
+   "customer": "AL QOUZ BUILDING MATERIAL TRADING LLC",
+   "item": "Kerapoxy Easy Design 0168 Cerulean unit 3kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "3",
+   "shipped": "0",
+   "why": "invoice LB26-19870 updated"
+  },
+  {
+   "so": "SO26-08245",
+   "customer": "TAJ MAHAL MARBLES TR L.L.C",
+   "item": "Keraflex White bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "344",
+   "shipped": "252",
+   "why": "invoice LB26-19899 updated, invoice LB26-19997 updated"
+  },
+  {
+   "so": "SO26-08375",
+   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+   "item": "weberpremix SP-33 (50 Kg)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "20",
+   "shipped": "0",
+   "why": "invoice LB26-20351 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08375",
+   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+   "item": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "50",
+   "shipped": "0",
+   "why": "invoice LB26-20351 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08375",
+   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+   "item": "Mapeflex PU 45 FT 111 Grey sausage 600 ml (box of 20)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "10",
+   "shipped": "0",
+   "why": "invoice LB26-20351 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08375",
+   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+   "item": "Mapeflex AC4 White crt 310ml (box of 12)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "24",
+   "shipped": "0",
+   "why": "invoice LB26-20351 updated, sales order updated"
   },
   {
    "so": "SO26-08508",
@@ -217,6 +929,15 @@
    "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
   },
   {
+   "so": "SO26-08616",
+   "customer": "TOTO TRADING LLC",
+   "item": "Pragma Special White25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "50",
+   "shipped": "0",
+   "why": "invoice LB26-21063 updated, sales order updated"
+  },
+  {
    "so": "SOSJ26-00585",
    "customer": "BLDG CO.-BEST-L.L.C - SOLE PROPRIETORSHIP",
    "item": "Adesilex P7 Grey bag 25kg",
@@ -228,10 +949,15 @@
  ],
  "alerts": [
   {
+   "so": "SO26-07043",
+   "text": "LB-STOCKSYNC ALERT (LB26-17262): could not delete shipment of package LB-24070: You cannot delete this shipment as you have recorded a sales return for some of the items.",
+   "when": "2026-10-19"
+  },
+  {
    "so": "SO26-08549",
    "text": "LB-STOCKSYNC ALERT (LB26-20858 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
    "when": "2026-10-30"
   }
  ],
- "calls": 837
+ "calls": 1975
 }
