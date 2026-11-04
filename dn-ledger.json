@@ -68745,6 +68745,170 @@
   "resolved": "2026-11-04 08:36",
   "status": "sent"
  },
+ "LBAD26-06048": {
+  "customer": "CYGNUS TECHNICAL AND GENERAL MAINTENANCE L.L.C",
+  "date": "2026-11-04",
+  "first_attached": "2026-11-04 10:58",
+  "invoice_id": "3540083000057692049",
+  "last_reminded": "",
+  "lines": {
+   "3540083000057692056": {
+    "delivered": 63.0,
+    "invoiced": 63.0,
+    "name": "Planiseal 88 Grey bag 25kg",
+    "sku": "937025",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-04 10:58",
+    "id": "AUH-2026-11-04.pdf|6"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-04 10:58",
+  "status": "sent"
+ },
+ "LBAD26-06050": {
+  "customer": "ROYAL TULIP BUILDING MATERIALS TRADING - SOLE PROPRIETORSHIP L.L.C.",
+  "date": "2026-11-04",
+  "first_attached": "2026-11-04 10:58",
+  "invoice_id": "3540083000057692273",
+  "last_reminded": "",
+  "lines": {
+   "3540083000057692274": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Pragma easy Grey 20kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-04 10:58",
+    "id": "AUH-2026-11-04.pdf|5"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-04 10:58",
+  "status": "paid"
+ },
+ "LBAD26-06051": {
+  "customer": "GREENLINE LASTING AND TILE WORKS LLC",
+  "date": "2026-11-04",
+  "first_attached": "2026-11-04 10:58",
+  "invoice_id": "3540083000057692442",
+  "last_reminded": "",
+  "lines": {
+   "3540083000057692449": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Pragma easy Grey 20kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-04 10:58",
+    "id": "AUH-2026-11-04.pdf|4"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-04 10:58",
+  "status": "sent"
+ },
+ "LBAD26-06052": {
+  "customer": "KHALID ALMISHANI GENERAL CONTRACTING",
+  "date": "2026-11-04",
+  "first_attached": "2026-11-04 10:58",
+  "invoice_id": "3540083000057661032",
+  "last_reminded": "",
+  "lines": {
+   "3540083000057661033": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
+    "sku": "5KB010303",
+    "unreadable": 0
+   },
+   "3540083000057661034": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 134 ALU bag 5kg (box of 4)",
+    "sku": "6013445A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-04 10:58",
+    "id": "AUH-2026-11-04.pdf|3"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-04 10:58",
+  "status": "paid"
+ },
+ "LBAD26-06053": {
+  "customer": "UNIQUE OPTIONS N INTERIORS  DESIGNS - L L C",
+  "date": "2026-11-04",
+  "first_attached": "2026-11-04 10:58",
+  "invoice_id": "3540083000057661156",
+  "last_reminded": "",
+  "lines": {
+   "3540083000057661157": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
+    "sku": "6010045A",
+    "unreadable": 0
+   },
+   "3540083000057661158": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
+    "sku": "6010345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-04 10:58",
+    "id": "AUH-2026-11-04.pdf|2"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-04 10:58",
+  "status": "paid"
+ },
+ "LBAD26-06054": {
+  "customer": "REFLOW WATER MAINTENANCE AND CLEANING SOLUTIONS L.L.C S.P.C",
+  "date": "2026-11-04",
+  "first_attached": "2026-11-04 10:58",
+  "invoice_id": "3540083000057661310",
+  "last_reminded": "",
+  "lines": {
+   "3540083000057661318": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "Kerapoxy 100 unit 10kg",
+    "sku": "4510010",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-04 10:58",
+    "id": "AUH-2026-11-04.pdf|1"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-04 10:58",
+  "status": "paid"
+ },
  "LBSJ26-01636": {
   "customer": "HERCULES INT.BLDG MATERIALS TRADING .LLC",
   "date": "2026-10-12",
@@ -69037,78 +69201,6 @@
   "CN26-00511"
  ],
  "_held": [
-  {
-   "at": "2026-11-04 10:36",
-   "customer": "REFLOW WATER MAINTENANCE AND CLEANING SOLUTIONS L.L.C S.P.",
-   "date": "2026-11-04",
-   "detail": "no invoice numbered LBAD26-06054; searched 1 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-04-1035-1-2026-11-04_103446.pdf",
-   "number": "LBAD26-06054",
-   "page": "1",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41786552309",
-   "why": "no invoice numbered LBAD26-06054"
-  },
-  {
-   "at": "2026-11-04 10:36",
-   "customer": "UNIQUE OPTIONS N INTERIORS DESIGNS -L LC",
-   "date": "2026-11-04",
-   "detail": "no invoice numbered LBAD26-06053; searched 1 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-04-1035-1-2026-11-04_103446.pdf",
-   "number": "LBAD26-06053",
-   "page": "2",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41786552309",
-   "why": "no invoice numbered LBAD26-06053"
-  },
-  {
-   "at": "2026-11-04 10:36",
-   "customer": "KHALID ALMISHANI GENERAL CONTRACTING",
-   "date": "2026-11-04",
-   "detail": "no invoice numbered LBAD26-06052; searched 1 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-04-1035-1-2026-11-04_103446.pdf",
-   "number": "LBAD26-06052",
-   "page": "3",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41786552309",
-   "why": "no invoice numbered LBAD26-06052"
-  },
-  {
-   "at": "2026-11-04 10:36",
-   "customer": "GREENLINE LASTING AND TILE WORKS LLC",
-   "date": "2026-11-04",
-   "detail": "no invoice numbered LBAD26-06051; searched 1 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-04-1035-1-2026-11-04_103446.pdf",
-   "number": "LBAD26-06051",
-   "page": "4",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41786552309",
-   "why": "no invoice numbered LBAD26-06051"
-  },
-  {
-   "at": "2026-11-04 10:36",
-   "customer": "ROYAL TULIP BUILDING MATERIALS TRADING - SOLE",
-   "date": "2026-11-04",
-   "detail": "no invoice numbered LBAD26-06050; searched 1 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-04-1035-1-2026-11-04_103446.pdf",
-   "number": "LBAD26-06050",
-   "page": "5",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41786552309",
-   "why": "no invoice numbered LBAD26-06050"
-  },
-  {
-   "at": "2026-11-04 10:36",
-   "customer": "CYGNUS TECHNICAL AND GENERAL MAINTENANCE L.L.C",
-   "date": "2026-11-04",
-   "detail": "no invoice numbered LBAD26-06048; searched 1 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-04-1035-1-2026-11-04_103446.pdf",
-   "number": "LBAD26-06048",
-   "page": "6",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41786552309",
-   "why": "no invoice numbered LBAD26-06048"
-  },
   {
    "at": "2026-11-04 10:41",
    "customer": "UVC TECHNICAL SERVICES LLC",
@@ -69699,6 +69791,18 @@
    "held": 2,
    "pages": 61,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41786760808"
+  },
+  {
+   "already": 0,
+   "at": "2026-11-04 10:59",
+   "attached": 6,
+   "by": "manual run",
+   "files": [
+    "AUH-2026-11-04.pdf"
+   ],
+   "held": 0,
+   "pages": 6,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41788997229"
   }
  ]
 }
