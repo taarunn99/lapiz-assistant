@@ -1,95 +1,82 @@
 {
- "generated": "03 Nov 2026 15:17",
+ "generated": "04 Nov 2026 15:30",
  "window_days": 2,
- "checked_sos": 613,
- "lines": 1270,
- "clean_sos": 588,
+ "checked_sos": 600,
+ "lines": 1250,
+ "clean_sos": 578,
  "bad_sos": [
-  "SO25-03463",
-  "SO25-08194",
-  "SO26-05140",
+  "SO25-00811",
+  "SO25-01713",
+  "SO25-01946",
   "SO26-05382",
   "SO26-07043",
   "SO26-07083",
   "SO26-07130",
   "SO26-07131",
-  "SO26-07173",
-  "SO26-07913",
-  "SO26-07931",
   "SO26-08046",
   "SO26-08102",
   "SO26-08216",
   "SO26-08228",
   "SO26-08245",
   "SO26-08375",
-  "SO26-08508",
   "SO26-08549",
   "SO26-08616",
-  "SOSJ26-00585"
+  "SO26-08668"
  ],
  "problems": [
   {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "Professional Trowel With Smooth Soft Grip Handle, Carbon Steel Blade 280x115mm, 10mm square notch PP 320C +Black TPR with logo and size engraved",
+   "so": "SO25-00811",
+   "customer": "JTS IDEALS TECHNICAL SERVICES",
+   "item": "ULTRAPLAN TRADE BAGS 25 KG",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "7",
+   "invoiced": "39",
+   "shipped": "13",
    "why": "sales order updated"
   },
   {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "Tile Spirit Level,manufactured in reliable,resistant aluminium, machined base up to measures of 120cm to ensure constant accuracy",
+   "so": "SO25-01713",
+   "customer": "CONCEPT BOX TECHNICAL WORKS L.L.C",
+   "item": "PRIMER G FUST. 25 KG",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "2",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "New Leveling Cap Wedges 1000pcs per pack",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "1",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-03463",
-   "customer": "BERIHU TRANSPORT GENERAL TRADING CO.LTD.",
-   "item": "ELECTRIC MIXER 1800W, 65L?17GAL?EURO PLUG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "0",
-   "shipped": "2",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-08194",
-   "customer": "SSD BUILDING CONTRACTING LLC",
-   "item": "Ultraplan Eco 20 bag 23kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "100",
-   "shipped": "80",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-08194",
-   "customer": "SSD BUILDING CONTRACTING LLC",
-   "item": "WIRE NAIL 1\"",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
+   "invoiced": "4",
    "shipped": "0",
    "why": "sales order updated"
   },
   {
-   "so": "SO26-05140",
-   "customer": "NAJMAT AL QAMAR BUILDING MATERIALS TRADING LLC",
-   "item": "Eco Prim Grip Plus bucket 10kg",
-   "issue": "invoiced and shipped do not match",
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "ENIFIX VA 20 Kgs",
+   "issue": "invoiced and shipped do not match (manually fulfilled 22)",
+   "invoiced": "22",
+   "shipped": "-18",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "Enifix 350 650ml New (12pcs/Box)",
+   "issue": "invoiced and shipped do not match (manually fulfilled 12)",
+   "invoiced": "12",
+   "shipped": "-11",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "Turf Fix 511 650ml (24Pcs/Box)",
+   "issue": "invoiced and shipped do not match (manually fulfilled 10)",
    "invoiced": "10",
-   "shipped": "0",
-   "why": "invoice LB26-12075 updated, sales order updated"
+   "shipped": "-10",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO25-01946",
+   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+   "item": "Master Fix 888 500ml (12Pcs/Box)",
+   "issue": "invoiced and shipped do not match (manually fulfilled 5)",
+   "invoiced": "5",
+   "shipped": "-5",
+   "why": "sales order updated"
   },
   {
    "so": "SO26-05382",
@@ -740,33 +727,6 @@
    "why": "invoice LB26-17239 updated, sales order updated"
   },
   {
-   "so": "SO26-07173",
-   "customer": "SENERGY TECHNICAL SERVICES",
-   "item": "DS INSPIRE MATT WHITE 18L",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
-   "shipped": "0",
-   "why": "invoice LB26-19763 updated"
-  },
-  {
-   "so": "SO26-07913",
-   "customer": "ALJA INVESTMENTS LIMITED",
-   "item": "Mapelastic Aquadefense Zero bucket 15kg",
-   "issue": "packed 11 but shipped 8",
-   "invoiced": "8",
-   "shipped": "8",
-   "why": "invoice LB26-19198 updated, invoice LB26-19790 updated"
-  },
-  {
-   "so": "SO26-07931",
-   "customer": "ROYAL APEX BUILDING MATERIALS TRADING LLC",
-   "item": "Mapelastic Aquadefense Zero bucket 15kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "18",
-   "shipped": "13",
-   "why": "invoice LB26-19126 updated"
-  },
-  {
    "so": "SO26-08046",
    "customer": "SION STAR BUILDING MATERIALS TRADING L.L.C",
    "item": "Ultralite S2 Flex (N) White bag 15kg",
@@ -848,22 +808,13 @@
    "why": "invoice LB26-20351 updated, sales order updated"
   },
   {
-   "so": "SO26-08508",
-   "customer": "WOODMANS MEDITECH LLC",
-   "item": "SPPG MARBLE BEIGE 5.2 KG (A+B+C)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
-   "shipped": "1",
-   "why": "invoice LB26-20931 updated"
-  },
-  {
    "so": "SO26-08549",
    "customer": "EXCLUSIVE SWIMMING POOLS",
    "item": "DM Dulux Wall Primer Plast 18L",
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+   "why": "invoice LB26-21005 updated"
   },
   {
    "so": "SO26-08549",
@@ -872,7 +823,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+   "why": "invoice LB26-21005 updated"
   },
   {
    "so": "SO26-08549",
@@ -881,7 +832,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+   "why": "invoice LB26-21005 updated"
   },
   {
    "so": "SO26-08549",
@@ -890,7 +841,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+   "why": "invoice LB26-21005 updated"
   },
   {
    "so": "SO26-08549",
@@ -899,7 +850,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "4",
    "shipped": "1",
-   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+   "why": "invoice LB26-21005 updated"
   },
   {
    "so": "SO26-08549",
@@ -908,7 +859,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "3",
    "shipped": "0",
-   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+   "why": "invoice LB26-21005 updated"
   },
   {
    "so": "SO26-08549",
@@ -917,7 +868,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "3",
    "shipped": "0",
-   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+   "why": "invoice LB26-21005 updated"
   },
   {
    "so": "SO26-08549",
@@ -926,7 +877,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-20945 updated, invoice LB26-21005 updated, sales order updated"
+   "why": "invoice LB26-21005 updated"
   },
   {
    "so": "SO26-08616",
@@ -938,13 +889,13 @@
    "why": "invoice LB26-21063 updated, sales order updated"
   },
   {
-   "so": "SOSJ26-00585",
-   "customer": "BLDG CO.-BEST-L.L.C - SOLE PROPRIETORSHIP",
-   "item": "Adesilex P7 Grey bag 25kg",
+   "so": "SO26-08668",
+   "customer": "LATINEM FACILITIES MANAGEMENT LLC",
+   "item": "DS WS MATT BASE C 17 L",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "1134",
+   "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LBSJ26-01810 updated"
+   "why": "invoice LB26-21177 updated, sales order updated"
   }
  ],
  "alerts": [
@@ -957,7 +908,12 @@
    "so": "SO26-08549",
    "text": "LB-STOCKSYNC ALERT (LB26-20858 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
    "when": "2026-10-30"
+  },
+  {
+   "so": "SO26-08668",
+   "text": "LB-STOCKSYNC ALERT (LB26-21176 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
+   "when": "2026-11-04"
   }
  ],
- "calls": 1975
+ "calls": 1999
 }
