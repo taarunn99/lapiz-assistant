@@ -31,7 +31,7 @@ on:
         options: [full, simple]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   audit:
@@ -75,3 +75,20 @@ jobs:
             audit/*.csv
             audit_log.txt
           retention-days: 90
+      - name: Keep the Excel in the repo (dn-audit folder)
+        if: always()
+        run: |
+          set -e
+          mkdir -p dn-audit
+          stamp=$(date -u +%Y-%m-%d-%H%M)
+          for f in audit/*.xlsx; do [ -f "$f" ] && cp "$f" "dn-audit/${stamp}-$(basename "$f")"; done
+          cp audit_log.txt "dn-audit/${stamp}-log.txt" 2>/dev/null || true
+          git config user.name "dn-attach-bot"
+          git config user.email "dn-attach-bot@users.noreply.github.com"
+          for attempt in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --soft origin/main
+            git add dn-audit
+            git commit -q -m "Delivery note audit ${stamp}" || { echo "nothing to save"; exit 0; }
+            git push -q origin HEAD:main && exit 0
+            sleep $((attempt * 5))
+          done
