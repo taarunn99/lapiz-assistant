@@ -60,21 +60,6 @@ OUT = os.environ.get("OUT", "out")
 ACCOUNTS = os.environ.get("ZOHO_ACCOUNTS_URL", "https://accounts.zoho.com").rstrip("/")
 API = os.environ.get("ZOHO_API_BASE", "https://www.zohoapis.com/books/v3").rstrip("/")
 ORG = os.environ.get("ZOHO_ORG_ID_DXB", "")
-ORG_AUH = os.environ.get("ZOHO_ORG_ID_AUH", "791250515")   # Abu Dhabi org (an org id is not a secret)
-ORG_NAMES = {ORG: "Dubai", ORG_AUH: "Abu Dhabi"}
-
-
-def org_for(number):
-    """Which Zoho Books org an invoice or credit note number belongs to: LBAD / CNAD = Abu Dhabi, else Dubai."""
-    n = (number or "").upper().replace(" ", "")
-    return ORG_AUH if n.startswith(("LBAD", "CNAD")) else ORG
-
-
-def books_url(doc, kind="invoices"):
-    """Link to the invoice (or credit note) in the right org's Zoho Books."""
-    org = doc.get("_org") or doc.get("org") or ORG
-    ident = doc.get("invoice_id") or doc.get("creditnote_id") or ""
-    return f"https://books.zoho.com/app/{org}#/{kind}/{ident}"
 PACE_SECONDS = float(os.environ.get("PACE_SECONDS", "1.5"))
 OCR_WORKERS = int(os.environ.get("OCR_WORKERS", "4"))              # pages read in parallel (runner has 4 cores)
 os.environ.setdefault("OMP_THREAD_LIMIT", "1")                      # one thread per tesseract process, else parallel OCR crawls
@@ -567,12 +552,12 @@ class Zoho:
             self._refresh()
         return {"Authorization": f"Zoho-oauthtoken {self.token}"}
 
-    def call(self, method, path, org=None, **kw):
+    def call(self, method, path, **kw):
         gap = time.time() - self.last_call
         if gap < PACE_SECONDS:
             time.sleep(PACE_SECONDS - gap)
         params = kw.pop("params", {})
-        params["organization_id"] = org or ORG
+        params["organization_id"] = ORG
         for attempt in range(4):
             self.last_call = time.time()
             self.calls += 1
@@ -593,67 +578,46 @@ class Zoho:
         return r.status_code, j
 
     def find_invoice(self, number):
-        """Invoice by number, in the org its prefix points to (LBAD = Abu Dhabi, else Dubai)."""
-        org = org_for(number)
-        code, j = self.call("GET", "/invoices", org=org, params={"invoice_number": number})
+        code, j = self.call("GET", "/invoices", params={"invoice_number": number})
         invs = [i for i in j.get("invoices", []) if i.get("invoice_number", "").upper() == number]
-        if invs:
-            invs[0]["_org"] = org
-            return invs[0]
-        return None
+        return invs[0] if invs else None
 
-    def full_invoice(self, invoice_id, org=None):
+    def full_invoice(self, invoice_id):
         """Full invoice with line items, TRN and attachments (cached)."""
-        org = org or ORG
-        key = (org, invoice_id)
-        if key not in self._full:
-            code, j = self.call("GET", f"/invoices/{invoice_id}", org=org)
-            inv = j.get("invoice", {})
-            inv["_org"] = org
-            self._full[key] = inv
-        return self._full[key]
+        if invoice_id not in self._full:
+            code, j = self.call("GET", f"/invoices/{invoice_id}")
+            self._full[invoice_id] = j.get("invoice", {})
+        return self._full[invoice_id]
 
     def find_creditnote(self, number):
-        org = org_for(number)
-        code, j = self.call("GET", "/creditnotes", org=org, params={"creditnote_number": number})
+        code, j = self.call("GET", "/creditnotes", params={"creditnote_number": number})
         cns = [c for c in j.get("creditnotes", []) if c.get("creditnote_number", "").upper() == number]
-        if cns:
-            cns[0]["_org"] = org
-            return cns[0]
-        return None
+        return cns[0] if cns else None
 
-    def full_creditnote(self, creditnote_id, org=None):
+    def full_creditnote(self, creditnote_id):
         """Full credit note with line items and attachments (cached)."""
-        org = org or ORG
-        key = ("cn", org, creditnote_id)
+        key = "cn:" + creditnote_id
         if key not in self._full:
-            code, j = self.call("GET", f"/creditnotes/{creditnote_id}", org=org)
-            cn = j.get("creditnote", {})
-            cn["_org"] = org
-            self._full[key] = cn
+            code, j = self.call("GET", f"/creditnotes/{creditnote_id}")
+            self._full[key] = j.get("creditnote", {})
         return self._full[key]
 
-    def attach_creditnote(self, creditnote_id, pdf_path, org=None):
+    def attach_creditnote(self, creditnote_id, pdf_path):
         with open(pdf_path, "rb") as fh:
-            code, j = self.call("POST", f"/creditnotes/{creditnote_id}/attachment", org=org or ORG,
+            code, j = self.call("POST", f"/creditnotes/{creditnote_id}/attachment",
                                 params={"can_send_in_mail": "false"},
                                 files={"attachment": (os.path.basename(pdf_path), fh, "application/pdf")})
         return code, j
 
     def invoices_on_date(self, ymd):
-        """Every invoice dated ymd in BOTH orgs (all statuses, void included), each tagged with its org."""
-        found = []
-        for org in (ORG, ORG_AUH):
-            page = 1
-            while True:
-                code, j = self.call("GET", "/invoices", org=org, params={"date": ymd, "per_page": 200, "page": page})
-                for inv in j.get("invoices", []):
-                    inv["_org"] = org
-                    found.append(inv)
-                if not j.get("page_context", {}).get("has_more_page"):
-                    break
-                page += 1
-        return found
+        """Every invoice dated ymd (all statuses, void included)."""
+        found, page = [], 1
+        while True:
+            code, j = self.call("GET", "/invoices", params={"date": ymd, "per_page": 200, "page": page})
+            found += j.get("invoices", [])
+            if not j.get("page_context", {}).get("has_more_page"):
+                return found
+            page += 1
 
     def invoices_between(self, start, end):
         """Every invoice dated start..end inclusive (all statuses)."""
@@ -666,9 +630,9 @@ class Zoho:
                 return found
             page += 1
 
-    def attach(self, invoice_id, pdf_path, org=None):
+    def attach(self, invoice_id, pdf_path):
         with open(pdf_path, "rb") as fh:
-            code, j = self.call("POST", f"/invoices/{invoice_id}/attachment", org=org or ORG,
+            code, j = self.call("POST", f"/invoices/{invoice_id}/attachment",
                                 params={"can_send_in_mail": "false"},
                                 files={"attachment": (os.path.basename(pdf_path), fh, "application/pdf")})
         return code, j
@@ -773,7 +737,7 @@ def build_daily_email(day_runs, held, due, overdue, overdue_void, cutoff, today)
     if not due:
         h.append(f"<div style='margin:0 6px 10px;color:{MUTED};font-size:14px'>Nothing pending. Every attached note matches its invoice.</div>")
     for key, e, shortfall in due:
-        url = books_url(e)
+        url = BOOKS_UI + e["invoice_id"]
         first = e["first_attached"][:10]
         age = (today - datetime.strptime(first, "%Y-%m-%d").date()).days
         h.append(f"<div style='border:1px solid {LINE};border-radius:14px;margin:0 6px 14px;overflow:hidden'>"
@@ -811,7 +775,7 @@ def build_daily_email(day_runs, held, due, overdue, overdue_void, cutoff, today)
                  + th("Number") + th("Customer") + th("Invoice date") + th("Days") + th("Salesperson") + th("Status", "right") + "</tr>")
         for inv in invs:
             age = (today - datetime.strptime(inv.get("date"), "%Y-%m-%d").date()).days
-            url = books_url(inv)
+            url = BOOKS_UI + str(inv.get("invoice_id", ""))
             h.append(f"<tr style='font-size:15px;border-top:1px solid {LINE}'>"
                      f"<td style='padding:10px 12px;font-weight:600'><a href='{url}' style='color:{TEXT};text-decoration:none'>{esc(inv.get('invoice_number'))}</a></td>"
                      f"<td style='padding:10px 12px'>{esc(inv.get('customer_name'))}</td>"
@@ -894,7 +858,7 @@ def record_delivery(led, inv, source, pages):
     key = inv.get("invoice_number", "").upper()
     now = datetime.now(DUBAI).strftime("%Y-%m-%d %H:%M")
     e = led.setdefault(key, {"invoice_id": inv["invoice_id"], "customer": inv.get("customer_name", ""),
-                             "date": inv.get("date", ""), "status": inv.get("status", ""), "org": inv.get("_org", ORG),
+                             "date": inv.get("date", ""), "status": inv.get("status", ""),
                              "notes": [], "lines": {}, "first_attached": now, "last_reminded": "", "resolved": ""})
     e["status"] = inv.get("status", "")
     note_id = f"{source}|{pages}"
@@ -1053,7 +1017,7 @@ def main():
                 if num:
                     cn = z.find_creditnote(num)
                     if cn:
-                        full = z.full_creditnote(cn["creditnote_id"], cn.get("_org"))
+                        full = z.full_creditnote(cn["creditnote_id"])
                         ok, checks, note = verify(page, full)
                         if ok:
                             target = full
@@ -1091,7 +1055,7 @@ def main():
                     row["detail"] = "dry run; credit note verified"
                     log(f"  {cn_num}: credit note verified, would attach")
                 else:
-                    code, j = z.attach_creditnote(target["creditnote_id"], outp, target.get("_org"))
+                    code, j = z.attach_creditnote(target["creditnote_id"], outp)
                     if j.get("code") == 0:
                         row["result"] = "ATTACHED"
                         row["detail"] = "credit note: " + (j.get("message", "") or "attached")
@@ -1115,7 +1079,7 @@ def main():
             if num:
                 inv = z.find_invoice(num)
                 if inv:
-                    full = z.full_invoice(inv["invoice_id"], inv.get("_org"))
+                    full = z.full_invoice(inv["invoice_id"])
                     ok, checks, note = verify(page, full)
                     if ok:
                         target = full
@@ -1139,7 +1103,7 @@ def main():
                     cnum = inv.get("invoice_number", "").upper()
                     if num and edit_distance(num, cnum) > 2:
                         continue
-                    full = z.full_invoice(inv["invoice_id"], inv.get("_org"))
+                    full = z.full_invoice(inv["invoice_id"])
                     ok, checks, n2 = verify(page, full, strict=True)
                     if ok:
                         passing.append((full, n2 + " (strict)"))
@@ -1196,7 +1160,7 @@ def main():
                 log(f"  {inv_num}: verified, would attach ({target.get('status')}){corr}")
                 continue
 
-            code, j = z.attach(target["invoice_id"], outp, target.get("_org"))
+            code, j = z.attach(target["invoice_id"], outp)
             if j.get("code") == 0:
                 row["result"] = "ATTACHED"
                 row["detail"] = (j.get("message", "") or "attached") + corr
