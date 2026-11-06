@@ -1,73 +1,18 @@
 {
- "generated": "05 Nov 2026 15:27",
+ "generated": "06 Nov 2026 15:26",
  "window_days": 2,
- "checked_sos": 316,
- "lines": 625,
- "clean_sos": 306,
+ "checked_sos": 250,
+ "lines": 509,
+ "clean_sos": 242,
  "bad_sos": [
-  "SO25-00811",
-  "SO25-01713",
-  "SO25-01946",
   "SO26-05132",
   "SO26-05165",
+  "SO26-05382",
   "SO26-05964",
-  "SO26-08668"
+  "SO26-08412",
+  "SO26-08499"
  ],
  "problems": [
-  {
-   "so": "SO25-00811",
-   "customer": "JTS IDEALS TECHNICAL SERVICES",
-   "item": "ULTRAPLAN TRADE BAGS 25 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "39",
-   "shipped": "13",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-01713",
-   "customer": "CONCEPT BOX TECHNICAL WORKS L.L.C",
-   "item": "PRIMER G FUST. 25 KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "4",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-01946",
-   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
-   "item": "ENIFIX VA 20 Kgs",
-   "issue": "invoiced and shipped do not match (manually fulfilled 22)",
-   "invoiced": "22",
-   "shipped": "-18",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-01946",
-   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
-   "item": "Enifix 350 650ml New (12pcs/Box)",
-   "issue": "invoiced and shipped do not match (manually fulfilled 12)",
-   "invoiced": "12",
-   "shipped": "-11",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-01946",
-   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
-   "item": "Turf Fix 511 650ml (24Pcs/Box)",
-   "issue": "invoiced and shipped do not match (manually fulfilled 10)",
-   "invoiced": "10",
-   "shipped": "-10",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO25-01946",
-   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
-   "item": "Master Fix 888 500ml (12Pcs/Box)",
-   "issue": "invoiced and shipped do not match (manually fulfilled 5)",
-   "invoiced": "5",
-   "shipped": "-5",
-   "why": "sales order updated"
-  },
   {
    "so": "SO26-05132",
    "customer": "SEVEN COLORS BUILDING MATERIALS TRADING L.L.C",
@@ -87,6 +32,15 @@
    "why": "invoice LB26-12145 updated, sales order updated"
   },
   {
+   "so": "SO26-05382",
+   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
+   "item": "Ultracolor Plus 136 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "8",
+   "shipped": "0",
+   "why": "invoice LB26-12743 updated, sales order updated"
+  },
+  {
    "so": "SO26-05964",
    "customer": "IDYLLIC INTERIORS LLC",
    "item": "Ultraplan Eco 20 bag 23kg",
@@ -96,21 +50,24 @@
    "why": "invoice LB26-14180 updated, sales order updated"
   },
   {
-   "so": "SO26-08668",
-   "customer": "LATINEM FACILITIES MANAGEMENT LLC",
-   "item": "DS WS MATT BASE C 17 L",
+   "so": "SO26-08412",
+   "customer": "PLUS SEVEN CONTRACTING L.L.C",
+   "item": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "4",
+   "shipped": "0",
+   "why": "invoice LB26-20463 updated, invoice LB26-21302 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08499",
+   "customer": "ADVANCE VICTORY CONTRACTING LLC",
+   "item": "Sponge Float (140x280 mm), Plastic handle, used for tile cleaning, plaster smoothing, decorative...",
    "issue": "invoiced and shipped do not match",
    "invoiced": "1",
    "shipped": "0",
-   "why": "invoice LB26-21177 updated, sales order updated"
+   "why": "sales order updated"
   }
  ],
- "alerts": [
-  {
-   "so": "SO26-08668",
-   "text": "LB-STOCKSYNC ALERT (LB26-21176 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
-   "when": "2026-11-04"
-  }
- ],
- "calls": 934
+ "alerts": [],
+ "calls": 687
 }
