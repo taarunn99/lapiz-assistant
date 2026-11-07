@@ -1,36 +1,17 @@
 {
- "generated": "06 Nov 2026 15:26",
+ "generated": "07 Nov 2026 14:38",
  "window_days": 2,
- "checked_sos": 250,
- "lines": 509,
- "clean_sos": 242,
+ "checked_sos": 243,
+ "lines": 577,
+ "clean_sos": 236,
  "bad_sos": [
-  "SO26-05132",
-  "SO26-05165",
   "SO26-05382",
-  "SO26-05964",
+  "SO26-07931",
   "SO26-08412",
-  "SO26-08499"
+  "SO26-08499",
+  "SO26-08727"
  ],
  "problems": [
-  {
-   "so": "SO26-05132",
-   "customer": "SEVEN COLORS BUILDING MATERIALS TRADING L.L.C",
-   "item": "AQUABARRIER NET - 100 MTR ROLL",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "10",
-   "shipped": "0",
-   "why": "invoice LB26-12073 updated"
-  },
-  {
-   "so": "SO26-05165",
-   "customer": "SECRET GARDENS LLC",
-   "item": "Kerapoxy Easy Design 0119 London Grey unit 3kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "12",
-   "shipped": "8",
-   "why": "invoice LB26-12145 updated, sales order updated"
-  },
   {
    "so": "SO26-05382",
    "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
@@ -41,13 +22,13 @@
    "why": "invoice LB26-12743 updated, sales order updated"
   },
   {
-   "so": "SO26-05964",
-   "customer": "IDYLLIC INTERIORS LLC",
-   "item": "Ultraplan Eco 20 bag 23kg",
+   "so": "SO26-07931",
+   "customer": "ROYAL APEX BUILDING MATERIALS TRADING LLC",
+   "item": "Mapelastic Aquadefense Zero bucket 15kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "60",
-   "shipped": "42",
-   "why": "invoice LB26-14180 updated, sales order updated"
+   "invoiced": "18",
+   "shipped": "13",
+   "why": "invoice LB26-19126 updated"
   },
   {
    "so": "SO26-08412",
@@ -66,8 +47,17 @@
    "invoiced": "1",
    "shipped": "0",
    "why": "sales order updated"
+  },
+  {
+   "so": "SO26-08727",
+   "customer": "Focus Tech LLC",
+   "item": "Vetoblock Mortar AAC 50KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "120",
+   "shipped": "0",
+   "why": "invoice LB26-21363 updated, sales order updated"
   }
  ],
  "alerts": [],
- "calls": 687
+ "calls": 689
 }
