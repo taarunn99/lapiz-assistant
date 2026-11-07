@@ -68714,6 +68714,54 @@
   "resolved": "2026-11-06 08:29",
   "status": "paid"
  },
+ "LB26-21269": {
+  "customer": "FLOOR TEC ARABIA TECHNICAL SERVICES LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:53",
+  "invoice_id": "2305879000154232032",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154232033": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Mapesil AC Zero 130 crt 310ml (box of 12)",
+    "sku": "4813042IT",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:53",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|62"
+   }
+  ],
+  "resolved": "2026-11-07 08:53",
+  "status": "paid"
+ },
+ "LB26-21270": {
+  "customer": "PROBUS AXIS BUILDING MATERIALS TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:53",
+  "invoice_id": "2305879000154255025",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154255029": {
+    "delivered": 63.0,
+    "invoiced": 63.0,
+    "name": "Mapeset Grey bag 25kg",
+    "sku": "6625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:53",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|61"
+   }
+  ],
+  "resolved": "2026-11-07 08:53",
+  "status": "sent"
+ },
  "LB26-21271": {
   "customer": "JC MACLEAN INTERNATIONAL FZCO",
   "date": "2026-11-06",
@@ -68737,6 +68785,1583 @@
   ],
   "resolved": "2026-11-06 15:05",
   "status": "sent"
+ },
+ "LB26-21272": {
+  "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:53",
+  "invoice_id": "2305879000154255136",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154255138": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
+    "sku": "5KB010303",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:53",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|60"
+   }
+  ],
+  "resolved": "2026-11-07 08:53",
+  "status": "sent"
+ },
+ "LB26-21273": {
+  "customer": "TOTO TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:53",
+  "invoice_id": "2305879000154232225",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154232230": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "KT Spiked Shoes Black color with 13 pointed hardened steel spikes 25 mm in each shoe to provide ...",
+    "sku": "E5060B",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:53",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|59"
+   }
+  ],
+  "resolved": "2026-11-07 08:53",
+  "status": "sent"
+ },
+ "LB26-21274": {
+  "customer": "TOTO TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:53",
+  "invoice_id": "2305879000154232317",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154232322": {
+    "delivered": 25.0,
+    "invoiced": 25.0,
+    "name": "Ultraplan Eco 20 bag 23kg",
+    "sku": "1491523",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:53",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|58"
+   }
+  ],
+  "resolved": "2026-11-07 08:53",
+  "status": "sent"
+ },
+ "LB26-21275": {
+  "customer": "VISIONTECH IDEAL CONTRACTING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:53",
+  "invoice_id": "2305879000154232455",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154232456": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 152 ALU bag 5kg (box of 4)",
+    "sku": "6015245A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:53",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|57"
+   }
+  ],
+  "resolved": "2026-11-07 08:53",
+  "status": "paid"
+ },
+ "LB26-21276": {
+  "customer": "WESCON INTERNATIONAL TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154232548",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154232549": {
+    "delivered": 6.0,
+    "invoiced": 6.0,
+    "name": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
+    "sku": "6010045A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|56"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "paid"
+ },
+ "LB26-21277": {
+  "customer": "DMDC CONTRACTING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154245086",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154245090": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy Easy Design 0103 White Moon unit 3kg",
+    "sku": "5KB010303",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|55"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "sent"
+ },
+ "LB26-21278": {
+  "customer": "TOTAL POOLS SOLUTIONS TECHNICAL SERVICES LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154255240",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154255241": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Lamposilex ME bucket 5kg",
+    "sku": "1661205",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|54"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "paid"
+ },
+ "LB26-21279": {
+  "customer": "GROUT KING TECHNICAL SERVICES LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154232761",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154232766": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "H40 Icon Grey 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|53"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "paid"
+ },
+ "LB26-21280": {
+  "customer": "KSK TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154232883",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154232887": {
+    "delivered": 40.0,
+    "invoiced": 40.0,
+    "name": "Keraflex Maxi S1 (N) Zero White bag 25kg",
+    "sku": "1198625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|52"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "sent"
+ },
+ "LB26-21281": {
+  "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154245267",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154245363": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "(VFT4525) SPIKED SPIKE SHOES, SPIKE LENGTH 25MM",
+    "sku": "VFT4525",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|51"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "sent"
+ },
+ "LB26-21282": {
+  "customer": "AL AHMADI CONTRACTING L.L.C.",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154232973",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154232974": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
+    "sku": "6010345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|50"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "paid"
+ },
+ "LB26-21283": {
+  "customer": "AL RAFAHIA MARBLES & GRANITES LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154277104",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154277106": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapesil AC Zero 130 crt 310ml (box of 12)",
+    "sku": "4813042IT",
+    "unreadable": 0
+   },
+   "2305879000154277107": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapesil AC Zero 137 crt 310ml (box of 12)",
+    "sku": "4813742IT",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|49"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "paid"
+ },
+ "LB26-21284": {
+  "customer": "GLOBAL CLASSIC BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154245497",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154245505": {
+    "delivered": 25.0,
+    "invoiced": 25.0,
+    "name": "Planiseal 88 Grey bag 25kg",
+    "sku": "937025",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|48"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "overdue"
+ },
+ "LB26-21285": {
+  "customer": "TAJ MAHAL MARBLES TR L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154245624",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154245632": {
+    "delivered": 42.0,
+    "invoiced": 42.0,
+    "name": "weberjoint 110 Jasmine White (5Kg)",
+    "sku": "I000000494",
+    "unreadable": 0
+   },
+   "2305879000154245633": {
+    "delivered": 42.0,
+    "invoiced": 100.0,
+    "name": "weberjoint 120 Ivory( 5Kg)",
+    "sku": "I000000495",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|47"
+   }
+  ],
+  "resolved": "",
+  "status": "sent"
+ },
+ "LB26-21286": {
+  "customer": "AL TAWAF HARDWARE",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154277228",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154277229": {
+    "delivered": 25.0,
+    "invoiced": 25.0,
+    "name": "weberpremix SP-33 (50 Kg)",
+    "sku": "I000000658",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|46"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "paid"
+ },
+ "LB26-21287": {
+  "customer": "DESERT LEISURE SWIMMING POOLS (L.L.C)",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154277392",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154277395": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Ultracolor Plus 111 ALU bag 5kg (box of 4)",
+    "sku": "6011145A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|45"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "paid"
+ },
+ "LB26-21288": {
+  "customer": "PARAMOUNT INTERNATIONAL CONTRACTING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154245808",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154245815": {
+    "delivered": 6.0,
+    "invoiced": 6.0,
+    "name": "Kerapoxy Easy Design 0188 Biscuit unit 3kg",
+    "sku": "5KB018803",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|44"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "sent"
+ },
+ "LB26-21290": {
+  "customer": "HANDMAN TECHNICAL SERVICES L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:52",
+  "invoice_id": "2305879000154255468",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154255469": {
+    "delivered": 9.0,
+    "invoiced": 9.0,
+    "name": "\u00bd\" Roll Roy Blue Tip brush",
+    "sku": "290010",
+    "unreadable": 0
+   },
+   "2305879000154255473": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "Ultracare Fuga Fresca 103 bucket 1kg (box of 12)",
+    "sku": "5LF010301",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:52",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|43"
+   }
+  ],
+  "resolved": "2026-11-07 08:52",
+  "status": "paid"
+ },
+ "LB26-21291": {
+  "customer": "DESERT LEISURE SWIMMING POOLS (L.L.C)",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154277722",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154277727": {
+    "delivered": 17.0,
+    "invoiced": 17.0,
+    "name": "Mapesil AC Zero 130 crt 310ml (box of 12)",
+    "sku": "4813042IT",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|42"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "sent"
+ },
+ "LB26-21292": {
+  "customer": "NUMBER ONE TOWER",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154255617",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154255618": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
+    "sku": "6010045A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|41"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "paid"
+ },
+ "LB26-21293": {
+  "customer": "SEVEN COLORS BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154245931",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154245938": {
+    "delivered": 6.0,
+    "invoiced": 6.0,
+    "name": "SPPG LIGHT PEWTER 5.2 KG (A+B+C)",
+    "sku": "17-1290-0109-K-M",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|40"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "paid"
+ },
+ "LB26-21294": {
+  "customer": "FIXAURA AXION TECHNICAL SERVICES L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154284054",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154284058": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapesil AC Zero 132 crt 310ml (box of 12)",
+    "sku": "4813242IT",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|39"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "overdue"
+ },
+ "LB26-21295": {
+  "customer": "GLOBEXTRA TECHNICAL SERVICES LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154255734",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154255738": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "DIAMOND BLADES FOR TILE CUTTING - D115XBS22.2 DEWALT",
+    "sku": "DX3121",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|38"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "paid"
+ },
+ "LB26-21296": {
+  "customer": "OASIS RENOVATION CONTRACTING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154277813",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154277814": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy 100 unit 5kg",
+    "sku": "4510005",
+    "unreadable": 0
+   },
+   "2305879000154277815": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "ROUND CORNER, VACUUM PACKED, GROUTING SPONGE. 197*140*50MM",
+    "sku": "CFSV100",
+    "unreadable": 0
+   },
+   "2305879000154277820": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "CR10 - 1 L",
+    "sku": "53001012ARA",
+    "unreadable": 0
+   },
+   "2305879000154277823": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Rubber Float with plastic handle, soft rubber handle 320C handle, 432C base",
+    "sku": "CFHSL",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|37"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "paid"
+ },
+ "LB26-21297": {
+  "customer": "KANZ AL HAYA CARPENTRY & FLOORING CONTRACTING EST.",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154284153",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154284157": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "(VFT809)FLOOR FINISH SCCRAPER ( SCREED SCRAPER0 BLADE LENGTH 800MM ADJUSTABLE DEPTH 0-20MM",
+    "sku": "VFT809",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|36"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "paid"
+ },
+ "LB26-21299": {
+  "customer": "ALTA VITA CONTRACTING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154285120",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154285125": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "weberfloor Smooth FD (23 Kg)",
+    "sku": "I000001275",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|35"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "paid"
+ },
+ "LB26-21301": {
+  "customer": "YOGI FIXES TECHNICAL SERVICES L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154284409",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154284410": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapesil AC Zero 132 crt 310ml (box of 12)",
+    "sku": "4813242IT",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|34"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "paid"
+ },
+ "LB26-21302": {
+  "customer": "PLUS SEVEN CONTRACTING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154255986",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154255990": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
+    "sku": "6010045A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|33"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "sent"
+ },
+ "LB26-21303": {
+  "customer": "DUSK & DUNE",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154286078",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154286079": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "9\"x1.75\" Cage Frame - Impala",
+    "sku": "31034/IMP",
+    "unreadable": 0
+   },
+   "2305879000154286080": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "9\"x1.75\" Cage Refill- Polyester Blue (10mm pile) Impala",
+    "sku": "2854K/IMP REFILL",
+    "unreadable": 0
+   },
+   "2305879000154286084": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapenet 150 roll 1x50mt",
+    "sku": "1781150",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|32"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "paid"
+ },
+ "LB26-21304": {
+  "customer": "CREATIVE COLLECTIVE COLLECTION",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154285337",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154285341": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapelastic Aquadefense Zero bucket 15kg",
+    "sku": "1674915",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|31"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "paid"
+ },
+ "LB26-21305": {
+  "customer": "DBMSC STEEL FZCO",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:51",
+  "invoice_id": "2305879000154284707",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154284712": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Adesilex P10 bag 25kg",
+    "sku": "277225",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:51",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|30"
+   }
+  ],
+  "resolved": "2026-11-07 08:51",
+  "status": "overdue"
+ },
+ "LB26-21307": {
+  "customer": "LAPPO INTERIORS L.L.C-FZ",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154228854",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154228858": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DS EASYCLEAN SILK BASE A 1 L",
+    "sku": "5301701",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|29"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "paid"
+ },
+ "LB26-21308": {
+  "customer": "EBARZA TRADING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154285452",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154285453": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapesil AC Zero 112 crt 310ml (box of 12)",
+    "sku": "4811242IT",
+    "unreadable": 0
+   },
+   "2305879000154285454": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapesil AC Zero 113 crt 310ml (box of 12)",
+    "sku": "4811342IT",
+    "unreadable": 0
+   },
+   "2305879000154285458": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapesil AC Zero 127 crt 310ml (box of 12)",
+    "sku": "4812742IT",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|28"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "paid"
+ },
+ "LB26-21309": {
+  "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154228968",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154228973": {
+    "delivered": 15.0,
+    "invoiced": 15.0,
+    "name": "weberfloor Rapid (50 Kg)",
+    "sku": "I000002041",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|27"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "sent"
+ },
+ "LB26-21310": {
+  "customer": "BIN HANIF ELECTROMECHANICAL WORKS LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154289053",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154289060": {
+    "delivered": 55.0,
+    "invoiced": 55.0,
+    "name": "H40 Gel Grey 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|26"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "sent"
+ },
+ "LB26-21311": {
+  "customer": "SUPERIOR DESIGN TECHNICAL SERVICES L.L.C.",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154286294",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154286298": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "SPPG SMOKE GREY 5.2 KG (A+B+C)",
+    "sku": "17-1289-0109-K-M",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|25"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "paid"
+ },
+ "LB26-21312": {
+  "customer": "CONDOR BUILDING CONTRACTING (L.L.C)",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154289174",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154289176": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "GA/12 SIL. ANOD. ALU. CM270",
+    "sku": "95033",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|24"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "paid"
+ },
+ "LB26-21313": {
+  "customer": "CONDOR BUILDING CONTRACTING (L.L.C)",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154289293",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154289295": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "GA/12 SIL. ANOD. ALU. CM270",
+    "sku": "95033",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|23"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "paid"
+ },
+ "LB26-21314": {
+  "customer": "DUSK & DUNE",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154286466",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154286467": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultraplan Grey bag 23kg",
+    "sku": "34823",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|22"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "paid"
+ },
+ "LB26-21315": {
+  "customer": "SECRET GARDENS LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154294156",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154294160": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Kerapoxy Easy Design 0149 Volcano Sand unit 3kg",
+    "sku": "5KB014903",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|21"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "sent"
+ },
+ "LB26-21317": {
+  "customer": "IKHLAS BUILDING CONTRACTING CO. L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154294495",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154294496": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Kerapoxy 100 unit 5kg",
+    "sku": "4510005",
+    "unreadable": 0
+   },
+   "2305879000154294611": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy 100 unit 10kg",
+    "sku": "4510010",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|19"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "paid"
+ },
+ "LB26-21319": {
+  "customer": "SIGNATURE BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154289759",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154289764": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Ultraplan Eco 20 bag 23kg",
+    "sku": "1491523",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|18"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "sent"
+ },
+ "LB26-21320": {
+  "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:50",
+  "invoice_id": "2305879000154294720",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154294721": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "LINEAR SPACER 1.5MM",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000154294722": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "GYPSUM JOINT COMPOUND - TERRACOMAXI 28 KG",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000154294723": {
+    "delivered": 48.0,
+    "invoiced": 48.0,
+    "name": "Mapeflex AC4 White crt 310ml (box of 12)",
+    "sku": "4PX010043",
+    "unreadable": 0
+   },
+   "2305879000154294724": {
+    "delivered": 15.0,
+    "invoiced": 15.0,
+    "name": "weberpremix SP-33 (50 Kg)",
+    "sku": "I000000658",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:50",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|17"
+   }
+  ],
+  "resolved": "2026-11-07 08:50",
+  "status": "overdue"
+ },
+ "LB26-21321": {
+  "customer": "MARBLE LIFE GULF",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154286701",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154286705": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy 144 unit 10kg",
+    "sku": "4514410",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|16"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "sent"
+ },
+ "LB26-21322": {
+  "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154294890",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154294892": {
+    "delivered": 15.0,
+    "invoiced": 15.0,
+    "name": "Vetofix Parquet - 15 Kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|15"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "sent"
+ },
+ "LB26-21323": {
+  "customer": "ENDEAVOUR POOLS INSTALLATION LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154286793",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154286799": {
+    "delivered": 0.0,
+    "invoiced": 20.0,
+    "name": "254 PLATINUM WHITE 20 KG BAG",
+    "sku": "",
+    "unreadable": 1
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|14"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "overdue"
+ },
+ "LB26-21324": {
+  "customer": "SIGNATURE BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154289861",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154289866": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Ultraplan Eco 20 bag 23kg",
+    "sku": "1491523",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|13"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "sent"
+ },
+ "LB26-21325": {
+  "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154294992",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154294993": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "DIAMOND HAND PAD, ELECTROPLATED FINISHING, COMFORTABLE FOAM GRIP 95X55X37MM - 060#",
+    "sku": "DMP060",
+    "unreadable": 0
+   },
+   "2305879000154294994": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "DIAMOND HAND PAD, ELECTROPLATED FINISHING, COMFORTABLE FOAM GRIP 95X55X37MM - 120#",
+    "sku": "DMP120",
+    "unreadable": 0
+   },
+   "2305879000154294995": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "DIAMOND HAND PAD, ELECTROPLATED FINISHING, COMFORTABLE FOAM GRIP 95X55X37MM - 200#",
+    "sku": "DMP200",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|12"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "overdue"
+ },
+ "LB26-21326": {
+  "customer": "K M C O GENERAL TRADING LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154286894",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154286898": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "Fuga-Shock 1Ltr",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|11"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "sent"
+ },
+ "LB26-21327": {
+  "customer": "Rashid Sajjad",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154318099",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154318103": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "BIOGEL EXTREME A+B",
+    "sku": "13652",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|10"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "paid"
+ },
+ "LB26-21328": {
+  "customer": "TOP REM HOUSE CONTRACTING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154318244",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154318245": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "TERRACO HANDYCOAT EXTERIOR",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|9"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "overdue"
+ },
+ "LB26-21330": {
+  "customer": "NORTH EDGE POOLSCAPES",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154318335",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154318339": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "SPPG LIGHT PEWTER 5.2 KG (A+B+C)",
+    "sku": "17-1290-0109-K-M",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|8"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "void"
+ },
+ "LB26-21332": {
+  "customer": "DESERT EMPIRE BUILDING MATERIALS TRADING",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154320177",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154320179": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "Ultrabond Eco V4SP bucket 14kg/30.865lb",
+    "sku": "67214",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|7"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "overdue"
+ },
+ "LB26-21333": {
+  "customer": "SEVEN COLORS BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154320290",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154320291": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "weberpremix SP-33 (50 Kg)",
+    "sku": "I000000658",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|6"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "paid"
+ },
+ "LB26-21334": {
+  "customer": "SILICONE FIINISHERS BUILDING MAINTENANCE CO.L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154318450",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154318451": {
+    "delivered": 6.0,
+    "invoiced": 6.0,
+    "name": "Mapesil AC Zero 132 crt 310ml (box of 12)",
+    "sku": "4813242IT",
+    "unreadable": 0
+   },
+   "2305879000154318452": {
+    "delivered": 6.0,
+    "invoiced": 1.0,
+    "name": "Mapesil AC Zero 130 crt 310ml (box of 12)",
+    "sku": "4813042IT",
+    "unreadable": 0
+   },
+   "2305879000154318458": {
+    "delivered": 6.0,
+    "invoiced": 6.0,
+    "name": "Mapeflex AC4 Grey crt 310ml (box of 12)",
+    "sku": "461043",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|5"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "paid"
+ },
+ "LB26-21335": {
+  "customer": "FIXAURA AXION TECHNICAL SERVICES L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154318638",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154318642": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy Easy Design 0123 Ancient White unit 3kg",
+    "sku": "5KB012303",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|4"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "overdue"
+ },
+ "LB26-21336": {
+  "customer": "AVANTGARDE RENOVATION TECHNICAL SERVICE L.L.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:49",
+  "invoice_id": "2305879000154318731",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154318732": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "B-ACTION DIAMOND BLADE. USED FOR AUTOMATIC ELECTRIC TILE CUTTING MACHINE (TCSA)",
+    "sku": "DCBS130",
+    "unreadable": 0
+   },
+   "2305879000154318733": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "ULTIMATE DIAMOND EDGE BLADE, \u00d8115MM(4-1/2\"), FULL 25MM HEIGHT CONTINUOUS DIAMOND RIM, 1.6MM THICKNESS.",
+    "sku": "DPD115",
+    "unreadable": 0
+   },
+   "2305879000154318734": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Rectangular Diamond Hand Pad Equipped with a strong diamond plate Soft EVA backing for a comfortable grip Extra-long rectangular design for easy polishing in tight areas. #3(400) Size: 170X75mm",
+    "sku": "DHPS3",
+    "unreadable": 0
+   },
+   "2305879000154318740": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Diamond Hand Pad, electroplated finishing, comfortable foam grip 400#",
+    "sku": "DHP400",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:49",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|3"
+   }
+  ],
+  "resolved": "2026-11-07 08:49",
+  "status": "paid"
+ },
+ "LB26-21341": {
+  "customer": "PRO STUDIO TECHNICAL SERVICES LLC",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:48",
+  "invoice_id": "2305879000154320860",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154320861": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Aluminum alloy die-casting material and metal drum 600ml (20.28oz)",
+    "sku": "TCG600",
+    "unreadable": 0
+   },
+   "2305879000154320862": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "YHSRseal-2721 \uff08JASMINE\uff09",
+    "sku": "OYHJASMINE",
+    "unreadable": 0
+   },
+   "2305879000154320867": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "weber Jointseal PU 300 Beige (Pc)",
+    "sku": "I000002592",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:48",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|2"
+   }
+  ],
+  "resolved": "2026-11-07 08:48",
+  "status": "paid"
+ },
+ "LB26-21342": {
+  "customer": "Junction Contracting-LLC-S.P.C",
+  "date": "2026-11-06",
+  "first_attached": "2026-11-07 08:48",
+  "invoice_id": "2305879000154325036",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154325040": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "HYDROREP ECO - 5 L",
+    "sku": "70720005ARA",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-07 08:48",
+    "id": "2026-11-07-0847-1-6NOV 2026 DN.pdf|1"
+   }
+  ],
+  "resolved": "2026-11-07 08:48",
+  "status": "paid"
  },
  "LBSJ26-01661": {
   "customer": "CARRARA MID-EAST INDUSTRIAL CO",
@@ -69377,6 +71002,18 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42206762339",
    "why": "items:FAIL: SKU 1501425 is on the page but its item name 'Mapegrout ME05 bag 25kg' is not"
+  },
+  {
+   "at": "2026-11-07 08:53",
+   "customer": "AMWA) ALIA TECHNICAL SERVICES L.L.C .",
+   "date": "2026-11-06",
+   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: page has item rows that are not on this invoice: SKU 5KBO70003 | none of the invoice lines are on the page; TRN match; searched 4 same-day invoice(s) for this customer, none pass all checks ",
+   "file": "2026-11-07-0847-1-6NOV 2026 DN.pdf",
+   "number": "LB26-21316",
+   "page": "20",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42339946049",
+   "why": "items:FAIL: page has item rows that are not on this invoice: SKU 5KBO70003"
   }
  ],
  "_last_email": "2026-11-06 16:00",
@@ -69896,6 +71533,18 @@
    "held": 3,
    "pages": 26,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42206762339"
+  },
+  {
+   "already": 0,
+   "at": "2026-11-07 08:53",
+   "attached": 61,
+   "by": "Ryan",
+   "files": [
+    "2026-11-07-0847-1-6NOV 2026 DN.pdf"
+   ],
+   "held": 1,
+   "pages": 62,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42339946049"
   }
  ]
 }
