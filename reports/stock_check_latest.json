@@ -1,25 +1,25 @@
 {
- "generated": "07 Nov 2026 14:38",
+ "generated": "08 Nov 2026 14:43",
  "window_days": 2,
- "checked_sos": 243,
- "lines": 577,
- "clean_sos": 236,
+ "checked_sos": 158,
+ "lines": 390,
+ "clean_sos": 153,
  "bad_sos": [
-  "SO26-05382",
+  "SO25-10181",
   "SO26-07931",
   "SO26-08412",
-  "SO26-08499",
-  "SO26-08727"
+  "SO26-08727",
+  "SO26-08740"
  ],
  "problems": [
   {
-   "so": "SO26-05382",
-   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
-   "item": "Ultracolor Plus 136 ALU bag 5kg (box of 4)",
+   "so": "SO25-10181",
+   "customer": "CRETEPRO BUILDING MATERIAL TRADING LLC",
+   "item": "weberpremix SP-33 (50 Kg)",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "8",
-   "shipped": "0",
-   "why": "invoice LB26-12743 updated, sales order updated"
+   "invoiced": "920",
+   "shipped": "900",
+   "why": "invoice LB25-22185 updated, invoice LB25-22310 updated, sales order updated"
   },
   {
    "so": "SO26-07931",
@@ -37,16 +37,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "4",
    "shipped": "0",
-   "why": "invoice LB26-20463 updated, invoice LB26-21302 updated, sales order updated"
-  },
-  {
-   "so": "SO26-08499",
-   "customer": "ADVANCE VICTORY CONTRACTING LLC",
-   "item": "Sponge Float (140x280 mm), Plastic handle, used for tile cleaning, plaster smoothing, decorative...",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "sales order updated"
+   "why": "invoice LB26-21302 updated"
   },
   {
    "so": "SO26-08727",
@@ -56,8 +47,23 @@
    "invoiced": "120",
    "shipped": "0",
    "why": "invoice LB26-21363 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08740",
+   "customer": "KSK TRADING LLC",
+   "item": "Ultraplan Eco 20 bag 23kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "63",
+   "shipped": "0",
+   "why": "invoice LB26-21400 updated, sales order updated"
   }
  ],
- "alerts": [],
- "calls": 689
+ "alerts": [
+  {
+   "so": "SO26-08740",
+   "text": "LB-STOCKSYNC ALERT (LB26-21396 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
+   "when": "2026-11-07"
+  }
+ ],
+ "calls": 467
 }
