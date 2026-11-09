@@ -1,14 +1,11 @@
 {
- "generated": "08 Nov 2026 14:43",
+ "generated": "09 Nov 2026 16:02",
  "window_days": 2,
- "checked_sos": 158,
- "lines": 390,
- "clean_sos": 153,
+ "checked_sos": 153,
+ "lines": 394,
+ "clean_sos": 148,
  "bad_sos": [
   "SO25-10181",
-  "SO26-07931",
-  "SO26-08412",
-  "SO26-08727",
   "SO26-08740"
  ],
  "problems": [
@@ -20,33 +17,6 @@
    "invoiced": "920",
    "shipped": "900",
    "why": "invoice LB25-22185 updated, invoice LB25-22310 updated, sales order updated"
-  },
-  {
-   "so": "SO26-07931",
-   "customer": "ROYAL APEX BUILDING MATERIALS TRADING LLC",
-   "item": "Mapelastic Aquadefense Zero bucket 15kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "18",
-   "shipped": "13",
-   "why": "invoice LB26-19126 updated"
-  },
-  {
-   "so": "SO26-08412",
-   "customer": "PLUS SEVEN CONTRACTING L.L.C",
-   "item": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "4",
-   "shipped": "0",
-   "why": "invoice LB26-21302 updated"
-  },
-  {
-   "so": "SO26-08727",
-   "customer": "Focus Tech LLC",
-   "item": "Vetoblock Mortar AAC 50KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "120",
-   "shipped": "0",
-   "why": "invoice LB26-21363 updated, sales order updated"
   },
   {
    "so": "SO26-08740",
@@ -65,5 +35,5 @@
    "when": "2026-11-07"
   }
  ],
- "calls": 467
+ "calls": 427
 }
