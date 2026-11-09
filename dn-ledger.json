@@ -72508,6 +72508,78 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42624968827",
    "why": "no invoice numbered LBAD26-06149"
+  },
+  {
+   "at": "2026-11-09 17:42",
+   "customer": "PINK CITY CERAMIC AND SANITARY TRADING - L.L.C - S.P.C",
+   "date": "2026-11-07",
+   "detail": "no invoice numbered LBAD26-06152; searched 3 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-09-1741-1-07-09-DN.pdf",
+   "number": "LBAD26-06152",
+   "page": "1",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42627676982",
+   "why": "no invoice numbered LBAD26-06152"
+  },
+  {
+   "at": "2026-11-09 17:42",
+   "customer": "IDEAL FLOORING LLC",
+   "date": "2026-11-07",
+   "detail": "no invoice numbered LBAD26-06151; searched 3 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-09-1741-1-07-09-DN.pdf",
+   "number": "LBAD26-06151",
+   "page": "2",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42627676982",
+   "why": "no invoice numbered LBAD26-06151"
+  },
+  {
+   "at": "2026-11-09 17:42",
+   "customer": "TRENTON GENERAL CONTRACTING AND REAL ESTATE MANAGEMENT-",
+   "date": "2026-11-07",
+   "detail": "no invoice numbered LBAD26-06147; searched 5 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-09-1741-1-07-09-DN.pdf",
+   "number": "LBAD26-06147",
+   "page": "4",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42627676982",
+   "why": "no invoice numbered LBAD26-06147"
+  },
+  {
+   "at": "2026-11-09 17:42",
+   "customer": "SPAZIO DESIGN AND BUILD INTERNATIONAL L.L.C",
+   "date": "2026-11-07",
+   "detail": "no invoice numbered LBAD26-06144; searched 3 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-09-1741-1-07-09-DN.pdf",
+   "number": "LBAD26-06144",
+   "page": "5",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42627676982",
+   "why": "no invoice numbered LBAD26-06144"
+  },
+  {
+   "at": "2026-11-09 17:42",
+   "customer": "AL QASIM BUILDING MATERIALS LLC - S.P.C",
+   "date": "2026-11-07",
+   "detail": "no invoice numbered LBAD26-06150; searched 3 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-09-1741-1-07-09-DN.pdf",
+   "number": "LBAD26-06150",
+   "page": "6",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42627676982",
+   "why": "no invoice numbered LBAD26-06150"
+  },
+  {
+   "at": "2026-11-09 17:42",
+   "customer": "SAEED AL ZAABI GENERAL TRADING LLC",
+   "date": "2026-11-07",
+   "detail": "no invoice numbered LBAD26-06149; searched 3 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-09-1741-1-07-09-DN.pdf",
+   "number": "LBAD26-06149",
+   "page": "7",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42627676982",
+   "why": "no invoice numbered LBAD26-06149"
   }
  ],
  "_last_email": "2026-11-09 16:45",
@@ -73063,6 +73135,18 @@
    "held": 6,
    "pages": 7,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42624968827"
+  },
+  {
+   "already": 1,
+   "at": "2026-11-09 17:42",
+   "attached": 0,
+   "by": "Aquib",
+   "files": [
+    "2026-11-09-1741-1-07-09-DN.pdf"
+   ],
+   "held": 6,
+   "pages": 7,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42627676982"
   }
  ]
 }
