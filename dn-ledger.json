@@ -74269,6 +74269,462 @@
   "resolved": "2026-11-10 09:56",
   "status": "paid"
  },
+ "LBAD26-06156": {
+  "customer": "SUPER NAS BUILDING MATERIALS - L.L.C - S.P.C",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:58",
+  "invoice_id": "3540083000058080182",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058080183": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "FUGABELLA COLOR KK 68",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:58",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|16"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:58",
+  "status": "paid"
+ },
+ "LBAD26-06157": {
+  "customer": "ROYAL TULIP BUILDING MATERIALS TRADING - SOLE PROPRIETORSHIP L.L.C.",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058080339",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058080340": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Pragma easy Grey 20kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|15"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "paid"
+ },
+ "LBAD26-06158": {
+  "customer": "AL SHAHID BUILDING MATERIAL TRADING LLC",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058060077",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058060078": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "FUGABELLA COLOR KK 64",
+    "sku": "",
+    "unreadable": 0
+   },
+   "3540083000058060079": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "FUGABELLA COLOR KK 66",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|14"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "paid"
+ },
+ "LBAD26-06159": {
+  "customer": "GULF DUNES LANDSCAPING AND AGRICULTURAL SERVICES COMPANY LLC SPC",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058060178",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058060183": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultrabond Turf 2 Stars Pro Green unit 15kg",
+    "sku": "6RC356115",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|13"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "paid"
+ },
+ "LBAD26-06160": {
+  "customer": "UNIQUE OPTIONS N INTERIORS  DESIGNS - L L C",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058080549",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058080550": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Ultracolor Plus 112 ALU bag 5kg (box of 4)",
+    "sku": "6011245A",
+    "unreadable": 0
+   },
+   "3540083000058080551": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "Ultracolor Plus 130 ALU bag 5kg (box of 4)",
+    "sku": "6013045A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|12"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "paid"
+ },
+ "LBAD26-06161": {
+  "customer": "AL AZRAQ POOLS",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058080695",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058080703": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "SIKATOP 550 SEAL J LIGHT GREY 20KG",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|11"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "sent"
+ },
+ "LBAD26-06162": {
+  "customer": "REFLOW WATER MAINTENANCE AND CLEANING SOLUTIONS L.L.C S.P.C",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058080812",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058080820": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Kerapoxy 100 unit 10kg",
+    "sku": "4510010",
+    "unreadable": 0
+   },
+   "3540083000058080821": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracare Epoxy off Gel jerrycan 1lt /1.1kg (box of 10)",
+    "sku": "1149931UK",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|10"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "paid"
+ },
+ "LBAD26-06163": {
+  "customer": "NOMAD INTERIORS LLC",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058080961",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058080968": {
+    "delivered": 60.0,
+    "invoiced": 60.0,
+    "name": "Tile Fix Universal White 25 Kg Bag",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|9"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "overdue"
+ },
+ "LBAD26-06164": {
+  "customer": "ARABIAN HARDWARE TRADING CO. L.LC",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058098067",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058098074": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "Ultracolor Plus 130 ALU bag 5kg (box of 4)",
+    "sku": "6013045A",
+    "unreadable": 0
+   },
+   "3540083000058098075": {
+    "delivered": 6.0,
+    "invoiced": 6.0,
+    "name": "Ultracolor Plus 144 ALU bag 5kg (box of 4)",
+    "sku": "6014445A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|8"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "sent"
+ },
+ "LBAD26-06165": {
+  "customer": "TITAN TIDE TECHNICAL SERVICES L.L.C",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058098220",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058098221": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Kerapoxy 132 unit 10kg",
+    "sku": "4513210",
+    "unreadable": 0
+   },
+   "3540083000058098222": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "Mapesil AC Zero 112 crt 310ml (box of 12)",
+    "sku": "4811242IT",
+    "unreadable": 0
+   },
+   "3540083000058098239": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapenet 150 roll 1x50mt",
+    "sku": "1781150",
+    "unreadable": 0
+   },
+   "3540083000058098240": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "SELECT VIBRATION TILE BEATER, DIGITAL CONTROL PANEL, SIX SPEEDS, 10000R/MIN, 2000MA, 21V, WITH 1PC EXTRA BATTERY",
+    "sku": "LFTBA-Plus",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|7"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "paid"
+ },
+ "LBAD26-06166": {
+  "customer": "CREATIVE CONCEPTS GENERAL CONTRACTING L.L.C",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058098448",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058098449": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Kerapoxy Easy Design 0188 Biscuit unit 3kg",
+    "sku": "5KB018803",
+    "unreadable": 0
+   },
+   "3540083000058098579": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "SILICON GUN H/D OBEN",
+    "sku": "OBEN",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|6"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "paid"
+ },
+ "LBAD26-06168": {
+  "customer": "NOVA SCOTIA",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058098688",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058098689": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
+    "sku": "6010345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|5"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "paid"
+ },
+ "LBAD26-06169": {
+  "customer": "ART WAVES TECHNICAL SERVICES L.L.C",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:57",
+  "invoice_id": "3540083000058098811",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058098812": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 152 ALU bag 5kg (box of 4)",
+    "sku": "6015245A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:57",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|4"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:57",
+  "status": "paid"
+ },
+ "LBAD26-06171": {
+  "customer": "ENGINEERING UNIT GENERAL CONTRACTING - SOLE PROPRIETORSHIP L.L.C",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:56",
+  "invoice_id": "3540083000058100029",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058100036": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Kerapoxy 100 unit 10kg",
+    "sku": "4510010",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:56",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|3"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:56",
+  "status": "overdue"
+ },
+ "LBAD26-06172": {
+  "customer": "AL WADEEA BUILDING MATERIALS - LLC",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:56",
+  "invoice_id": "3540083000058100124",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058100131": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Kerapoxy 100 unit 10kg",
+    "sku": "4510010",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:56",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|2"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:56",
+  "status": "sent"
+ },
+ "LBAD26-06173": {
+  "customer": "SUPER ABRAN BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-10 09:56",
+  "invoice_id": "3540083000058100196",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058100197": {
+    "delivered": 12.0,
+    "invoiced": 12.0,
+    "name": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+    "sku": "60012345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 09:56",
+    "id": "2026-11-10-0937-1-09-11-dn.pdf|1"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 09:56",
+  "status": "paid"
+ },
  "LBSJ26-01636": {
   "customer": "HERCULES INT.BLDG MATERIALS TRADING .LLC",
   "date": "2026-10-12",
@@ -74668,18 +75124,6 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41968272982",
    "why": "no invoice numbered LBAD26-06063"
-  },
-  {
-   "at": "2026-11-05 08:32",
-   "customer": "BUILD LINK GENERAL CONTRACTING - L.L.C - S.P.C",
-   "date": "2026-11-03",
-   "detail": "no invoice numbered LBAD26-06047; searched 6 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-05-0830-1-04-11-26  DN.pdf",
-   "number": "LBAD26-06047",
-   "page": "24",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/41968272982",
-   "why": "no invoice numbered LBAD26-06047"
   },
   {
    "at": "2026-11-05 08:49",
@@ -75475,6 +75919,18 @@
    "held": 1,
    "pages": 7,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42765194917"
+  },
+  {
+   "already": 0,
+   "at": "2026-11-10 09:58",
+   "attached": 16,
+   "by": "Rerun after Abu Dhabi fix",
+   "files": [
+    "2026-11-10-0937-1-09-11-dn.pdf"
+   ],
+   "held": 0,
+   "pages": 16,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42765195220"
   }
  ]
 }
