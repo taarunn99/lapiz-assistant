@@ -74362,6 +74362,52 @@
   "resolved": "2026-11-10 09:57",
   "status": "paid"
  },
+ "LBAD26-06068": {
+  "customer": "LAPIZ BLUE GENERAL TRADING LLC - DUBAI",
+  "date": "2026-11-04",
+  "first_attached": "2026-11-10 10:08",
+  "invoice_id": "3540083000057720748",
+  "last_reminded": "",
+  "lines": {
+   "3540083000057720755": {
+    "delivered": 252.0,
+    "invoiced": 252.0,
+    "name": "Keraflex Grey bag 25kg",
+    "sku": "119125",
+    "unreadable": 0
+   },
+   "3540083000057720756": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "Kerapoxy 112 unit 5kg",
+    "sku": "4511205",
+    "unreadable": 0
+   },
+   "3540083000057722068": {
+    "delivered": 40.0,
+    "invoiced": 40.0,
+    "name": "Ultracolor Plus 132 ALU bag 5kg (box of 4)",
+    "sku": "6013245A",
+    "unreadable": 0
+   },
+   "3540083000057722492": {
+    "delivered": 0.0,
+    "invoiced": 12.0,
+    "name": "Mapesil AC Zero Transparent crt 310ml (box of 12)",
+    "sku": "4899942IT",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 10:08",
+    "id": "2026-11-05-0830-1-04-11-26  DN.pdf|8"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "",
+  "status": "sent"
+ },
  "LBAD26-06069": {
   "customer": "TOWERS CONTRACTING AND GENERAL MAINTENANCE LLC",
   "date": "2026-11-04",
@@ -75640,30 +75686,6 @@
    "why": "number not readable"
   },
   {
-   "at": "2026-11-10 09:58",
-   "customer": "LAPIZ BLUE GENERAL TRADING LLC - DUBAI",
-   "date": "2026-11-04",
-   "detail": "name:ok, date:ok, items:ok, trn:FAIL; 3/4 lines on page; 1 line(s) not on this note (pending); TRN on page ['100531868600003'] != invoice 100493956500003; searched 7 same-day invoice(s) for this customer, none pass all checks [LBAD26-06070: name:ok, date:ok, items:FAIL, trn:FAIL; 0/1 lines on page; ",
-   "file": "2026-11-05-0830-1-04-11-26  DN.pdf",
-   "number": "LBAD26-06068",
-   "page": "8",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42765195882",
-   "why": "trn:FAIL: page has item rows that are not on this invoice: SKU 119125, SKU 4511205, SKU 6013245A"
-  },
-  {
-   "at": "2026-11-10 09:58",
-   "customer": "MONY INTERIORS - L.L.C",
-   "date": "2026-11-04",
-   "detail": "name:FAIL, date:ok, items:ok; 1/1 lines on page; qty not readable on 1 line(s); TRN not checked; searched 1 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-05-0830-1-04-11-26  DN.pdf",
-   "number": "LBAD26-06063",
-   "page": "11",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42765195882",
-   "why": "name:FAIL: name on page does not match the invoice's customer"
-  },
-  {
    "at": "2026-11-10 10:02",
    "customer": "UVC TECHNICAL SERVICES LLC",
    "date": "",
@@ -75710,6 +75732,18 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42765196136",
    "why": "number not readable: none of the invoice lines are on the page"
+  },
+  {
+   "at": "2026-11-10 10:09",
+   "customer": "MONY INTERIORS - L.L.C",
+   "date": "2026-11-04",
+   "detail": "name:FAIL, date:ok, items:ok; 1/1 lines on page; qty not readable on 1 line(s); TRN not checked; searched 1 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-05-0830-1-04-11-26  DN.pdf",
+   "number": "LBAD26-06063",
+   "page": "11",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42766087535",
+   "why": "name:FAIL: name on page does not match the invoice's customer"
   }
  ],
  "_last_email": "2026-11-09 16:45",
@@ -76385,6 +76419,18 @@
    "held": 5,
    "pages": 81,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42765196136"
+  },
+  {
+   "already": 22,
+   "at": "2026-11-10 10:09",
+   "attached": 1,
+   "by": "Rerun after Abu Dhabi TRN fix",
+   "files": [
+    "2026-11-05-0830-1-04-11-26  DN.pdf"
+   ],
+   "held": 1,
+   "pages": 24,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42766087535"
   }
  ]
 }
