@@ -1330,8 +1330,19 @@ def main():
                              "customer": r["customer_on_page"], "date": r["date_on_page"], "why": why,
                              "detail": r["checks"][:300], "url": RUN_URL, "pdf": pdf_url})
         # a held page is cleared once its invoice has a note (attached in this run)
-        done = {r["invoice_number"] for r in rows if r["result"] in ("ATTACHED", "ALREADY ATTACHED")}
-        led["_held"] = [h for h in held if not (h["number"] and h["number"] in done)]
+        ok_rows = [r for r in rows if r["result"] in ("ATTACHED", "ALREADY ATTACHED")]
+        done = {r["invoice_number"] for r in ok_rows}
+        # ...or once the same page of the same scan is attached on a later run (a page whose number was not
+        # readable has no number to match on, so the scan file and page decide)
+        done_pages = {(r["source_pdf"], p) for r in ok_rows for p in r["pages"].split(",")}
+        kept_h = {}
+        for h in held:
+            if h["number"] and h["number"] in done:
+                continue
+            if any((h["file"], p) in done_pages for p in str(h["page"]).split(",")):
+                continue
+            kept_h[(h["file"], str(h["page"]))] = h      # one entry per scan page, the latest wins
+        led["_held"] = list(kept_h.values())
     # 7b. every run: drop held pages that were ticked off in the app (dn-dismissed.json), whose invoice or
     #     credit note now carries a file (attached by hand), or that are older than 30 days
     dismissed = set()
