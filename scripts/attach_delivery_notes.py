@@ -79,6 +79,7 @@ PACE_SECONDS = float(os.environ.get("PACE_SECONDS", "1.5"))
 OCR_WORKERS = int(os.environ.get("OCR_WORKERS", "4"))              # pages read in parallel (runner has 4 cores)
 os.environ.setdefault("OMP_THREAD_LIMIT", "1")                      # one thread per tesseract process, else parallel OCR crawls
 OWN_TRN = "100493956500003"   # Lapiz Blue's own TRN, printed on every note, ignored
+OWN_TRNS = {OWN_TRN, "100531868600003"}   # Dubai and Abu Dhabi: both are Lapiz Blue, never the customer
 OVERDUE_DAYS = int(os.environ.get("OVERDUE_DAYS", "2"))          # a note is overdue this many days after the invoice date
 OVERDUE_FROM = os.environ.get("OVERDUE_FROM", "2026-10-22")       # invoices before the system went live are not chased
 CLIQ_WEBHOOK = os.environ.get("CLIQ_DN_WEBHOOK", "").strip()      # full post URL, or just the webhook token
@@ -247,7 +248,7 @@ def read_page(png):
                 break
         customer = re.split(r"\s+(Credit|Invoice|Date|Ref|VAT)\b", customer)[0].strip()
         ref = LOOSE_RE.search(text)
-        trns = [t for t in TRN_RE.findall(text) if t != OWN_TRN]
+        trns = [t for t in TRN_RE.findall(text) if t not in OWN_TRNS]
         return {"text": text, "number": num, "customer": customer, "date": date, "trns": trns, "qty": {},
                 "kind": "cn", "ref_invoice": norm_number(ref.group(1)) if ref else ""}
     m = NUM_RE.search(text)
@@ -292,7 +293,7 @@ def read_page(png):
             customer = after[0] if after else ""
             break
     customer = re.split(r"\s+(Fulfillment|Date|Ref|VAT)\b", customer)[0].strip()
-    trns = [t for t in TRN_RE.findall(text) if t != OWN_TRN]
+    trns = [t for t in TRN_RE.findall(text) if t not in OWN_TRNS]
     try:
         qty = read_quantities(png)
     except Exception as e:
