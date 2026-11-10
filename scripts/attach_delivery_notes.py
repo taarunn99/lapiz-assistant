@@ -1136,6 +1136,11 @@ def main():
                 if target is None and page["date"]:
                     cands = []
                     for inv in same_day(page["date"]):
+                        # never guess an invoice billed to Lapiz Blue itself (branch to branch transfer): Lapiz Blue's
+                        # own name and TRN are printed on every note, so such an invoice "matches" any page. Those
+                        # notes are attached only when their own invoice number is read from the page (step a).
+                        if "LAPIZ BLUE" in (inv.get("customer_name") or "").upper():
+                            continue
                         probe = {"customer_name": inv.get("customer_name", ""), "date": inv.get("date"),
                                  "line_items": [], "tax_reg_no": ""}
                         _, c, _ = verify(page, probe)
