@@ -78,6 +78,8 @@ def books_url(doc, kind="invoices"):
 PACE_SECONDS = float(os.environ.get("PACE_SECONDS", "1.5"))
 OCR_WORKERS = int(os.environ.get("OCR_WORKERS", "4"))              # pages read in parallel (runner has 4 cores)
 os.environ.setdefault("OMP_THREAD_LIMIT", "1")                      # one thread per tesseract process, else parallel OCR crawls
+DPI = int(os.environ.get("DN_DPI", "200"))   # reading resolution; 300 under test (scans come in at 300 dpi)
+PX = DPI / 200.0                               # pixel distances below were tuned at 200 dpi
 OWN_TRN = "100493956500003"   # Lapiz Blue's own TRN, printed on every note, ignored
 OWN_TRNS = {OWN_TRN, "100531868600003"}   # Dubai and Abu Dhabi: both are Lapiz Blue, never the customer
 OVERDUE_DAYS = int(os.environ.get("OVERDUE_DAYS", "2"))          # a note is overdue this many days after the invoice date
@@ -182,7 +184,7 @@ def read_quantities(png):
     for y, name in item_rows:
         best = None
         for n in nums:
-            if n[2] or not (y - 40 <= n[0] <= y + 40):
+            if n[2] or not (y - 40 * PX <= n[0] <= y + 40 * PX):
                 continue
             if best is None or abs(n[0] - y) < abs(best[0] - y):
                 best = n
@@ -190,7 +192,7 @@ def read_quantities(png):
             best[2] = True
             by_row.append((name, best[1]))
             # the SKU line directly under this row inherits the quantity
-            under = [sk for sk in skus if y < sk[0] <= y + 110]
+            under = [sk for sk in skus if y < sk[0] <= y + 110 * PX]
             if under:
                 out[under[0][1]] = best[1]
     for y, sku in skus:
@@ -198,9 +200,9 @@ def read_quantities(png):
             continue
         best = None
         for n in nums:
-            if n[2] or not (y - 110 <= n[0] <= y + 15):
+            if n[2] or not (y - 110 * PX <= n[0] <= y + 15 * PX):
                 continue
-            if best is None or abs(n[0] - (y - 30)) < abs(best[0] - (y - 30)):
+            if best is None or abs(n[0] - (y - 30 * PX)) < abs(best[0] - (y - 30 * PX)):
                 best = n
         if best:
             best[2] = True
@@ -689,7 +691,7 @@ def images_to_pdf(folder):
             im = Image.open(img)
             im = ImageOps.exif_transpose(im).convert("RGB")
             out = os.path.splitext(img)[0] + ".pdf"
-            im.save(out, "PDF", resolution=200)
+            im.save(out, "PDF", resolution=DPI)
             os.remove(img)
             log(f"photo {os.path.basename(img)} converted to {os.path.basename(out)}")
         except Exception as e:
@@ -986,7 +988,7 @@ def main():
         reader = PdfReader(pdf)
         n = len(reader.pages)
         prefix = f"{OUT}/pages/{base}"
-        subprocess.run(["pdftoppm", "-r", "200", "-png", pdf, prefix], check=True)
+        subprocess.run(["pdftoppm", "-r", str(DPI), "-png", pdf, prefix], check=True)
         pngs = sorted(p for p in glob.glob(f"{prefix}-*.png") if not p.endswith("-band.png"))
         if len(pngs) != n:
             raise SystemExit(f"{pdf}: rasterised {len(pngs)} pages but PDF has {n}")
