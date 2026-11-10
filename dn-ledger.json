@@ -75650,30 +75650,6 @@
    "why": "items:FAIL: none of the invoice lines are on the page"
   },
   {
-   "at": "2026-11-10 09:38",
-   "customer": "CREATIVE CONCEPTS GENERAL CONTRACTING L.L.C",
-   "date": "2026-11-09",
-   "detail": "; searched 4 same-day invoice(s) for this customer, none pass all checks [LB26-21478: name:ok, date:ok, items:FAIL, trn:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: page has item rows that are not on this invoice: SKU 5KB018803, SKU OBEN | none of the invoice lines a",
-   "file": "2026-11-10-0937-1-09-11-dn.pdf",
-   "number": "",
-   "page": "6",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
-   "why": "number not readable: page has item rows that are not on this invoice: SKU 5KB018803, SKU OBEN"
-  },
-  {
-   "at": "2026-11-10 09:38",
-   "customer": "ROYAL TULIP BUILDING MATERIALS TRADING - SOLE",
-   "date": "2026-11-09",
-   "detail": "; searched 4 same-day invoice(s) for this customer, none pass all checks [LB26-21478: name:ok, date:ok, items:FAIL, trn:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN on page ['100531868600003', '104102093200003'] != invoi",
-   "file": "2026-11-10-0937-1-09-11-dn.pdf",
-   "number": "",
-   "page": "15",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
-   "why": "number not readable: none of the invoice lines are on the page"
-  },
-  {
    "at": "2026-11-10 09:57",
    "customer": "STAR FLOURISH CONTRACTING AND TRANSPORTATION L.L.C- S.P.C",
    "date": "2026-11-07",
@@ -76431,6 +76407,18 @@
    "held": 1,
    "pages": 24,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42766087535"
+  },
+  {
+   "already": 16,
+   "at": "2026-11-10 10:12",
+   "attached": 0,
+   "by": "Rerun after Abu Dhabi fix",
+   "files": [
+    "2026-11-10-0937-1-09-11-dn.pdf"
+   ],
+   "held": 0,
+   "pages": 16,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42766758282"
   }
  ]
 }
