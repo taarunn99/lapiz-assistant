@@ -72580,6 +72580,198 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42627676982",
    "why": "no invoice numbered LBAD26-06149"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "SUPER ABRAN BUILDING MATERIALS TRADING L.L.C",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06173; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06173",
+   "page": "1",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06173"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "AL WADEEA BUILDING MATERIALS - LLC",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06172; searched 1 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06172",
+   "page": "2",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06172"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "ENGINEERING UNIT GENERAL CONTRACTING - SOLE PROPRIETORSHIP",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06171; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06171",
+   "page": "3",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06171"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "ART WAVES TECHNICAL SERVICES L.L.C",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06169; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06169",
+   "page": "4",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06169"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "NOVA SCOTIA",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06168; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06168",
+   "page": "5",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06168"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "CREATIVE CONCEPTS GENERAL CONTRACTING L.L.C",
+   "date": "2026-11-09",
+   "detail": "; searched 4 same-day invoice(s) for this customer, none pass all checks [LB26-21478: name:ok, date:ok, items:FAIL, trn:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: page has item rows that are not on this invoice: SKU 5KB018803, SKU OBEN | none of the invoice lines a",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "",
+   "page": "6",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "number not readable: page has item rows that are not on this invoice: SKU 5KB018803, SKU OBEN"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "TITAN TIDE TECHNICAL SERVICES L.L.C",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06165; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06165",
+   "page": "7",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06165"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "ARABIAN HARDWARE TRADING CO. L.LC",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06164; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06164",
+   "page": "8",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06164"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "NOMAD INTERIORS LLC",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06163; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06163",
+   "page": "9",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06163"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "REFLOW WATER MAINTENANCE AND CLEANING SOLUTIONS L.L.C S.P.",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06162; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06162",
+   "page": "10",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06162"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "AL AZRAQ POOLS",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06161; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06161",
+   "page": "11",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06161"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "UNIQUE OPTIONS N INTERIORS DESIGNS -LLC",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06160; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06160",
+   "page": "12",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06160"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "GULF DUNES LANDSCAPING AND AGRICULTURAL SERVICES",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06159; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06159",
+   "page": "13",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06159"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "AL SHAHID BUILDING MATERIAL TRADING LLC",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06158; searched 4 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06158",
+   "page": "14",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06158"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "ROYAL TULIP BUILDING MATERIALS TRADING - SOLE",
+   "date": "2026-11-09",
+   "detail": "; searched 4 same-day invoice(s) for this customer, none pass all checks [LB26-21478: name:ok, date:ok, items:FAIL, trn:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN on page ['100531868600003', '104102093200003'] != invoi",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "",
+   "page": "15",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "number not readable: none of the invoice lines are on the page"
+  },
+  {
+   "at": "2026-11-10 09:38",
+   "customer": "SUPER NAS BUILDING MATERIALS - L.L.C - S.P.C",
+   "date": "2026-11-09",
+   "detail": "no invoice numbered LBAD26-06156; searched 5 same-day invoice(s) for this customer, none pass all checks",
+   "file": "2026-11-10-0937-1-09-11-dn.pdf",
+   "number": "LBAD26-06156",
+   "page": "16",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791",
+   "why": "no invoice numbered LBAD26-06156"
   }
  ],
  "_last_email": "2026-11-09 16:45",
@@ -73147,6 +73339,18 @@
    "held": 6,
    "pages": 7,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42627676982"
+  },
+  {
+   "already": 0,
+   "at": "2026-11-10 09:38",
+   "attached": 0,
+   "by": "Aquib",
+   "files": [
+    "2026-11-10-0937-1-09-11-dn.pdf"
+   ],
+   "held": 16,
+   "pages": 16,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42763295791"
   }
  ]
 }
