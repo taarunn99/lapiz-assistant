@@ -74312,6 +74312,31 @@
   "resolved": "2026-11-10 09:57",
   "status": "paid"
  },
+ "LBAD26-06063": {
+  "customer": "SMART HARMONY INTERIORS - L.L.C",
+  "date": "2026-11-04",
+  "first_attached": "2026-11-10 14:32",
+  "invoice_id": "3540083000057720282",
+  "last_reminded": "",
+  "lines": {
+   "3540083000057720289": {
+    "delivered": 0.0,
+    "invoiced": 5.0,
+    "name": "SPPG MIDNIGHT BLACK 5.2 KG (A+B+C)",
+    "sku": "17-1222-0109-K-M",
+    "unreadable": 1
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-10 14:32",
+    "id": "2026-11-05-0830-1-04-11-26  DN.pdf|11"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-10 14:32",
+  "status": "overdue"
+ },
  "LBAD26-06065": {
   "customer": "NOMAD INTERIORS LLC",
   "date": "2026-11-04",
@@ -76420,6 +76445,18 @@
    "held": 0,
    "pages": 7,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799744218"
+  },
+  {
+   "already": 23,
+   "at": "2026-11-10 14:33",
+   "attached": 1,
+   "by": "Rerun with 300 dpi second read",
+   "files": [
+    "2026-11-05-0830-1-04-11-26  DN.pdf"
+   ],
+   "held": 0,
+   "pages": 24,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799742950"
   }
  ]
 }
