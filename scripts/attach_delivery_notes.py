@@ -78,7 +78,8 @@ def books_url(doc, kind="invoices"):
 PACE_SECONDS = float(os.environ.get("PACE_SECONDS", "1.5"))
 OCR_WORKERS = int(os.environ.get("OCR_WORKERS", "4"))              # pages read in parallel (runner has 4 cores)
 os.environ.setdefault("OMP_THREAD_LIMIT", "1")                      # one thread per tesseract process, else parallel OCR crawls
-DPI = int(os.environ.get("DN_DPI", "200"))   # reading resolution; 300 under test (scans come in at 300 dpi)
+DPI = int(os.environ.get("DN_DPI", "200"))         # first read of every page
+RETRY_DPI = int(os.environ.get("DN_RETRY_DPI", "300"))  # second read, only for notes that did not match at 200
 PX = DPI / 200.0                               # pixel distances below were tuned at 200 dpi
 OWN_TRN = "100493956500003"   # Lapiz Blue's own TRN, printed on every note, ignored
 OWN_TRNS = {OWN_TRN, "100531868600003"}   # Dubai and Abu Dhabi: both are Lapiz Blue, never the customer
@@ -142,9 +143,10 @@ def norm_number(s):
     return f"{head}-{tail}"
 
 
-def read_quantities(png):
+def read_quantities(png, px=None):
     """Quantities from the Qty column, paired to SKU rows by vertical position.
     Returns {sku: qty}. Full page OCR often drops the right hand column, so the column is read on its own."""
+    px = px or PX
     im = Image.open(png)
     w, h = im.size
     top = int(h * 0.30)
@@ -184,7 +186,7 @@ def read_quantities(png):
     for y, name in item_rows:
         best = None
         for n in nums:
-            if n[2] or not (y - 40 * PX <= n[0] <= y + 40 * PX):
+            if n[2] or not (y - 40 * px <= n[0] <= y + 40 * px):
                 continue
             if best is None or abs(n[0] - y) < abs(best[0] - y):
                 best = n
@@ -192,7 +194,7 @@ def read_quantities(png):
             best[2] = True
             by_row.append((name, best[1]))
             # the SKU line directly under this row inherits the quantity
-            under = [sk for sk in skus if y < sk[0] <= y + 110 * PX]
+            under = [sk for sk in skus if y < sk[0] <= y + 110 * px]
             if under:
                 out[under[0][1]] = best[1]
     for y, sku in skus:
@@ -200,9 +202,9 @@ def read_quantities(png):
             continue
         best = None
         for n in nums:
-            if n[2] or not (y - 110 * PX <= n[0] <= y + 15 * PX):
+            if n[2] or not (y - 110 * px <= n[0] <= y + 15 * px):
                 continue
-            if best is None or abs(n[0] - (y - 30 * PX)) < abs(best[0] - (y - 30 * PX)):
+            if best is None or abs(n[0] - (y - 30 * px)) < abs(best[0] - (y - 30 * px)):
                 best = n
         if best:
             best[2] = True
@@ -211,7 +213,7 @@ def read_quantities(png):
     return out
 
 
-def read_page(png):
+def read_page(png, px=None):
     """OCR one page. Returns dict with number, customer line, date, trns, and the raw text."""
     text = ocr_text(png, "3")
     num = None
@@ -297,7 +299,7 @@ def read_page(png):
     customer = re.split(r"\s+(Fulfillment|Date|Ref|VAT)\b", customer)[0].strip()
     trns = [t for t in TRN_RE.findall(text) if t not in OWN_TRNS]
     try:
-        qty = read_quantities(png)
+        qty = read_quantities(png, px)
     except Exception as e:
         log(f"  qty column not read: {e}")
         qty = {}
@@ -1113,51 +1115,80 @@ def main():
                 rows.append(row)
                 continue
 
-            # a. the invoice the page names
-            target, note = None, ""
-            if num:
-                inv = z.find_invoice(num)
-                if inv:
-                    full = z.full_invoice(inv["invoice_id"], inv.get("_org"))
-                    ok, checks, note = verify(page, full)
-                    if ok:
-                        target = full
+            def find_target(page, num):
+                """Steps a and b for one note: the invoice it names, else the one same-day invoice that passes."""
+                # a. the invoice the page names
+                target, note = None, ""
+                if num:
+                    inv = z.find_invoice(num)
+                    if inv:
+                        full = z.full_invoice(inv["invoice_id"], inv.get("_org"))
+                        ok, checks, note = verify(page, full)
+                        if ok:
+                            target = full
+                        else:
+                            log(f"  {num}: named invoice FAILS verification ({note})")
                     else:
-                        log(f"  {num}: named invoice FAILS verification ({note})")
-                else:
-                    note = f"no invoice numbered {num}"
+                        note = f"no invoice numbered {num}"
 
-            # b. fallback: same date, same customer, exactly one invoice that passes all checks
-            corrected = False
-            if target is None and page["date"]:
-                cands = []
-                for inv in same_day(page["date"]):
-                    probe = {"customer_name": inv.get("customer_name", ""), "date": inv.get("date"),
-                             "line_items": [], "tax_reg_no": ""}
-                    _, c, _ = verify(page, probe)
-                    if c["name"]:
-                        cands.append(inv)
-                passing, failed = [], []
-                for inv in cands[:8]:
-                    cnum = inv.get("invoice_number", "").upper()
-                    if num and edit_distance(num, cnum) > 2:
-                        continue
-                    full = z.full_invoice(inv["invoice_id"], inv.get("_org"))
-                    ok, checks, n2 = verify(page, full, strict=True)
-                    if ok:
-                        passing.append((full, n2 + " (strict)"))
+                # b. fallback: same date, same customer, exactly one invoice that passes all checks
+                corrected = False
+                if target is None and page["date"]:
+                    cands = []
+                    for inv in same_day(page["date"]):
+                        probe = {"customer_name": inv.get("customer_name", ""), "date": inv.get("date"),
+                                 "line_items": [], "tax_reg_no": ""}
+                        _, c, _ = verify(page, probe)
+                        if c["name"]:
+                            cands.append(inv)
+                    passing, failed = [], []
+                    for inv in cands[:8]:
+                        cnum = inv.get("invoice_number", "").upper()
+                        if num and edit_distance(num, cnum) > 2:
+                            continue
+                        full = z.full_invoice(inv["invoice_id"], inv.get("_org"))
+                        ok, checks, n2 = verify(page, full, strict=True)
+                        if ok:
+                            passing.append((full, n2 + " (strict)"))
+                        else:
+                            failed.append(f"{cnum}: {n2}")
+                    if len(passing) == 1:
+                        target, note = passing[0]
+                        corrected = (num != target.get("invoice_number", "").upper())
+                    elif len(passing) > 1:
+                        note += f"; {len(passing)} same-day invoices for this customer pass all checks: " + \
+                                ", ".join(p[0].get("invoice_number", "") for p in passing)
                     else:
-                        failed.append(f"{cnum}: {n2}")
-                if len(passing) == 1:
-                    target, note = passing[0]
-                    corrected = (num != target.get("invoice_number", "").upper())
-                elif len(passing) > 1:
-                    note += f"; {len(passing)} same-day invoices for this customer pass all checks: " + \
-                            ", ".join(p[0].get("invoice_number", "") for p in passing)
+                        note += f"; searched {len(cands)} same-day invoice(s) for this customer, none pass all checks"
+                        if failed:
+                            note += " [" + " | ".join(failed) + "]"
+
+                return target, note, corrected
+
+            target, note, corrected = find_target(page, num)
+
+            # c. still no match: read this note's pages again at 300 dpi (the scans' own resolution) and retry.
+            #    200 dpi is kept for the first read because, on 119 real pages, it got dates and quantities right
+            #    that 300 dpi misread; 300 reads faint characters better, so it only gets a say when 200 failed.
+            if target is None and RETRY_DPI > DPI:
+                again = []
+                for gp in g["pages"]:
+                    rp = f"{prefix}-r{RETRY_DPI}-{gp['page']}"
+                    subprocess.run(["pdftoppm", "-r", str(RETRY_DPI), "-f", str(gp["page"]), "-l", str(gp["page"]),
+                                    "-singlefile", "-png", pdf, rp], check=True)
+                    again.append(read_page(rp + ".png", px=RETRY_DPI / 200.0))
+                f2 = again[0]
+                page2 = {"text": "\n".join(p["text"] for p in again), "number": f2["number"] or num,
+                         "customer": f2["customer"] or first["customer"], "date": f2["date"] or first["date"],
+                         "trns": sorted({t for p in again for t in p["trns"]}),
+                         "qty": {k: v for p in again for k, v in p.get("qty", {}).items()}}
+                t2, n2, c2 = find_target(page2, page2["number"])
+                if t2 is not None:
+                    log(f"  page {pg_label}: matched on a second read at {RETRY_DPI} dpi")
+                    target, note, corrected, page = t2, n2 + f"; matched on a second read at {RETRY_DPI} dpi", c2, page2
+                    corrected = corrected or (num != t2.get("invoice_number", "").upper())
                 else:
-                    note += f"; searched {len(cands)} same-day invoice(s) for this customer, none pass all checks"
-                    if failed:
-                        note += " [" + " | ".join(failed) + "]"
+                    note += f"; second read at {RETRY_DPI} dpi did not match either"
 
             if target is None:
                 fname = f"{base}-page-{first['page']}.pdf"
