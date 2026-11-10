@@ -79,16 +79,25 @@ jobs:
         if: always()
         run: |
           set -e
-          mkdir -p dn-audit
+          # Copy ONLY the audit files aside, move to the latest main, put them back, commit only dn-audit.
+          # (The old step committed this run's whole stale checkout and rolled back the engine and the ledger.)
           stamp=$(date -u +%Y-%m-%d-%H%M)
-          for f in audit/*.xlsx; do [ -f "$f" ] && cp "$f" "dn-audit/${stamp}-$(basename "$f")"; done
-          cp audit_log.txt "dn-audit/${stamp}-log.txt" 2>/dev/null || true
+          keep=$(mktemp -d)
+          for f in audit/*.xlsx; do [ -f "$f" ] && cp "$f" "$keep/${stamp}-$(basename "$f")"; done
+          cp audit_log.txt "$keep/${stamp}-log.txt" 2>/dev/null || true
           git config user.name "dn-attach-bot"
           git config user.email "dn-attach-bot@users.noreply.github.com"
-          for attempt in 1 2 3 4 5; do
-            git fetch -q origin main && git reset -q --soft origin/main
+          for attempt in 1 2 3 4 5 6; do
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            mkdir -p dn-audit
+            cp "$keep"/* dn-audit/ 2>/dev/null || { echo "nothing to save"; exit 0; }
             git add dn-audit
             git commit -q -m "Delivery note audit ${stamp}" || { echo "nothing to save"; exit 0; }
+            if [ "$(git diff --name-only HEAD~1 HEAD | grep -v '^dn-audit/' | wc -l)" != "0" ]; then
+              echo "refusing: commit touches files outside dn-audit"; exit 1
+            fi
             git push -q origin HEAD:main && exit 0
             sleep $((attempt * 5))
           done
+          exit 1
