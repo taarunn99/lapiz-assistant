@@ -75700,31 +75700,31 @@
    "why": "items:FAIL: none of the invoice lines are on the page"
   },
   {
-   "at": "2026-11-10 10:02",
+   "at": "2026-11-10 14:39",
    "customer": "UVC TECHNICAL SERVICES LLC",
    "date": "",
-   "detail": "name:ok, date:FAIL, items:ok, trn:ok; 1/1 lines on page; TRN match",
+   "detail": "name:ok, date:FAIL, items:ok, trn:ok; 1/1 lines on page; TRN match; second read at 300 dpi did not match either",
    "file": "2026-11-04-1032-1-12 OCT 2026 DN.pdf",
    "number": "LB26-19389",
    "page": "38",
    "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42765196136",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799743964",
    "why": "date:FAIL"
   },
   {
-   "at": "2026-11-10 10:02",
+   "at": "2026-11-10 14:39",
    "customer": "SULEMAN AL SHAIBANI",
    "date": "",
-   "detail": "name:ok, date:FAIL, items:ok; 2/2 lines on page; TRN not checked",
+   "detail": "name:ok, date:FAIL, items:ok; 2/2 lines on page; TRN not checked; second read at 300 dpi did not match either",
    "file": "2026-11-04-1032-1-12 OCT 2026 DN.pdf",
    "number": "LB26-19372",
    "page": "52",
    "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42765196136",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799743964",
    "why": "date:FAIL"
   },
   {
-   "at": "2026-11-10 10:02",
+   "at": "2026-11-10 14:39",
    "customer": "BRIKED CONTRACTING L.L.C",
    "date": "2026-10-12",
    "detail": "; searched 2 same-day invoice(s) for this customer, none pass all checks [LBSJ26-01637: name:ok, date:ok, items:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN not checked | LB26-19358: name:ok, date:ok, items:FAIL; 0/1 lin",
@@ -75732,7 +75732,7 @@
    "number": "",
    "page": "80",
    "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42765196136",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799743964",
    "why": "number not readable: none of the invoice lines are on the page"
   }
  ],
@@ -76457,6 +76457,18 @@
    "held": 0,
    "pages": 24,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799742950"
+  },
+  {
+   "already": 76,
+   "at": "2026-11-10 14:39",
+   "attached": 0,
+   "by": "Rerun with 300 dpi second read",
+   "files": [
+    "2026-11-04-1032-1-12 OCT 2026 DN.pdf"
+   ],
+   "held": 5,
+   "pages": 81,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799743964"
   }
  ]
 }
