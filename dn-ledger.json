@@ -51574,6 +51574,84 @@
   "resolved": "2026-11-05 08:48",
   "status": "sent"
  },
+ "LB26-20378": {
+  "customer": "SIXTYNEWTON TECHNICAL SERVICES LLC",
+  "date": "2026-10-24",
+  "first_attached": "2026-11-11 15:58",
+  "invoice_id": "2305879000152653832",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152653834": {
+    "delivered": 6.0,
+    "invoiced": 6.0,
+    "name": "9\"x1.75\" Cage Refill - Ecofiber Grey/Blue Stripe (12 mm pile)",
+    "sku": "2914K",
+    "unreadable": 0
+   },
+   "2305879000152653835": {
+    "delivered": 0.0,
+    "invoiced": 1.0,
+    "name": "Metal Extension Pole - 2m - Roll Roy",
+    "sku": "763",
+    "unreadable": 1
+   },
+   "2305879000152653836": {
+    "delivered": 6.0,
+    "invoiced": 1.0,
+    "name": "9\"x1.75\" Cage Refill - Nylon R/I3 Stripe (7mm pile) - Roll Roy",
+    "sku": "2714K",
+    "unreadable": 0
+   },
+   "2305879000152653837": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "4\" Radiator Refill - Nylon Blue Stripe - Roll Roy",
+    "sku": "2560",
+    "unreadable": 0
+   },
+   "2305879000152653838": {
+    "delivered": 6.0,
+    "invoiced": 6.0,
+    "name": "Masking Tape 2\" 1 pc (24/CTN) 20 Yard",
+    "sku": "LAPIZTAPE",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 15:58",
+    "id": "2026-11-05-0843-1-24 OCT DN 2026.pdf|50"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-11 15:58",
+  "status": "sent"
+ },
+ "LB26-20379": {
+  "customer": "Z B H TECHNICAL SERVICES L.L.C",
+  "date": "2026-10-24",
+  "first_attached": "2026-11-11 15:58",
+  "invoice_id": "2305879000152679740",
+  "last_reminded": "",
+  "lines": {
+   "2305879000152679747": {
+    "delivered": 270.0,
+    "invoiced": 270.0,
+    "name": "webertec MC-1 (25 Kg)",
+    "sku": "I000001005",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 15:58",
+    "id": "2026-11-05-0843-1-24 OCT DN 2026.pdf|49"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-11 15:58",
+  "status": "paid"
+ },
  "LB26-20380": {
   "customer": "NERKAL BUILDING CONTRACTING L.L.C",
   "date": "2026-10-24",
@@ -79056,6 +79134,18 @@
    "held": 1,
    "pages": 50,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015751297"
+  },
+  {
+   "already": 59,
+   "at": "2026-11-11 15:59",
+   "attached": 2,
+   "by": "Claude, notes checked by hand",
+   "files": [
+    "2026-11-05-0843-1-24 OCT DN 2026.pdf"
+   ],
+   "held": 0,
+   "pages": 61,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015750211"
   },
   {
    "already": 61,
