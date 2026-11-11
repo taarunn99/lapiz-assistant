@@ -78338,18 +78338,6 @@
  ],
  "_held": [
   {
-   "at": "2026-11-11 15:57",
-   "customer": "",
-   "date": "2026-11-06",
-   "detail": "; searched 1 same-day invoice(s) for this customer, none pass all checks [LB26-21326: name:ok, date:ok, items:FAIL, trn:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN on page [] != invoice 104262562200003]; second read at ",
-   "file": "2026-11-06-1458-1-Document_261106_145830.pdf",
-   "number": "",
-   "page": "1",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015750098",
-   "why": "number not readable: none of the invoice lines are on the page"
-  },
-  {
    "at": "2026-11-11 16:01",
    "customer": "BRIKED CONTRACTING L.L.C",
    "date": "2026-10-12",
@@ -78359,6 +78347,18 @@
    "page": "80",
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015748205",
+   "why": "number not readable: none of the invoice lines are on the page"
+  },
+  {
+   "at": "2026-11-11 16:12",
+   "customer": "",
+   "date": "2026-11-06",
+   "detail": "; searched 1 same-day invoice(s) for this customer, none pass all checks [LB26-21326: name:ok, date:ok, items:FAIL, trn:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN on page [] != invoice 104262562200003]; second read at ",
+   "file": "2026-11-06-1458-1-Document_261106_145830.pdf",
+   "number": "",
+   "page": "1",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43017911082",
    "why": "number not readable: none of the invoice lines are on the page"
   }
  ],
@@ -79239,6 +79239,18 @@
    "held": 0,
    "pages": 16,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43017913343"
+  },
+  {
+   "already": 23,
+   "at": "2026-11-11 16:12",
+   "attached": 0,
+   "by": "Test of the new rule",
+   "files": [
+    "2026-11-06-1458-1-Document_261106_145830.pdf"
+   ],
+   "held": 1,
+   "pages": 26,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43017911082"
   }
  ]
 }
