@@ -83,6 +83,7 @@ jobs:
           INBOX: dn-inbox
           OUT: out
           OCR_WORKERS: "4"
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           set -o pipefail
           python scripts/attach_delivery_notes.py 2>&1 | tee out_log.txt

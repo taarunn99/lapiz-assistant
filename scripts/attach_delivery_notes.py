@@ -337,6 +337,52 @@ def squash(s):
     return re.sub(r"[^A-Z0-9]+", "", s.upper())
 
 
+VISION_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+VISION_MODEL = os.environ.get("DN_VISION_MODEL", "claude-haiku-4-5")
+
+
+def look_at_page(png):
+    """Second opinion for a page the OCR could not match: a vision model reads the header the way a person does.
+    Only runs when ANTHROPIC_API_KEY is set. Returns a dict or None. It never decides anything by itself: what it
+    reads still has to pass the same checks against Zoho."""
+    try:
+        import base64
+        from PIL import Image
+        import io
+        im = Image.open(png).convert("RGB")
+        im.thumbnail((1600, 1600))
+        buf = io.BytesIO()
+        im.save(buf, "JPEG", quality=85)
+        prompt = ("This is one scanned page. Reply with JSON only, no other text: "
+                  '{"is_delivery_note": true or false (true only for a Lapiz Blue DELIVERY NOTE or CREDIT NOTE), '
+                  '"what": "kind of document in a few words", '
+                  '"number": "the number printed after # under the title, e.g. LB26-21411 or LBAD26-06156, exactly as printed, or empty", '
+                  '"customer": "the company or person name printed under Bill To, exactly as printed, or empty", '
+                  '"date": "the date printed after Date : as YYYY-MM-DD, or empty", '
+                  '"trn": "the customer TRN under Bill To (15 digits), or empty"}. '
+                  "Read carefully digit by digit. If a field is not clearly readable, leave it empty; never guess.")
+        r = requests.post("https://api.anthropic.com/v1/messages", timeout=90,
+                          headers={"x-api-key": VISION_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
+                          json={"model": VISION_MODEL, "max_tokens": 300, "messages": [{"role": "user", "content": [
+                              {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg",
+                                                           "data": base64.b64encode(buf.getvalue()).decode()}},
+                              {"type": "text", "text": prompt}]}]})
+        if r.status_code != 200:
+            log(f"  AI look failed: HTTP {r.status_code} {r.text[:120]}")
+            return None
+        txt = r.json()["content"][0]["text"]
+        m = re.search(r"\{.*\}", txt, re.S)
+        d = json.loads(m.group(0)) if m else None
+        if d:
+            d["number"] = re.sub(r"\s+", "", (d.get("number") or "").upper())
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d.get("date") or ""):
+                d["date"] = ""
+        return d
+    except Exception as e:
+        log(f"  AI look failed: {e}")
+        return None
+
+
 def verify(page, inv, strict=False):
     """Compare an OCR'd page with a full Zoho invoice. Returns (ok, checks, note)."""
     text_up = page["text"].upper()
@@ -1122,6 +1168,19 @@ def main():
                 rows.append(row)
                 continue
 
+            def identity_ok(page, full, checks, num):
+                """Number printed on the page + customer + date all agree with one Zoho invoice."""
+                if not (checks.get("name") and checks.get("date")):
+                    return False
+                if "LAPIZ BLUE" in (full.get("customer_name") or "").upper():
+                    return False        # our own name is on every note, so the name check proves nothing here
+                # a one digit misread could land on this customer's other invoice of the same day: then items must decide
+                for other in same_day(page["date"]):
+                    onum = (other.get("invoice_number") or "").upper()
+                    if onum != num and other.get("customer_id") == full.get("customer_id") and edit_distance(onum, num) <= 1:
+                        return False
+                return True
+
             def find_target(page, num):
                 """Steps a and b for one note: the invoice it names, else the one same-day invoice that passes."""
                 # a. the invoice the page names
@@ -1133,6 +1192,13 @@ def main():
                         ok, checks, note = verify(page, full)
                         if ok:
                             target = full
+                        elif identity_ok(page, full, checks, num):
+                            # the way a person does it: the number printed on the note is this invoice, the customer
+                            # and the date agree, so it IS this invoice's note; the items differ only because the
+                            # invoice was edited after the note was printed
+                            target = full
+                            note = "attached on invoice number, customer and date; items on the note differ from the invoice as it is now (" + note + ")"
+                            log(f"  {num}: number, customer and date agree; items differ, attached anyway")
                         else:
                             log(f"  {num}: named invoice FAILS verification ({note})")
                     else:
@@ -1201,6 +1267,23 @@ def main():
                     corrected = corrected or (num != t2.get("invoice_number", "").upper())
                 else:
                     note += f"; second read at {RETRY_DPI} dpi did not match either"
+                    seen = look_at_page(f"{prefix}-r{RETRY_DPI}-{g['pages'][0]['page']}.png") if VISION_KEY else None
+                    if seen and seen.get("is_delivery_note") and seen.get("number"):
+                        page3 = dict(page2)
+                        page3.update({"number": seen["number"], "customer": seen.get("customer") or page2["customer"],
+                                      "date": seen.get("date") or page2["date"],
+                                      "text": page2["text"] + "\n" + (seen.get("customer") or "") + "\n" + seen["number"]})
+                        if seen.get("trn"):
+                            page3["trns"] = sorted(set(page2["trns"]) | {seen["trn"]})
+                        t3, n3, c3 = find_target(page3, page3["number"])
+                        if t3 is not None:
+                            log(f"  page {pg_label}: matched after an AI look at the page ({seen['number']}, {seen.get('customer')}, {seen.get('date')})")
+                            target, note, page = t3, n3 + "; matched after an AI look at the page", page3
+                            corrected = (num != t3.get("invoice_number", "").upper())
+                        else:
+                            note += f"; AI look read {seen['number']} / {seen.get('customer')} / {seen.get('date')}, still no match"
+                    elif seen and not seen.get("is_delivery_note"):
+                        note += f"; AI look: this page is not a Lapiz Blue delivery note ({seen.get('what', 'other document')})"
 
             # d. a person looked at this page and named its invoice (dn-approved.json: file, page, number).
             #    Used for notes whose invoice was edited after printing, so the automatic checks can never pass.
