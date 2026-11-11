@@ -1,17 +1,17 @@
 {
- "generated": "10 Nov 2026 15:42",
+ "generated": "11 Nov 2026 15:24",
  "window_days": 2,
- "checked_sos": 236,
- "lines": 600,
- "clean_sos": 220,
+ "checked_sos": 223,
+ "lines": 554,
+ "clean_sos": 210,
  "bad_sos": [
   "SO26-05132",
   "SO26-06342",
+  "SO26-06908",
   "SO26-07931",
   "SO26-08118",
   "SO26-08619",
   "SO26-08727",
-  "SO26-08740",
   "SO26-08768"
  ],
  "problems": [
@@ -32,6 +32,24 @@
    "invoiced": "63",
    "shipped": "14",
    "why": "invoice LB26-15178 updated, sales order updated"
+  },
+  {
+   "so": "SO26-06908",
+   "customer": "Innovation Systems Group FZE",
+   "item": "Ultrabond Eco P909 2K unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "16",
+   "shipped": "11",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO26-06908",
+   "customer": "Innovation Systems Group FZE",
+   "item": "Ultracare HD Cleaner jerrycan 5lt /5.5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "sales order updated"
   },
   {
    "so": "SO26-07931",
@@ -70,15 +88,6 @@
    "why": "invoice LB26-21363 updated"
   },
   {
-   "so": "SO26-08740",
-   "customer": "KSK TRADING LLC",
-   "item": "Ultraplan Eco 20 bag 23kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "63",
-   "shipped": "0",
-   "why": "invoice LB26-21400 updated"
-  },
-  {
    "so": "SO26-08768",
    "customer": "ANNA",
    "item": "SPPG SILVER SHADOW 5.2 KG (A+B+C)",
@@ -103,12 +112,7 @@
    "so": "SO26-08619",
    "text": "LB-STOCKSYNC ALERT (LB26-21408 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
    "when": "2026-11-09"
-  },
-  {
-   "so": "SO26-08740",
-   "text": "LB-STOCKSYNC ALERT (LB26-21396 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
-   "when": "2026-11-07"
   }
  ],
- "calls": 685
+ "calls": 657
 }
