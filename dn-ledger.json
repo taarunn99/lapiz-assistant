@@ -32391,6 +32391,38 @@
   "resolved": "2026-11-04 10:39",
   "status": "paid"
  },
+ "LB26-19370": {
+  "customer": "WETAR BUILDING MATERIALS TRADING CO.L.L.C.",
+  "date": "2026-10-12",
+  "first_attached": "2026-11-11 16:14",
+  "invoice_id": "2305879000151194980",
+  "last_reminded": "",
+  "lines": {
+   "2305879000151194984": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Mapesil AC Zero 111 crt 310ml (box of 12)",
+    "sku": "4811142IT",
+    "unreadable": 0
+   },
+   "2305879000151194985": {
+    "delivered": 0.0,
+    "invoiced": 6.0,
+    "name": "YHSRseal-2721 \uff08MOONWHITE\uff09",
+    "sku": "OYHMOONWHITE",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 16:14",
+    "id": "2026-11-04-1032-1-12 OCT 2026 DN.pdf|53"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "",
+  "status": "sent"
+ },
  "LB26-19372": {
   "customer": "SULEMAN AL SHAIBANI",
   "date": "2026-10-12",
@@ -78338,18 +78370,6 @@
  ],
  "_held": [
   {
-   "at": "2026-11-11 16:01",
-   "customer": "BRIKED CONTRACTING L.L.C",
-   "date": "2026-10-12",
-   "detail": "; searched 2 same-day invoice(s) for this customer, none pass all checks [LBSJ26-01637: name:ok, date:ok, items:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN not checked | LB26-19358: name:ok, date:ok, items:FAIL; 0/1 lin",
-   "file": "2026-11-04-1032-1-12 OCT 2026 DN.pdf",
-   "number": "",
-   "page": "80",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015748205",
-   "why": "number not readable: none of the invoice lines are on the page"
-  },
-  {
    "at": "2026-11-11 16:12",
    "customer": "",
    "date": "2026-11-06",
@@ -78359,6 +78379,18 @@
    "page": "1",
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43017911082",
+   "why": "number not readable: none of the invoice lines are on the page"
+  },
+  {
+   "at": "2026-11-11 16:16",
+   "customer": "BRIKED CONTRACTING L.L.C",
+   "date": "2026-10-12",
+   "detail": "; searched 2 same-day invoice(s) for this customer, none pass all checks [LBSJ26-01637: name:ok, date:ok, items:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN not checked | LB26-19358: name:ok, date:ok, items:FAIL; 0/1 lin",
+   "file": "2026-11-04-1032-1-12 OCT 2026 DN.pdf",
+   "number": "",
+   "page": "80",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43017912547",
    "why": "number not readable: none of the invoice lines are on the page"
   }
  ],
@@ -79299,6 +79331,18 @@
    "held": 0,
    "pages": 62,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43017912902"
+  },
+  {
+   "already": 78,
+   "at": "2026-11-11 16:16",
+   "attached": 1,
+   "by": "Test of the new rule",
+   "files": [
+    "2026-11-04-1032-1-12 OCT 2026 DN.pdf"
+   ],
+   "held": 2,
+   "pages": 81,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43017912547"
   }
  ]
 }
