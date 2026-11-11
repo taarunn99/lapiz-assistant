@@ -105,6 +105,13 @@ SHORT_TO = [x.strip() for x in os.environ.get("DN_SHORT_TO", "sumon.a@lapizblue.
 REMIND_EVERY = int(os.environ.get("REMIND_EVERY_DAYS", "2"))     # pending deliveries are re-sent every N days
 LEDGER = os.environ.get("DN_LEDGER", "dn-ledger.json")           # per invoice: invoiced vs delivered, kept in the repo
 DISMISSED = os.environ.get("DN_DISMISSED", "dn-dismissed.json")  # held pages ticked off in the app (written by the app)
+APPROVED = {}                                                    # (scan file, page label) -> invoice number, set by a person
+if os.path.exists("dn-approved.json"):
+    try:
+        APPROVED = {(a["file"], str(a["page"])): (a["number"].upper(), a.get("customer", ""))
+                    for a in json.load(open("dn-approved.json"))}
+    except Exception as e:
+        print(f"dn-approved.json not readable: {e}")
 BOOKS_UI = os.environ.get("ZOHO_BOOKS_UI", "https://books.zoho.com/app/" + ORG + "#/invoices/")
 RUN_URL = (f"{os.environ.get('GITHUB_SERVER_URL', '')}/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/"
            f"{os.environ.get('GITHUB_RUN_ID', '')}") if os.environ.get("GITHUB_RUN_ID") else ""
@@ -1194,6 +1201,24 @@ def main():
                     corrected = corrected or (num != t2.get("invoice_number", "").upper())
                 else:
                     note += f"; second read at {RETRY_DPI} dpi did not match either"
+
+            # d. a person looked at this page and named its invoice (dn-approved.json: file, page, number).
+            #    Used for notes whose invoice was edited after printing, so the automatic checks can never pass.
+            if target is None and (os.path.basename(pdf), pg_label) in APPROVED:
+                want, want_cust = APPROVED[(os.path.basename(pdf), pg_label)]
+                inv = z.find_invoice(want)
+                sq = lambda t: re.sub(r"[^A-Z0-9]", "", (t or "").upper())
+                same = inv and difflib.SequenceMatcher(None, sq(want_cust), sq(inv.get("customer_name"))).ratio() >= 0.8
+                if inv and not same:
+                    note += f"; approved for {want} but its customer in Zoho is {inv.get('customer_name')}, not {want_cust}"
+                elif inv:
+                    target = z.full_invoice(inv["invoice_id"], inv.get("_org"))
+                    corrected = (num != want)
+                    log(f"  page {pg_label}: approved by a person for {want} | Zoho: {target.get('customer_name')} "
+                        f"{target.get('date')} | page: {first['customer']} {first['date']}")
+                    note = f"approved by a person for {want} (automatic checks said: {note})"
+                else:
+                    note += f"; approved for {want} but no such invoice exists"
 
             if target is None:
                 fname = f"{base}-page-{first['page']}.pdf"
