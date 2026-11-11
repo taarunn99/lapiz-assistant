@@ -63023,6 +63023,52 @@
   "resolved": "2026-10-31 08:42",
   "status": "sent"
  },
+ "LB26-20878": {
+  "customer": "ATELIER SKY FITOUT (FZE)",
+  "date": "2026-10-30",
+  "first_attached": "2026-11-11 15:56",
+  "invoice_id": "2305879000153409176",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153360098": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "Tile Levelling Clip 20mm H 1.5mm",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153360099": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "LINEAR SPACER WEDGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000153409178": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "B-SPEEDY DIAMOND CUTTING BLADE 115MM",
+    "sku": "DCDM115",
+    "unreadable": 0
+   },
+   "2305879000153412422": {
+    "delivered": 0.0,
+    "invoiced": 1.0,
+    "name": "METAL MIXER 40 CM x \u00d8 8,5 cm - ROLL ROY",
+    "sku": "7353 / 7153",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 15:56",
+    "id": "2026-11-06-1458-1-Document_261106_145830.pdf|22"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "",
+  "status": "paid"
+ },
  "LB26-20879": {
   "customer": "CONDOR BUILDING CONTRACTING (L.L.C)",
   "date": "2026-10-30",
@@ -68677,6 +68723,31 @@
   ],
   "resolved": "2026-11-04 08:37",
   "status": "paid"
+ },
+ "LB26-21122": {
+  "customer": "MNG ZEMTAS SOIL & FOUNDATION ENGINEERING CONSTRUCTION CO INC",
+  "date": "2026-11-03",
+  "first_attached": "2026-11-11 15:56",
+  "invoice_id": "2305879000153901464",
+  "last_reminded": "",
+  "lines": {
+   "2305879000153901469": {
+    "delivered": 0.0,
+    "invoiced": 120.0,
+    "name": "Mapegrout ME05 bag 25kg",
+    "sku": "1501425",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 15:56",
+    "id": "2026-11-06-1458-1-Document_261106_145830.pdf|25"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "",
+  "status": "sent"
  },
  "LB26-21123": {
   "customer": "REALITY BUILDING MATERIALS TRADING L.L.C",
@@ -78035,30 +78106,6 @@
   },
   {
    "at": "2026-11-06 08:33",
-   "customer": "ORION TRADING COMPANY LLC",
-   "date": "2026-11-05",
-   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 2/3 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: SKU CFHRL is on the page but its item name 'cfhsl' is not; TRN match; searched 1 same-day invoice(s) for this customer, none pass all checks [LB26-21246: name:ok, date:ok, items:FAIL, trn:ok",
-   "file": "2026-11-06-0827-1-05 NOV 2026 DN.pdf",
-   "number": "LB26-21246",
-   "page": "22",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42162669862",
-   "why": "items:FAIL: SKU CFHRL is on the page but its item name 'cfhsl' is not"
-  },
-  {
-   "at": "2026-11-06 08:33",
-   "customer": "PURE VISTA TECHNICAL SERVICES",
-   "date": "2026-11-05",
-   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 1/2 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: page has item rows that are not on this invoice: SKU 481; TRN match; searched 2 same-day invoice(s) for this customer, none pass all checks [LB26-21260: name:ok, date:ok, items:FAIL, trn:FAI",
-   "file": "2026-11-06-0827-1-05 NOV 2026 DN.pdf",
-   "number": "LB26-21244",
-   "page": "24",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42162669862",
-   "why": "items:FAIL: page has item rows that are not on this invoice: SKU 481"
-  },
-  {
-   "at": "2026-11-06 08:33",
    "customer": "AL MADAR M.G.M CONSTRUCTION LLC",
    "date": "2026-11-05",
    "detail": "name:ok, date:ok, items:ok, trn:FAIL; 1/1 lines on page; TRN on page ['100349786100003'] != invoice 100340786100003; searched 3 same-day invoice(s) for this customer, none pass all checks [LB26-21248: name:ok, date:ok, items:FAIL, trn:ok; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM",
@@ -78068,54 +78115,6 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42162669862",
    "why": "trn:FAIL: page has item rows that are not on this invoice: SKU 6625"
-  },
-  {
-   "at": "2026-11-06 15:07",
-   "customer": "",
-   "date": "2026-11-06",
-   "detail": "; searched 0 same-day invoice(s) for this customer, none pass all checks",
-   "file": "2026-11-06-1458-1-Document_261106_145830.pdf",
-   "number": "",
-   "page": "1",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42206762339",
-   "why": "number not readable"
-  },
-  {
-   "at": "2026-11-06 15:07",
-   "customer": "ATELIER SKY FITOUT (FZE)",
-   "date": "2026-10-30",
-   "detail": "name:ok, date:ok, items:FAIL; 3/4 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: page has item rows that are not on this invoice: SKU 7156; TRN not checked; searched 2 same-day invoice(s) for this customer, none pass all checks [LB26-20878: name:ok, date:ok, items:FAIL; 3/4 line",
-   "file": "2026-11-06-1458-1-Document_261106_145830.pdf",
-   "number": "LB26-20878",
-   "page": "22",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42206762339",
-   "why": "items:FAIL: page has item rows that are not on this invoice: SKU 7156"
-  },
-  {
-   "at": "2026-11-06 15:07",
-   "customer": "MING ZEMTAS SOIL & FOUNDATION ENGINEERING CONSTRUCTION",
-   "date": "2026-11-03",
-   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: SKU 1501425 is on the page but its item name 'Mapegrout ME05 bag 25kg' is not | none of the invoice lines are on the page; TRN match; searched 1 same-day invoice(s) for this customer, none p",
-   "file": "2026-11-06-1458-1-Document_261106_145830.pdf",
-   "number": "LB26-21122",
-   "page": "25",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42206762339",
-   "why": "items:FAIL: SKU 1501425 is on the page but its item name 'Mapegrout ME05 bag 25kg' is not"
-  },
-  {
-   "at": "2026-11-07 08:53",
-   "customer": "AMWA) ALIA TECHNICAL SERVICES L.L.C .",
-   "date": "2026-11-06",
-   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: page has item rows that are not on this invoice: SKU 5KBO70003 | none of the invoice lines are on the page; TRN match; searched 4 same-day invoice(s) for this customer, none pass all checks ",
-   "file": "2026-11-07-0847-1-6NOV 2026 DN.pdf",
-   "number": "LB26-21316",
-   "page": "20",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42339946049",
-   "why": "items:FAIL: page has item rows that are not on this invoice: SKU 5KBO70003"
   },
   {
    "at": "2026-11-09 08:41",
@@ -78163,6 +78162,18 @@
    "page": "80",
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799743964",
+   "why": "number not readable: none of the invoice lines are on the page"
+  },
+  {
+   "at": "2026-11-11 15:57",
+   "customer": "",
+   "date": "2026-11-06",
+   "detail": "; searched 1 same-day invoice(s) for this customer, none pass all checks [LB26-21326: name:ok, date:ok, items:FAIL, trn:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the page; TRN on page [] != invoice 104262562200003]; second read at ",
+   "file": "2026-11-06-1458-1-Document_261106_145830.pdf",
+   "number": "",
+   "page": "1",
+   "pdf": "",
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015750098",
    "why": "number not readable: none of the invoice lines are on the page"
   }
  ],
@@ -78959,6 +78970,18 @@
    "held": 0,
    "pages": 16,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015753278"
+  },
+  {
+   "already": 21,
+   "at": "2026-11-11 15:57",
+   "attached": 2,
+   "by": "Claude, notes checked by hand",
+   "files": [
+    "2026-11-06-1458-1-Document_261106_145830.pdf"
+   ],
+   "held": 1,
+   "pages": 26,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015750098"
   }
  ]
 }
