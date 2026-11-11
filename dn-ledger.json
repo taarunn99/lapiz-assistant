@@ -72924,6 +72924,31 @@
   "resolved": "2026-11-09 08:40",
   "status": "sent"
  },
+ "LB26-21356": {
+  "customer": "LAMSA THANIAH DECOR CONT LLC",
+  "date": "2026-11-07",
+  "first_attached": "2026-11-11 15:57",
+  "invoice_id": "2305879000154258216",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154258222": {
+    "delivered": 0.0,
+    "invoiced": 1.0,
+    "name": "",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 15:57",
+    "id": "2026-11-09-0836-1-07 NOV 2026 DN.pdf|42"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "",
+  "status": "paid"
+ },
  "LB26-21357": {
   "customer": "DYAR ALEZ TECHNICALS SERVICES L.L.C",
   "date": "2026-11-07",
@@ -78105,30 +78130,6 @@
    "why": "items:FAIL: page has item rows that are not on this invoice: SKU 763"
   },
   {
-   "at": "2026-11-06 08:33",
-   "customer": "AL MADAR M.G.M CONSTRUCTION LLC",
-   "date": "2026-11-05",
-   "detail": "name:ok, date:ok, items:ok, trn:FAIL; 1/1 lines on page; TRN on page ['100349786100003'] != invoice 100340786100003; searched 3 same-day invoice(s) for this customer, none pass all checks [LB26-21248: name:ok, date:ok, items:FAIL, trn:ok; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM",
-   "file": "2026-11-06-0827-1-05 NOV 2026 DN.pdf",
-   "number": "LB26-21212",
-   "page": "50",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42162669862",
-   "why": "trn:FAIL: page has item rows that are not on this invoice: SKU 6625"
-  },
-  {
-   "at": "2026-11-09 08:41",
-   "customer": "LAMSA THANIAH DECOR CONT LLC",
-   "date": "2026-11-07",
-   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 0/0 lines on page; TRN match; searched 2 same-day invoice(s) for this customer, none pass all checks [LB26-21377: name:ok, date:ok, items:FAIL, trn:FAIL; 0/1 lines on page; 1 line(s) not on this note (pending); ITEM MISMATCH: none of the invoice lines are on the",
-   "file": "2026-11-09-0836-1-07 NOV 2026 DN.pdf",
-   "number": "LB26-21356",
-   "page": "42",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42562741344",
-   "why": "items:FAIL: none of the invoice lines are on the page"
-  },
-  {
    "at": "2026-11-10 14:39",
    "customer": "UVC TECHNICAL SERVICES LLC",
    "date": "",
@@ -78982,6 +78983,18 @@
    "held": 1,
    "pages": 26,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015750098"
+  },
+  {
+   "already": 48,
+   "at": "2026-11-11 15:58",
+   "attached": 1,
+   "by": "Claude, notes checked by hand",
+   "files": [
+    "2026-11-09-0836-1-07 NOV 2026 DN.pdf"
+   ],
+   "held": 1,
+   "pages": 50,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015751297"
   }
  ]
 }
