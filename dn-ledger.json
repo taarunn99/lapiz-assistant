@@ -69389,6 +69389,31 @@
   "resolved": "2026-11-06 08:33",
   "status": "paid"
  },
+ "LB26-21212": {
+  "customer": "AL MADAR M.G.M CONSTRUCTION LLC",
+  "date": "2026-11-05",
+  "first_attached": "2026-11-11 15:58",
+  "invoice_id": "2305879000154068498",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154068502": {
+    "delivered": 198.0,
+    "invoiced": 198.0,
+    "name": "Mapeset Grey bag 25kg",
+    "sku": "6625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 15:58",
+    "id": "2026-11-06-0827-1-05 NOV 2026 DN.pdf|50"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-11 15:58",
+  "status": "overdue"
+ },
  "LB26-21213": {
   "customer": "GLOBEXTRA TECHNICAL SERVICES LLC",
   "date": "2026-11-05",
@@ -70264,6 +70289,38 @@
   "resolved": "2026-11-06 08:31",
   "status": "paid"
  },
+ "LB26-21244": {
+  "customer": "PURE VISTA TECHNICAL SERVICES",
+  "date": "2026-11-05",
+  "first_attached": "2026-11-11 15:56",
+  "invoice_id": "2305879000154107253",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154107254": {
+    "delivered": 0.0,
+    "invoiced": 12.0,
+    "name": "Mapesil AC Zero 110 crt 310ml (box of 12)",
+    "sku": "4811042IT",
+    "unreadable": 0
+   },
+   "2305879000154107255": {
+    "delivered": 24.0,
+    "invoiced": 24.0,
+    "name": "Masking Tape 2\" 1 pc (24/CTN) 20 Yard",
+    "sku": "LAPIZTAPE",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 15:56",
+    "id": "2026-11-06-0827-1-05 NOV 2026 DN.pdf|24"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "",
+  "status": "sent"
+ },
  "LB26-21245": {
   "customer": "TERACIEL ENGINEERING AND CONTRACTING LLC",
   "date": "2026-11-05",
@@ -70294,6 +70351,45 @@
   ],
   "resolved": "2026-11-06 08:31",
   "status": "sent"
+ },
+ "LB26-21246": {
+  "customer": "ORION TRADING COMPANY LLC",
+  "date": "2026-11-05",
+  "first_attached": "2026-11-11 15:56",
+  "invoice_id": "2305879000154107346",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154105591": {
+    "delivered": 0.0,
+    "invoiced": 4.0,
+    "name": "cfhsl",
+    "sku": "CFHRL",
+    "unreadable": 0
+   },
+   "2305879000154107351": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "4PCS SMART TRADE WASHY BUCKET SET. 19L",
+    "sku": "TWS19A",
+    "unreadable": 0
+   },
+   "2305879000154107353": {
+    "delivered": 16.0,
+    "invoiced": 16.0,
+    "name": "Rubber Float with plastic handle, soft rubber handle 320C handle, 432C base",
+    "sku": "CFHSL",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 15:56",
+    "id": "2026-11-06-0827-1-05 NOV 2026 DN.pdf|22"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "",
+  "status": "paid"
  },
  "LB26-21247": {
   "customer": "AL MADAR M.G.M CONSTRUCTION LLC",
@@ -78131,18 +78227,6 @@
   },
   {
    "at": "2026-11-10 14:39",
-   "customer": "UVC TECHNICAL SERVICES LLC",
-   "date": "",
-   "detail": "name:ok, date:FAIL, items:ok, trn:ok; 1/1 lines on page; TRN match; second read at 300 dpi did not match either",
-   "file": "2026-11-04-1032-1-12 OCT 2026 DN.pdf",
-   "number": "LB26-19389",
-   "page": "38",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799743964",
-   "why": "date:FAIL"
-  },
-  {
-   "at": "2026-11-10 14:39",
    "customer": "SULEMAN AL SHAIBANI",
    "date": "",
    "detail": "name:ok, date:FAIL, items:ok; 2/2 lines on page; TRN not checked; second read at 300 dpi did not match either",
@@ -78983,6 +79067,18 @@
    "held": 1,
    "pages": 26,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015750098"
+  },
+  {
+   "already": 49,
+   "at": "2026-11-11 15:58",
+   "attached": 3,
+   "by": "Claude, notes checked by hand",
+   "files": [
+    "2026-11-06-0827-1-05 NOV 2026 DN.pdf"
+   ],
+   "held": 0,
+   "pages": 52,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015750366"
   },
   {
    "already": 48,
