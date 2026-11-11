@@ -76146,6 +76146,31 @@
   "resolved": "2026-11-11 08:10",
   "status": "paid"
  },
+ "LBAD26-06185": {
+  "customer": "GREAT MASTER BUILDING MATERIALS TRADING SOLE PROPRIETORSHIP LLC",
+  "date": "2026-11-10",
+  "first_attached": "2026-11-11 08:32",
+  "invoice_id": "3540083000058171369",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058171376": {
+    "delivered": 189.0,
+    "invoiced": 189.0,
+    "name": "Kerabond T White bag 25kg",
+    "sku": "1225",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 08:32",
+    "id": "2026-11-11-0831-1-10-11--dn.pdf|1"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-11 08:32",
+  "status": "sent"
+ },
  "LBAD26-06186": {
   "customer": "PINK CITY CERAMIC AND SANITARY TRADING - L.L.C - S.P.C",
   "date": "2026-11-10",
@@ -76195,6 +76220,31 @@
   "org": "791250515",
   "resolved": "2026-11-11 08:10",
   "status": "paid"
+ },
+ "LBAD26-06188": {
+  "customer": "ARABIAN AQSA BUILDING MATERIAL LLC",
+  "date": "2026-11-10",
+  "first_attached": "2026-11-11 08:32",
+  "invoice_id": "3540083000058171797",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058171804": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Mapefer 1K Zero ALU bag 5kg (box of 4)",
+    "sku": "2766245A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 08:32",
+    "id": "2026-11-11-0831-1-10-11--dn.pdf|2"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-11 08:32",
+  "status": "sent"
  },
  "LBAD26-06189": {
   "customer": "DON RITE ENGINEERING ENTERPRISES",
@@ -77463,6 +77513,18 @@
    "held": 0,
    "pages": 13,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42957433668"
+  },
+  {
+   "already": 0,
+   "at": "2026-11-11 08:32",
+   "attached": 2,
+   "by": "Aquib",
+   "files": [
+    "2026-11-11-0831-1-10-11--dn.pdf"
+   ],
+   "held": 0,
+   "pages": 2,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42959833018"
   }
  ]
 }
