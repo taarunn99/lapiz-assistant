@@ -74206,6 +74206,38 @@
   "resolved": "2026-11-09 08:37",
   "status": "sent"
  },
+ "LB26-21411": {
+  "customer": "AL GHAIS CONTRACTING (L.L.C)",
+  "date": "2026-11-09",
+  "first_attached": "2026-11-11 15:55",
+  "invoice_id": "2305879000154440381",
+  "last_reminded": "",
+  "lines": {
+   "2305879000154440385": {
+    "delivered": 32.0,
+    "invoiced": 32.0,
+    "name": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+    "sku": "60012345A",
+    "unreadable": 0
+   },
+   "2305879000154440386": {
+    "delivered": 64.0,
+    "invoiced": 64.0,
+    "name": "Ultracolor Plus 111 ALU bag 5kg (box of 4)",
+    "sku": "6011145A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-11 15:55",
+    "id": "2026-11-10-1520-1-Document_261110_151630.pdf|10"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-11 15:55",
+  "status": "overdue"
+ },
  "LB26-21455": {
   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
   "date": "2026-11-09",
@@ -78132,18 +78164,6 @@
    "pdf": "",
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42799743964",
    "why": "number not readable: none of the invoice lines are on the page"
-  },
-  {
-   "at": "2026-11-10 15:22",
-   "customer": "AL GHAIS CONTRACTING (L.L.C) Reference #: EST26-04033",
-   "date": "2026-11-09",
-   "detail": "name:ok, date:ok, items:FAIL, trn:ok; 2/2 lines on page; ITEM MISMATCH: page has item rows that are not on this invoice: SKU 6013745; TRN match; searched 1 same-day invoice(s) for this customer, none pass all checks [LB26-21411: name:ok, date:ok, items:FAIL, trn:ok; 2/2 lines on page; ITEM MISMATCH:",
-   "file": "2026-11-10-1520-1-Document_261110_151630.pdf",
-   "number": "LB26-21411",
-   "page": "10",
-   "pdf": "",
-   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42806615624",
-   "why": "items:FAIL: page has item rows that are not on this invoice: SKU 6013745"
   }
  ],
  "_last_email": "2026-11-11 15:49",
@@ -78927,6 +78947,18 @@
    "held": 0,
    "pages": 50,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/42960986130"
+  },
+  {
+   "already": 15,
+   "at": "2026-11-11 15:56",
+   "attached": 1,
+   "by": "Claude, notes checked by hand",
+   "files": [
+    "2026-11-10-1520-1-Document_261110_151630.pdf"
+   ],
+   "held": 0,
+   "pages": 16,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43015753278"
   }
  ]
 }
