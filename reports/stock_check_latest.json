@@ -1,38 +1,17 @@
 {
- "generated": "11 Nov 2026 15:24",
+ "generated": "12 Nov 2026 15:46",
  "window_days": 2,
- "checked_sos": 223,
- "lines": 554,
- "clean_sos": 210,
+ "checked_sos": 177,
+ "lines": 397,
+ "clean_sos": 172,
  "bad_sos": [
-  "SO26-05132",
-  "SO26-06342",
   "SO26-06908",
-  "SO26-07931",
   "SO26-08118",
-  "SO26-08619",
-  "SO26-08727",
-  "SO26-08768"
+  "SO26-08616",
+  "SO26-08768",
+  "SOSJ26-00631"
  ],
  "problems": [
-  {
-   "so": "SO26-05132",
-   "customer": "SEVEN COLORS BUILDING MATERIALS TRADING L.L.C",
-   "item": "AQUABARRIER NET - 100 MTR ROLL",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "10",
-   "shipped": "0",
-   "why": "invoice LB26-12073 updated, sales order updated"
-  },
-  {
-   "so": "SO26-06342",
-   "customer": "DESERT DELIGHT IRRIGATION EQUIPMENT TRADING LLC",
-   "item": "Adesilex P9 Grey bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "63",
-   "shipped": "14",
-   "why": "invoice LB26-15178 updated, sales order updated"
-  },
   {
    "so": "SO26-06908",
    "customer": "Innovation Systems Group FZE",
@@ -52,40 +31,22 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO26-07931",
-   "customer": "ROYAL APEX BUILDING MATERIALS TRADING LLC",
-   "item": "Mapelastic Aquadefense Zero bucket 15kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "18",
-   "shipped": "13",
-   "why": "invoice LB26-19126 updated, sales order updated"
-  },
-  {
    "so": "SO26-08118",
    "customer": "SPENCER INTERIORS & CONTRACTING LLC",
    "item": "ZA/10 SIL. ANOD. ALU. CM270",
    "issue": "invoiced and shipped do not match",
    "invoiced": "8",
    "shipped": "0",
-   "why": "invoice LB26-21504 updated, sales order updated"
+   "why": "invoice LB26-21504 updated"
   },
   {
-   "so": "SO26-08619",
-   "customer": "GULF GATE TECHNICAL SERVICES LLC",
-   "item": "Kerabond T Grey bag 25kg",
+   "so": "SO26-08616",
+   "customer": "TOTO TRADING LLC",
+   "item": "Pragma Special White25kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "1134",
-   "shipped": "882",
-   "why": "invoice LB26-21486 updated, sales order updated"
-  },
-  {
-   "so": "SO26-08727",
-   "customer": "Focus Tech LLC",
-   "item": "Vetoblock Mortar AAC 50KG",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "120",
+   "invoiced": "50",
    "shipped": "0",
-   "why": "invoice LB26-21363 updated"
+   "why": "invoice LB26-21063 updated, sales order updated"
   },
   {
    "so": "SO26-08768",
@@ -95,6 +56,15 @@
    "invoiced": "3",
    "shipped": "2",
    "why": "invoice LB26-21450 updated, sales order updated"
+  },
+  {
+   "so": "SOSJ26-00631",
+   "customer": "INTUITION INTERIORS LLC.",
+   "item": "Kerapoxy 111 unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "2",
+   "shipped": "1",
+   "why": "invoice LBSJ26-01910 updated, sales order updated"
   }
  ],
  "alerts": [
@@ -107,12 +77,7 @@
    "so": "SO26-08118",
    "text": "LB-STOCKSYNC ALERT (LB26-21233): could not delete shipment of package LB-33262: Shipment Order does not exist.",
    "when": "2026-11-05"
-  },
-  {
-   "so": "SO26-08619",
-   "text": "LB-STOCKSYNC ALERT (LB26-21408 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
-   "when": "2026-11-09"
   }
  ],
- "calls": 657
+ "calls": 579
 }
