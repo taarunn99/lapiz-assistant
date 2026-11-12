@@ -25499,7 +25499,7 @@
   "date": "2026-10-07",
   "first_attached": "2026-10-31 11:48",
   "invoice_id": "2305879000150183733",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000150183741": {
     "delivered": 9.0,
@@ -26011,7 +26011,7 @@
   "date": "2026-10-08",
   "first_attached": "2026-11-02 11:13",
   "invoice_id": "2305879000150399217",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000150399221": {
     "delivered": 8.0,
@@ -26225,7 +26225,7 @@
   "date": "2026-10-08",
   "first_attached": "2026-11-02 11:13",
   "invoice_id": "2305879000150399740",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000150399744": {
     "delivered": 1.0,
@@ -29600,7 +29600,7 @@
   "date": "2026-10-10",
   "first_attached": "2026-11-02 16:07",
   "invoice_id": "2305879000151004015",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000151004020": {
     "delivered": 10.0,
@@ -32031,7 +32031,7 @@
   "date": "2026-10-12",
   "first_attached": "2026-11-04 10:35",
   "invoice_id": "2305879000151184227",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000151184231": {
     "delivered": 10.0,
@@ -48170,7 +48170,7 @@
   "date": "2026-10-22",
   "first_attached": "2026-10-27 16:01",
   "invoice_id": "2305879000152310015",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000152310016": {
     "delivered": 2.0,
@@ -50763,7 +50763,7 @@
   "date": "2026-10-23",
   "first_attached": "2026-10-27 17:49",
   "invoice_id": "2305879000152589184",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000152589188": {
     "delivered": 20.0,
@@ -59340,7 +59340,7 @@
   "date": "2026-10-29",
   "first_attached": "2026-10-31 10:54",
   "invoice_id": "2305879000153122323",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000153122327": {
     "delivered": 20.0,
@@ -64631,7 +64631,7 @@
   "date": "2026-10-31",
   "first_attached": "2026-11-02 09:30",
   "invoice_id": "2305879000153678707",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000153678711": {
     "delivered": 1.0,
@@ -64789,7 +64789,7 @@
   "date": "2026-10-31",
   "first_attached": "2026-11-02 09:30",
   "invoice_id": "2305879000153678915",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000153678919": {
     "delivered": 1.0,
@@ -64820,7 +64820,7 @@
   "date": "2026-10-31",
   "first_attached": "2026-11-02 09:30",
   "invoice_id": "2305879000153699015",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000153694997": {
     "delivered": 0.0,
@@ -65505,7 +65505,7 @@
   "date": "2026-10-31",
   "first_attached": "2026-11-02 09:28",
   "invoice_id": "2305879000153699672",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000153699673": {
     "delivered": 100.0,
@@ -69610,7 +69610,7 @@
   "date": "2026-11-05",
   "first_attached": "2026-11-06 08:32",
   "invoice_id": "2305879000153984378",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000153984382": {
     "delivered": 8.0,
@@ -70659,7 +70659,7 @@
   "date": "2026-11-05",
   "first_attached": "2026-11-06 08:30",
   "invoice_id": "2305879000154107707",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000154107711": {
     "delivered": 20.0,
@@ -70907,7 +70907,7 @@
   "date": "2026-11-05",
   "first_attached": "2026-11-06 08:30",
   "invoice_id": "2305879000154148232",
-  "last_reminded": "2026-11-10",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000154148233": {
     "delivered": 1.0,
@@ -73772,7 +73772,7 @@
   "date": "2026-11-07",
   "first_attached": "2026-11-10 15:21",
   "invoice_id": "2305879000154355083",
-  "last_reminded": "",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000154355087": {
     "delivered": 8.0,
@@ -74684,7 +74684,7 @@
   "date": "2026-11-09",
   "first_attached": "2026-11-10 15:21",
   "invoice_id": "2305879000154498396",
-  "last_reminded": "",
+  "last_reminded": "2026-11-12",
   "lines": {
    "2305879000154498401": {
     "delivered": 20.0,
@@ -78672,7 +78672,7 @@
   "date": "2026-11-04",
   "first_attached": "2026-11-10 10:08",
   "invoice_id": "3540083000057720748",
-  "last_reminded": "",
+  "last_reminded": "2026-11-12",
   "lines": {
    "3540083000057720755": {
     "delivered": 252.0,
@@ -80957,7 +80957,7 @@
    "why": "name:FAIL: page has item rows that are not on this invoice: SKU 60136458"
   }
  ],
- "_last_email": "2026-11-11 15:49",
+ "_last_email": "2026-11-12 16:34",
  "_runs": [
   {
    "already": 0,
