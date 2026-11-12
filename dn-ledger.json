@@ -80640,6 +80640,690 @@
   "resolved": "2026-11-11 17:46",
   "status": "sent"
  },
+ "LBAD26-06217": {
+  "customer": "AGIVA MIGDASHIEV",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:38",
+  "invoice_id": "3540083000058153102",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058153103": {
+    "delivered": 8.0,
+    "invoiced": 8.0,
+    "name": "Ultrabond Eco P909 2K unit 10kg",
+    "sku": "232210",
+    "unreadable": 0
+   },
+   "3540083000058163180": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE -",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:38",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|24"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:38",
+  "status": "paid"
+ },
+ "LBAD26-06218": {
+  "customer": "ENGINEERING UNIT GENERAL CONTRACTING LLC",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058163199",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058163206": {
+    "delivered": 34.0,
+    "invoiced": 34.0,
+    "name": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
+    "sku": "6010345A",
+    "unreadable": 0
+   },
+   "3540083000058163207": {
+    "delivered": 17.0,
+    "invoiced": 17.0,
+    "name": "Ultracolor Plus 135 ALU bag 5kg (box of 4)",
+    "sku": "6013545A",
+    "unreadable": 0
+   },
+   "3540083000058163208": {
+    "delivered": 17.0,
+    "invoiced": 17.0,
+    "name": "Ultracolor Plus 137 ALU bag 5kg (box of 4)",
+    "sku": "6013745A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|23"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "sent"
+ },
+ "LBAD26-06219": {
+  "customer": "CHAMFER FOR DECORATION & SERVICES",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058153168",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058153173": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Mapesil AC Zero 111 crt 310ml (box of 12)",
+    "sku": "4811142IT",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|22"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "paid"
+ },
+ "LBAD26-06220": {
+  "customer": "GULF DUNES LANDSCAPING AND AGRICULTURAL SERVICES COMPANY LLC SPC",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058163316",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058163321": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Adesilex G19 Beige unit 10kg",
+    "sku": "41000311",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|21"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "paid"
+ },
+ "LBAD26-06221": {
+  "customer": "GREAT MASTER BUILDING MATERIALS TRADING SOLE PROPRIETORSHIP LLC",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:38",
+  "invoice_id": "3540083000058163490",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058163497": {
+    "delivered": 189.0,
+    "invoiced": 189.0,
+    "name": "Mapeset Grey bag 25kg",
+    "sku": "6625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:38",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|25"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:38",
+  "status": "sent"
+ },
+ "LBAD26-06222": {
+  "customer": "GULF DUNES LANDSCAPING AND AGRICULTURAL SERVICES COMPANY LLC SPC",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058153264",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058153269": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Adesilex G19 Beige unit 10kg",
+    "sku": "41000311",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|20"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "paid"
+ },
+ "LBAD26-06223": {
+  "customer": "GULF DUNES LANDSCAPING AND AGRICULTURAL SERVICES COMPANY LLC SPC",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058153360",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058153365": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Adesilex G19 Beige unit 10kg",
+    "sku": "41000311",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|19"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "paid"
+ },
+ "LBAD26-06224": {
+  "customer": "GREAT MASTER BUILDING MATERIALS TRADING SOLE PROPRIETORSHIP LLC",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058163610",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058163617": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
+    "sku": "6010045A",
+    "unreadable": 0
+   },
+   "3540083000058163618": {
+    "delivered": 12.0,
+    "invoiced": 12.0,
+    "name": "Ultracolor Plus 111 ALU bag 5kg (box of 4)",
+    "sku": "6011145A",
+    "unreadable": 0
+   },
+   "3540083000058163619": {
+    "delivered": 8.0,
+    "invoiced": 8.0,
+    "name": "Ultracolor Plus 188 ALU bag 5kg (box of 4)",
+    "sku": "60018845A",
+    "unreadable": 0
+   },
+   "3540083000058163620": {
+    "delivered": 8.0,
+    "invoiced": 8.0,
+    "name": "Ultracolor Plus 133 ALU bag 5kg (box of 4)",
+    "sku": "6013345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|18"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "sent"
+ },
+ "LBAD26-06225": {
+  "customer": "HARPHOOL JAT TECHNICAL SERVICES LLC",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058163885",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058163890": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 177 ALU bag 5kg (box of 4)",
+    "sku": "60017745A",
+    "unreadable": 0
+   },
+   "3540083000058163891": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy Easy Design 0123 Ancient White unit 3kg",
+    "sku": "5KB012303",
+    "unreadable": 0
+   },
+   "3540083000058163929": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "ROUND CORNER, VACUUM PACKED, GROUTING SPONGE. 197*140*50MM",
+    "sku": "CFSV100",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|17"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "paid"
+ },
+ "LBAD26-06226": {
+  "customer": "FUSION ARCH GENERAL CONTRACTING L.L.C",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058215034",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058215041": {
+    "delivered": 40.0,
+    "invoiced": 40.0,
+    "name": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
+    "sku": "1193625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|16"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "sent"
+ },
+ "LBAD26-06227": {
+  "customer": "SAIKS TECHNICAL SERVICES CO. L.L.C",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058215127",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058215134": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "Adesilex P9 Grey bag 25kg",
+    "sku": "6125",
+    "unreadable": 0
+   },
+   "3540083000058215135": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
+    "sku": "1193625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|15"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "sent"
+ },
+ "LBAD26-06228": {
+  "customer": "SUPER ABRAN BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058215233",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058215234": {
+    "delivered": 252.0,
+    "invoiced": 252.0,
+    "name": "Mapeset Grey bag 25kg",
+    "sku": "6625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|14"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "paid"
+ },
+ "LBAD26-06229": {
+  "customer": "AL AZRAQ POOLS",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058215320",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058215328": {
+    "delivered": 12.0,
+    "invoiced": 12.0,
+    "name": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
+    "sku": "6010045A",
+    "unreadable": 0
+   },
+   "3540083000058215329": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Adesilex PG2 TG unit 6kg",
+    "sku": "57507",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|13"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "sent"
+ },
+ "LBAD26-06231": {
+  "customer": "SUPER ABRAN BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058215534",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058215535": {
+    "delivered": 16.0,
+    "invoiced": 16.0,
+    "name": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+    "sku": "60012345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|12"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "paid"
+ },
+ "LBAD26-06232": {
+  "customer": "RADIANT HOME TRADING L.L.C",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:37",
+  "invoice_id": "3540083000058215629",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058215634": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
+    "sku": "6010345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:37",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|11"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:37",
+  "status": "paid"
+ },
+ "LBAD26-06233": {
+  "customer": "HAYATT BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:36",
+  "invoice_id": "3540083000058216094",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058216095": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Mapeset Grey bag 25kg",
+    "sku": "6625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:36",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|10"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:36",
+  "status": "paid"
+ },
+ "LBAD26-06234": {
+  "customer": "SILVER GATE CONTRACTING",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:36",
+  "invoice_id": "3540083000058215770",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058215771": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 137 ALU bag 5kg (box of 4)",
+    "sku": "6013745A",
+    "unreadable": 0
+   },
+   "3540083000058215772": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+    "sku": "60012345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:36",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|9"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:36",
+  "status": "paid"
+ },
+ "LBAD26-06235": {
+  "customer": "BATHANYA BUILDINGS MATERIAL - L.L.C",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:36",
+  "invoice_id": "3540083000058215873",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058215874": {
+    "delivered": 12.0,
+    "invoiced": 12.0,
+    "name": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+    "sku": "60012345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:36",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|8"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:36",
+  "status": "paid"
+ },
+ "LBAD26-06236": {
+  "customer": "SHAMBARG CONTRACTING AND GENERAL MAINTENANCE COMPANY LLC",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:36",
+  "invoice_id": "3540083000058218054",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058218055": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "Ultracolor Plus 112 ALU bag 5kg (box of 4)",
+    "sku": "6011245A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:36",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|7"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:36",
+  "status": "paid"
+ },
+ "LBAD26-06237": {
+  "customer": "UNIQUE OPTIONS N INTERIORS  DESIGNS - L L C",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:36",
+  "invoice_id": "3540083000058239006",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058239013": {
+    "delivered": 50.0,
+    "invoiced": 50.0,
+    "name": "Fosroc Nitotile C2 Highfix 25kg. grey",
+    "sku": "Fosroc Nitolite C2 Highfix 25kg.",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:36",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|6"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:36",
+  "status": "sent"
+ },
+ "LBAD26-06238": {
+  "customer": "WADI EUSAYLAN CONTRACTING",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:36",
+  "invoice_id": "3540083000058239077",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058239078": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "Ultracolor Plus 123 ALU bag 5kg (box of 4)",
+    "sku": "60012345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:36",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|5"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:36",
+  "status": "paid"
+ },
+ "LBAD26-06239": {
+  "customer": "HIND",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:36",
+  "invoice_id": "3540083000058218152",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058218153": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "STRONG TILE CUTTER 1200MM THICK DOUBLE LAYER ALUMINUM ALLOY BASE SOLID SINGLE RAIL SYSTEM, LONG LIFE SCORING WHEEL \u00d822X6X6MM, TILES LASER LINE FOR PRECISION CUTTING WITH TWO CASTORS AND CARRY HANDLE",
+    "sku": "TCP1200",
+    "unreadable": 0
+   },
+   "3540083000058218154": {
+    "delivered": 6.0,
+    "invoiced": 6.0,
+    "name": "Adesilex P7 White bag 25kg",
+    "sku": "2182325",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:36",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|4"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:36",
+  "status": "paid"
+ },
+ "LBAD26-06240": {
+  "customer": "AL QASIM BUILDING MATERIALS LLC - S.P.C",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:36",
+  "invoice_id": "3540083000058239207",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058239214": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "MAPELASTIC SMART /A+B BAGS 30 KG",
+    "sku": "A:167730(20.0kg)+B:168730(10.0kg)",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:36",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|2,3"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:36",
+  "status": "sent"
+ },
+ "LBAD26-06241": {
+  "customer": "PATEC BUILDING MATERIALS TRADING",
+  "date": "2026-11-12",
+  "first_attached": "2026-11-12 17:36",
+  "invoice_id": "3540083000058218336",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058218337": {
+    "delivered": 126.0,
+    "invoiced": 126.0,
+    "name": "Adesilex P9 Grey bag 25kg",
+    "sku": "6125",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-12 17:36",
+    "id": "2026-11-12-1734-1-12-11-dn.pdf|1"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-12 17:36",
+  "status": "sent"
+ },
  "LBSJ26-01636": {
   "customer": "HERCULES INT.BLDG MATERIALS TRADING .LLC",
   "date": "2026-10-12",
@@ -81930,6 +82614,18 @@
    "held": 2,
    "pages": 65,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43158787987"
+  },
+  {
+   "already": 0,
+   "at": "2026-11-12 17:38",
+   "attached": 24,
+   "by": "Aquib",
+   "files": [
+    "2026-11-12-1734-1-12-11-dn.pdf"
+   ],
+   "held": 0,
+   "pages": 25,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43228668794"
   }
  ]
 }
