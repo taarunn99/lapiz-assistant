@@ -1,44 +1,15 @@
 {
- "generated": "12 Nov 2026 15:46",
+ "generated": "13 Nov 2026 15:29",
  "window_days": 2,
- "checked_sos": 177,
- "lines": 397,
- "clean_sos": 172,
+ "checked_sos": 185,
+ "lines": 451,
+ "clean_sos": 181,
  "bad_sos": [
-  "SO26-06908",
-  "SO26-08118",
   "SO26-08616",
-  "SO26-08768",
+  "SOSJ26-00585",
   "SOSJ26-00631"
  ],
  "problems": [
-  {
-   "so": "SO26-06908",
-   "customer": "Innovation Systems Group FZE",
-   "item": "Ultrabond Eco P909 2K unit 10kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "16",
-   "shipped": "11",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-06908",
-   "customer": "Innovation Systems Group FZE",
-   "item": "Ultracare HD Cleaner jerrycan 5lt /5.5kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "1",
-   "shipped": "0",
-   "why": "sales order updated"
-  },
-  {
-   "so": "SO26-08118",
-   "customer": "SPENCER INTERIORS & CONTRACTING LLC",
-   "item": "ZA/10 SIL. ANOD. ALU. CM270",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "8",
-   "shipped": "0",
-   "why": "invoice LB26-21504 updated"
-  },
   {
    "so": "SO26-08616",
    "customer": "TOTO TRADING LLC",
@@ -49,13 +20,13 @@
    "why": "invoice LB26-21063 updated, sales order updated"
   },
   {
-   "so": "SO26-08768",
-   "customer": "ANNA",
-   "item": "SPPG SILVER SHADOW 5.2 KG (A+B+C)",
+   "so": "SOSJ26-00585",
+   "customer": "BLDG CO.-BEST-L.L.C - SOLE PROPRIETORSHIP",
+   "item": "Adesilex P7 Grey bag 25kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "3",
-   "shipped": "2",
-   "why": "invoice LB26-21450 updated, sales order updated"
+   "invoiced": "2268",
+   "shipped": "1134",
+   "why": "invoice LBSJ26-01921 updated, sales order updated"
   },
   {
    "so": "SOSJ26-00631",
@@ -67,17 +38,6 @@
    "why": "invoice LBSJ26-01910 updated, sales order updated"
   }
  ],
- "alerts": [
-  {
-   "so": "SO26-08118",
-   "text": "LB-STOCKSYNC ALERT (LB26-21300 void): sales return create failed: The quantity returned cannot be more than the quantity ordered/shipped.",
-   "when": "2026-11-06"
-  },
-  {
-   "so": "SO26-08118",
-   "text": "LB-STOCKSYNC ALERT (LB26-21233): could not delete shipment of package LB-33262: Shipment Order does not exist.",
-   "when": "2026-11-05"
-  }
- ],
- "calls": 579
+ "alerts": [],
+ "calls": 624
 }
