@@ -1,23 +1,22 @@
 {
- "generated": "13 Nov 2026 15:29",
+ "generated": "14 Nov 2026 14:52",
  "window_days": 2,
- "checked_sos": 185,
- "lines": 451,
- "clean_sos": 181,
+ "checked_sos": 182,
+ "lines": 501,
+ "clean_sos": 178,
  "bad_sos": [
-  "SO26-08616",
-  "SOSJ26-00585",
-  "SOSJ26-00631"
+  "SO26-05382",
+  "SOSJ26-00585"
  ],
  "problems": [
   {
-   "so": "SO26-08616",
-   "customer": "TOTO TRADING LLC",
-   "item": "Pragma Special White25kg",
+   "so": "SO26-05382",
+   "customer": "DAR AL SALAM BUILDING MATERIAL TRADING LLC",
+   "item": "Ultracolor Plus 136 ALU bag 5kg (box of 4)",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "50",
+   "invoiced": "8",
    "shipped": "0",
-   "why": "invoice LB26-21063 updated, sales order updated"
+   "why": "invoice LB26-12743 updated"
   },
   {
    "so": "SOSJ26-00585",
@@ -27,17 +26,8 @@
    "invoiced": "2268",
    "shipped": "1134",
    "why": "invoice LBSJ26-01921 updated, sales order updated"
-  },
-  {
-   "so": "SOSJ26-00631",
-   "customer": "INTUITION INTERIORS LLC.",
-   "item": "Kerapoxy 111 unit 10kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2",
-   "shipped": "1",
-   "why": "invoice LBSJ26-01910 updated, sales order updated"
   }
  ],
  "alerts": [],
- "calls": 624
+ "calls": 566
 }
