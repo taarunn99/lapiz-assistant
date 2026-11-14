@@ -24,11 +24,11 @@ on:
         required: false
         default: "0"
       simple:
-        description: "simple = only the list of invoices with NO file attached at all (20 seconds, no OCR); full = read every attached note"
+        description: "deep = which invoices have NO delivery note, Dubai and Abu Dhabi, every attached file checked; simple = quick list by flag; full = items per note"
         required: true
         default: full
         type: choice
-        options: [full, simple]
+        options: [full, simple, deep]
 
 permissions:
   contents: write
@@ -65,7 +65,11 @@ jobs:
           PACE_SECONDS: "0.7"
         run: |
           set -o pipefail
-          python scripts/audit_delivery_notes.py 2>&1 | tee audit_log.txt
+          if [ "${{ inputs.simple }}" = "deep" ]; then
+            python scripts/audit_no_note.py 2>&1 | tee audit_log.txt
+          else
+            python scripts/audit_delivery_notes.py 2>&1 | tee audit_log.txt
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
