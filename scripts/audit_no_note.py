@@ -32,6 +32,7 @@ os.environ.setdefault("MODE", "dry")
 os.environ.setdefault("OUT", "audit/engine-out")
 import attach_delivery_notes as dn                     # noqa: E402
 from attach_delivery_notes import DUBAI, Zoho, log     # noqa: E402
+import audit_delivery_notes as ad                      # noqa: E402  (item by item reading of attached notes)
 
 FROM = os.environ.get("AUDIT_FROM", "2026-09-21").strip()
 TO = os.environ.get("AUDIT_TO", "").strip() or datetime.now(DUBAI).strftime("%Y-%m-%d")
@@ -185,7 +186,7 @@ def classify(z, org, row):
 def main():
     z = Zoho()
     log(f"deep check, invoices dated {FROM} to {TO}, Dubai and Abu Dhabi")
-    rows_out, counts = [], defaultdict(Counter)
+    rows_out, counts, item_rows = [], defaultdict(Counter), []
     for org, org_name in ORGS:
         invs = list_invoices(z, org)
         seen_ids = {i["invoice_id"] for i in invs}
@@ -228,18 +229,45 @@ def main():
             if LIMIT and n > LIMIT:
                 log(f"limit {LIMIT} reached (test)")
                 break
+            items = None
             try:
-                result, detail, names = classify(z, org, i)
+                dn.ORG = org                         # the item reader works on one set of books at a time
+                a = ad.audit_invoice(z, i)
+                names = a.get("files", [])
+                if a["result"] == "no attachment":
+                    result, detail = "NO FILE", ""
+                elif a["result"] in ("covered", "no items"):
+                    result, detail = "HAS NOTE", "every item of the invoice is on the attached note(s)"
+                elif a["result"] in ("partial", "short"):
+                    result, detail, items = "HAS NOTE", "", a["lines"]
+                else:                                # items could not be matched: is there a note at all?
+                    result, detail, names = classify(z, org, i)
+                    if result == "HAS NOTE":
+                        result, detail = "NOTE, ITEMS NOT CONFIRMED", a.get("why", "")[:300]
             except Exception as e:
                 result, detail, names = "CHECK BY HAND", f"error: {e}", []
+            finally:
+                dn.ORG = ORGS[0][0]
             out(i, result, detail, names)
+            if items:
+                for m in items["missing"]:
+                    item_rows.append([org_name, i.get("invoice_number"), i.get("date"), i.get("customer_name"), i.get("salesperson_name", ""),
+                                      m["item"], m["sku"], m["invoiced"], 0, m["invoiced"], "item is on none of the attached notes",
+                                      "; ".join(names), rows_out[-1]["link"]])
+                    counts[org_name]["missing item rows"] += 1
+                for m in items["short"]:
+                    item_rows.append([org_name, i.get("invoice_number"), i.get("date"), i.get("customer_name"), i.get("salesperson_name", ""),
+                                      m["item"], m["sku"], m["invoiced"], m["on_notes"], round(m["invoiced"] - m["on_notes"], 2),
+                                      "quantity on the note(s) is less than invoiced", "; ".join(names), rows_out[-1]["link"]])
+                    counts[org_name]["short item rows"] += 1
+                counts[org_name]["invoices with fewer items on notes"] += 1
             if result != "HAS NOTE" or n % 100 == 0:
                 log(f"  [{org_name} {n}/{len(todo)}] {i.get('invoice_number')} {result} {detail[:80]} {'; '.join(names)[:60]}")
-    write(rows_out, counts)
+    write(rows_out, counts, item_rows)
     log(f"done. Zoho calls: {z.calls}")
 
 
-def write(rows, counts):
+def write(rows, counts, item_rows):
     from openpyxl import Workbook
     from openpyxl.styles import Font, PatternFill
     from openpyxl.utils import get_column_letter
@@ -257,7 +285,9 @@ def write(rows, counts):
               ("NO DELIVERY NOTE: nothing attached at all", "NO FILE"),
               ("NO DELIVERY NOTE FOUND: only other files attached (LPO, photo...)", "OTHER FILE ONLY"),
               ("Check by hand: a file is attached but could not be read", "CHECK BY HAND"),
-              ("Has a delivery note", "HAS NOTE")]
+              ("Has a delivery note", "HAS NOTE"),
+              ("   of those: note has FEWER ITEMS or less quantity than the invoice", "invoices with fewer items on notes"),
+              ("Note attached, items could not be confirmed (faint scan or edited invoice)", "NOTE, ITEMS NOT CONFIRMED")]
     for label, key in labels:
         d, a = counts["Dubai"][key if key != "VOID" else "void"], counts["Abu Dhabi"][key if key != "VOID" else "void"]
         ws.append([label, d, a, d + a])
@@ -265,8 +295,9 @@ def write(rows, counts):
     for org in ("Dubai", "Abu Dhabi"):
         c = counts[org]
         ws.append([f"Self check, {org}", f"{c['in Zoho']} in Zoho = {c['draft']} draft + {c['void']} void + {c['NO FILE']} no file + "
-                   f"{c['OTHER FILE ONLY']} other file only + {c['CHECK BY HAND']} check by hand + {c['HAS NOTE']} with note"
-                   f" (sum {c['draft'] + c['void'] + c['NO FILE'] + c['OTHER FILE ONLY'] + c['CHECK BY HAND'] + c['HAS NOTE']})"])
+                   f"{c['OTHER FILE ONLY']} other file only + {c['CHECK BY HAND']} check by hand + {c['HAS NOTE']} with note + "
+                   f"{c['NOTE, ITEMS NOT CONFIRMED']} note with items not confirmed"
+                   f" (sum {c['draft'] + c['void'] + c['NO FILE'] + c['OTHER FILE ONLY'] + c['CHECK BY HAND'] + c['HAS NOTE'] + c['NOTE, ITEMS NOT CONFIRMED']})"])
         ws.append([f"'Nothing attached' double checked, {org}", f"{c['flag sample']} invoices opened in full, {c['flag sample wrong']} had a file after all"])
     ws.append([])
     ws.append(["Per invoice date", "No file (Dubai)", "No file (Abu Dhabi)"])
@@ -298,6 +329,20 @@ def write(rows, counts):
         return s.max_row - 1
 
     n1 = sheet("No delivery note", lambda r: r["result"] == "NO FILE")
+    s2 = wb.create_sheet("Fewer items than invoice")
+    s2.append(["Books", "Invoice", "Date", "Customer", "Salesperson", "Item", "SKU", "Invoiced qty", "Qty on attached notes",
+               "Not covered qty", "What", "Files attached", "Link"])
+    for r in sorted(item_rows, key=lambda r: (r[0] != "Dubai", r[2] or "", r[1] or "")):
+        s2.append(r)
+    for c in s2[1]:
+        c.font = Font(bold=True, color="FFFFFF")
+        c.fill = PatternFill("solid", fgColor="1343C0")
+    s2.freeze_panes = "A2"
+    s2.auto_filter.ref = s2.dimensions
+    for col in range(1, s2.max_column + 1):
+        w = max((len(str(s2.cell(row=x, column=col).value or "")) for x in range(1, min(s2.max_row, 400) + 1)), default=8)
+        s2.column_dimensions[get_column_letter(col)].width = min(max(10, w + 2), 60)
+    sheet("Note, items not confirmed", lambda r: r["result"] == "NOTE, ITEMS NOT CONFIRMED", [("Files attached", "files"), ("Why", "detail")])
     n2 = sheet("Other file only", lambda r: r["result"] == "OTHER FILE ONLY", [("Files attached", "files"), ("What was found", "detail")])
     n3 = sheet("Check by hand", lambda r: r["result"] == "CHECK BY HAND", [("Files attached", "files"), ("Why", "detail")])
     sheet("All invoices", lambda r: True, [("Result", "result"), ("Files attached", "files"), ("Detail", "detail")])
