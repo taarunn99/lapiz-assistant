@@ -86275,6 +86275,31 @@
   "resolved": "2026-11-14 17:47",
   "status": "paid"
  },
+ "LBAD26-06303": {
+  "customer": "PATEC BUILDING MATERIALS TRADING",
+  "date": "2026-11-14",
+  "first_attached": "2026-11-14 17:53",
+  "invoice_id": "3540083000058419845",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058419846": {
+    "delivered": 126.0,
+    "invoiced": 126.0,
+    "name": "Adesilex P9 Grey bag 25kg",
+    "sku": "6125",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-14 17:53",
+    "id": "2026-11-14-1753-1-14-11-dnn.pdf|1"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-14 17:53",
+  "status": "paid"
+ },
  "LBSJ26-01636": {
   "customer": "HERCULES INT.BLDG MATERIALS TRADING .LLC",
   "date": "2026-10-12",
@@ -87685,6 +87710,18 @@
    "held": 0,
    "pages": 39,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43601293177"
+  },
+  {
+   "already": 0,
+   "at": "2026-11-14 17:54",
+   "attached": 1,
+   "by": "Aquib",
+   "files": [
+    "2026-11-14-1753-1-14-11-dnn.pdf"
+   ],
+   "held": 0,
+   "pages": 1,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/43602016701"
   }
  ]
 }
