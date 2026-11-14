@@ -1,0 +1,193 @@
+[11:32:48] deep check, invoices dated 2026-09-21 to 2026-11-13, Dubai and Abu Dhabi
+[11:33:11] Dubai: 4572 invoices in Zoho for the range
+[11:33:11] Dubai: 2 draft, 327 void, 1134 flagged no file, 3109 flagged with file
+[11:34:55] Dubai: flag check on 150 'no file' invoices: 0 disagree
+[11:36:45]   [Dubai 36/3109] LB26-17648 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-21 at 14.02.20.jpeg
+[11:37:13]   [Dubai 45/3109] LB26-17659 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-21 at 13.30.18.jpeg
+[11:38:48]   [Dubai 75/3109] LBSJ26-01478 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE Lapiz Blue LPO.pdf
+[11:40:05]   [Dubai 100/3109] LB26-17731 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-17731.pdf
+[11:41:00]   [Dubai 117/3109] LB26-17753 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom CamScanner 09-21-2026 18.11.pdf
+[11:43:25]   [Dubai 138/3109] LB26-17781 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom Scanned Document 36.pdf
+[11:43:56]   [Dubai 147/3109] LBSJ26-01485 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE lapiz.pdf
+[11:44:01]   [Dubai 148/3109] LBSJ26-01489 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE ZER-LPO-26-0137 LAPIZ BLUE.pdf
+[11:44:25]   [Dubai 154/3109] LB26-17842 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  TERACHI.pdf
+[11:45:47]   [Dubai 180/3109] LB26-17876 NOTE, ITEMS NOT CONFIRMED the attached note carries this invoice number and customer, but none of the invo DN-LB26-17876-page-78.pdf
+[11:46:35]   [Dubai 195/3109] LBSJ26-01490 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  PO_14 Screed Lapiz.pdf
+[11:46:41]   [Dubai 196/3109] LBSJ26-01495 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO-5548 C051 LAPIZ BLUE 1.pdf
+[11:46:47]   [Dubai 197/3109] LBSJ26-01498 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  PO 15 Screed Lapiz.pdf
+[11:46:54]   [Dubai 198/3109] LBSJ26-01499 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE lapiz.pdf
+[11:47:00]   [Dubai 200/3109] LB26-17897 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-17897.pdf
+[11:47:45]   [Dubai 214/3109] LB26-17916 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom DN 161071.pdf
+[11:47:57]   [Dubai 218/3109] LB26-17923 NOTE, ITEMS NOT CONFIRMED the attached note carries this invoice number and customer, but none of the invo DN-LB26-17923-page-48.pdf
+[11:50:32]   [Dubai 267/3109] LBSJ26-01500 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE HD-SO-00213.pdf
+[11:50:43]   [Dubai 269/3109] LBSJ26-01504 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE lapiz.pdf
+[11:51:18]   [Dubai 280/3109] LB26-17998 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-24 at 18.23.46.jpeg
+[11:51:26]   [Dubai 282/3109] LB26-18000 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-24 at 18.23.47.jpeg
+[11:51:36]   [Dubai 284/3109] LB26-18002 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-24 at 18.23.47.jpeg
+[11:51:42]   [Dubai 286/3109] LB26-18004 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-24 at 18.23.56 (1).jpeg
+[11:52:24]   [Dubai 300/3109] LB26-18022 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-18022.pdf
+[11:54:40]   [Dubai 343/3109] LBSJ26-01508 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  PO 15 Screed Lapiz.pdf
+[11:54:49]   [Dubai 344/3109] LBSJ26-01509 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE SKM_C308 (K26091520120.pdf
+[11:54:55]   [Dubai 345/3109] LBSJ26-01510 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE Purchase_LAPIZ BLUE  REVISED.pdf
+[11:55:56]   [Dubai 365/3109] LB26-18098 NOTE, ITEMS NOT CONFIRMED the attached note carries this invoice number and customer, but none of the invo DN-LB26-18098-page-46.pdf
+[11:57:41]   [Dubai 400/3109] LB26-18136 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-18136.pdf
+[11:58:15]   [Dubai 410/3109] LBSJ26-01513 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE HD-LPO-00036.pdf
+/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/PIL/Image.py:1134: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/PIL/Image.py:1134: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+[11:59:46]   [Dubai 440/3109] LB26-18180 CHECK BY HAND download.png: too faint to read download.png
+[12:02:15]   [Dubai 488/3109] LB26-18243 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-28 at 10.47.57.jpeg
+[12:02:19]   [Dubai 489/3109] LB26-18244 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-28 at 10.47.58.jpeg
+[12:02:52]   [Dubai 500/3109] LB26-18259 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-18259.pdf
+[12:05:33]   [Dubai 552/3109] LBSJ26-01528 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-29 at 12.08.48 PM.jpeg
+[12:05:39]   [Dubai 553/3109] LBSJ26-01532 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE HD-LPO-00039.pdf
+[12:05:59]   [Dubai 558/3109] LB26-17086 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-14 at 13.40.03.jpeg
+[12:06:50]   [Dubai 575/3109] LB26-18494 NOTE, ITEMS NOT CONFIRMED the attached note carries this invoice number and customer, but none of the invo DN-LB26-18494-page-52.pdf
+[12:08:06]   [Dubai 600/3109] LB26-18524 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-18524.pdf
+[12:08:50]   [Dubai 613/3109] LB26-18545 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE 08f3a582-ad31-4245-bcd9-02b7c28f00b7.jpg
+[12:10:18]   [Dubai 643/3109] LB26-18579 NOTE, ITEMS NOT CONFIRMED the attached note carries this invoice number and customer, but none of the invo DN-LB26-18579-page-56.pdf
+[12:10:36]   [Dubai 648/3109] LB26-18584 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-02 at 10.11.11.jpeg
+[12:10:55]   [Dubai 654/3109] LB26-18592 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-02 at 10.22.38.jpeg
+[12:13:16]   [Dubai 700/3109] LB26-18670 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-18670.pdf
+[12:13:20]   [Dubai 701/3109] LBSJ26-01557 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE Purchase Order_143.pdf
+[12:17:11]   [Dubai 778/3109] LB26-18771 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO26-00778.pdf
+[12:17:17]   [Dubai 779/3109] LBSJ26-01559 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE BD-LPO-00207.pdf
+[12:17:22]   [Dubai 780/3109] LBSJ26-01563 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE lapiz.pdf
+[12:18:21]   [Dubai 800/3109] LB26-18797 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-18797.pdf
+[12:19:01]   [Dubai 810/3109] LB26-18807 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE View (1).pdf
+[12:21:51]   [Dubai 832/3109] LB26-18834 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom Scanned Document 38.pdf
+[12:24:05]   [Dubai 875/3109] LBSJ26-01569 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE Pic.jpeg
+[12:24:19]   [Dubai 879/3109] LB26-18885 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom 160065.pdf
+[12:25:25]   [Dubai 900/3109] LB26-18914 HAS NOTE every item of the invoice is on the attached note(s) PO26-00782 (1).pdf; DN-LB26-18914.pdf
+[12:28:39]   [Dubai 960/3109] LB26-18987 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  PO_PO26200130518_0.pdf
+/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/PIL/Image.py:1134: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+[12:30:42]   [Dubai 1000/3109] LB26-19041 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-19041.pdf
+[12:31:42]   [Dubai 1018/3109] LBSJ26-01588 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LAP.pdf
+[12:31:46]   [Dubai 1019/3109] LBSJ26-01592 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LAPIZ BLUE.pdf
+[12:31:51]   [Dubai 1020/3109] LBSJ26-01595 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LPZ.pdf
+[12:35:53]   [Dubai 1100/3109] LB26-19178 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-19178.pdf
+[12:37:05]   [Dubai 1123/3109] LB26-19204 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-09 at 11.35.16.jpeg
+[12:37:08]   [Dubai 1124/3109] LB26-19205 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-09 at 12.04.40.jpeg
+[12:39:03]   [Dubai 1161/3109] LB26-19250 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-09 at 17.22.02.jpeg; WhatsApp Image 2
+/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/PIL/Image.py:1134: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+[12:41:01]   [Dubai 1200/3109] LB26-19294 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-19294.pdf
+[12:45:20]   [Dubai 1283/3109] LB26-19391 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE JME26265091.pdf
+[12:46:13]   [Dubai 1300/3109] LB26-19409 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-19409.pdf
+[12:46:59]   [Dubai 1315/3109] LB26-19428 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE POTTBR120260809 (1).pdf
+[12:47:07]   [Dubai 1317/3109] LBSJ26-01633 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE IMG_20261013_0007.pdf
+[12:47:14]   [Dubai 1319/3109] LBSJ26-01637 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO-00107.pdf
+[12:47:20]   [Dubai 1320/3109] LBSJ26-01639 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE HD-LPO-00047.pdf
+[12:50:26]   [Dubai 1379/3109] LBSJ26-01652 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO4500127222 _ LAPIZ BLUE GENERAL TRADING L.L.C.pdf
+[12:50:54]   [Dubai 1388/3109] LB26-19516 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-14 at 08.51.58.jpeg
+[12:51:01]   [Dubai 1390/3109] LB26-19518 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-14 at 08.51.58.jpeg
+[12:51:32]   [Dubai 1400/3109] LB26-19532 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-19532.pdf
+[12:53:03]   [Dubai 1428/3109] LB26-19568 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE POTTBR120260815.pdf
+[12:54:48]   [Dubai 1463/3109] LBSJ26-01656 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-14 at 8.19.59 AM.jpeg
+[12:55:03]   [Dubai 1466/3109] LBSJ26-01666 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  LPO-2971- Lapiz Blue General Trading LLC - JOB-966-MMTLS -Em
+[12:55:11]   [Dubai 1467/3109] LBSJ26-01667 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LPO-2979- Lapiz Blue General Trading LLC - JOB--917 TWIN TOW
+[12:55:33]   [Dubai 1474/3109] LB26-19624 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE POTTBR120260803.pdf
+[12:56:54]   [Dubai 1500/3109] LB26-19650 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-19650.pdf
+[12:57:04]   [Dubai 1501/3109] LB26-19651 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE View (3).pdf
+[12:57:16]   [Dubai 1503/3109] LB26-19653 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE View (1) (1).pdf
+[12:57:28]   [Dubai 1504/3109] LB26-19654 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE View (2) (1).pdf
+[12:59:03]   [Dubai 1535/3109] LB26-19691 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE 34335 (1).pdf
+[12:59:44]   [Dubai 1549/3109] LB26-19712 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-16 at 10.06.09.jpeg
+[12:59:47]   [Dubai 1550/3109] LB26-19713 CHECK BY HAND WhatsApp Image 2026-10-16 at 10.06.09 (1).jpeg: too faint to read WhatsApp Image 2026-10-16 at 10.06.09 (1).jpeg
+[12:59:50]   [Dubai 1551/3109] LB26-19714 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-16 at 10.06.10.jpeg
+[12:59:54]   [Dubai 1552/3109] LB26-19715 CHECK BY HAND WhatsApp Image 2026-10-16 at 10.09.00.jpeg: too faint to read WhatsApp Image 2026-10-16 at 10.09.00.jpeg
+[13:00:54]   [Dubai 1571/3109] LB26-19740 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-16 at 10.03.24.jpeg
+[13:01:05]   [Dubai 1574/3109] LB26-19747 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom 20261016134229725.pdf
+[13:02:07]   [Dubai 1594/3109] LBSJ26-01686 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO-166.pdf
+[13:02:13]   [Dubai 1595/3109] LBSJ26-01688 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE HD-LPO-00052.pdf
+[13:02:28]   [Dubai 1600/3109] LB26-19781 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-19781.pdf
+[13:07:30]   [Dubai 1700/3109] LB26-19899 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-19899.pdf
+[13:09:08]   [Dubai 1732/3109] LB26-19950 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  a18b16b6-b7a0-499f-a3e9-d83dd7398627.jpg
+[13:09:24]   [Dubai 1736/3109] LB26-19955 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  WhatsApp Image 2026-10-20 at 09.12.11 (1).jpeg; Pic.jpeg
+[13:11:41]   [Dubai 1782/3109] LB26-20009 CHECK BY HAND WhatsApp Image 2026-10-20 at 12.08.03.jpeg: too faint to read WhatsApp Image 2026-10-20 at 12.08.03.jpeg
+[13:12:37]   [Dubai 1800/3109] LB26-20030 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-20030.pdf
+[13:12:51]   [Dubai 1803/3109] LBSJ26-01722 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LPO-2991- Lapiz Blue General Trading LLC - JOB--917 TWIN TOW
+[13:12:59]   [Dubai 1805/3109] LBSJ26-01724 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE Lapiz Blue LPO.pdf
+[13:13:50]   [Dubai 1821/3109] LB26-20054 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-21 at 10.19.08.jpeg
+[13:17:48]   [Dubai 1900/3109] LB26-20156 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-20156.pdf
+[13:22:56]   [Dubai 1997/3109] LBSJ26-01756 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO-178.pdf
+[13:23:05]   [Dubai 2000/3109] LB26-20365 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-20365.pdf
+[13:23:59]   [Dubai 2017/3109] LB26-20386 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-23 at 11.46.46.jpeg
+[13:26:09]   [Dubai 2058/3109] LB26-20434 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO26-00849 (1).pdf
+[13:26:25]   [Dubai 2062/3109] LBSJ26-01760 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO181.pdf
+[13:26:30]   [Dubai 2063/3109] LBSJ26-01761 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO-00116.pdf
+[13:26:34]   [Dubai 2064/3109] LBSJ26-01764 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-24 at 8.07.41 AM.jpeg
+[13:27:55]   [Dubai 2088/3109] LB26-20465 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  View (4).pdf; Purchase Order3605.pdf
+[13:28:32]   [Dubai 2100/3109] LB26-20478 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-20478.pdf
+[13:33:38]   [Dubai 2200/3109] LB26-20602 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-20602.pdf
+[13:34:22]   [Dubai 2214/3109] LB26-20616 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LPO-LAPIZ-4716.pdf
+[13:34:43]   [Dubai 2220/3109] LBSJ26-01787 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LPO-JHST-26-373-LAPIZ BLUE-FACTORY USE-5 SIDES SEALER.pdf
+[13:34:49]   [Dubai 2222/3109] LB26-20625 NOTE, ITEMS NOT CONFIRMED the attached note carries this invoice number and customer, but none of the invo DN-LB26-20625-page-6.pdf
+[13:35:44]   [Dubai 2235/3109] LB26-20640 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE 706-52369446 21BOX 1249.5KG ZNZ.pdf
+[13:39:10]   [Dubai 2300/3109] LB26-20712 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-20712.pdf
+[13:39:21]   [Dubai 2303/3109] LB26-20716 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-28 at 15.19.35.jpeg
+[13:39:31]   [Dubai 2306/3109] LB26-20720 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO26-00865.pdf
+[13:40:02]   [Dubai 2315/3109] LBSJ26-01790 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-10-27 at 8.58.05 AM.jpeg
+[13:40:10]   [Dubai 2317/3109] LBSJ26-01796 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LPO-JHST-26-376-LAPIZ BLUE-FIVE PALM-305 TILE GLUE WHITE.pdf
+[13:40:18]   [Dubai 2318/3109] LBSJ26-01797 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LPO-3013- Lapiz Blue General Trading LLC - JOB-966-MMTLS -Em
+[13:40:24]   [Dubai 2319/3109] LBSJ26-01798 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LPO-3027- Lapiz Blue General Trading LLC - JOB-937-938.pdf
+[13:40:42]   [Dubai 2323/3109] LB26-20732 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE JME26265392.pdf
+[13:42:52]   [Dubai 2362/3109] LB26-20774 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  LASO_PO_FINAL_for_F4POIND-00138-26-27_20261029T101932077.pdf
+[13:43:27]   [Dubai 2374/3109] LB26-20786 NOTE, ITEMS NOT CONFIRMED the attached note reads as number LB26-20786, not this invoice, and none of this DN-LB26-20786-page-9.pdf
+[13:43:38]   [Dubai 2377/3109] LB26-20789 NOTE, ITEMS NOT CONFIRMED the attached note reads as number LB26-20789, not this invoice, and none of this DN-LB26-20789-page-8.pdf
+[13:44:28]   [Dubai 2393/3109] LB26-20808 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-29 at 15.34.30.jpeg
+[13:44:51]   [Dubai 2400/3109] LB26-20816 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-20816.pdf
+[13:46:07]   [Dubai 2423/3109] LB26-20845 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE View 2.pdf
+[13:46:20]   [Dubai 2425/3109] LB26-20847 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE View 2.pdf
+[13:49:01]   [Dubai 2476/3109] LBSJ26-01808 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  PO-GLINK-26-430.pdf
+[13:50:18]   [Dubai 2500/3109] LB26-20939 HAS NOTE  DN-LB26-20939.pdf
+[13:52:50]   [Dubai 2549/3109] LBSJ26-01816 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO-231.pdf
+[13:55:34]   [Dubai 2600/3109] LB26-21053 HAS NOTE every item of the invoice is on the attached note(s) WhatsApp Image 2026-11-02 at 15.28.22.jpeg; DN-LB26-21053.pd
+[13:56:10]   [Dubai 2610/3109] LBSJ26-01828 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LAPIZ LPO.pdf
+[13:56:55]   [Dubai 2625/3109] LB26-21079 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-11-03 at 10.23.39.jpeg
+[13:58:07]   [Dubai 2648/3109] LB26-21107 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-11-03 at 13.32.46.jpeg
+[13:59:25]   [Dubai 2674/3109] LBSJ26-01837 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE LPO-JHST-26-378-LAPIZ BLUE-ALGEDRA AL BARSHA-305 TILE GLUE W
+[13:59:54]   [Dubai 2683/3109] LB26-21181 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom CamScanner 11-04-2026 11.59 (1).pdf
+[14:00:46]   [Dubai 2700/3109] LB26-21222 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-21222.pdf
+[14:03:00]   [Dubai 2743/3109] LBSJ26-01862 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE BR-LPO-00098.pdf
+[14:05:12]   [Dubai 2787/3109] LB26-21316 NOTE, ITEMS NOT CONFIRMED the attached note carries this invoice number and customer, but none of the invo DN-LB26-21316.pdf
+[14:05:52]   [Dubai 2800/3109] LB26-21333 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-21333.pdf
+[14:06:13]   [Dubai 2806/3109] LBSJ26-01864 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE po-264.pdf
+[14:08:23]   [Dubai 2849/3109] LB26-21388 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-11-07 at 12.51.59.jpeg
+[14:09:35]   [Dubai 2872/3109] LBSJ26-01883 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO-272.pdf
+[14:09:40]   [Dubai 2873/3109] LBSJ26-01890 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE PO-274.pdf
+[14:09:46]   [Dubai 2875/3109] LB26-21486 CHECK BY HAND WhatsApp Image 2026-11-09 at 09.11.34.jpeg: too faint to read WhatsApp Image 2026-11-09 at 09.11.34.jpeg
+[14:11:00]   [Dubai 2900/3109] LB26-21513 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-21513.pdf
+[14:14:20]   [Dubai 2965/3109] LB26-21591 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-11-11 at 09.11.40.jpeg
+[14:16:05]   [Dubai 3000/3109] LB26-21634 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-21634.pdf
+[14:16:12]   [Dubai 3002/3109] LBSJ26-01899 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE lapiz.pdf
+[14:16:18]   [Dubai 3003/3109] LBSJ26-01906 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE HD-LPO-00067.pdf
+[14:17:51]   [Dubai 3033/3109] LB26-21668 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-11-12 at 12.26.51.jpeg
+[14:17:56]   [Dubai 3034/3109] LB26-21669 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-11-12 at 12.31.26.jpeg; WhatsApp Image 2
+/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/PIL/Image.py:1134: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+[14:21:16]   [Dubai 3100/3109] LB26-21751 HAS NOTE every item of the invoice is on the attached note(s) DN-LB26-21751.pdf
+[14:21:48] Abu Dhabi: 1287 invoices in Zoho for the range
+[14:21:48] Abu Dhabi: 0 draft, 17 void, 1126 flagged no file, 144 flagged with file
+[14:23:33] Abu Dhabi: flag check on 150 'no file' invoices: 0 disagree
+[14:23:39]   [Abu Dhabi 1/144] LBAD26-04985 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom DN_11659[37269] (1).pdf; INV_11659[37268].pdf
+[14:23:47]   [Abu Dhabi 2/144] LBAD26-04998 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom MPTINV-100150403.pdf; MPTINV-100150335.pdf
+[14:23:54]   [Abu Dhabi 3/144] LBAD26-05006 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-21 at 16.33.50.jpeg; WhatsApp Image 2
+[14:24:03]   [Abu Dhabi 5/144] LBAD26-05070 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  LAPIZBLUE - 2765.pdf
+[14:24:13]   [Abu Dhabi 7/144] LBAD26-05150 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom Whatsapp Scan 26 September 2026 at 11.25.08.pdf
+[14:24:19]   [Abu Dhabi 9/144] LBAD26-05378 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-06 at 14.51.58.jpeg
+[14:24:23]   [Abu Dhabi 10/144] LBAD26-05418 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-07 at 17.05.18 (1).jpeg
+[14:24:33]   [Abu Dhabi 13/144] LBAD26-05521 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE 1327.pdf
+[14:24:44]   [Abu Dhabi 15/144] LBAD26-05591 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom INV 11670.pdf; INV 11671.pdf; DN 11671.pdf; DN 11670.pdf
+[14:24:51]   [Abu Dhabi 17/144] LBAD26-05661 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-11-09 at 12.02.44.jpeg
+[14:24:58]   [Abu Dhabi 18/144] LBAD26-05726 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-21 at 12.21.10.jpeg
+[14:25:03]   [Abu Dhabi 19/144] LBAD26-05748 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-22 at 09.49.05 (1).jpeg; WhatsApp Ima
+[14:25:14]   [Abu Dhabi 20/144] LBAD26-05890 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  PO_291_37824_0_US (1).pdf
+[14:28:49]   [Abu Dhabi 100/144] LBAD26-06210 HAS NOTE every item of the invoice is on the attached note(s) DN-LBAD26-06210.pdf
+[14:30:50] excel: 2260 no file, 90 other file only, 5 check by hand
+[14:30:50] Dubai: {'in Zoho': 4572, 'draft': 2, 'void': 327, 'flag sample': 150, 'flag sample wrong': 0, 'VOID': 327, 'NO FILE': 1134, 'HAS NOTE': 2983, 'missing item rows': 70, 'invoices with fewer items on notes': 64, 'OTHER FILE ONLY': 87, 'short item rows': 38, 'NOTE, ITEMS NOT CONFIRMED': 34, 'CHECK BY HAND': 5}
+[14:30:50] Abu Dhabi: {'in Zoho': 1287, 'draft': 0, 'void': 17, 'flag sample': 150, 'flag sample wrong': 0, 'VOID': 17, 'NO FILE': 1126, 'NOTE, ITEMS NOT CONFIRMED': 10, 'OTHER FILE ONLY': 3, 'HAS NOTE': 131, 'missing item rows': 1, 'short item rows': 2, 'invoices with fewer items on notes': 2}
+[14:30:51] email to tarun.s@lapizblue.com: HTTP 200 {"id":"01a1d99c-2119-7861-897f-19e7ae2e529c"}
+[14:30:51] done. Zoho calls: 7078
