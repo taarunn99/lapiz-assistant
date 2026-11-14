@@ -1,0 +1,19 @@
+[11:11:52] deep check, invoices dated 2026-09-21 to 2026-11-13, Dubai and Abu Dhabi
+[11:12:19] Dubai: 4572 invoices in Zoho for the range
+[11:12:19] Dubai: 2 draft, 327 void, 1134 flagged no file, 3109 flagged with file
+[11:14:04] Dubai: flag check on 150 'no file' invoices: 0 disagree
+[11:14:31]   [Dubai 36/3109] LB26-17648 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-21 at 14.02.20.jpeg
+[11:14:33] limit 40 reached (test)
+[11:14:39] Abu Dhabi: 1287 invoices in Zoho for the range
+[11:14:40] Abu Dhabi: 0 draft, 17 void, 1126 flagged no file, 144 flagged with file
+[11:16:25] Abu Dhabi: flag check on 150 'no file' invoices: 0 disagree
+[11:16:32]   [Abu Dhabi 3/144] LBAD26-05006 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-21 at 16.33.50.jpeg; WhatsApp Image 2
+[11:16:36]   [Abu Dhabi 4/144] LBAD26-05038 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-07-07 at 15.06.06 (1) (2).jpeg; WhatsApp
+[11:16:51]   [Abu Dhabi 13/144] LBAD26-05521 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE 1327.pdf
+[11:16:56]   [Abu Dhabi 17/144] LBAD26-05661 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-11-09 at 12.02.44.jpeg
+[11:17:18] limit 40 reached (test)
+[11:17:19] excel: 2260 no file, 5 other file only, 0 check by hand
+[11:17:19] Dubai: {'in Zoho': 4572, 'draft': 2, 'void': 327, 'flag sample': 150, 'flag sample wrong': 0, 'VOID': 327, 'NO FILE': 1134, 'HAS NOTE': 39, 'OTHER FILE ONLY': 1}
+[11:17:19] Abu Dhabi: {'in Zoho': 1287, 'draft': 0, 'void': 17, 'flag sample': 150, 'flag sample wrong': 0, 'VOID': 17, 'NO FILE': 1126, 'HAS NOTE': 36, 'OTHER FILE ONLY': 4}
+[11:17:19] email to tarun.s@lapizblue.com: HTTP 200 {"id":"01a1d8ea-f4c1-742a-ae00-b94f29c0a4ec"}
+[11:17:19] done. Zoho calls: 425
