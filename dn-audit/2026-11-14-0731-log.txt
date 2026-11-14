@@ -1,0 +1,29 @@
+[11:19:02] deep check, invoices dated 2026-09-21 to 2026-11-13, Dubai and Abu Dhabi
+[11:19:26] Dubai: 4572 invoices in Zoho for the range
+[11:19:26] Dubai: 2 draft, 327 void, 1134 flagged no file, 3109 flagged with file
+[11:21:11] Dubai: flag check on 150 'no file' invoices: 0 disagree
+[11:23:23]   [Dubai 36/3109] LB26-17648 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-21 at 14.02.20.jpeg
+[11:23:58]   [Dubai 45/3109] LB26-17659 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-21 at 13.30.18.jpeg
+[11:24:53] limit 60 reached (test)
+[11:24:58] Abu Dhabi: 1287 invoices in Zoho for the range
+[11:24:58] Abu Dhabi: 0 draft, 17 void, 1126 flagged no file, 144 flagged with file
+[11:26:43] Abu Dhabi: flag check on 150 'no file' invoices: 0 disagree
+[11:26:52]   [Abu Dhabi 1/144] LBAD26-04985 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom DN_11659[37269] (1).pdf; INV_11659[37268].pdf
+[11:27:02]   [Abu Dhabi 2/144] LBAD26-04998 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom MPTINV-100150403.pdf; MPTINV-100150335.pdf
+[11:27:10]   [Abu Dhabi 3/144] LBAD26-05006 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-09-21 at 16.33.50.jpeg; WhatsApp Image 2
+[11:27:21]   [Abu Dhabi 5/144] LBAD26-05070 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  LAPIZBLUE - 2765.pdf
+[11:27:34]   [Abu Dhabi 7/144] LBAD26-05150 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom Whatsapp Scan 26 September 2026 at 11.25.08.pdf
+[11:27:42]   [Abu Dhabi 9/144] LBAD26-05378 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-06 at 14.51.58.jpeg
+[11:27:46]   [Abu Dhabi 10/144] LBAD26-05418 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-07 at 17.05.18 (1).jpeg
+[11:27:59]   [Abu Dhabi 13/144] LBAD26-05521 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE 1327.pdf
+[11:28:14]   [Abu Dhabi 15/144] LBAD26-05591 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom INV 11670.pdf; INV 11671.pdf; DN 11671.pdf; DN 11670.pdf
+[11:28:23]   [Abu Dhabi 17/144] LBAD26-05661 OTHER FILE ONLY the attached file(s) were read and none says DELIVERY NOTE WhatsApp Image 2026-11-09 at 12.02.44.jpeg
+[11:28:30]   [Abu Dhabi 18/144] LBAD26-05726 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-21 at 12.21.10.jpeg
+[11:28:37]   [Abu Dhabi 19/144] LBAD26-05748 NOTE, ITEMS NOT CONFIRMED the attached file does not read as a delivery note (no invoice number, no custom WhatsApp Image 2026-10-22 at 09.49.05 (1).jpeg; WhatsApp Ima
+[11:28:50]   [Abu Dhabi 20/144] LBAD26-05890 NOTE, ITEMS NOT CONFIRMED a file is attached but the invoice number on it is not readable and none of the  PO_291_37824_0_US (1).pdf
+[11:31:04] limit 60 reached (test)
+[11:31:05] excel: 2260 no file, 5 other file only, 0 check by hand
+[11:31:05] Dubai: {'in Zoho': 4572, 'draft': 2, 'void': 327, 'flag sample': 150, 'flag sample wrong': 0, 'VOID': 327, 'NO FILE': 1134, 'HAS NOTE': 58, 'missing item rows': 1, 'invoices with fewer items on notes': 1, 'OTHER FILE ONLY': 2}
+[11:31:05] Abu Dhabi: {'in Zoho': 1287, 'draft': 0, 'void': 17, 'flag sample': 150, 'flag sample wrong': 0, 'VOID': 17, 'NO FILE': 1126, 'NOTE, ITEMS NOT CONFIRMED': 10, 'OTHER FILE ONLY': 3, 'HAS NOTE': 47, 'missing item rows': 1, 'short item rows': 1, 'invoices with fewer items on notes': 1}
+[11:31:05] email to tarun.s@lapizblue.com: HTTP 200 {"id":"01a1d8f7-9189-721c-9721-8736b3866359"}
+[11:31:05] done. Zoho calls: 595
