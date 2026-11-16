@@ -1,9 +1,9 @@
 {
- "generated": "15 Nov 2026 15:27",
+ "generated": "16 Nov 2026 15:59",
  "window_days": 2,
- "checked_sos": 181,
- "lines": 568,
- "clean_sos": 171,
+ "checked_sos": 168,
+ "lines": 605,
+ "clean_sos": 159,
  "bad_sos": [
   "SO26-05382",
   "SO26-05720",
@@ -20,7 +20,7 @@
    "issue": "invoiced and shipped do not match",
    "invoiced": "8",
    "shipped": "0",
-   "why": "invoice LB26-12743 updated, invoice LB26-12824 updated"
+   "why": "invoice LB26-12824 updated"
   },
   {
    "so": "SO26-05720",
@@ -678,5 +678,5 @@
    "when": "2026-10-19"
   }
  ],
- "calls": 528
+ "calls": 472
 }
