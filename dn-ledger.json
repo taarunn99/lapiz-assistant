@@ -84478,6 +84478,31 @@
   "resolved": "2026-11-17 08:46",
   "status": "sent"
  },
+ "LB26-21862": {
+  "customer": "GLOBAL CLASSIC BUILDINGS MATERIAL TRADING - L.L.C - S.P.C",
+  "date": "2026-11-16",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "2305879000155111071",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155111075": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "LONGLIFE - 1 L",
+    "sku": "52000012ING",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|19"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-17 17:25",
+  "status": "overdue"
+ },
  "LB26-21863": {
   "customer": "Grout hub general maintenance llc spc",
   "date": "2026-11-16",
@@ -91517,6 +91542,761 @@
   "resolved": "2026-11-16 18:14",
   "status": "paid"
  },
+ "LBAD26-06340": {
+  "customer": "ARABIAN AQSA BUILDING MATERIAL LLC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058516154",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058516161": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Ultracolor Plus 132 ALU bag 5kg (box of 4)",
+    "sku": "6013245A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|31"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "sent"
+ },
+ "LBAD26-06341": {
+  "customer": "ARABIAN AQSA BUILDING MATERIAL LLC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058516227",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058516234": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Ultracolor Plus 132 ALU bag 5kg (box of 4)",
+    "sku": "6013245A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|30"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "sent"
+ },
+ "LBAD26-06342": {
+  "customer": "TAJEMIRATES CONTRACTING",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058516298",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058516303": {
+    "delivered": 25.0,
+    "invoiced": 25.0,
+    "name": "Keraflex Maxi S1 (N) Zero White bag 25kg",
+    "sku": "1198625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|29"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "paid"
+ },
+ "LBAD26-06343": {
+  "customer": "SAEED AL ZAABI BUILDING MATERIAL TRADING LLC M 13",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058516417",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058516424": {
+    "delivered": 200.0,
+    "invoiced": 200.0,
+    "name": "Adesilex P7 White bag 25kg",
+    "sku": "2182325",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|27,28"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "sent"
+ },
+ "LBAD26-06344": {
+  "customer": "SPAZIO DESIGN AND BUILD INTERNATIONAL L.L.C",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058516515",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058516523": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
+    "sku": "6010345A",
+    "unreadable": 0
+   },
+   "3540083000058516524": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 111 ALU bag 5kg (box of 4)",
+    "sku": "6011145A",
+    "unreadable": 0
+   },
+   "3540083000058516525": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 137 ALU bag 5kg (box of 4)",
+    "sku": "6013745A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|26"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "sent"
+ },
+ "LBAD26-06345": {
+  "customer": "DESERT EMPIRE BUILDING MATERIALS TRADING",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058516608",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058516613": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Keraflex Maxi S1 (N) Zero White bag 25kg",
+    "sku": "1198625",
+    "unreadable": 0
+   },
+   "3540083000058516614": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Ultracolor Plus 145 ALU bag 5kg (box of 4)",
+    "sku": "6014545A",
+    "unreadable": 0
+   },
+   "3540083000058516710": {
+    "delivered": 9.0,
+    "invoiced": 9.0,
+    "name": "Ultracolor Plus 177 ALU bag 5kg (box of 4)",
+    "sku": "60017745A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|25"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "sent"
+ },
+ "LBAD26-06346": {
+  "customer": "GRAND BUILDING MATERIALS LLC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058516836",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058516843": {
+    "delivered": 70.0,
+    "invoiced": 70.0,
+    "name": "Mapeset Grey bag 25kg",
+    "sku": "6625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|24"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "sent"
+ },
+ "LBAD26-06348": {
+  "customer": "CIRCLE GENERAL CONTRACTING",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058604223",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058604224": {
+    "delivered": 45.0,
+    "invoiced": 45.0,
+    "name": "Mapegrout ME05 bag 25kg",
+    "sku": "1501425",
+    "unreadable": 0
+   },
+   "3540083000058604225": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapefer 1K Zero ALU bag 5kg (box of 4)",
+    "sku": "2766245A",
+    "unreadable": 0
+   },
+   "3540083000058604226": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Mapesil AC Zero 103 crt 310ml (box of 12)",
+    "sku": "4810342IT",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|22,23"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "paid"
+ },
+ "LBAD26-06349": {
+  "customer": "UNION OFFICE SUPPLIES EST.",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058604399",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058604407": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "Mapefloor FC 200 ME /A RAL 7038 bucket 22kg",
+    "sku": "5HW214626",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|21"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "sent"
+ },
+ "LBAD26-06350": {
+  "customer": "ROYAL TULIP BUILDING MATERIALS TRADING - SOLE PROPRIETORSHIP L.L.C.",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:26",
+  "invoice_id": "3540083000058604474",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058604475": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Pragma easy Grey 20kg",
+    "sku": "",
+    "unreadable": 0
+   },
+   "3540083000058604476": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Mapeset Grey bag 25kg",
+    "sku": "6625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:26",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|20"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:26",
+  "status": "paid"
+ },
+ "LBAD26-06351": {
+  "customer": "SHAMBARG CONTRACTING AND GENERAL MAINTENANCE COMPANY LLC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058604596",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058604597": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "Ultracolor Plus 112 ALU bag 5kg (box of 4)",
+    "sku": "6011245A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|18"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "paid"
+ },
+ "LBAD26-06352": {
+  "customer": "PROMAK GENERAL CONTRACTING LLC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058604755",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058604756": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 133 ALU bag 5kg (box of 4)",
+    "sku": "6013345A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|17"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "paid"
+ },
+ "LBAD26-06353": {
+  "customer": "AL AZRAQ POOLS",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058604860",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058604867": {
+    "delivered": 0.0,
+    "invoiced": 5.0,
+    "name": "9235 WATERPROOFING LATICRETE",
+    "sku": "",
+    "unreadable": 1
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|16"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "sent"
+ },
+ "LBAD26-06354": {
+  "customer": "ART WAVES TECHNICAL SERVICES L.L.C",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058604959",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058604960": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Kerapoxy 120 unit 5kg",
+    "sku": "4512005",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|15"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "paid"
+ },
+ "LBAD26-06355": {
+  "customer": "VERDE MARBLE LLC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058606066",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058606067": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Kerapoxy 143 unit 5kg",
+    "sku": "4514305",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|14"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "paid"
+ },
+ "LBAD26-06356": {
+  "customer": "SADDAM MOHAMMED HAKEM DHEEM",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058606160",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058606161": {
+    "delivered": 0.0,
+    "invoiced": 5.0,
+    "name": "335 PREMIUM + ADHESIVE GREY 20 KG BAG",
+    "sku": "",
+    "unreadable": 1
+   },
+   "3540083000058606162": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Sikadur ADH 2200(AB) 7,5KG",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|13"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "paid"
+ },
+ "LBAD26-06357": {
+  "customer": "GRAND BUILDING MATERIALS LLC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058606330",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058606337": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "Ultrabond Eco 375 bucket 14kg",
+    "sku": "1943214",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|12"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "sent"
+ },
+ "LBAD26-06358": {
+  "customer": "ALPS STAR ELECTROMECHANICAL (L.L.C)",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058606401",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058606402": {
+    "delivered": 12.0,
+    "invoiced": 12.0,
+    "name": "Mapesil AC Zero 111 crt 310ml (box of 12)",
+    "sku": "4811142IT",
+    "unreadable": 0
+   },
+   "3540083000058606403": {
+    "delivered": 12.0,
+    "invoiced": 12.0,
+    "name": "Mapesil AC Zero 100 crt 310ml (box of 12)",
+    "sku": "4810042IT",
+    "unreadable": 0
+   },
+   "3540083000058606404": {
+    "delivered": 48.0,
+    "invoiced": 48.0,
+    "name": "Masking Tape 2\" 1 pc (24/CTN) 20 Yard",
+    "sku": "LAPIZTAPE",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|11"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "paid"
+ },
+ "LBAD26-06359": {
+  "customer": "GALLERY TECHNICAL POOL",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058606531",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058606532": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Mapetex Sel N 25x1mt roll 25sm",
+    "sku": "2816325",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|10"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "paid"
+ },
+ "LBAD26-06360": {
+  "customer": "ARABIAN AQSA BUILDING MATERIAL LLC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058606678",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058606685": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Kerapoxy 120 unit 5kg",
+    "sku": "4512005",
+    "unreadable": 0
+   },
+   "3540083000058606686": {
+    "delivered": 2.0,
+    "invoiced": 4.0,
+    "name": "Kerapoxy 100 unit 5kg",
+    "sku": "4510005",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|9"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "",
+  "status": "sent"
+ },
+ "LBAD26-06361": {
+  "customer": "EXPERT MASON GENERAL CONTRACTING AND MAINTENANCE LLC SPC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:25",
+  "invoice_id": "3540083000058606817",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058606818": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
+    "sku": "6010045A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:25",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|8"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:25",
+  "status": "paid"
+ },
+ "LBAD26-06362": {
+  "customer": "RADIANT HOME TRADING L.L.C",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:24",
+  "invoice_id": "3540083000058626024",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058626029": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Adesilex P7 Grey bag 25kg",
+    "sku": "2182125",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:24",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|7"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:24",
+  "status": "paid"
+ },
+ "LBAD26-06363": {
+  "customer": "TARGET LINK OIL FIELD EQUIPMENTS TRADING - SOLE PROPRIETORSHIP",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:24",
+  "invoice_id": "3540083000058647005",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058647006": {
+    "delivered": 7.0,
+    "invoiced": 7.0,
+    "name": "Kerabond T White bag 25kg",
+    "sku": "1225",
+    "unreadable": 0
+   },
+   "3540083000058647083": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 103 ALU bag 5kg (box of 4)",
+    "sku": "6010345A",
+    "unreadable": 0
+   },
+   "3540083000058647084": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Ultracolor Plus 131 ALU bag 5kg (box of 4)",
+    "sku": "6013145A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:24",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|6"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:24",
+  "status": "paid"
+ },
+ "LBAD26-06364": {
+  "customer": "AL QASIM BUILDING MATERIALS LLC - S.P.C",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:24",
+  "invoice_id": "3540083000058626286",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058626293": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Ultracolor Plus 114 ALU bag 5kg (box of 4)",
+    "sku": "6011445A",
+    "unreadable": 0
+   },
+   "3540083000058626294": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Ultracolor Plus 137 ALU bag 5kg (box of 4)",
+    "sku": "6013745A",
+    "unreadable": 0
+   },
+   "3540083000058626295": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Ultracolor Plus 112 ALU bag 5kg (box of 4)",
+    "sku": "6011245A",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:24",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|4,5"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:24",
+  "status": "sent"
+ },
+ "LBAD26-06365": {
+  "customer": "GRAND BUILDING MATERIALS LLC",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:24",
+  "invoice_id": "3540083000058626377",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058626384": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "Ultrabond Eco 375 bucket 14kg",
+    "sku": "1943214",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:24",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|2,3"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:24",
+  "status": "sent"
+ },
+ "LBAD26-06367": {
+  "customer": "NAHAR ALKHALEEJ BUILDING MATERIALS - L.L.C - S.P.C",
+  "date": "2026-11-17",
+  "first_attached": "2026-11-17 17:24",
+  "invoice_id": "3540083000058626557",
+  "last_reminded": "",
+  "lines": {
+   "3540083000058626562": {
+    "delivered": 8.0,
+    "invoiced": 8.0,
+    "name": "Keraflex White bag 25kg",
+    "sku": "119525",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-17 17:24",
+    "id": "2026-11-17-1723-1-17-11-dn.pdf|1"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-17 17:24",
+  "status": "paid"
+ },
  "LBSJ26-01636": {
   "customer": "HERCULES INT.BLDG MATERIALS TRADING .LLC",
   "date": "2026-10-12",
@@ -93031,6 +93811,18 @@
    "held": 1,
    "pages": 62,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/44018864358"
+  },
+  {
+   "already": 0,
+   "at": "2026-11-17 17:26",
+   "attached": 27,
+   "by": "Aquib",
+   "files": [
+    "2026-11-17-1723-1-17-11-dn.pdf"
+   ],
+   "held": 0,
+   "pages": 31,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/44092259850"
   }
  ]
 }
