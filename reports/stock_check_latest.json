@@ -1,15 +1,45 @@
 {
- "generated": "17 Nov 2026 16:24",
+ "generated": "18 Nov 2026 16:10",
  "window_days": 2,
- "checked_sos": 191,
- "lines": 433,
- "clean_sos": 182,
+ "checked_sos": 180,
+ "lines": 375,
+ "clean_sos": 171,
  "bad_sos": [
+  "SO26-06908",
+  "SO26-07659",
   "SO26-08245",
+  "SO26-08778",
   "SO26-08962",
   "SO26-08965"
  ],
  "problems": [
+  {
+   "so": "SO26-06908",
+   "customer": "Innovation Systems Group FZE",
+   "item": "Ultrabond Eco P909 2K unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "16",
+   "shipped": "11",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO26-06908",
+   "customer": "Innovation Systems Group FZE",
+   "item": "Ultracare HD Cleaner jerrycan 5lt /5.5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO26-07659",
+   "customer": "WANHAR CONTRACTING CO.L.L.C",
+   "item": "VETOTOP EC 498(A+B) 15L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "100",
+   "shipped": "130",
+   "why": "invoice LB26-19088 updated, sales order updated"
+  },
   {
    "so": "SO26-08245",
    "customer": "TAJ MAHAL MARBLES TR L.L.C",
@@ -18,6 +48,15 @@
    "invoiced": "441",
    "shipped": "252",
    "why": "invoice LB26-21925 updated, invoice LB26-21979 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08778",
+   "customer": "GLOBAL CLASSIC BUILDINGS MATERIAL TRADING - L.L.C - S.P.C",
+   "item": "HYDROREP - 5 L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "5",
+   "shipped": "4",
+   "why": "invoice LB26-21466 updated, sales order updated"
   },
   {
    "so": "SO26-08962",
@@ -38,6 +77,12 @@
    "why": "invoice LB26-21948 updated, sales order updated"
   }
  ],
- "alerts": [],
- "calls": 620
+ "alerts": [
+  {
+   "so": "SO26-07659",
+   "text": "LB-STOCKSYNC ALERT (LB26-19088): partly covered by another package already: VETOTOP EC 498(A+B) 15L invoice qty 100.0 but only 70.0 left to pack; ",
+   "when": "2026-10-08"
+  }
+ ],
+ "calls": 628
 }
