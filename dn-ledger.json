@@ -89390,6 +89390,38 @@
   "resolved": "2026-11-19 10:46",
   "status": "overdue"
  },
+ "LB26-22031": {
+  "customer": "PURE VISTA TECHNICAL SERVICES",
+  "date": "2026-11-18",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155340851",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155340856": {
+    "delivered": 150.0,
+    "invoiced": 150.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000155340860": {
+    "delivered": 120.0,
+    "invoiced": 120.0,
+    "name": "H40 Icon White 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|3"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
+ },
  "LB26-22032": {
   "customer": "GROUT STAR TECHNICAL SERVICE",
   "date": "2026-11-18",
@@ -90618,6 +90650,95 @@
   "resolved": "2026-11-20 08:37",
   "status": "sent"
  },
+ "LB26-22079": {
+  "customer": "EPSI INNOV TECHNICAL SERVICES CO. L.L.C",
+  "date": "2026-11-19",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155448311",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155448315": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Active Prime Grip 10KG",
+    "sku": "KERAKOLLGrip",
+    "unreadable": 0
+   },
+   "2305879000155448316": {
+    "delivered": 60.0,
+    "invoiced": 60.0,
+    "name": "Ultralite S2 Flex (N) White bag 15kg",
+    "sku": "2431415",
+    "unreadable": 0
+   },
+   "2305879000155448320": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "YHEpoxy - AD04 6kg",
+    "sku": "OYHPUTTY",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|25"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
+  "status": "overdue"
+ },
+ "LB26-22081": {
+  "customer": "RAKHAT CONSTRUCTION LLC",
+  "date": "2026-11-19",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155448423",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155448427": {
+    "delivered": 200.0,
+    "invoiced": 200.0,
+    "name": "Ultraplan Eco 20 bag 23kg",
+    "sku": "1491523",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|24"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
+  "status": "sent"
+ },
+ "LB26-22083": {
+  "customer": "TERACIEL ENGINEERING AND CONTRACTING LLC",
+  "date": "2026-11-19",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155448516",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155448520": {
+    "delivered": 25.0,
+    "invoiced": 25.0,
+    "name": "GRANIRAPID WHITE A+B 28 KG",
+    "sku": "A:140222(22.5kg) + B:140506(5.5kg)",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|26"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
+  "status": "sent"
+ },
  "LB26-22084": {
   "customer": "S P D TECHNICAL WORKS L.L.C",
   "date": "2026-11-19",
@@ -90818,6 +90939,45 @@
   "resolved": "2026-11-20 08:36",
   "status": "overdue"
  },
+ "LB26-22092": {
+  "customer": "SPORTS LINE PROJECTS AND TECHNICAL SERVICES EST",
+  "date": "2026-11-19",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155448821",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155448825": {
+    "delivered": 55.0,
+    "invoiced": 55.0,
+    "name": "Ultraplan Eco 20 bag 23kg",
+    "sku": "1491523",
+    "unreadable": 0
+   },
+   "2305879000155448826": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "Primer G jerrycan 25kg",
+    "sku": "20125",
+    "unreadable": 0
+   },
+   "2305879000155448827": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|18"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
+  "status": "sent"
+ },
  "LB26-22093": {
   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
   "date": "2026-11-19",
@@ -90999,6 +91159,31 @@
   "org": "719219457",
   "resolved": "2026-11-20 08:36",
   "status": "sent"
+ },
+ "LB26-22101": {
+  "customer": "VENOUS BLDG.CONT.LLC",
+  "date": "2026-11-19",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155526372",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155526373": {
+    "delivered": 0.0,
+    "invoiced": 1.0,
+    "name": "Mapecure E 18 drum 200lt /196kg",
+    "sku": "1692778",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|15"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "",
+  "status": "overdue"
  },
  "LB26-22102": {
   "customer": "PIXEL INTERIOR DESIGN AND FITOUT L.L.C.",
@@ -91457,6 +91642,45 @@
   ],
   "org": "719219457",
   "resolved": "2026-11-20 08:35",
+  "status": "overdue"
+ },
+ "LB26-22120": {
+  "customer": "NOVA LIGHT MARBLE LLC",
+  "date": "2026-11-19",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155562782",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155562787": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Eco Prim Grip Plus bucket 10kg",
+    "sku": "1560110",
+    "unreadable": 0
+   },
+   "2305879000155562788": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "Ultralite S2 Flex (N) Grey bag 15kg",
+    "sku": "2431515",
+    "unreadable": 0
+   },
+   "2305879000155562789": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|23"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
   "status": "overdue"
  },
  "LB26-22121": {
@@ -92404,6 +92628,31 @@
   "resolved": "2026-11-21 09:02",
   "status": "sent"
  },
+ "LB26-22164": {
+  "customer": "CLASSIC POINT INTERIORS L.L.C",
+  "date": "2026-11-20",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155527084",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155527088": {
+    "delivered": 350.0,
+    "invoiced": 350.0,
+    "name": "Ultraplan Trade bag 25kg",
+    "sku": "149425",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|21"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
+  "status": "overdue"
+ },
  "LB26-22165": {
   "customer": "K P S ENTERPRISES CO. LLC",
   "date": "2026-11-20",
@@ -92427,6 +92676,38 @@
   ],
   "org": "719219457",
   "resolved": "2026-11-21 09:02",
+  "status": "paid"
+ },
+ "LB26-22166": {
+  "customer": "PURE ZONE TECHNICAL SERVICES EST",
+  "date": "2026-11-20",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155527214",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155527215": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000155527221": {
+    "delivered": 63.0,
+    "invoiced": 63.0,
+    "name": "H40 Gel White 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|16"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
   "status": "paid"
  },
  "LB26-22167": {
@@ -93127,6 +93408,31 @@
   "resolved": "2026-11-21 09:00",
   "status": "paid"
  },
+ "LB26-22194": {
+  "customer": "BUILDBRIX BUILDING CONTRACTING L.L.C",
+  "date": "2026-11-20",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155634120",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155634128": {
+    "delivered": 100.0,
+    "invoiced": 100.0,
+    "name": "H40 Icon White 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|20"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
+  "status": "sent"
+ },
  "LB26-22195": {
   "customer": "Grout hub general maintenance llc spc",
   "date": "2026-11-20",
@@ -93257,6 +93563,52 @@
   "org": "719219457",
   "resolved": "2026-11-21 09:00",
   "status": "paid"
+ },
+ "LB26-22198": {
+  "customer": "GLOBAL CLASSIC BUILDINGS MATERIAL TRADING - L.L.C - S.P.C",
+  "date": "2026-11-20",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155617995",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155618000": {
+    "delivered": 48.0,
+    "invoiced": 48.0,
+    "name": "YHSRseal-2721 (00 clear\uff09",
+    "sku": "OYHCLEAR",
+    "unreadable": 0
+   },
+   "2305879000155667004": {
+    "delivered": 140.0,
+    "invoiced": 140.0,
+    "name": "Pragma Special Grey 25kg",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000155667005": {
+    "delivered": 140.0,
+    "invoiced": 70.0,
+    "name": "Pragma Special White25kg",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000155667006": {
+    "delivered": 70.0,
+    "invoiced": 70.0,
+    "name": "H40 Gel Grey 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|19"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
+  "status": "overdue"
  },
  "LB26-22199": {
   "customer": "GOLDEN SAPERO TECHNICAL SERVICES EST",
@@ -93390,6 +93742,45 @@
   "resolved": "2026-11-21 09:00",
   "status": "paid"
  },
+ "LB26-22204": {
+  "customer": "N X T FITOUT TECHNICAL SERVICES L.L.C.",
+  "date": "2026-11-20",
+  "first_attached": "2026-11-23 09:34",
+  "invoice_id": "2305879000155634580",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155634581": {
+    "delivered": 400.0,
+    "invoiced": 400.0,
+    "name": "Ultraplan Trade bag 25kg",
+    "sku": "149425",
+    "unreadable": 0
+   },
+   "2305879000155634582": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "EPOJET LV / A+B FUST. 4.0 KG",
+    "sku": "A:157504(3.2kg)+B:157704(0.8kg)",
+    "unreadable": 0
+   },
+   "2305879000155634583": {
+    "delivered": 2.0,
+    "invoiced": 2.0,
+    "name": "Adesilex PG2 TG unit 6kg",
+    "sku": "57507",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:34",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|17"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:34",
+  "status": "paid"
+ },
  "LB26-22205": {
   "customer": "HOMELIGHT TECHNICAL SERVICES EST",
   "date": "2026-11-20",
@@ -93464,6 +93855,81 @@
   "org": "719219457",
   "resolved": "2026-11-21 08:59",
   "status": "paid"
+ },
+ "LB26-22208": {
+  "customer": "WANHAR CONTRACTING CO.L.L.C",
+  "date": "2026-11-20",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155660925",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155660929": {
+    "delivered": 4.0,
+    "invoiced": 4.0,
+    "name": "Ritver Thermoplastic AC White",
+    "sku": "PS3105-white-18Ltr",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|6"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
+ },
+ "LB26-22209": {
+  "customer": "WANHAR CONTRACTING CO.L.L.C",
+  "date": "2026-11-20",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155671016",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155671020": {
+    "delivered": 40.0,
+    "invoiced": 40.0,
+    "name": "QUARTZ 0.90 ME 25KG BAG",
+    "sku": "2389925",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|4"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
+ },
+ "LB26-22210": {
+  "customer": "WANHAR CONTRACTING CO.L.L.C",
+  "date": "2026-11-20",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155671107",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155671111": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "Arcylic Road Marking Yellow 18L",
+    "sku": "PS3751",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|5"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
  },
  "LB26-22211": {
   "customer": "AL YARMOOK CARPETS & CURTAIN TR.",
@@ -93864,6 +94330,127 @@
   "resolved": "2026-11-21 08:58",
   "status": "paid"
  },
+ "LB26-22228": {
+  "customer": "TERACIEL ENGINEERING AND CONTRACTING LLC",
+  "date": "2026-11-21",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155680035",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155680039": {
+    "delivered": 3.0,
+    "invoiced": 3.0,
+    "name": "Mapeguard UM 35 30x1mt roll 30sm",
+    "sku": "2850730",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|14"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
+ },
+ "LB26-22229": {
+  "customer": "ARCO ZEST BUILDING MATERIALS TRADING LLC",
+  "date": "2026-11-21",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155680126",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155680130": {
+    "delivered": 20.0,
+    "invoiced": 20.0,
+    "name": "DS INSPIRE XT MATT BASE A 16.5L",
+    "sku": "5313187",
+    "unreadable": 0
+   },
+   "2305879000155680131": {
+    "delivered": 5.0,
+    "invoiced": 5.0,
+    "name": "DM Dulux Acrylic Primer Plast 18L",
+    "sku": "6430318",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|10"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
+ },
+ "LB26-22230": {
+  "customer": "SAPPHIRE SWIMMING POOLS MAINTENANCE L.L.C",
+  "date": "2026-11-21",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155680226",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155680230": {
+    "delivered": 40.0,
+    "invoiced": 40.0,
+    "name": "Adesilex P10 bag 25kg",
+    "sku": "277225",
+    "unreadable": 0
+   },
+   "2305879000155680231": {
+    "delivered": 1.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|13"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "paid"
+ },
+ "LB26-22231": {
+  "customer": "DESERT DELIGHT IRRIGATION EQUIPMENT TRADING LLC",
+  "date": "2026-11-21",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155680321",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155680323": {
+    "delivered": 126.0,
+    "invoiced": 126.0,
+    "name": "Keraflex Maxi S1 (N) Zero White bag 25kg",
+    "sku": "1198625",
+    "unreadable": 0
+   },
+   "2305879000155680324": {
+    "delivered": 126.0,
+    "invoiced": 126.0,
+    "name": "Kerabond T Grey bag 25kg",
+    "sku": "2225",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|8"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
+ },
  "LB26-22233": {
   "customer": "EDELIVERY BUILDING MATERIALS L.L.C(BRANCH OF EDELIVERY INVESTMENT GROUP LLC",
   "date": "2026-11-21",
@@ -94179,6 +94766,31 @@
   ],
   "org": "719219457",
   "resolved": "2026-11-23 08:40",
+  "status": "sent"
+ },
+ "LB26-22245": {
+  "customer": "SEVEN COLORS BUILDING MATERIALS TRADING L.L.C",
+  "date": "2026-11-21",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155680895",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155680899": {
+    "delivered": 126.0,
+    "invoiced": 126.0,
+    "name": "Keraflex Maxi S1 (N) Zero White bag 25kg",
+    "sku": "1198625",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|9"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
   "status": "sent"
  },
  "LB26-22246": {
@@ -94637,6 +95249,38 @@
   "resolved": "2026-11-23 08:39",
   "status": "paid"
  },
+ "LB26-22262": {
+  "customer": "PURE VISTA TECHNICAL SERVICES",
+  "date": "2026-11-21",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155693070",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155693075": {
+    "delivered": 200.0,
+    "invoiced": 200.0,
+    "name": "MONTOFIX HOOK",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000155693079": {
+    "delivered": 240.0,
+    "invoiced": 240.0,
+    "name": "H40 Icon Grey 25kg",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|12"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
+ },
  "LB26-22263": {
   "customer": "TOP REM HOUSE CONTRACTING L.L.C",
   "date": "2026-11-21",
@@ -94875,6 +95519,31 @@
   "org": "719219457",
   "resolved": "2026-11-23 08:38",
   "status": "void"
+ },
+ "LB26-22273": {
+  "customer": "DMDC CONTRACTING LLC",
+  "date": "2026-11-21",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155693456",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155693460": {
+    "delivered": 252.0,
+    "invoiced": 252.0,
+    "name": "Kerabond T Grey bag 25kg",
+    "sku": "2225",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|11"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
  },
  "LB26-22274": {
   "customer": "IQRAA BUILDING MATERIALS LLC",
@@ -95186,6 +95855,31 @@
   "resolved": "2026-11-23 08:37",
   "status": "paid"
  },
+ "LB26-22285": {
+  "customer": "WANHAR CONTRACTING CO.L.L.C",
+  "date": "2026-11-21",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155693762",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155693766": {
+    "delivered": 60.0,
+    "invoiced": 60.0,
+    "name": "QUARTZ 0.90 ME 25KG BAG",
+    "sku": "2389925",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|7"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "2026-11-23 09:33",
+  "status": "sent"
+ },
  "LB26-22287": {
   "customer": "MONTOLITE BUILDING MATERIAL TRADING LLC",
   "date": "2026-11-21",
@@ -95292,6 +95986,52 @@
   "org": "719219457",
   "resolved": "2026-11-23 08:37",
   "status": "sent"
+ },
+ "LB26-22293": {
+  "customer": "ARC INTERIO MIDDLE EAST LLC",
+  "date": "2026-11-21",
+  "first_attached": "2026-11-23 09:33",
+  "invoice_id": "2305879000155708303",
+  "last_reminded": "",
+  "lines": {
+   "2305879000155708304": {
+    "delivered": 100.0,
+    "invoiced": 100.0,
+    "name": "Kerabond T Grey bag 25kg",
+    "sku": "2225",
+    "unreadable": 0
+   },
+   "2305879000155708305": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "LINEAR SPACER WEDGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000155708306": {
+    "delivered": 0.0,
+    "invoiced": 1.0,
+    "name": "DELIVERY CHARGE",
+    "sku": "",
+    "unreadable": 0
+   },
+   "2305879000155708313": {
+    "delivered": 50.0,
+    "invoiced": 50.0,
+    "name": "Tile leveling base, 100pcs/bag, 1.5mm for 3-12mm tile",
+    "sku": "TQW2100",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-23 09:33",
+    "id": "2026-11-23-0931-1-Document_261123_090235.pdf|1"
+   }
+  ],
+  "org": "719219457",
+  "resolved": "",
+  "status": "overdue"
  },
  "LB26-22294": {
   "customer": "OUTMAZED DESIGN TECHNICAL SERVICES LLC",
@@ -106169,6 +106909,18 @@
    "held": 1,
    "pages": 57,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/45112771795"
+  },
+  {
+   "already": 2,
+   "at": "2026-11-23 09:35",
+   "attached": 24,
+   "by": "sumon",
+   "files": [
+    "2026-11-23-0931-1-Document_261123_090235.pdf"
+   ],
+   "held": 0,
+   "pages": 26,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/45118361011"
   }
  ]
 }
