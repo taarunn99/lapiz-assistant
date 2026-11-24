@@ -107105,6 +107105,31 @@
   "resolved": "2026-11-21 17:33",
   "status": "paid"
  },
+ "LBAD26-06493": {
+  "customer": "MARBLE LIFE GULF",
+  "date": "2026-11-23",
+  "first_attached": "2026-11-24 11:17",
+  "invoice_id": "3540083000059145901",
+  "last_reminded": "",
+  "lines": {
+   "3540083000059145908": {
+    "delivered": 10.0,
+    "invoiced": 10.0,
+    "name": "FUGABELLA COLOR KK 47",
+    "sku": "",
+    "unreadable": 0
+   }
+  },
+  "notes": [
+   {
+    "at": "2026-11-24 11:17",
+    "id": "2026-11-24-1113-photos-1p.pdf|1"
+   }
+  ],
+  "org": "791250515",
+  "resolved": "2026-11-24 11:17",
+  "status": "sent"
+ },
  "LBSJ26-01636": {
   "customer": "HERCULES INT.BLDG MATERIALS TRADING .LLC",
   "date": "2026-10-12",
@@ -108836,6 +108861,18 @@
    "held": 0,
    "pages": 61,
    "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/45337141654"
+  },
+  {
+   "already": 0,
+   "at": "2026-11-24 11:17",
+   "attached": 1,
+   "by": "Aquib",
+   "files": [
+    "2026-11-24-1113-photos-1p.pdf"
+   ],
+   "held": 0,
+   "pages": 1,
+   "url": "https://github.com/taarunn99/lapiz-assistant/actions/runs/45346305139"
   }
  ]
 }
