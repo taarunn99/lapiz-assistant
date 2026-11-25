@@ -1,17 +1,46 @@
 {
- "generated": "24 Nov 2026 18:12",
+ "generated": "25 Nov 2026 17:26",
  "window_days": 2,
- "checked_sos": 206,
- "lines": 491,
- "clean_sos": 197,
+ "checked_sos": 221,
+ "lines": 490,
+ "clean_sos": 211,
  "bad_sos": [
+  "SO25-09895",
+  "SO25-10053",
+  "SO26-01312",
   "SO26-05811",
-  "SO26-08965",
-  "SO26-09073",
-  "SOSJ26-00585",
-  "SOSJ26-00630"
+  "SO26-06908",
+  "SO26-08046",
+  "SO26-08965"
  ],
  "problems": [
+  {
+   "so": "SO25-09895",
+   "customer": "SIXTYNEWTON TECHNICAL SERVICES LLC",
+   "item": "Topcem Pronto bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "200",
+   "shipped": "173",
+   "why": "invoice LB25-21503 updated, sales order updated"
+  },
+  {
+   "so": "SO25-10053",
+   "customer": "SIXTYNEWTON TECHNICAL SERVICES LLC",
+   "item": "Ultraplan Eco 20 bag 23kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "126",
+   "shipped": "123",
+   "why": "invoice LB25-21845 updated, sales order updated"
+  },
+  {
+   "so": "SO26-01312",
+   "customer": "SIXTYNEWTON TECHNICAL SERVICES LLC",
+   "item": "LATASCREED PM30 GREY 50KG",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "105",
+   "shipped": "96",
+   "why": "invoice LB26-03017 updated, sales order updated"
+  },
   {
    "so": "SO26-05811",
    "customer": "WETAR BUILDING MATERIALS TRADING CO.L.L.C.",
@@ -20,6 +49,33 @@
    "invoiced": "33",
    "shipped": "5",
    "why": "invoice LB26-13911 updated, sales order updated"
+  },
+  {
+   "so": "SO26-06908",
+   "customer": "Innovation Systems Group FZE",
+   "item": "Ultrabond Eco P909 2K unit 10kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "16",
+   "shipped": "11",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO26-06908",
+   "customer": "Innovation Systems Group FZE",
+   "item": "Ultracare HD Cleaner jerrycan 5lt /5.5kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "1",
+   "shipped": "0",
+   "why": "sales order updated"
+  },
+  {
+   "so": "SO26-08046",
+   "customer": "SION STAR BUILDING MATERIALS TRADING L.L.C",
+   "item": "Ultralite S2 Flex (N) White bag 15kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "12",
+   "shipped": "11",
+   "why": "sales order updated"
   },
   {
    "so": "SO26-08965",
@@ -38,35 +94,8 @@
    "invoiced": "5",
    "shipped": "0",
    "why": "invoice LB26-21948 updated, sales order updated"
-  },
-  {
-   "so": "SO26-09073",
-   "customer": "HASSAN SHAKER TRADING L.L.C",
-   "item": "Mapetex Sel N 25x1mt roll 25 MTR",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "3",
-   "shipped": "0",
-   "why": "invoice LB26-22249 updated, sales order updated"
-  },
-  {
-   "so": "SOSJ26-00585",
-   "customer": "BLDG CO.-BEST-L.L.C - SOLE PROPRIETORSHIP",
-   "item": "Adesilex P7 Grey bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "2268",
-   "shipped": "1134",
-   "why": "invoice LBSJ26-01759 updated"
-  },
-  {
-   "so": "SOSJ26-00630",
-   "customer": "BLDG CO.-BEST-L.L.C - SOLE PROPRIETORSHIP",
-   "item": "Sika Separol RL 225 210L",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "4",
-   "shipped": "0",
-   "why": "invoice LBSJ26-01992 updated, sales order updated"
   }
  ],
  "alerts": [],
- "calls": 625
+ "calls": 655
 }
