@@ -1,17 +1,17 @@
 {
- "generated": "25 Nov 2026 17:26",
+ "generated": "26 Nov 2026 17:05",
  "window_days": 2,
- "checked_sos": 221,
- "lines": 490,
- "clean_sos": 211,
+ "checked_sos": 227,
+ "lines": 428,
+ "clean_sos": 215,
  "bad_sos": [
   "SO25-09895",
   "SO25-10053",
   "SO26-01312",
-  "SO26-05811",
   "SO26-06908",
   "SO26-08046",
-  "SO26-08965"
+  "SO26-08773",
+  "SO26-08901"
  ],
  "problems": [
   {
@@ -42,15 +42,6 @@
    "why": "invoice LB26-03017 updated, sales order updated"
   },
   {
-   "so": "SO26-05811",
-   "customer": "WETAR BUILDING MATERIALS TRADING CO.L.L.C.",
-   "item": "Quartz 0.5mm bag 25kg",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "33",
-   "shipped": "5",
-   "why": "invoice LB26-13911 updated, sales order updated"
-  },
-  {
    "so": "SO26-06908",
    "customer": "Innovation Systems Group FZE",
    "item": "Ultrabond Eco P909 2K unit 10kg",
@@ -78,24 +69,33 @@
    "why": "sales order updated"
   },
   {
-   "so": "SO26-08965",
-   "customer": "ROYAL CONTRACTING LLC",
-   "item": "Kerapoxy 100 unit 5kg",
+   "so": "SO26-08773",
+   "customer": "BJORG CONSTRUCTION L.L.C",
+   "item": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "3",
-   "shipped": "1",
-   "why": "invoice LB26-21948 updated, sales order updated"
+   "invoiced": "10",
+   "shipped": "0",
+   "why": "invoice LB26-21476 updated, sales order updated"
   },
   {
-   "so": "SO26-08965",
-   "customer": "ROYAL CONTRACTING LLC",
-   "item": "Kerapoxy Easy Design 0123 Ancient White unit 3kg",
+   "so": "SO26-08773",
+   "customer": "BJORG CONSTRUCTION L.L.C",
+   "item": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "5",
+   "invoiced": "6",
    "shipped": "0",
-   "why": "invoice LB26-21948 updated, sales order updated"
+   "why": "invoice LB26-21476 updated, sales order updated"
+  },
+  {
+   "so": "SO26-08901",
+   "customer": "ADVANCE VICTORY CONTRACTING LLC",
+   "item": "Ultraplan Trade bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "150",
+   "shipped": "98",
+   "why": "invoice LB26-21800 updated, sales order updated"
   }
  ],
  "alerts": [],
- "calls": 655
+ "calls": 679
 }
