@@ -91190,7 +91190,7 @@
   "date": "2026-11-19",
   "first_attached": "2026-11-23 09:34",
   "invoice_id": "2305879000155526372",
-  "last_reminded": "2026-11-25",
+  "last_reminded": "2026-11-27",
   "lines": {
    "2305879000155526373": {
     "delivered": 0.0,
@@ -96293,7 +96293,7 @@
   "date": "2026-11-21",
   "first_attached": "2026-11-23 09:33",
   "invoice_id": "2305879000155708303",
-  "last_reminded": "2026-11-25",
+  "last_reminded": "2026-11-27",
   "lines": {
    "2305879000155708304": {
     "delivered": 100.0,
@@ -114945,7 +114945,7 @@
   "date": "2026-11-25",
   "first_attached": "2026-11-25 17:45",
   "invoice_id": "3540083000059225895",
-  "last_reminded": "",
+  "last_reminded": "2026-11-27",
   "lines": {
    "3540083000059225902": {
     "delivered": 53.0,
@@ -115543,7 +115543,7 @@
   "date": "2026-11-25",
   "first_attached": "2026-11-25 17:44",
   "invoice_id": "3540083000059335569",
-  "last_reminded": "",
+  "last_reminded": "2026-11-27",
   "lines": {
    "3540083000059335577": {
     "delivered": 2.0,
@@ -117251,7 +117251,7 @@
    "why": "name:FAIL: name on page does not match the invoice's customer"
   }
  ],
- "_last_email": "2026-11-26 17:49",
+ "_last_email": "2026-11-27 17:45",
  "_runs": [
   {
    "already": 0,
