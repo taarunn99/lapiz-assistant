@@ -1,14 +1,16 @@
 {
- "generated": "27 Nov 2026 17:03",
+ "generated": "28 Nov 2026 16:16",
  "window_days": 2,
- "checked_sos": 213,
- "lines": 492,
- "clean_sos": 202,
+ "checked_sos": 201,
+ "lines": 504,
+ "clean_sos": 190,
  "bad_sos": [
   "SO26-08484",
-  "SO26-08773",
-  "SO26-08901",
-  "SO26-09228"
+  "SO26-09014",
+  "SO26-09130",
+  "SO26-09228",
+  "SOSJ26-00630",
+  "SOSJ26-00672"
  ],
  "problems": [
   {
@@ -21,31 +23,22 @@
    "why": "invoice LB26-20654 updated"
   },
   {
-   "so": "SO26-08773",
-   "customer": "BJORG CONSTRUCTION L.L.C",
-   "item": "Keraflex Maxi S1 (N) Zero Grey bag 25kg",
+   "so": "SO26-09014",
+   "customer": "SPORTS LINE PROJECTS AND TECHNICAL SERVICES EST",
+   "item": "Ultraplan Eco 20 bag 23kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "10",
-   "shipped": "0",
-   "why": "invoice LB26-21476 updated, sales order updated"
+   "invoiced": "55",
+   "shipped": "46",
+   "why": "invoice LB26-22092 updated, sales order updated"
   },
   {
-   "so": "SO26-08773",
-   "customer": "BJORG CONSTRUCTION L.L.C",
-   "item": "Ultracolor Plus 100 ALU bag 5kg (box of 4)",
-   "issue": "invoiced and shipped do not match",
-   "invoiced": "6",
-   "shipped": "0",
-   "why": "invoice LB26-21476 updated, sales order updated"
-  },
-  {
-   "so": "SO26-08901",
+   "so": "SO26-09130",
    "customer": "ADVANCE VICTORY CONTRACTING LLC",
-   "item": "Ultraplan Trade bag 25kg",
+   "item": "Ultraplan Eco 20 bag 23kg",
    "issue": "invoiced and shipped do not match",
-   "invoiced": "150",
-   "shipped": "98",
-   "why": "invoice LB26-21800 updated, sales order updated"
+   "invoiced": "100",
+   "shipped": "36",
+   "why": "invoice LB26-22402 updated, sales order updated"
   },
   {
    "so": "SO26-09228",
@@ -55,8 +48,26 @@
    "invoiced": "2",
    "shipped": "0",
    "why": "invoice LB26-22675 updated, sales order updated"
+  },
+  {
+   "so": "SOSJ26-00630",
+   "customer": "BLDG CO.-BEST-L.L.C - SOLE PROPRIETORSHIP",
+   "item": "Sika Separol RL 225 210L",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "4",
+   "shipped": "0",
+   "why": "invoice LBSJ26-01901 updated, invoice LBSJ26-01945 updated, invoice LBSJ26-01961 updated"
+  },
+  {
+   "so": "SOSJ26-00672",
+   "customer": "TOTO TRADING LLC",
+   "item": "Adesilex P7 Grey bag 25kg",
+   "issue": "invoiced and shipped do not match",
+   "invoiced": "189",
+   "shipped": "0",
+   "why": "invoice LBSJ26-02016 updated, sales order updated"
   }
  ],
  "alerts": [],
- "calls": 675
+ "calls": 728
 }
